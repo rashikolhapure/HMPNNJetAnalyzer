@@ -5,7 +5,12 @@ import numpy as np
 from itertools import product
 import sys
 
-
+"""
+This function takes a learning rate and the name of an optimizer as input and returns an instance of the specified 
+optimizer with the given learning rate. It uses a dictionary to map optimizer names to their corresponding integer values, 
+and then uses a series of conditional statements to return the appropriate optimizer instance. The **kwargs parameter 
+is used to pass any additional keyword arguments that may be needed for the specific optimizer.
+"""
 def opt(learning_rate,optimizer_name,**kwargs):
     opt_dict={"Adam":0,"Adamax":1,"Nadam":2,"Adadelta":3,"Adagrad":4,"RMSprop":5,"SGD":6,"Adadelta":7}
     print (optimizer_name," initialized with learning rate ",learning_rate)
@@ -29,6 +34,12 @@ def opt(learning_rate,optimizer_name,**kwargs):
         raise ValueError("Wrong optimizer choice ...")
 
 
+"""
+This function takes one or more numpy arrays as input, shuffles the first axis (i.e., the rows), 
+and returns a tuple of shuffled arrays along with an index map that can be used to reverse the shuffling 
+later on. This function is useful for shuffling input data and corresponding labels to ensure that they 
+are randomized and correspond to each other.
+"""
 def array_shuffle(*args):      # X.shape[0]==Y.shape[0]
     ind_map=np.arange(args[0].shape[0])
     #np.random.seed(seed=random_seed)
@@ -39,6 +50,11 @@ def array_shuffle(*args):      # X.shape[0]==Y.shape[0]
         #print (args[i][:10])
     return tuple(args),ind_map
 
+"""
+This function takes a dictionary of hyperparameters as input and returns a list of all possible combinations of 
+hyperparameters. It uses the product function from the itertools module to generate all possible combinations of 
+hyperparameters, and returns a list of dictionaries where each dictionary contains a single combination of hyperparameters.
+"""
 def get_hyper_opt_kwargs(**kwargs):
     keys=[]
     values=[]
