@@ -10,6 +10,21 @@ from hep_ml.io.saver import Unpickle,RunIO
 from hep_ml.genutils import pool_splitter
 from hep_ml.plotter import Plotter
 
+
+"""
+This code defines a function called pad_values which takes in three arguments: events, target_shapes, and value.
+
+events is a dictionary containing numpy arrays of different shapes, and target_shapes is also a dictionary containing 
+the desired shapes for each corresponding array in events.
+
+The function pads each array in events with zeros to match the desired shape in target_shapes. 
+The padding is done along the second and third dimensions of the arrays, and the value of the 
+padding is set to value, which defaults to zero.
+
+If the command line argument "plot" is present, the function also creates a 
+plot of the original and padded arrays for the 10th element of each array in events. 
+The plots are saved as an eps file named "zero_pad".
+"""
 def pad_values(events,target_shapes,value=0):
     for key,new_shape in target_shapes.items():
         old_val=events.pop(key)
@@ -38,7 +53,12 @@ def pad_values(events,target_shapes,value=0):
     return events
 
 
-
+"""
+This function load_data loads the data for a machine learning model. 
+The data is stored in different files for different classes, and the function 
+loads the data from these files and creates a training and validation dataset. 
+The function allows for different types of input data and different pre-processing techniques.
+"""
 def load_data(classes,length=30000,preprocess_tag=None,test_train_split=0.25,input_keys=["high_level"],return_array=False,function=None,run_io=False,**kwargs):
     count=0
     normalize=kwargs.get("normalize",False)
@@ -128,6 +148,16 @@ def load_data(classes,length=30000,preprocess_tag=None,test_train_split=0.25,inp
     else: return {"train":train_dict,"val":test_dict,"classes":classes,"path":load_path}
     
 def shape_print(X,Y):
+    """
+    This function takes input X and Y and prints their shapes along with the first 5 and last 5 elements of Y.
+
+    Args:
+    X: Input data of type numpy array or a list of numpy arrays.
+    Y: Output data of type numpy array.
+
+    Returns:
+    None
+    """
     if type(X)==np.ndarray: print ("X:",X.shape)
     else: [print ("\nX"+str(i)+" :",item.shape) for i,item in enumerate(X)]
     print ("Y: ",Y.shape,"\nY head: ",Y[:5],"\nY tail:",Y[-5:])

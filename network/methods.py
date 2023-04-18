@@ -20,6 +20,18 @@ from .data import ModelData,DataHandler
 
 
 
+"""
+The __init__ method initializes some attributes and checks that all the compulsory arguments are provided. It also sets some default values for some attributes if they are not provided in the arguments.
+
+The check_consistency method checks that the input and output shapes of the model match the expected shapes.
+
+The compile method compiles the model, setting the optimizer, loss function, and metrics.
+
+The set_checkpoints method sets up the checkpointing strategy for the model, which includes saving the model weights and optionally saving TensorBoard logs.
+
+The fit method fits the compiled model to the training data. It checks if the training data has been set, and if not, it gets the data using get_data from the DataHandler or ModelData class, depending on how the object was initialized. The method also accepts some optional arguments, such as the number of epochs, batch size, and whether to shuffle the data. If encoder=True, the method trains the model as an autoencoder.
+"""
+
 class KerasModel(NetworkMethod):
     def __init__(self,**kwargs):
         compulsory_kwargs={"class_names","input_states","preprocess_tag","run_name"}
