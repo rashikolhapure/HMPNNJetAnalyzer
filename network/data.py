@@ -11,6 +11,8 @@ from .numpy_utils import InputState,IndexKey
 from .keras_utils import array_shuffle
 from .numpy_utils import array_shuffle as nu_shuffle
 
+
+
 class ModelData(object):
     def __init__(self,*args,**kwargs):
         self._prefix_path=check_dir("./network_runs")
