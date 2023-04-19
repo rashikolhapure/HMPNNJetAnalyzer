@@ -15,9 +15,23 @@ from ..plotter import Plotter
 
 
 class Operator(object):
+    """
+    Attributes:
+    operation: A callable object representing the operation to be performed on the dataset.
+
+    Methods:
+    iterator(original_data): Iterate over the dataset and apply the operation.
+    """
     def __init__(self):
         pass
     def iterator(self,original_data):
+        """
+        Args:
+        original_data: A dictionary representing the original dataset.
+
+        Returns:
+        A dictionary representing the updated dataset.
+        """        
         assert self.operation ," Set an operation first!"
         operated_array=np.zeros(original_data["X"].shape,dtype="float64")
         for i,array in enumerate(original_data["X"]):
