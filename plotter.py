@@ -145,7 +145,9 @@ class Plotter:
                 s=60,
                 marker="o",
                 cmap="Blues",
-                norm=colors.LogNorm(vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])),
+                norm=colors.LogNorm(
+                    vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])
+                ),
             )
             self.axes.scatter(
                 fat2[0],
@@ -154,12 +156,18 @@ class Plotter:
                 s=60,
                 marker="o",
                 cmap="YlGn",
-                norm=colors.LogNorm(vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])),
+                norm=colors.LogNorm(
+                    vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])
+                ),
             )
         else:
             # print ("here")
             self.axes.scatter(
-                lep_np[0], lep_np[1], c="red", s=self.markersize, marker=self.marker
+                lep_np[0],
+                lep_np[1],
+                c="red",
+                s=self.markersize,
+                marker=self.marker,
             )
             self.axes.scatter(
                 fat1_np[0],
@@ -168,7 +176,9 @@ class Plotter:
                 s=self.markersize,
                 marker=self.marker,
                 cmap="Blues",
-                norm=colors.LogNorm(vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])),
+                norm=colors.LogNorm(
+                    vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])
+                ),
             )
             self.axes.scatter(
                 fat2_np[0],
@@ -177,16 +187,26 @@ class Plotter:
                 s=self.markersize,
                 marker=self.marker,
                 cmap="YlGn",
-                norm=colors.LogNorm(vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])),
+                norm=colors.LogNorm(
+                    vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])
+                ),
             )
         self.axes.add_patch(
             Circle(
-                (lep[0], lep[1]), radius=r_lep, fill=False, color="red", label="Lepton"
+                (lep[0], lep[1]),
+                radius=r_lep,
+                fill=False,
+                color="red",
+                label="Lepton",
             )
         )
         self.axes.add_patch(
             Circle(
-                (fat1[0], fat1[1]), radius=r_fat, fill=False, color="Blue", label="Fat1"
+                (fat1[0], fat1[1]),
+                radius=r_fat,
+                fill=False,
+                color="Blue",
+                label="Fat1",
             )
         )
         self.axes.add_patch(
@@ -215,7 +235,9 @@ class Plotter:
         # sys.exit()
         tot = np.concatenate((fatjet[0], fatjet[1], lepton), axis=1)
         extremum = np.swapaxes(
-            np.array([np.min(tot, axis=1) - 0.2, np.max(tot, axis=1) + 0.2]), 0, 1
+            np.array([np.min(tot, axis=1) - 0.2, np.max(tot, axis=1) + 0.2]),
+            0,
+            1,
         )
         self.axes.set_xscale("symlog"), self.axes.set_yscale(
             "symlog"
@@ -339,7 +361,11 @@ class Plotter:
         if len(fatjet.shape) != 2:
             fatjet = ru.GetNumpy(fatjet)
         extremum = np.swapaxes(
-            np.array([np.min(fatjet, axis=1) - 0.2, np.max(fatjet, axis=1) + 0.2]), 0, 1
+            np.array(
+                [np.min(fatjet, axis=1) - 0.2, np.max(fatjet, axis=1) + 0.2]
+            ),
+            0,
+            1,
         )
         self.axes.set_xlim(extremum[0]), self.axes.set_ylim(extremum[1])
         self.axes.scatter(
@@ -349,16 +375,26 @@ class Plotter:
             s=s,
             c=fatjet[2],
             cmap=cmap,
-            norm=colors.LogNorm(vmin=np.min(fatjet[2]), vmax=np.max(fatjet[2])),
+            norm=colors.LogNorm(
+                vmin=np.min(fatjet[2]), vmax=np.max(fatjet[2])
+            ),
             label=label,
         )
-        self.axes.scatter(center[0], center[1], marker="^", s=s, c="r", label="center")
+        self.axes.scatter(
+            center[0], center[1], marker="^", s=s, c="r", label="center"
+        )
         if show:
             plt.show()
         return
 
     def Fat3D(
-        self, fatjet, label=None, show=False, arrow_color="b", axis="on", summed=None
+        self,
+        fatjet,
+        label=None,
+        show=False,
+        arrow_color="b",
+        axis="on",
+        summed=None,
     ):
         Z = np.array([item.P() for item in fatjet], dtype="float64")
         if len(fatjet.shape) != 2:
@@ -366,7 +402,12 @@ class Plotter:
         print(fatjet.shape)
         if summed == None:
             extremum = np.swapaxes(
-                np.array([np.min(fatjet, axis=1) - 0.2, np.max(fatjet, axis=1) + 0.2]),
+                np.array(
+                    [
+                        np.min(fatjet, axis=1) - 0.2,
+                        np.max(fatjet, axis=1) + 0.2,
+                    ]
+                ),
                 0,
                 1,
             )
@@ -472,11 +513,17 @@ class Plotter:
     def plot_axes(self, axes):
         x_bound = axes.get_xbound()
         axes.plot(
-            np.linspace(x_bound[0], x_bound[1], 100), np.zeros(100), "--k", alpha=0.5
+            np.linspace(x_bound[0], x_bound[1], 100),
+            np.zeros(100),
+            "--k",
+            alpha=0.5,
         )
         y_bound = axes.get_ybound()
         axes.plot(
-            np.zeros(100), np.linspace(y_bound[0], y_bound[1], 100), "--k", alpha=0.5
+            np.zeros(100),
+            np.linspace(y_bound[0], y_bound[1], 100),
+            "--k",
+            alpha=0.5,
         )
 
     def save_fig(
@@ -519,7 +566,9 @@ class Plotter:
                 )
         else:
             self.axes.tick_params(
-                axis="both", which="major", labelsize=kwargs.get("tick_label_size", 28)
+                axis="both",
+                which="major",
+                labelsize=kwargs.get("tick_label_size", 28),
             )
             if set_legends:
                 self.axes.legend(
@@ -580,7 +629,14 @@ class Plotter:
         return im
 
     def set_colorbar(
-        self, im, cax=None, axes=None, ylabel=None, ylabelsize=30, clim=None, **kwargs
+        self,
+        im,
+        cax=None,
+        axes=None,
+        ylabel=None,
+        ylabelsize=30,
+        clim=None,
+        **kwargs
     ):
         if cax is None:
             if axes is None:
@@ -664,7 +720,14 @@ class Plotter:
             )
         else:
             im = self.axes.scatter(
-                X, Y, marker=marker, s=s, c=color, cmap=cmap, label=label, **kwargs
+                X,
+                Y,
+                marker=marker,
+                s=s,
+                c=color,
+                cmap=cmap,
+                label=label,
+                **kwargs
             )
         if set_colorbar:
             self.set_colorbar(im, axes=axes)

@@ -39,7 +39,12 @@ def pad_values(events, target_shapes, value=0):
             diff = new_shape[0] - old_shape[1]
             x_new = np.full((old_shape[0], diff, old_shape[2]), value)
             old_val = np.concatenate(
-                (x_new[:, : int(diff / 2)], old_val, x_new[:, int(diff / 2) :]), axis=1
+                (
+                    x_new[:, : int(diff / 2)],
+                    old_val,
+                    x_new[:, int(diff / 2) :],
+                ),
+                axis=1,
             )
         old_shape = old_val.shape
         if old_shape[2] < new_shape[1]:
@@ -47,7 +52,11 @@ def pad_values(events, target_shapes, value=0):
             x_new = np.full((old_shape[0], old_shape[1], diff), value)
             # print (x_new.shape,old_val.shape)
             old_val = np.concatenate(
-                (x_new[:, :, : int(diff / 2)], old_val, x_new[:, :, int(diff / 2) :]),
+                (
+                    x_new[:, :, : int(diff / 2)],
+                    old_val,
+                    x_new[:, :, int(diff / 2) :],
+                ),
                 axis=2,
             )
         if "plot" in sys.argv:
@@ -97,7 +106,9 @@ def load_data(
                     item + ".h",
                     load_path="./processed_events/" + preprocess_tag + folder,
                 )
-                load_path = os.path.abs("./processed_events/" + preprocess_tag + folder)
+                load_path = os.path.abs(
+                    "./processed_events/" + preprocess_tag + folder
+                )
             else:
                 events = pool_splitter(
                     function, Unpickle(item + ".h", load_path="./temp_data")
@@ -132,7 +143,9 @@ def load_data(
                     X[i] = np.random.normal(
                         loc=sim_central_values[item]["mean"],
                         scale=sim_central_values[item]["scale"],
-                        size=tuple([length] + list(sim_central_values["shape"])),
+                        size=tuple(
+                            [length] + list(sim_central_values["shape"])
+                        ),
                     )
                 else:
                     X[i] = np.full(
@@ -148,10 +161,17 @@ def load_data(
             else:
                 X[i] = events[input_key][:length]
             if normalize:
-                print("Normalizing:\n min:", np.min(X[i]), " max: ", np.max(X[i]))
+                print(
+                    "Normalizing:\n min:", np.min(X[i]), " max: ", np.max(X[i])
+                )
                 for ind in range(len(X[i])):
                     X[i][ind] = X[i][ind] / np.sqrt(np.sum(X[i][ind]))
-                print("\nNormalized:\n min:", np.min(X[i]), " max: ", np.max(X[i]))
+                print(
+                    "\nNormalized:\n min:",
+                    np.min(X[i]),
+                    " max: ",
+                    np.max(X[i]),
+                )
             print(input_key, X[i].shape)
         Y = np.zeros((len(X[0]), len(classes)))
         Y[:, count] = 1.0
@@ -170,8 +190,20 @@ def load_data(
         X_all = X_all[0]
         assert X_all.shape[0] == Y_all.shape[0]
         indices = np.arange(X_all.shape[0])
-        X_train, X_val, Y_train, Y_val, train_indices, test_indices = train_test_split(
-            X_all, Y_all, indices, shuffle=True, random_state=12, test_size=0.25
+        (
+            X_train,
+            X_val,
+            Y_train,
+            Y_val,
+            train_indices,
+            test_indices,
+        ) = train_test_split(
+            X_all,
+            Y_all,
+            indices,
+            shuffle=True,
+            random_state=12,
+            test_size=0.25,
         )
     else:
         x_length = len(X_all)
@@ -182,7 +214,9 @@ def load_data(
         if "debug" in sys.argv:
             print("combined:", combined[-1][:10], combined[-1][10:])
         combined = list(
-            train_test_split(*combined, shuffle=True, random_state=12, test_size=0.25)
+            train_test_split(
+                *combined, shuffle=True, random_state=12, test_size=0.25
+            )
         )
         X_train, X_val = [], []
         for i in range(len(combined) - 2):

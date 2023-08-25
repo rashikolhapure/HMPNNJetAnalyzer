@@ -64,7 +64,8 @@ class RootEvents(PhysicsData):
                 new = [
                     item
                     for item in self.file
-                    if item.split("/")[-2].split("_")[1] not in self.ignore_runs
+                    if item.split("/")[-2].split("_")[1]
+                    not in self.ignore_runs
                 ]
                 self.files = new
         self.count, self.max_count = 0, len(self.runs)
@@ -119,7 +120,10 @@ class NumpyEvents(PhysicsData):
         self.both_dirs = kwargs.get("both_dirs", False)
         if self.mode == "r":
             self.files = check_file(
-                self.prefix + "_" + kwargs.get("filename", "delphes") + ".pickle",
+                self.prefix
+                + "_"
+                + kwargs.get("filename", "delphes")
+                + ".pickle",
                 self.mg_event_path,
                 full_name=True,
                 run_tag=kwargs.get("run_tag", "None"),
@@ -147,7 +151,8 @@ class NumpyEvents(PhysicsData):
                 new = [
                     item
                     for item in self.file
-                    if item.split("/")[-2].split("_")[1] not in self.ignore_runs
+                    if item.split("/")[-2].split("_")[1]
+                    not in self.ignore_runs
                 ]
                 self.files = new
             print(self.files)
@@ -159,7 +164,9 @@ class NumpyEvents(PhysicsData):
             try:
                 self.max_count = kwargs["max_count"]
             except KeyError:
-                raise KeyError("For write instance of NumpyEvents, provide max_count")
+                raise KeyError(
+                    "For write instance of NumpyEvents, provide max_count"
+                )
 
     def __next__(self):
         if self.count < self.max_count:
@@ -173,7 +180,9 @@ class NumpyEvents(PhysicsData):
                     Pickle(
                         self.current_events,
                         self.prefix + "_" + "delphes.pickle",
-                        save_path=os.path.join(self.mg_event_path, self.current_run),
+                        save_path=os.path.join(
+                            self.mg_event_path, self.current_run
+                        ),
                     )
                 return
         else:
@@ -183,7 +192,9 @@ class NumpyEvents(PhysicsData):
 class PassedEvents(PhysicsData):
     def __init__(self, run_name, *args, **kwargs):
         super().__init__(
-            run_name=run_name, reader_method="Preprocess", writer_method="BaselineCuts"
+            run_name=run_name,
+            reader_method="Preprocess",
+            writer_method="BaselineCuts",
         )
         self.select_runs = kwargs.get("select_runs", [])
         assert "mode" in kwargs
@@ -237,17 +248,25 @@ class PassedEvents(PhysicsData):
                     Pickle(
                         self.current_events,
                         "passed_" + self.tag,
-                        save_path=os.path.join(self.mg_event_path, self.current_run),
+                        save_path=os.path.join(
+                            self.mg_event_path, self.current_run
+                        ),
                     )
             else:
                 splitted = os.path.split(self.files[self.count - 1])
                 self.current_run = splitted[0]
-                self.current_events = Unpickle(splitted[1], load_path=splitted[0])
+                self.current_events = Unpickle(
+                    splitted[1], load_path=splitted[0]
+                )
                 for item in self.remove_keys:
                     try:
                         self.current_events.pop(item)
                     except KeyError as e:
-                        print(e, item, " not in dict. Careful for cut consistency!")
+                        print(
+                            e,
+                            item,
+                            " not in dict. Careful for cut consistency!",
+                        )
                 return self.current_events
         else:
             raise StopIteration
@@ -256,7 +275,9 @@ class PassedEvents(PhysicsData):
 class PreProcessedEvents(PhysicsData):
     def __init__(self, run_name, *args, **kwargs):
         super().__init__(
-            run_name=run_name, reader_method="Network", writer_method="PreProcess"
+            run_name=run_name,
+            reader_method="Network",
+            writer_method="PreProcess",
         )
         assert "mode" in kwargs
         self.select_runs = kwargs.get("select_runs", [])
@@ -281,7 +302,9 @@ class PreProcessedEvents(PhysicsData):
             if self.both_dirs:
                 self.files.append(
                     check_file(
-                        kwargs.get("filename", "preprocessed_") + self.tag + ".h",
+                        kwargs.get("filename", "preprocessed_")
+                        + self.tag
+                        + ".h",
                         Paths.other_dir,
                         full_name=True,
                         run_tag=kwargs.get("run_tag", "None"),
@@ -304,12 +327,16 @@ class PreProcessedEvents(PhysicsData):
                 Pickle(
                     self.current_events,
                     "preprocessed_" + self.tag + ".h",
-                    save_path=os.path.join(self.mg_event_path, self.current_run),
+                    save_path=os.path.join(
+                        self.mg_event_path, self.current_run
+                    ),
                 )
             else:
                 splitted = os.path.split(self.files[self.count - 1])
                 self.current_run = splitted[0]
-                self.current_events = Unpickle(splitted[1], load_path=splitted[0])
+                self.current_events = Unpickle(
+                    splitted[1], load_path=splitted[0]
+                )
                 return self.current_events
         else:
             raise StopIteration

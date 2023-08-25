@@ -84,7 +84,11 @@ def bar_plot(data=None, labels=None, per_label=True, label_rotate=0, **kwargs):
     p.axes.set_yticklabels(new_labels)
     plt.xticks(np.linspace(0.5, 1.0, 6), fontsize=28)
     p.axes.tick_params(
-        axis="y", which="major", labelrotation=label_rotate, length=3, labelsize=100
+        axis="y",
+        which="major",
+        labelrotation=label_rotate,
+        length=3,
+        labelsize=100,
     )
     if set_legends:
         p.axes.legend(loc="best", prop={"size": 20})
@@ -132,7 +136,11 @@ def plot_tower_jets(
                 radius=0.5,
                 fill=False,
                 color=colors[i],
-                label="$j_" + str(i) + "\;p_T=$" + str(round(item.Pt(), 1)) + " GeV",
+                label="$j_"
+                + str(i)
+                + "\;p_T=$"
+                + str(round(item.Pt(), 1))
+                + " GeV",
             )
         )
     # p.axes.add_patch(Circle((lorentz_jet[1].Eta(),lorentz_jet[1].Phi()),
@@ -205,7 +213,9 @@ def compare_pileup_image(
     return
 
 
-def seperate_image_plot(left_bin, center_bin, right_bin, save_path=None, **kwargs):
+def seperate_image_plot(
+    left_bin, center_bin, right_bin, save_path=None, **kwargs
+):
     P = Plotter(
         projection="subplots",
     )

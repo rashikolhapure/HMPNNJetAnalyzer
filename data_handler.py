@@ -29,7 +29,8 @@ def load_data(
                 else:
                     folder = "/all"
                 events = Unpickle(
-                    item + ".h", load_path="./processed_events/" + suffix + folder
+                    item + ".h",
+                    load_path="./processed_events/" + suffix + folder,
                 )
             else:
                 events = pool_splitter(
@@ -81,7 +82,9 @@ def load_data(
         if "debug" in sys.argv:
             print("combined:", combined[-1][:10], combined[-1][10:])
         combined = list(
-            train_test_split(*combined, shuffle=True, random_state=12, test_size=0.25)
+            train_test_split(
+                *combined, shuffle=True, random_state=12, test_size=0.25
+            )
         )
         X_train, X_val = [], []
         for i in range(len(combined) - 2):

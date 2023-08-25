@@ -22,7 +22,12 @@ Overall, this code provides a set of tools for jet clustering and subjet analysi
 
 class FatJet(object):
     def __init__(
-        self, tower=None, algorithm="antikt", r=1.2, pt_min=200.0, verbose=False
+        self,
+        tower=None,
+        algorithm="antikt",
+        r=1.2,
+        pt_min=200.0,
+        verbose=False,
     ):
         """<tower> should be numpy array with shape (constituents,3/4) with the second dimension being [pt,eta,phi,(mass)]"""
         self.Tower = tower
@@ -43,7 +48,12 @@ class FatJet(object):
             vectors.append(
                 np.array(
                     (item[0], item[1], item[2], item[3]),
-                    dtype=[("pT", "f8"), ("eta", "f8"), ("phi", "f8"), ("mass", "f8")],
+                    dtype=[
+                        ("pT", "f8"),
+                        ("eta", "f8"),
+                        ("phi", "f8"),
+                        ("mass", "f8"),
+                    ],
                 )
             )
         return np.array(vectors)
@@ -77,20 +87,31 @@ class FatJet(object):
     def Get(self):
         """get list of fatjet in PseudoJet class"""
         if type(self.Tower[0]) == np.ndarray:
-            temp = np.concatenate((self.Tower, np.zeros((len(self.Tower), 1))), axis=1)
+            temp = np.concatenate(
+                (self.Tower, np.zeros((len(self.Tower), 1))), axis=1
+            )
         else:
-            temp = ru.GetNumpy(self.Tower, format="lhc", observable_first=False)
+            temp = ru.GetNumpy(
+                self.Tower, format="lhc", observable_first=False
+            )
         vectors = []
         for item in temp:
             vectors.append(
                 np.array(
                     (item[0], item[1], item[2], item[3]),
-                    dtype=[("pT", "f8"), ("eta", "f8"), ("phi", "f8"), ("mass", "f8")],
+                    dtype=[
+                        ("pT", "f8"),
+                        ("eta", "f8"),
+                        ("phi", "f8"),
+                        ("mass", "f8"),
+                    ],
                 )
             )
         vectors = np.array(vectors)
         self.Vectors = vectors
-        sequence = cluster(vectors, p=self.AlgorithmDict[self.Algorithm], R=self.R)
+        sequence = cluster(
+            vectors, p=self.AlgorithmDict[self.Algorithm], R=self.R
+        )
         self.cluster_sequence = sequence
         self.fatjets = sequence.inclusive_jets(ptmin=self.PtMin)
         return self.fatjets
@@ -116,7 +137,9 @@ class FatJet(object):
             return return_array
         for item in fatjets:
             if format == "root":
-                return_array.append(ru.GetTLorentzVector(item, format="fatjet"))
+                return_array.append(
+                    ru.GetTLorentzVector(item, format="fatjet")
+                )
             else:
                 return_array.append(
                     np.array([item.eta, item.phi, item.pt], dtype="float64")

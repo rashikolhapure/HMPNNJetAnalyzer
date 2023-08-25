@@ -37,7 +37,9 @@ def ConvertToLhc(Array):
                         np.arccos(
                             Array[i, 3]
                             / np.sqrt(
-                                Array[i, 1] ** 2 + Array[i, 2] ** 2 + Array[i, 3] ** 2
+                                Array[i, 1] ** 2
+                                + Array[i, 2] ** 2
+                                + Array[i, 3] ** 2
                             )
                         )
                         / 2.0
@@ -59,7 +61,10 @@ def Boost(particle, direction, eta):
     E, p = particle[0], Euclid3Norm(particle[1:] * direction)
     # print (particle,E,p)
     return np.array(
-        [E * np.cosh(eta) + p * np.sinh(eta), E * np.sinh(eta) + p * np.cosh(eta)]
+        [
+            E * np.cosh(eta) + p * np.sinh(eta),
+            E * np.sinh(eta) + p * np.cosh(eta),
+        ]
     )
 
 
@@ -85,9 +90,9 @@ def SumCombinations(FourVectors, Map=None, comb=2):
 
 def UnequalSet(*args):
     for i in range(len(args) - 1):
-        assert len(list(args[i])) == len(list(args[i + 1])) and type(args[i]) == type(
-            args[i + 1]
-        )
+        assert len(list(args[i])) == len(list(args[i + 1])) and type(
+            args[i]
+        ) == type(args[i + 1])
         for item in list(args[i]):
             assert args[i].count(item) == 1
             if item in list(args[i + 1]):
@@ -109,7 +114,9 @@ def MapDict(Map):
 def GetMass(particle):
     assert particle.shape[-1] == 4
     if len(particle.shape) == 1:
-        return particle[0] * np.sqrt(1 - np.sum(particle[1:] ** 2) / particle[0] ** 2)
+        return particle[0] * np.sqrt(
+            1 - np.sum(particle[1:] ** 2) / particle[0] ** 2
+        )
     else:
         init_shape = list(particle.shape)
         # print (particle)

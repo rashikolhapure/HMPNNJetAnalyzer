@@ -31,7 +31,12 @@ def dijet_cut(events, logging=False):
     for jets, tower, track in zip(Jets, Towers, Tracks):
         event_index += 1
         if event_index % 5000 == 0 and logging:
-            print("Event count: ", event_index, "Passed Events: ", passed_event_index)
+            print(
+                "Event count: ",
+                event_index,
+                "Passed Events: ",
+                passed_event_index,
+            )
         array_jets = jets
         if len(jets) < 2:
             continue
@@ -46,9 +51,9 @@ def dijet_cut(events, logging=False):
             continue
 
         if passed_event_index == 0:
-            return_dict["Jet"], return_dict["Tower"] = np.array([jets[:2]]), np.array(
-                [tower]
-            )
+            return_dict["Jet"], return_dict["Tower"] = np.array(
+                [jets[:2]]
+            ), np.array([tower])
             return_dict["jet_delphes"] = [array_jets[:]]
             return_dict["Tower"] = [tower]
             return_dict["Track"] = [track]

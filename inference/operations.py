@@ -64,10 +64,14 @@ class Deform(Operator):
         deformed = np.zeros(array.shape, dtype="float64")
         x, y, _ = np.where(array)
         try:
-            def_inds = np.random.choice(indices, self.num_pixels, replace=False)
+            def_inds = np.random.choice(
+                indices, self.num_pixels, replace=False
+            )
         except ValueError:
             def_inds = indices
-        undef_inds = np.array([int(i) for i in range(len(x)) if i not in def_inds])
+        undef_inds = np.array(
+            [int(i) for i in range(len(x)) if i not in def_inds]
+        )
         x_def, y_def = x[def_inds], y[def_inds]
         try:
             x_undef, y_undef = x[undef_inds], y[undef_inds]
@@ -102,7 +106,9 @@ class Deform(Operator):
         count = 0
         for i in range(len(x)):
             if (
-                np.sqrt((x[i] - center_ind[0]) ** 2 + (y[i] - center_ind[1]) ** 2)
+                np.sqrt(
+                    (x[i] - center_ind[0]) ** 2 + (y[i] - center_ind[1]) ** 2
+                )
                 <= self.deform_radius + 0.2
             ):
                 inds.append(i)
@@ -117,7 +123,9 @@ class Deform(Operator):
         count = 0
         for i in range(len(x)):
             if (
-                np.sqrt((x[i] - x[center_ind]) ** 2 + (y[i] - y[center_ind]) ** 2)
+                np.sqrt(
+                    (x[i] - x[center_ind]) ** 2 + (y[i] - y[center_ind]) ** 2
+                )
                 <= self.deform_radius + 0.2
             ):
                 inds.append(i)
@@ -129,7 +137,9 @@ class Deform(Operator):
         print(inds, soft_inds)
         sys.exit()
         try:
-            def_inds = np.random.choice(soft_inds, self.num_pixels, replace=False)
+            def_inds = np.random.choice(
+                soft_inds, self.num_pixels, replace=False
+            )
         except ValueError:
             def_inds = soft_inds
         deformed = self.unconstrained_deform(array, inds)
@@ -149,13 +159,19 @@ class Deform(Operator):
         x, y, _ = np.where(array)
         deformed = np.zeros(array.shape, dtype="float64")
         soft_inds = [
-            i for i in range(len(x)) if array[x, y, 0][i] <= self.soft_scale * ht_sum
+            i
+            for i in range(len(x))
+            if array[x, y, 0][i] <= self.soft_scale * ht_sum
         ]
         try:
-            def_inds = np.random.choice(soft_inds, self.num_pixels, replace=False)
+            def_inds = np.random.choice(
+                soft_inds, self.num_pixels, replace=False
+            )
         except ValueError:
             def_inds = soft_inds
-        undef_inds = np.array([int(i) for i in range(len(x)) if i not in def_inds])
+        undef_inds = np.array(
+            [int(i) for i in range(len(x)) if i not in def_inds]
+        )
         x_def, y_def = x[def_inds], y[def_inds]
         try:
             x_undef, y_undef = x[undef_inds], y[undef_inds]
@@ -185,7 +201,9 @@ class Deform(Operator):
         # if "debug" in sys.argv: print (array[np.where(array)])
         x, y, _ = np.where(array)
         hard_indices = [
-            i for i in range(len(x)) if array[x, y, 0][i] >= self.hard_scale * ht_sum
+            i
+            for i in range(len(x))
+            if array[x, y, 0][i] >= self.hard_scale * ht_sum
         ]
         if "debug" in sys.argv:
             print(self.hard_scale * ht_sum)
@@ -198,7 +216,9 @@ class Deform(Operator):
         x, y, _ = np.where(array)
         hard_array = np.zeros(array.shape, dtype="float64")
         hard_indices = [
-            i for i in range(len(x)) if array[x, y, 0][i] >= self.hard_scale * ht_sum
+            i
+            for i in range(len(x))
+            if array[x, y, 0][i] >= self.hard_scale * ht_sum
         ]
         if "debug" in sys.argv:
             print(self.hard_scale * ht_sum)
@@ -357,7 +377,9 @@ def operator(
             roc_plot = True
         else:
             roc_plot = False
-        temp_dict = I.predict(operation=operation_class.iterator, roc_plot=roc_plot)
+        temp_dict = I.predict(
+            operation=operation_class.iterator, roc_plot=roc_plot
+        )
         if roc_plot:
             roc_data = temp_dict.pop("roc")
             roc_data["specs"] = {

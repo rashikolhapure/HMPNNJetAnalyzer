@@ -75,11 +75,16 @@ class KerasModel(NetworkMethod):
             else:
                 i = None
             assert model.input.shape[1:i] == self.input_states[0].shape, (
-                "" + str(model.input.shape[1:i]) + " " + str(self.input_states[0].shape)
+                ""
+                + str(model.input.shape[1:i])
+                + " "
+                + str(self.input_states[0].shape)
             )
         else:
             assert len(model.input) == len(self.input_states)
-            for input_state, network_input in zip(self.input_states, model.input):
+            for input_state, network_input in zip(
+                self.input_states, model.input
+            ):
                 if len(network_input.shape) > 1:
                     i = -1
                 else:
@@ -119,7 +124,9 @@ class KerasModel(NetworkMethod):
     ):
         count = len(os.listdir(self.in_data.model_checkpoints_path)) + 1
         checkpoints_path = check_dir(
-            os.path.join(self.in_data.model_checkpoints_path, "run_" + str(count))
+            os.path.join(
+                self.in_data.model_checkpoints_path, "run_" + str(count)
+            )
         )
         self.history_save_path = checkpoints_path
         try:
@@ -163,7 +170,8 @@ class KerasModel(NetworkMethod):
                     ModelCheckpoint(
                         filepath=os.path.join(
                             checkpoints_path,
-                            filename + "_{epoch:02d}_{val_mean_squared_error:.5f}.hdf5",
+                            filename
+                            + "_{epoch:02d}_{val_mean_squared_error:.5f}.hdf5",
                         ),
                         save_best_only=True,
                         period=period,
@@ -194,7 +202,13 @@ class KerasModel(NetworkMethod):
         return checkpoint
 
     def fit(
-        self, verbose=1, batch_size=300, shuffle=True, epochs=5, encoder=False, **kwargs
+        self,
+        verbose=1,
+        batch_size=300,
+        shuffle=True,
+        epochs=5,
+        encoder=False,
+        **kwargs
     ):
         if self.train_data is None:
             X, Y, X_t, Y_t = self.in_data.get_data()
@@ -226,6 +240,10 @@ class KerasModel(NetworkMethod):
         if self.save:
             if encoder:
                 encoder.save(os.path.join(self.history_save_path, "encoder.h"))
-            Pickle(self.History.history, "history", save_path=self.history_save_path)
+            Pickle(
+                self.History.history,
+                "history",
+                save_path=self.history_save_path,
+            )
             self.model.save(os.path.join(self.history_save_path, "model.hdf5"))
         return self.History.history

@@ -73,7 +73,9 @@ def Unpickle(
         with open(filename, "rb") as File:
             return_object = pickle.load(File, **kwargs)
     except Exception as e:
-        print(e, " checking if folder with ", filename.split(".")[0], " exists..")
+        print(
+            e, " checking if folder with ", filename.split(".")[0], " exists.."
+        )
         try:
             os.chdir(filename.split(".")[0])
         except Exception as e:
@@ -179,7 +181,8 @@ def folder_save(events, folder_name, save_path, append=False):
         if append:
             print("appending...")
             events[item] = np.concatenate(
-                (np.load(item + ".npy", allow_pickle=True), events[item]), axis=0
+                (np.load(item + ".npy", allow_pickle=True), events[item]),
+                axis=0,
             )
         if type(events[item]) == list:
             print("list type found as val, creating directory...")
@@ -191,7 +194,12 @@ def folder_save(events, folder_name, save_path, append=False):
             os.chdir("..")
         else:
             np.save(item, events[item], allow_pickle=True)
-            print(item + ".npy saved at ", os.getcwd(), "shape = ", events[item].shape)
+            print(
+                item + ".npy saved at ",
+                os.getcwd(),
+                "shape = ",
+                events[item].shape,
+            )
     os.chdir(pwd)
     return
 
@@ -223,7 +231,9 @@ def folder_load(keys=None, length=None):
             if filename[:-4] not in keys:
                 continue
         try:
-            events[filename[:-4]] = np.load(filename, allow_pickle=True)[:length]
+            events[filename[:-4]] = np.load(filename, allow_pickle=True)[
+                :length
+            ]
         except IOError as e:
             os.chdir(pwd)
             raise e
@@ -300,17 +310,25 @@ class RunIO:
 
         """
         if self._mode == "r":
-            raise IOError("Attempting to write in read-only instance of RunIO object")
+            raise IOError(
+                "Attempting to write in read-only instance of RunIO object"
+            )
         pwd = os.getcwd()
         os.chdir(self.__path)
         for item in events:
             if append:
                 print("appending...")
                 events[item] = np.concatenate(
-                    (np.load(item + ".npy", allow_pickle=True), events[item]), axis=0
+                    (np.load(item + ".npy", allow_pickle=True), events[item]),
+                    axis=0,
                 )
             np.save(item, events[item])
-            print(item + ".npy saved at ", os.getcwd(), "shape = ", events[item].shape)
+            print(
+                item + ".npy saved at ",
+                os.getcwd(),
+                "shape = ",
+                events[item].shape,
+            )
         os.chdir(pwd)
         return
 
@@ -329,7 +347,9 @@ class RunIO:
         events = dict()
         for filename in os.listdir("."):
             try:
-                events[filename[:-4]] = np.load(filename, allow_pickle=True)[:length]
+                events[filename[:-4]] = np.load(filename, allow_pickle=True)[
+                    :length
+                ]
             except IOError as e:
                 os.chdir(pwd)
                 raise e

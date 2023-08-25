@@ -62,7 +62,9 @@ def print_particle(particle, four_vec=False, ind=None, mass=True):
         for name, item in zip(order[start:stop], particle[start:stop])
     ]
     try:
-        print("Particle name:", PID_to_particle[particle[gen_particle_index.PID]])
+        print(
+            "Particle name:", PID_to_particle[particle[gen_particle_index.PID]]
+        )
     except KeyError:
         print("Particle name not in SM particles")
     if four_vec:
@@ -124,7 +126,8 @@ def choose_bin(events, bin_var, Range, var_key="Jet", **kwargs):
         true_indices = [
             i
             for i in range(len(jets))
-            if np.sum(jets[i]).M() >= Range[0] and np.sum(jets[i]).M() <= Range[1]
+            if np.sum(jets[i]).M() >= Range[0]
+            and np.sum(jets[i]).M() <= Range[1]
         ]
     else:
         raise ValueError
@@ -269,7 +272,9 @@ def print_events(events, name=None):
     if name:
         print(name)
     for channel in events:
-        if hasattr(events[channel], "shape") or hasattr(events[channel], "__len__"):
+        if hasattr(events[channel], "shape") or hasattr(
+            events[channel], "__len__"
+        ):
             if hasattr(events[channel], "shape"):
                 print(
                     "    Final State:",
@@ -335,10 +340,16 @@ def check_file(
                         path.append(os.path.join(event_folder, item, filename))
                     continue
                 if not suffix:
-                    if filename[-len(name) :] == name and filename[: len(tag)] == tag:
+                    if (
+                        filename[-len(name) :] == name
+                        and filename[: len(tag)] == tag
+                    ):
                         path.append(os.path.join(event_folder, item, filename))
                     continue
-                if filename[-len(name) :] == name and filename[len(tag) :] == tag:
+                if (
+                    filename[-len(name) :] == name
+                    and filename[len(tag) :] == tag
+                ):
                     path.append(os.path.join(event_folder, item, filename))
             os.chdir("..")
     os.chdir(pwd)
@@ -402,10 +413,14 @@ def arg_split(args, num_cores, ignore_keys=["cut_flow"], verbose=False):
             core_ind = 0
             print("Splitted dictionaries with: Arg_<start_ind>_<core_ind>")
             for start, item in zip(start_inds, arg):
-                print_events(item, name="Arg_" + str(start) + "_" + str(core_ind))
+                print_events(
+                    item, name="Arg_" + str(start) + "_" + str(core_ind)
+                )
             core_ind += 1
     else:
-        raise TypeError("No algorithm for splitting arguments of type: " + type(args))
+        raise TypeError(
+            "No algorithm for splitting arguments of type: " + type(args)
+        )
     return arg
 
 
@@ -451,7 +466,13 @@ def pool_splitter(
     else:
         p = multiprocessing.Pool(processes=num_cores)
     if num_cores > 1:
-        print("Splitting " + function.__name__ + " on " + str(num_cores) + " cores...")
+        print(
+            "Splitting "
+            + function.__name__
+            + " on "
+            + str(num_cores)
+            + " cores..."
+        )
     try:
         data = p.map(function, arg)
     except KeyboardInterrupt as ki:
@@ -481,11 +502,16 @@ def seperate_classes(data, class_names):
     X, Y = data["X"], data["Y"]
     class_0, class_1 = np.nonzero(Y[:, 0]), np.nonzero(Y[:, 1])
     if "debug" in sys.argv:
-        print(type(class_0), len(class_0[0]), class_0[0][:2], Y[class_0[0][:2]])
+        print(
+            type(class_0), len(class_0[0]), class_0[0][:2], Y[class_0[0][:2]]
+        )
     X0, Y0 = X[class_0], Y[class_0]
     X1, Y1 = X[class_1], Y[class_1]
     # if not class_names: self.class_names=("class_0","class_1")
-    return {class_names[0]: {"X": X0, "Y": Y0}, class_names[1]: {"X": X1, "Y": Y1}}
+    return {
+        class_names[0]: {"X": X0, "Y": Y0},
+        class_names[1]: {"X": X1, "Y": Y1},
+    }
 
 
 def concatenate_list(data, verbose=False, **kwargs):

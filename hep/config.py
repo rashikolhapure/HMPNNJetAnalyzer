@@ -116,7 +116,9 @@ gen_particle_index = GenParticleIndex(
 )
 
 
-EventAttribute = namedtuple("EventAttribute", ["run_name", "tag", "path", "index"])
+EventAttribute = namedtuple(
+    "EventAttribute", ["run_name", "tag", "path", "index"]
+)
 
 
 PID_to_particle = {

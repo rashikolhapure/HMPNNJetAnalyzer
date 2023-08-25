@@ -46,14 +46,20 @@ def GetTLorentzVector(array, format="lhc", particle="visible"):
             else:
                 mass = array[:, -1]
             for i in range(len(vec)):
-                vec[i].SetPtEtaPhiM(array[i][0], array[i][1], array[i][2], mass[i])
+                vec[i].SetPtEtaPhiM(
+                    array[i][0], array[i][1], array[i][2], mass[i]
+                )
         elif format == "image":
             for i in range(len(vec)):
-                vec[i].SetPtEtaPhiM(array[i][2], array[i][0], array[i][1], 10e-16)
+                vec[i].SetPtEtaPhiM(
+                    array[i][2], array[i][0], array[i][1], 10e-16
+                )
                 Print(vec[i])
         else:
             for i in range(len(vec)):
-                vec[i].SetPxPyPzE(array[i][0], array[i][1], array[i][2], array[i][3])
+                vec[i].SetPxPyPzE(
+                    array[i][0], array[i][1], array[i][2], array[i][3]
+                )
         return np.array(vec)
 
 
@@ -96,7 +102,8 @@ def GetNumpy(vectors, format="image", observable_first=True):
     elif format == "lorentz":
         if type(vectors) == TLorentzVector:
             return np.array(
-                [vectors.Px(), vectors.Py(), vectors.Pz(), vectors.E()], dtype="float64"
+                [vectors.Px(), vectors.Py(), vectors.Pz(), vectors.E()],
+                dtype="float64",
             )
         else:
             return_array = np.zeros((len(vectors), 4), dtype="float64")
@@ -104,7 +111,12 @@ def GetNumpy(vectors, format="image", observable_first=True):
                 if vectors[i].M() == 0 and vectors[i].P() == 0:
                     continue
                 return_array[i] = np.array(
-                    [vectors[i].Px(), vectors[i].Py(), vectors[i].Pz(), vectors[i].E()],
+                    [
+                        vectors[i].Px(),
+                        vectors[i].Py(),
+                        vectors[i].Pz(),
+                        vectors[i].E(),
+                    ],
                     dtype="float64",
                 )
     else:
@@ -193,6 +205,13 @@ def Broadcast(fatjets, check=False):
                 and s1.Phi() == s2.Phi()
             )
             print(
-                s1.M(), s2.M(), s1.Eta(), s2.Eta(), s1.Phi(), s2.Phi(), s1.Pt(), s2.Pt()
+                s1.M(),
+                s2.M(),
+                s1.Eta(),
+                s2.Eta(),
+                s1.Phi(),
+                s2.Phi(),
+                s1.Pt(),
+                s2.Pt(),
             )
     return return_array

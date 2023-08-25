@@ -203,7 +203,9 @@ def reverse_dict(dictionary):
     for key, val in dictionary.items():
         assert hasattr(val, "__iter__")
         for item in val:
-            assert item not in return_dict, "Found degeneracy, cannot build unique map!"
+            assert (
+                item not in return_dict
+            ), "Found degeneracy, cannot build unique map!"
             return_dict[item] = key
     return return_dict
 
@@ -220,7 +222,9 @@ def convert_to_dict(
         for particle in event:
             append_key = reverse_map[particle.Name]
             current[append_key].append(
-                TLorentzVector(particle.Px, particle.Py, particle.Pz, particle.E)
+                TLorentzVector(
+                    particle.Px, particle.Py, particle.Pz, particle.E
+                )
             )
         for key, val in current.items():
             if sort:

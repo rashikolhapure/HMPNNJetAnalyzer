@@ -174,7 +174,9 @@ def read_lhe(
         if "<event>" in splitted:
             event = True
     event_weights = np.array(event_weights)
-    assert len(event_weights) == len(events), "Incompatible weights and events!"
+    assert len(event_weights) == len(
+        events
+    ), "Incompatible weights and events!"
     if add_attribute:
         assert run_name is not None, "Provide run_name to add to attribute!"
         event_attributes = [
@@ -229,7 +231,9 @@ def reverse_dict(dictionary):
     for key, val in dictionary.items():
         assert hasattr(val, "__iter__")
         for item in val:
-            assert item not in return_dict, "Found degeneracy, cannot build unique map!"
+            assert (
+                item not in return_dict
+            ), "Found degeneracy, cannot build unique map!"
             return_dict[item] = key
     return return_dict
 
@@ -263,11 +267,15 @@ def convert_to_dict(
             append_key = reverse_map[particle.Name]
             if return_vector:
                 current[append_key].append(
-                    TLorentzVector(particle.Px, particle.Py, particle.Pz, particle.E)
+                    TLorentzVector(
+                        particle.Px, particle.Py, particle.Pz, particle.E
+                    )
                 )
                 if append_key in add_charge:
                     # print (particle,charge_dict[particle.Name])
-                    current[append_key + "_charge"].append(charge_dict[particle.Name])
+                    current[append_key + "_charge"].append(
+                        charge_dict[particle.Name]
+                    )
             else:
                 array = []
                 for item in attributes:
