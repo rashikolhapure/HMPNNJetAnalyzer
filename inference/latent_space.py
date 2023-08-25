@@ -6,14 +6,7 @@ import __main__
 from itertools import combinations
 
 
-def predict_enc(
-    enc,
-    data_dict,
-    subplots=False,
-    type="scatter",
-    save_path="./plots",
-    **kwargs
-):
+def predict_enc(enc, data_dict, subplots=False, type="scatter", save_path="./plots", **kwargs):
     """Predicts the encoded values for each data item in data_dict using the encoder enc, and generates scatter or binned plots for the pairwise combinations of these encoded values.
 
     Parameters:
@@ -53,9 +46,7 @@ def predict_enc(
         array = new_dict[item]
         print(item, np.mean(array, axis=1), np.std(array, axis=1))
     if type == "scatter":
-        scatter(
-            new_dict, num_plots, subplots, save_path, order=names, **kwargs
-        )
+        scatter(new_dict, num_plots, subplots, save_path, order=names, **kwargs)
     elif type == "binned":
         binner(new_dict, num_plots, subplots, save_path, **kwargs)
     return
@@ -87,12 +78,7 @@ def scatter(new_dict, num_plots, subplots, save_path, order=None, suffix=""):
         if not subplots:
             try:
                 plt.savefig(
-                    save_path
-                    + "/latent_scatter_"
-                    + str(i)
-                    + "_"
-                    + suffix
-                    + ".png",
+                    save_path + "/latent_scatter_" + str(i) + "_" + suffix + ".png",
                     format="png",
                     dpi=1000,
                 )
@@ -205,6 +191,4 @@ if __name__ == "__main__":
         print(item, np.mean(data[item]), np.std(data[item]))
     # sys.exit()
     encoder = transfer_weights(model, encoder, verbose=False)
-    predict_enc(
-        encoder, data, subplots=False, type="binned", save_path="./plots"
-    )
+    predict_enc(encoder, data, subplots=False, type="binned", save_path="./plots")

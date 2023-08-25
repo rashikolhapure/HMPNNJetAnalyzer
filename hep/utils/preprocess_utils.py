@@ -38,9 +38,9 @@ def rotate(*args, **kwargs):
         theta = -theta
     for item in args:
         # print (item.shape)
-        item[0], item[1] = item[0] * np.cos(theta) + item[1] * np.sin(
+        item[0], item[1] = item[0] * np.cos(theta) + item[1] * np.sin(theta), -item[0] * np.sin(
             theta
-        ), -item[0] * np.sin(theta) + item[1] * np.cos(theta)
+        ) + item[1] * np.cos(theta)
     if len(args) == 1:
         return args[0]
     return args
@@ -73,13 +73,9 @@ def process_fatjets(fatjets, operation="all", subparts="subjets", **kwargs):
         fatjet, subjets = regularize_fatjet(fatjet)
         if subparts != "subjets":
             subjets = subparts
-        fatjet, subjets = translate(
-            fatjet, subjets, x=subjets[0][0], y=subjets[1][0]
-        )
+        fatjet, subjets = translate(fatjet, subjets, x=subjets[0][0], y=subjets[1][0])
         try:
-            fatjet, subjets = rotate(
-                fatjet, subjets, x=subjets[0][1], y=subjets[1][1]
-            )
+            fatjet, subjets = rotate(fatjet, subjets, x=subjets[0][1], y=subjets[1][1])
         except IndexError:
             pass
         try:
@@ -96,15 +92,9 @@ def process_fatjets(fatjets, operation="all", subparts="subjets", **kwargs):
     return return_array
 
 
-def shift_phi(
-    phi, shift, range=(-np.pi, np.pi), side="right", tolerance=10e-8
-):
+def shift_phi(phi, shift, range=(-np.pi, np.pi), side="right", tolerance=10e-8):
     assert phi >= (range[0] - tolerance) and phi <= (range[1] + tolerance), (
-        str(phi)
-        + " not in prescribed range "
-        + str(range[0])
-        + " to "
-        + str(range[1])
+        str(phi) + " not in prescribed range " + str(range[0]) + " to " + str(range[1])
     )
     if abs(shift) > 2 * np.pi:
         sign = np.sign(shift)
@@ -124,13 +114,7 @@ def shift_phi(
 
 
 def regularize_fatjet(
-    fatjet,
-    r=1.2,
-    inclusive=True,
-    subjet_fourvec=False,
-    force=True,
-    check=False,
-    **kwargs
+    fatjet, r=1.2, inclusive=True, subjet_fourvec=False, force=True, check=False, **kwargs
 ):
     """<fatjet> has constituents as TLorentzVector return array f TVector3 with (eta,phi,pt) axes,
     regulates phi such that all components lie inside fatjet radius R in the Euclidean (eta,phi) plane,
@@ -164,10 +148,7 @@ def regularize_fatjet(
         )
         subjets = np.swapaxes(
             np.array(
-                [
-                    [item.eta, item.phi, item.pt]
-                    for item in sequence.exclusive_jets(n_subjets)
-                ]
+                [[item.eta, item.phi, item.pt] for item in sequence.exclusive_jets(n_subjets)]
             ),
             0,
             1,
@@ -181,17 +162,12 @@ def regularize_fatjet(
         p.scatter_plot(num_fat)
     fj_sum = np.sum(fatjet)
     delta_num = np.array(
-        [
-            [item.Eta() - fj_sum.Eta(), item.DeltaPhi(fj_sum), item.Pt()]
-            for item in fatjet
-        ]
+        [[item.Eta() - fj_sum.Eta(), item.DeltaPhi(fj_sum), item.Pt()] for item in fatjet]
     )
     if force and len(subjets) < n_subjets:
         assert (
             len(fatjet) >= n_subjets
-        ), "Can't force, less number of jet ({}) constituents!".format(
-            len(fatjet)
-        )
+        ), "Can't force, less number of jet ({}) constituents!".format(len(fatjet))
         subjets = np.swapaxes(delta_num[:n_subjets], 0, 1)
     else:
         subjets = np.swapaxes(
@@ -254,10 +230,7 @@ def __regularize_fatjet(fatjet, r=1.2, inclusive=False, **kwargs):
         )
         subjets = np.swapaxes(
             np.array(
-                [
-                    [item.eta, item.phi, item.pt]
-                    for item in sequence.exclusive_jets(n_subjets)
-                ]
+                [[item.eta, item.phi, item.pt] for item in sequence.exclusive_jets(n_subjets)]
             ),
             0,
             1,
@@ -293,9 +266,7 @@ def _regularize_fatjet(fatjet, r=1.2):
         np.array(
             [
                 [item.eta, item.phi, item.pt]
-                for item in FatJet().Recluster(
-                    fatjet, r=0.4, algorithm="CA", subjets=3
-                )
+                for item in FatJet().Recluster(fatjet, r=0.4, algorithm="CA", subjets=3)
             ]
         ),
         0,
@@ -315,14 +286,7 @@ def _regularize_fatjet(fatjet, r=1.2):
     return num_fat, subjets
 
 
-def _remove_jets(
-    lorentz_tower,
-    lorentz_jets,
-    r=0.4,
-    return_jets=False,
-    shift_jets=True,
-    **kwargs
-):
+def _remove_jets(lorentz_tower, lorentz_jets, r=0.4, return_jets=False, shift_jets=True, **kwargs):
     if kwargs.get("verbose", False):
         print("Removing jet constituents...")
         print(lorentz_tower.shape)
@@ -331,20 +295,12 @@ def _remove_jets(
         del_r = np.array([item.DeltaR(jet) for item in lorentz_tower])
         shifted_jet = TLorentzVector()
         # shifted_phi=
-        shifted_jet.SetPtEtaPhiM(
-            jet.Pt(), jet.Eta(), shift_phi(jet.Phi(), np.pi), jet.M()
-        )
+        shifted_jet.SetPtEtaPhiM(jet.Pt(), jet.Eta(), shift_phi(jet.Phi(), np.pi), jet.M())
         collect_indices = np.array(
-            [
-                i
-                for i, vect in enumerate(lorentz_tower)
-                if vect.DeltaR(shifted_jet) <= r
-            ]
+            [i for i, vect in enumerate(lorentz_tower) if vect.DeltaR(shifted_jet) <= r]
         )
         valid_indices = np.where(del_r > r)
-        collected_vectors = np.array(
-            [TLorentzVector() for _ in collect_indices]
-        )
+        collected_vectors = np.array([TLorentzVector() for _ in collect_indices])
         for i, item in zip(collect_indices, collected_vectors):
             item.SetPtEtaPhiM(
                 lorentz_tower[i].Pt(),
@@ -354,9 +310,7 @@ def _remove_jets(
             )
         lorentz_tower = lorentz_tower[valid_indices]
         if shift_jets:
-            lorentz_tower = ru.Sort(
-                np.concatenate((lorentz_tower, collected_vectors), axis=0)
-            )
+            lorentz_tower = ru.Sort(np.concatenate((lorentz_tower, collected_vectors), axis=0))
         shifted_jets.append(shifted_jet)
         # print (valid_indices)
         # ru.Print(lorentz_tower),ru.Print(collected_vectors)
@@ -394,9 +348,7 @@ def remove_jets(lorentz_tower, lorentz_jets, r=0.4, **kwargs):
                 break
         if add:
             removed_constituents.append(item)
-    if kwargs.get("central_only", False) or kwargs.get(
-        "seperate_center", False
-    ):
+    if kwargs.get("central_only", False) or kwargs.get("seperate_center", False):
         assert len(lorentz_jets) == 2
         region = []
         for jet in lorentz_jets:
@@ -412,9 +364,7 @@ def remove_jets(lorentz_tower, lorentz_jets, r=0.4, **kwargs):
                 return_array.append(item)
             else:
                 other_array.append(item)
-        assert len(removed_constituents) == (
-            len(return_array) + len(other_array)
-        )
+        assert len(removed_constituents) == (len(return_array) + len(other_array))
     else:
         return_array = removed_constituents
     return_array = np.array(return_array)
@@ -455,10 +405,7 @@ def image_to_var(
         phi_range[1] - phi_interval / 2,
         images.shape[phi_axis],
     )
-    assert (
-        len(eta_centers) == images.shape[eta_axis]
-        and len(phi_centers) == images.shape[phi_axis]
-    )
+    assert len(eta_centers) == images.shape[eta_axis] and len(phi_centers) == images.shape[phi_axis]
     return_array = []
     for image in images:
         indices = np.where(image)
@@ -497,9 +444,7 @@ def tower_bin(tower, format="tower", **kwargs):
         center_range = kwargs.get("center_range", (-1.6, 1.6))
         tower_left = tower[tower[:, 1] < center_range[0]]
         tower_center = tower[
-            np.logical_and(
-                tower[:, 1] >= center_range[0], tower[:, 1] <= center_range[1]
-            )
+            np.logical_and(tower[:, 1] >= center_range[0], tower[:, 1] <= center_range[1])
         ]
         tower_right = tower[tower[:, 1] > center_range[1]]
         assert tower.shape[0] == (
@@ -513,27 +458,21 @@ def tower_bin(tower, format="tower", **kwargs):
             swap=True,
         )
         center_bin = binner(
-            np.array(
-                [tower_center[:, 1], tower_center[:, 2], tower_center[:, 0]]
-            ),
+            np.array([tower_center[:, 1], tower_center[:, 2], tower_center[:, 0]]),
             x_interval=center_range,
             y_interval=(-np.pi, np.pi),
             bin_size=bin_size,
             swap=True,
         )
         right_bin = binner(
-            np.array(
-                [tower_right[:, 1], tower_right[:, 2], tower_right[:, 0]]
-            ),
+            np.array([tower_right[:, 1], tower_right[:, 2], tower_right[:, 0]]),
             x_interval=(center_range[1], 5),
             y_interval=(-np.pi, np.pi),
             bin_size=bin_size,
             swap=True,
         )
         if "plot" in sys.argv:
-            seperate_image_plot(
-                left_bin, center_bin, right_bin, save_path="./plots"
-            )
+            seperate_image_plot(left_bin, center_bin, right_bin, save_path="./plots")
             sys.exit()
         return left_bin, center_bin, right_bin
     else:
@@ -547,12 +486,7 @@ def tower_bin(tower, format="tower", **kwargs):
 
 
 def binner(
-    array,
-    x_interval=(-1.6, 1.6),
-    y_interval=(-1.6, 1.6),
-    expand=False,
-    swap=False,
-    **kwargs
+    array, x_interval=(-1.6, 1.6), y_interval=(-1.6, 1.6), expand=False, swap=False, **kwargs
 ):
     if array.shape[-1] != 3 or swap:
         array = np.swapaxes(array, 0, 1)

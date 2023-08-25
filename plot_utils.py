@@ -124,9 +124,7 @@ def plot_tower_jets(
     else:
         p = plotter
     if lorentz_met:
-        p.axes.scatter(
-            [0.0], [lorentz_met.Phi()], marker="^", c="r", s=40, label="$MET$"
-        )
+        p.axes.scatter([0.0], [lorentz_met.Phi()], marker="^", c="r", s=40, label="$MET$")
     for i in range(len(lorentz_jet)):
         colors[i + 4] = "yellow"
     for i, item in enumerate(lorentz_jet):
@@ -136,11 +134,7 @@ def plot_tower_jets(
                 radius=0.5,
                 fill=False,
                 color=colors[i],
-                label="$j_"
-                + str(i)
-                + "\;p_T=$"
-                + str(round(item.Pt(), 1))
-                + " GeV",
+                label="$j_" + str(i) + "\;p_T=$" + str(round(item.Pt(), 1)) + " GeV",
             )
         )
     # p.axes.add_patch(Circle((lorentz_jet[1].Eta(),lorentz_jet[1].Phi()),
@@ -179,11 +173,7 @@ def subplot_compare_pileup(
                     radius=0.5,
                     fill=False,
                     color=colors[i],
-                    label="$j_"
-                    + str(i)
-                    + "\;p_T=$"
-                    + str(round(item.Pt(), 1))
-                    + " GeV",
+                    label="$j_" + str(i) + "\;p_T=$" + str(round(item.Pt(), 1)) + " GeV",
                 )
             )
         p.tower_scatter(array)
@@ -213,9 +203,7 @@ def compare_pileup_image(
     return
 
 
-def seperate_image_plot(
-    left_bin, center_bin, right_bin, save_path=None, **kwargs
-):
+def seperate_image_plot(left_bin, center_bin, right_bin, save_path=None, **kwargs):
     P = Plotter(
         projection="subplots",
     )

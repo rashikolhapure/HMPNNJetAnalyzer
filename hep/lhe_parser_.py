@@ -2,9 +2,7 @@ import os
 import sys
 from collections import namedtuple
 
-lhe_particle = namedtuple(
-    "lhe_particle", ["PID", "Status", "Px", "Py", "Pz", "E", "Mass", "Name"]
-)
+lhe_particle = namedtuple("lhe_particle", ["PID", "Status", "Px", "Py", "Pz", "E", "Mass", "Name"])
 
 from tqdm import tqdm
 import numpy as np
@@ -203,16 +201,12 @@ def reverse_dict(dictionary):
     for key, val in dictionary.items():
         assert hasattr(val, "__iter__")
         for item in val:
-            assert (
-                item not in return_dict
-            ), "Found degeneracy, cannot build unique map!"
+            assert item not in return_dict, "Found degeneracy, cannot build unique map!"
             return_dict[item] = key
     return return_dict
 
 
-def convert_to_dict(
-    events, final_states=None, return_vector=True, name=True, sort=True
-):
+def convert_to_dict(events, final_states=None, return_vector=True, name=True, sort=True):
     assert final_states is not None
     print("Converting to final_states: ", final_states)
     return_dict = {item: [] for item in final_states}
@@ -222,9 +216,7 @@ def convert_to_dict(
         for particle in event:
             append_key = reverse_map[particle.Name]
             current[append_key].append(
-                TLorentzVector(
-                    particle.Px, particle.Py, particle.Pz, particle.E
-                )
+                TLorentzVector(particle.Px, particle.Py, particle.Pz, particle.E)
             )
         for key, val in current.items():
             if sort:

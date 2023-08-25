@@ -8,9 +8,7 @@ def calculate_roc(data, signal="signal", background="background"):
     sig_eff, bg_rej = [], []
     for threshold in np.linspace(0.001, 1, 100):
         sig_eff.append(np.count_nonzero(np.where(sg > threshold)) / len(sg))
-        bg_rej.append(
-            len(bg) / (np.count_nonzero(np.where(bg > threshold)) + 10e-12)
-        )
+        bg_rej.append(len(bg) / (np.count_nonzero(np.where(bg > threshold)) + 10e-12))
     return sig_eff, bg_rej
 
 

@@ -64,14 +64,10 @@ class Deform(Operator):
         deformed = np.zeros(array.shape, dtype="float64")
         x, y, _ = np.where(array)
         try:
-            def_inds = np.random.choice(
-                indices, self.num_pixels, replace=False
-            )
+            def_inds = np.random.choice(indices, self.num_pixels, replace=False)
         except ValueError:
             def_inds = indices
-        undef_inds = np.array(
-            [int(i) for i in range(len(x)) if i not in def_inds]
-        )
+        undef_inds = np.array([int(i) for i in range(len(x)) if i not in def_inds])
         x_def, y_def = x[def_inds], y[def_inds]
         try:
             x_undef, y_undef = x[undef_inds], y[undef_inds]
@@ -80,18 +76,14 @@ class Deform(Operator):
         else:
             deformed[x_undef, y_undef] = array[x_undef, y_undef]
         x_deformed = [
-            np.random.randint(i - self.deform_scale, i + self.deform_scale)
-            % array.shape[0]
+            np.random.randint(i - self.deform_scale, i + self.deform_scale) % array.shape[0]
             for i in x_def
         ]
         y_deformed = [
-            np.random.randint(i - self.deform_scale, i + self.deform_scale)
-            % array.shape[1]
+            np.random.randint(i - self.deform_scale, i + self.deform_scale) % array.shape[1]
             for i in y_def
         ]
-        deformed[x_deformed, y_deformed] = (
-            deformed[x_deformed, y_deformed] + array[x_def, y_def]
-        )
+        deformed[x_deformed, y_deformed] = deformed[x_deformed, y_deformed] + array[x_def, y_def]
         if "debug" in sys.argv:
             debug_logger(array, deformed, x_def, y_def)
         return deformed
@@ -106,9 +98,7 @@ class Deform(Operator):
         count = 0
         for i in range(len(x)):
             if (
-                np.sqrt(
-                    (x[i] - center_ind[0]) ** 2 + (y[i] - center_ind[1]) ** 2
-                )
+                np.sqrt((x[i] - center_ind[0]) ** 2 + (y[i] - center_ind[1]) ** 2)
                 <= self.deform_radius + 0.2
             ):
                 inds.append(i)
@@ -123,23 +113,17 @@ class Deform(Operator):
         count = 0
         for i in range(len(x)):
             if (
-                np.sqrt(
-                    (x[i] - x[center_ind]) ** 2 + (y[i] - y[center_ind]) ** 2
-                )
+                np.sqrt((x[i] - x[center_ind]) ** 2 + (y[i] - y[center_ind]) ** 2)
                 <= self.deform_radius + 0.2
             ):
                 inds.append(i)
         print(inds)
         ht_sum = np.sum(array[x[inds], y[inds]])
-        soft_inds = [
-            i for i in inds if array[x[i], y[i], 0] <= self.soft_scale * ht_sum
-        ]
+        soft_inds = [i for i in inds if array[x[i], y[i], 0] <= self.soft_scale * ht_sum]
         print(inds, soft_inds)
         sys.exit()
         try:
-            def_inds = np.random.choice(
-                soft_inds, self.num_pixels, replace=False
-            )
+            def_inds = np.random.choice(soft_inds, self.num_pixels, replace=False)
         except ValueError:
             def_inds = soft_inds
         deformed = self.unconstrained_deform(array, inds)
@@ -158,20 +142,12 @@ class Deform(Operator):
             )
         x, y, _ = np.where(array)
         deformed = np.zeros(array.shape, dtype="float64")
-        soft_inds = [
-            i
-            for i in range(len(x))
-            if array[x, y, 0][i] <= self.soft_scale * ht_sum
-        ]
+        soft_inds = [i for i in range(len(x)) if array[x, y, 0][i] <= self.soft_scale * ht_sum]
         try:
-            def_inds = np.random.choice(
-                soft_inds, self.num_pixels, replace=False
-            )
+            def_inds = np.random.choice(soft_inds, self.num_pixels, replace=False)
         except ValueError:
             def_inds = soft_inds
-        undef_inds = np.array(
-            [int(i) for i in range(len(x)) if i not in def_inds]
-        )
+        undef_inds = np.array([int(i) for i in range(len(x)) if i not in def_inds])
         x_def, y_def = x[def_inds], y[def_inds]
         try:
             x_undef, y_undef = x[undef_inds], y[undef_inds]
@@ -180,18 +156,14 @@ class Deform(Operator):
         else:
             deformed[x_undef, y_undef] = array[x_undef, y_undef]
         x_deformed = [
-            np.random.randint(i - self.deform_scale, i + self.deform_scale)
-            % array.shape[0]
+            np.random.randint(i - self.deform_scale, i + self.deform_scale) % array.shape[0]
             for i in x_def
         ]
         y_deformed = [
-            np.random.randint(i - self.deform_scale, i + self.deform_scale)
-            % array.shape[1]
+            np.random.randint(i - self.deform_scale, i + self.deform_scale) % array.shape[1]
             for i in y_def
         ]
-        deformed[x_deformed, y_deformed] = (
-            deformed[x_deformed, y_deformed] + array[x_def, y_def]
-        )
+        deformed[x_deformed, y_deformed] = deformed[x_deformed, y_deformed] + array[x_def, y_def]
         return deformed
 
     def hard_deform(self, array):
@@ -200,11 +172,7 @@ class Deform(Operator):
         ht_sum = np.sum(array)
         # if "debug" in sys.argv: print (array[np.where(array)])
         x, y, _ = np.where(array)
-        hard_indices = [
-            i
-            for i in range(len(x))
-            if array[x, y, 0][i] >= self.hard_scale * ht_sum
-        ]
+        hard_indices = [i for i in range(len(x)) if array[x, y, 0][i] >= self.hard_scale * ht_sum]
         if "debug" in sys.argv:
             print(self.hard_scale * ht_sum)
         deformed = self.unconstrained_deform(array, hard_indices)
@@ -215,16 +183,10 @@ class Deform(Operator):
         # if "debug" in sys.argv: print (array[np.where(array)])
         x, y, _ = np.where(array)
         hard_array = np.zeros(array.shape, dtype="float64")
-        hard_indices = [
-            i
-            for i in range(len(x))
-            if array[x, y, 0][i] >= self.hard_scale * ht_sum
-        ]
+        hard_indices = [i for i in range(len(x)) if array[x, y, 0][i] >= self.hard_scale * ht_sum]
         if "debug" in sys.argv:
             print(self.hard_scale * ht_sum)
-        hard_array[x[hard_indices], y[hard_indices]] = array[
-            x[hard_indices], y[hard_indices]
-        ]
+        hard_array[x[hard_indices], y[hard_indices]] = array[x[hard_indices], y[hard_indices]]
         return hard_array
 
 
@@ -339,9 +301,7 @@ def operator(
     """dir_name where the data and model_checkpoints are stored. operation_name is a class method belonging to an initiated operation_class,
     the class method must depend on the parameter_name, iterates the Inference.predict function over all parameter_values
     """
-    assert parameter_name in dir(operation_class) and operation_name in dir(
-        operation_class
-    )
+    assert parameter_name in dir(operation_class) and operation_name in dir(operation_class)
     assert parameter_name in operation_class.relevance[operation_name]
     if roc_plot:
         assert "roc_plot_values" in kwargs
@@ -360,9 +320,7 @@ def operator(
     filename = "acc_dict_" + tag
 
     I.operation_name = operation_name
-    operation_class.__setattr__(
-        "operation", operation_class.__getattribute__(operation_name)
-    )
+    operation_class.__setattr__("operation", operation_class.__getattribute__(operation_name))
     # print (dir(operation_class))
     for i, parameter in enumerate(parameter_values):
         operation_class.__setattr__(parameter_name, parameter)
@@ -377,9 +335,7 @@ def operator(
             roc_plot = True
         else:
             roc_plot = False
-        temp_dict = I.predict(
-            operation=operation_class.iterator, roc_plot=roc_plot
-        )
+        temp_dict = I.predict(operation=operation_class.iterator, roc_plot=roc_plot)
         if roc_plot:
             roc_data = temp_dict.pop("roc")
             roc_data["specs"] = {

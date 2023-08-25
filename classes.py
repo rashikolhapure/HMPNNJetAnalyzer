@@ -40,9 +40,7 @@ class Data(object):
         self.writer_method = kwargs.get("writer_method")
         self.data_ext = kwargs.get("extension")
         self.file_ext = None
-        self.mg_event_path = os.path.join(
-            Paths.madgraph_dir, kwargs["run_name"], "Events"
-        )
+        self.mg_event_path = os.path.join(Paths.madgraph_dir, kwargs["run_name"], "Events")
         self.max_count = "NA"
 
 

@@ -16,9 +16,7 @@ def GetTLorentzVector(array, format="lhc", particle="visible"):
 
     if format != "fatjet" and len(array.shape) > 2:
         assert array.shape[-1] == 4, "No Lorentz Axis!"
-        print(
-            "Multidimensional array detected, taking the last axis as the 4-vector axis!"
-        )
+        print("Multidimensional array detected, taking the last axis as the 4-vector axis!")
         shape = array.shape[:-1]
         # print (array[:4])
         array = array.reshape(-1, 4)
@@ -60,20 +58,14 @@ def GetTLorentzVector(array, format="lhc", particle="visible"):
             else:
                 mass = array[:, -1]
             for i in range(len(vec)):
-                vec[i].SetPtEtaPhiM(
-                    array[i][0], array[i][1], array[i][2], mass[i]
-                )
+                vec[i].SetPtEtaPhiM(array[i][0], array[i][1], array[i][2], mass[i])
         elif format == "image":
             for i in range(len(vec)):
-                vec[i].SetPtEtaPhiM(
-                    array[i][2], array[i][0], array[i][1], 10e-16
-                )
+                vec[i].SetPtEtaPhiM(array[i][2], array[i][0], array[i][1], 10e-16)
                 Print(vec[i])
         else:
             for i in range(len(vec)):
-                vec[i].SetPxPyPzE(
-                    array[i][0], array[i][1], array[i][2], array[i][3]
-                )
+                vec[i].SetPxPyPzE(array[i][0], array[i][1], array[i][2], array[i][3])
         if reshape:
             return np.array(vec).reshape(*shape)
         return np.array(vec)
@@ -92,9 +84,7 @@ def GetNumpy(
     """
     if format == "image":
         if type(vectors) == TLorentzVector:
-            return np.array(
-                [vectors.Eta(), vectors.Phi(), vectors.Pt()], dtype="float64"
-            )
+            return np.array([vectors.Eta(), vectors.Phi(), vectors.Pt()], dtype="float64")
         else:
             return_array = np.zeros((len(vectors), 3), dtype="float64")
             for i in range(len(vectors)):

@@ -21,9 +21,7 @@ class OverwriteError(Exception):
 class DelphesNumpy(PhysicsMethod):
     def __init__(self, run_name, *args, **kwargs):
         print(self.__class__.__name__, run_name, args, kwargs)
-        super().__init__(
-            *args, input_data="RootEvents", output_data="NumpyEvents"
-        )
+        super().__init__(*args, input_data="RootEvents", output_data="NumpyEvents")
         self.run_name = run_name
         if kwargs.get("root_file_path") is None:
             self.in_data = RootEvents(
@@ -48,9 +46,7 @@ class DelphesNumpy(PhysicsMethod):
         )
         if "root_file_path" in kwargs:
             self.out_data.mg_event_path = self.in_data.mg_event_path
-        self.final_state_attributes = kwargs.get(
-            "final_state_atributes", FinalStates.attributes
-        )
+        self.final_state_attributes = kwargs.get("final_state_atributes", FinalStates.attributes)
         if not kwargs.get("include_gen_particles", False):
             print("Removing GenParticle from final state list...")
             self.extract_gen_particles = False
@@ -92,9 +88,7 @@ class DelphesNumpy(PhysicsMethod):
             except Exception as e:
                 if "Particle" in self.final_state_attributes:
                     print("Excluding Particle for writing to pickle file...")
-                    particle_atttributes = self.final_state_attributes.pop(
-                        "Particle"
-                    )
+                    particle_atttributes = self.final_state_attributes.pop("Particle")
                 self.out_data.exception = True
                 print(e)
                 print("\nReading root file from ", self.current["path"])
@@ -124,14 +118,9 @@ class DelphesNumpy(PhysicsMethod):
                 ]
                 current["EventAttribute"] = event_attribute
                 print_events(current)
-                if (
-                    "Particle" not in self.final_state_attributes
-                    and self.extract_gen_particles
-                ):
+                if "Particle" not in self.final_state_attributes and self.extract_gen_particles:
                     print("Adding Particle class...")
-                    self.final_state_attributes[
-                        "Particle"
-                    ] = particle_atttributes
+                    self.final_state_attributes["Particle"] = particle_atttributes
             finally:
                 self.out_data.current_events = current
                 self.out_data.current_run = self.current["path"]
@@ -157,21 +146,15 @@ class DelphesNumpy(PhysicsMethod):
         """
         return_dict, temp_dict = dict(), dict()
         for item in attributes:
-            temp_dict[item] = self.Events[final_state][
-                final_state + "." + item
-            ].array()
+            temp_dict[item] = self.Events[final_state][final_state + "." + item].array()
         if indices == None:
             indices = np.arange(len(temp_dict[item]))
         return_array = []
         for event_index in indices:
             array = [[] for i in range(len(attributes))]
             for i in range(len(attributes)):
-                array[i] = np.array(
-                    temp_dict[attributes[i]][event_index], dtype="float64"
-                )
-            return_array.append(
-                np.swapaxes(np.array(array, dtype="float64"), 0, 1)
-            )
+                array[i] = np.array(temp_dict[attributes[i]][event_index], dtype="float64")
+            return_array.append(np.swapaxes(np.array(array, dtype="float64"), 0, 1))
         return np.array(return_array)
 
 
@@ -281,9 +264,7 @@ class PreProcess(PhysicsMethod):
                         num_cores=self.num_cores,
                     )
                 else:
-                    preprocessed = pool_splitter(
-                        self.preprocess, passed_events
-                    )
+                    preprocessed = pool_splitter(self.preprocess, passed_events)
             else:
                 preprocessed = self.preprocess(passed_events)
             self.out_data.current_run = self.in_data.current_run

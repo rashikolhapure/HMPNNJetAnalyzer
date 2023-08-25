@@ -145,9 +145,7 @@ class Plotter:
                 s=60,
                 marker="o",
                 cmap="Blues",
-                norm=colors.LogNorm(
-                    vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])
-                ),
+                norm=colors.LogNorm(vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])),
             )
             self.axes.scatter(
                 fat2[0],
@@ -156,9 +154,7 @@ class Plotter:
                 s=60,
                 marker="o",
                 cmap="YlGn",
-                norm=colors.LogNorm(
-                    vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])
-                ),
+                norm=colors.LogNorm(vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])),
             )
         else:
             # print ("here")
@@ -176,9 +172,7 @@ class Plotter:
                 s=self.markersize,
                 marker=self.marker,
                 cmap="Blues",
-                norm=colors.LogNorm(
-                    vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])
-                ),
+                norm=colors.LogNorm(vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])),
             )
             self.axes.scatter(
                 fat2_np[0],
@@ -187,9 +181,7 @@ class Plotter:
                 s=self.markersize,
                 marker=self.marker,
                 cmap="YlGn",
-                norm=colors.LogNorm(
-                    vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])
-                ),
+                norm=colors.LogNorm(vmin=np.min(fat1_np[2]), vmax=np.max(fat1_np[2])),
             )
         self.axes.add_patch(
             Circle(
@@ -239,15 +231,13 @@ class Plotter:
             0,
             1,
         )
-        self.axes.set_xscale("symlog"), self.axes.set_yscale(
+        self.axes.set_xscale("symlog"), self.axes.set_yscale("symlog"), self.axes.set_zscale(
             "symlog"
-        ), self.axes.set_zscale("symlog")
-        self.axes.set_xlabel("$P_x$"), self.axes.set_ylabel(
-            "$P_y$"
-        ), self.axes.set_zlabel("$P_z$")
-        self.axes.set_xlim(extremum[0]), self.axes.set_ylim(
-            extremum[1]
-        ), self.axes.set_zlim(extremum[2])
+        )
+        self.axes.set_xlabel("$P_x$"), self.axes.set_ylabel("$P_y$"), self.axes.set_zlabel("$P_z$")
+        self.axes.set_xlim(extremum[0]), self.axes.set_ylim(extremum[1]), self.axes.set_zlim(
+            extremum[2]
+        )
         count = 0
         for item in np.swapaxes(fatjet[0], 0, 1):
             if count == 0:
@@ -361,9 +351,7 @@ class Plotter:
         if len(fatjet.shape) != 2:
             fatjet = ru.GetNumpy(fatjet)
         extremum = np.swapaxes(
-            np.array(
-                [np.min(fatjet, axis=1) - 0.2, np.max(fatjet, axis=1) + 0.2]
-            ),
+            np.array([np.min(fatjet, axis=1) - 0.2, np.max(fatjet, axis=1) + 0.2]),
             0,
             1,
         )
@@ -375,14 +363,10 @@ class Plotter:
             s=s,
             c=fatjet[2],
             cmap=cmap,
-            norm=colors.LogNorm(
-                vmin=np.min(fatjet[2]), vmax=np.max(fatjet[2])
-            ),
+            norm=colors.LogNorm(vmin=np.min(fatjet[2]), vmax=np.max(fatjet[2])),
             label=label,
         )
-        self.axes.scatter(
-            center[0], center[1], marker="^", s=s, c="r", label="center"
-        )
+        self.axes.scatter(center[0], center[1], marker="^", s=s, c="r", label="center")
         if show:
             plt.show()
         return
@@ -453,15 +437,13 @@ class Plotter:
                 1,
             )
         # print (extremum)
-        self.axes.set_xscale("symlog"), self.axes.set_yscale(
+        self.axes.set_xscale("symlog"), self.axes.set_yscale("symlog"), self.axes.set_zscale(
             "symlog"
-        ), self.axes.set_zscale("symlog")
-        self.axes.set_xlabel("$P_x$"), self.axes.set_ylabel(
-            "$P_y$"
-        ), self.axes.set_zlabel("$P_z$")
-        self.axes.set_xlim(extremum[0]), self.axes.set_ylim(
-            extremum[1]
-        ), self.axes.set_zlim(extremum[2])
+        )
+        self.axes.set_xlabel("$P_x$"), self.axes.set_ylabel("$P_y$"), self.axes.set_zlabel("$P_z$")
+        self.axes.set_xlim(extremum[0]), self.axes.set_ylim(extremum[1]), self.axes.set_zlim(
+            extremum[2]
+        )
         if axis == "off":
             self.axes.axis("off")
         # self.axes.scatter(fatjet[0],fatjet[1],fatjet[2],c=Z,cmap="Blues",norm=colors.LogNorm(vmin=np.min(Z), vmax=np.max(Z)))
@@ -629,14 +611,7 @@ class Plotter:
         return im
 
     def set_colorbar(
-        self,
-        im,
-        cax=None,
-        axes=None,
-        ylabel=None,
-        ylabelsize=30,
-        clim=None,
-        **kwargs
+        self, im, cax=None, axes=None, ylabel=None, ylabelsize=30, clim=None, **kwargs
     ):
         if cax is None:
             if axes is None:
@@ -647,20 +622,12 @@ class Plotter:
                     pad=kwargs.get("pad", 0.05),
                     norm=kwargs.get("norm"),
                 )
-                cbar = self.fig.colorbar(
-                    im, cax=cax, orientation="vertical"
-                )  # format='%.0e'
+                cbar = self.fig.colorbar(im, cax=cax, orientation="vertical")  # format='%.0e'
             else:
-                cbar = self.fig.colorbar(
-                    im, ax=axes, pad=kwargs.get("pad", 0.05)
-                )  # format='%.0e'
+                cbar = self.fig.colorbar(im, ax=axes, pad=kwargs.get("pad", 0.05))  # format='%.0e'
         else:
-            cbar = self.fig.colorbar(
-                im, cax=cax, format="%.0e", norm=kwargs.get("norm")
-            )
-        cbar.ax.tick_params(
-            axis="y", which="major", labelsize=kwargs.get("labelsize", 30)
-        )
+            cbar = self.fig.colorbar(im, cax=cax, format="%.0e", norm=kwargs.get("norm"))
+        cbar.ax.tick_params(axis="y", which="major", labelsize=kwargs.get("labelsize", 30))
         if clim is not None:
             # cbar.vmin,cbar.vmax=clim[0],clim[1]
             # print (cbar.vmin,cbar.vmax)
@@ -720,14 +687,7 @@ class Plotter:
             )
         else:
             im = self.axes.scatter(
-                X,
-                Y,
-                marker=marker,
-                s=s,
-                c=color,
-                cmap=cmap,
-                label=label,
-                **kwargs
+                X, Y, marker=marker, s=s, c=color, cmap=cmap, label=label, **kwargs
             )
         if set_colorbar:
             self.set_colorbar(im, axes=axes)

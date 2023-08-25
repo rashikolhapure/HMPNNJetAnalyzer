@@ -106,13 +106,9 @@ def load_data(
                     item + ".h",
                     load_path="./processed_events/" + preprocess_tag + folder,
                 )
-                load_path = os.path.abs(
-                    "./processed_events/" + preprocess_tag + folder
-                )
+                load_path = os.path.abs("./processed_events/" + preprocess_tag + folder)
             else:
-                events = pool_splitter(
-                    function, Unpickle(item + ".h", load_path="./temp_data")
-                )
+                events = pool_splitter(function, Unpickle(item + ".h", load_path="./temp_data"))
         else:
             r = RunIO(item, kwargs.get("data_tag"), mode="r")
             events = r.load_events()
@@ -143,9 +139,7 @@ def load_data(
                     X[i] = np.random.normal(
                         loc=sim_central_values[item]["mean"],
                         scale=sim_central_values[item]["scale"],
-                        size=tuple(
-                            [length] + list(sim_central_values["shape"])
-                        ),
+                        size=tuple([length] + list(sim_central_values["shape"])),
                     )
                 else:
                     X[i] = np.full(
@@ -161,9 +155,7 @@ def load_data(
             else:
                 X[i] = events[input_key][:length]
             if normalize:
-                print(
-                    "Normalizing:\n min:", np.min(X[i]), " max: ", np.max(X[i])
-                )
+                print("Normalizing:\n min:", np.min(X[i]), " max: ", np.max(X[i]))
                 for ind in range(len(X[i])):
                     X[i][ind] = X[i][ind] / np.sqrt(np.sum(X[i][ind]))
                 print(
@@ -181,8 +173,7 @@ def load_data(
             X_all, Y_all = [item[:] for item in X], Y[:]
         else:
             X_all, Y_all = [
-                np.concatenate((prev_item, item[:]), axis=0)
-                for prev_item, item in zip(X_all, X)
+                np.concatenate((prev_item, item[:]), axis=0) for prev_item, item in zip(X_all, X)
             ], np.concatenate((Y_all, Y[:]), axis=0)
         print(item, Y[-10:], len(X))
         count += 1
@@ -213,11 +204,7 @@ def load_data(
         combined.append(Y_all)
         if "debug" in sys.argv:
             print("combined:", combined[-1][:10], combined[-1][10:])
-        combined = list(
-            train_test_split(
-                *combined, shuffle=True, random_state=12, test_size=0.25
-            )
-        )
+        combined = list(train_test_split(*combined, shuffle=True, random_state=12, test_size=0.25))
         X_train, X_val = [], []
         for i in range(len(combined) - 2):
             print(type(combined[i]), combined[i].shape)

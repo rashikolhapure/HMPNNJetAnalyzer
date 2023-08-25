@@ -37,16 +37,10 @@ class Inference(NetworkMethod):
             self.model_name,
         )
         self.data_path = os.path.join(self.run_path, "data")
-        self.model_checkpoints = os.path.join(
-            self.run_path, "model_checkpoints"
-        )
+        self.model_checkpoints = os.path.join(self.run_path, "model_checkpoints")
         # if "inference" in kwargs and kwargs["inference"] != "run":
-        self.inference_path = check_dir(
-            os.path.join(self.run_path, "inference")
-        )
-        self.data_save_path = check_dir(
-            os.path.join(self.inference_path, "data")
-        )
+        self.inference_path = check_dir(os.path.join(self.run_path, "inference"))
+        self.data_save_path = check_dir(os.path.join(self.inference_path, "data"))
         assert (
             os.path.exists(self.run_path)
             and os.path.exists(self.data_path)
@@ -70,13 +64,9 @@ class Inference(NetworkMethod):
         self.per_run_models = None
         if not self.get_model:
             if "dictionary.pickle" in os.listdir(self.data_path):
-                assert (
-                    "data_handler" in kwargs
-                ), "Provide data handler used while training model"
+                assert "data_handler" in kwargs, "Provide data handler used while training model"
                 self.load_data = kwargs.get("data_handler")
-                self.unoperated_data = self.handler_load(
-                    **self.extra_handler_kwargs
-                )
+                self.unoperated_data = self.handler_load(**self.extra_handler_kwargs)
             else:
                 self.unoperated_data = self.model_data_load()
 
@@ -126,15 +116,11 @@ class Inference(NetworkMethod):
         kwargs["preprocess_tag"] = dictionary["preprocess_tag"]
         assert kwargs["preprocess_tag"] == self.preprocess_tag
         self.handler_kwargs = kwargs
-        kwargs["indices"] = Unpickle(
-            "indices.pickle", load_path=self.data_path
-        )
+        kwargs["indices"] = Unpickle("indices.pickle", load_path=self.data_path)
         self.all_data = self.load_data(self.class_names, **kwargs)
         if opt.get("return_all", False):
             print("Return all option active")
-            warn(
-                "Do not use return_all =True option while using function methods!"
-            )
+            warn("Do not use return_all =True option while using function methods!")
             return self.all_data
         else:
             return self.all_data[self.tag]
@@ -202,9 +188,7 @@ class Inference(NetworkMethod):
                 continue
             else:
                 val_acc.append(val)
-        model_files = [
-            item for i, item in enumerate(model_files) if i not in remove_inds
-        ]
+        model_files = [item for i, item in enumerate(model_files) if i not in remove_inds]
         # print (item,eval(item[:-len(".hdf5")].split("_")[-1]))
         val_acc = np.array(val_acc)
         if self.best == "high":
@@ -282,11 +266,7 @@ class Inference(NetworkMethod):
             combined_data = self.unoperated_data
         else:
             print("performing operation...")
-            if (
-                "debug" in sys.argv
-                or "operation_check" in sys.argv
-                or not split
-            ):
+            if "debug" in sys.argv or "operation_check" in sys.argv or not split:
                 combined_data = operation(self.unoperated_data)
             combined_data = pool_splitter(operation, self.unoperated_data)
         seperated = self.seperate_classes(combined_data)
@@ -297,9 +277,7 @@ class Inference(NetworkMethod):
             class_names = (self.class_names[0], replace)
 
         if roc_plot:
-            roc_dict = {
-                "combined": self.model.predict(combined_data["X"], verbose=2)
-            }
+            roc_dict = {"combined": self.model.predict(combined_data["X"], verbose=2)}
         if "prediction" in os.listdir(self.data_save_path) and save:
             saved_dict = Unpickle("prediction", load_path=self.data_save_path)
         else:
@@ -322,9 +300,7 @@ class Inference(NetworkMethod):
                 batch_size=batch_size,
                 verbose=1,
             )
-            return_dict[item] = self.model.predict(
-                seperated[item]["X"], verbose=1
-            )[:, 0]
+            return_dict[item] = self.model.predict(seperated[item]["X"], verbose=1)[:, 0]
             return_dict[item + "_true"] = seperated[item]["Y"][:, 0]
             if i == 0:
                 y_true, y_pred = seperated[item]["Y"][:, 0], return_dict[item]
@@ -334,9 +310,7 @@ class Inference(NetworkMethod):
                 ), np.concatenate((y_pred, return_dict[item]), axis=0)
             saved_dict[item] = return_dict[item]
             if roc_plot:
-                roc_dict[item] = self.model.predict(
-                    seperated[item]["X"], verbose=2
-                )
+                roc_dict[item] = self.model.predict(seperated[item]["X"], verbose=2)
                 if save:
                     Pickle(
                         roc_dict[item],
@@ -345,9 +319,7 @@ class Inference(NetworkMethod):
                     )
             if self.signal_acc is None and item == self.class_names[0]:
                 self.signal_acc = return_dict[item]
-                self.signal_prediction = self.model.predict(
-                    seperated[item]["X"], verbose=2
-                )
+                self.signal_prediction = self.model.predict(seperated[item]["X"], verbose=2)
                 # Pickle(self.signal_prediction,"roc_"+item,save_path=self.data_save_path)
         return_dict["y_true"] = y_true
         return_dict["y_pred"] = y_pred

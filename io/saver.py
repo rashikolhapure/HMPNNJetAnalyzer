@@ -73,9 +73,7 @@ def Unpickle(
         with open(filename, "rb") as File:
             return_object = pickle.load(File, **kwargs)
     except Exception as e:
-        print(
-            e, " checking if folder with ", filename.split(".")[0], " exists.."
-        )
+        print(e, " checking if folder with ", filename.split(".")[0], " exists..")
         try:
             os.chdir(filename.split(".")[0])
         except Exception as e:
@@ -222,8 +220,7 @@ def folder_load(keys=None, length=None):
         if os.path.isdir(filename):
             os.chdir(filename)
             events[filename] = [
-                np.load(array_files, allow_pickle=True)
-                for array_files in os.listdir(".")
+                np.load(array_files, allow_pickle=True) for array_files in os.listdir(".")
             ]
             os.chdir("..")
             continue
@@ -231,9 +228,7 @@ def folder_load(keys=None, length=None):
             if filename[:-4] not in keys:
                 continue
         try:
-            events[filename[:-4]] = np.load(filename, allow_pickle=True)[
-                :length
-            ]
+            events[filename[:-4]] = np.load(filename, allow_pickle=True)[:length]
         except IOError as e:
             os.chdir(pwd)
             raise e
@@ -310,9 +305,7 @@ class RunIO:
 
         """
         if self._mode == "r":
-            raise IOError(
-                "Attempting to write in read-only instance of RunIO object"
-            )
+            raise IOError("Attempting to write in read-only instance of RunIO object")
         pwd = os.getcwd()
         os.chdir(self.__path)
         for item in events:
@@ -347,9 +340,7 @@ class RunIO:
         events = dict()
         for filename in os.listdir("."):
             try:
-                events[filename[:-4]] = np.load(filename, allow_pickle=True)[
-                    :length
-                ]
+                events[filename[:-4]] = np.load(filename, allow_pickle=True)[:length]
             except IOError as e:
                 os.chdir(pwd)
                 raise e

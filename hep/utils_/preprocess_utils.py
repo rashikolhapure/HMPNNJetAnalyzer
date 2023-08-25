@@ -36,9 +36,9 @@ def rotate(*args, **kwargs):
         theta = -theta
     for item in args:
         # print (item.shape)
-        item[0], item[1] = item[0] * np.cos(theta) + item[1] * np.sin(
+        item[0], item[1] = item[0] * np.cos(theta) + item[1] * np.sin(theta), -item[0] * np.sin(
             theta
-        ), -item[0] * np.sin(theta) + item[1] * np.cos(theta)
+        ) + item[1] * np.cos(theta)
     if len(args) == 1:
         return args[0]
     return args
@@ -71,13 +71,9 @@ def process_fatjets(fatjets, operation="all", subparts="subjets", **kwargs):
         fatjet, subjets = regularize_fatjet(fatjet)
         if subparts != "subjets":
             subjets = subparts
-        fatjet, subjets = translate(
-            fatjet, subjets, x=subjets[0][0], y=subjets[1][0]
-        )
+        fatjet, subjets = translate(fatjet, subjets, x=subjets[0][0], y=subjets[1][0])
         try:
-            fatjet, subjets = rotate(
-                fatjet, subjets, x=subjets[0][1], y=subjets[1][1]
-            )
+            fatjet, subjets = rotate(fatjet, subjets, x=subjets[0][1], y=subjets[1][1])
         except IndexError:
             pass
         try:
@@ -104,9 +100,7 @@ def regularize_fatjet(fatjet, r=1.2):
         np.array(
             [
                 [item.eta, item.phi, item.pt]
-                for item in FatJet().Recluster(
-                    fatjet, r=0.4, algorithm="CA", subjets=3
-                )
+                for item in FatJet().Recluster(fatjet, r=0.4, algorithm="CA", subjets=3)
             ]
         ),
         0,
@@ -141,9 +135,7 @@ def remove_jets(lorentz_tower, lorentz_jets, r=0.5, **kwargs):
                 break
         if add:
             removed_constituents.append(item)
-    if kwargs.get("central_only", False) or kwargs.get(
-        "seperate_center", False
-    ):
+    if kwargs.get("central_only", False) or kwargs.get("seperate_center", False):
         assert len(lorentz_jets) == 2
         region = []
         for jet in lorentz_jets:
@@ -159,9 +151,7 @@ def remove_jets(lorentz_tower, lorentz_jets, r=0.5, **kwargs):
                 return_array.append(item)
             else:
                 other_array.append(item)
-        assert len(removed_constituents) == (
-            len(return_array) + len(other_array)
-        )
+        assert len(removed_constituents) == (len(return_array) + len(other_array))
     else:
         return_array = removed_constituents
     return_array = np.array(return_array)
@@ -202,10 +192,7 @@ def image_to_var(
         phi_range[1] - phi_interval / 2,
         images.shape[phi_axis],
     )
-    assert (
-        len(eta_centers) == images.shape[eta_axis]
-        and len(phi_centers) == images.shape[phi_axis]
-    )
+    assert len(eta_centers) == images.shape[eta_axis] and len(phi_centers) == images.shape[phi_axis]
     return_array = []
     for image in images:
         indices = np.where(image)
@@ -242,9 +229,7 @@ def tower_bin(tower, format="tower", **kwargs):
         tower = np.swapaxes(tower, 0, 1)
     if kwargs.get("return_seperate", False):
         tower_left = tower[tower[:, 1] < -1.6]
-        tower_center = tower[
-            np.logical_and(tower[:, 1] >= -1.6, tower[:, 1] <= 1.6)
-        ]
+        tower_center = tower[np.logical_and(tower[:, 1] >= -1.6, tower[:, 1] <= 1.6)]
         tower_right = tower[tower[:, 1] > 1.6]
         assert tower.shape[0] == (
             tower_left.shape[0] + tower_right.shape[0] + tower_center.shape[0]
@@ -257,27 +242,21 @@ def tower_bin(tower, format="tower", **kwargs):
             swap=True,
         )
         center_bin = binner(
-            np.array(
-                [tower_center[:, 1], tower_center[:, 2], tower_center[:, 0]]
-            ),
+            np.array([tower_center[:, 1], tower_center[:, 2], tower_center[:, 0]]),
             x_interval=(-1.6, 1.6),
             y_interval=(-np.pi, np.pi),
             bin_size=bin_size,
             swap=True,
         )
         right_bin = binner(
-            np.array(
-                [tower_right[:, 1], tower_right[:, 2], tower_right[:, 0]]
-            ),
+            np.array([tower_right[:, 1], tower_right[:, 2], tower_right[:, 0]]),
             x_interval=(1.6, 5),
             y_interval=(-np.pi, np.pi),
             bin_size=bin_size,
             swap=True,
         )
         if "plot" in sys.argv:
-            seperate_image_plot(
-                left_bin, center_bin, right_bin, save_path="./plots"
-            )
+            seperate_image_plot(left_bin, center_bin, right_bin, save_path="./plots")
             sys.exit()
         return left_bin, center_bin, right_bin
     else:
@@ -291,12 +270,7 @@ def tower_bin(tower, format="tower", **kwargs):
 
 
 def binner(
-    array,
-    x_interval=(-1.6, 1.6),
-    y_interval=(-1.6, 1.6),
-    expand=False,
-    swap=False,
-    **kwargs
+    array, x_interval=(-1.6, 1.6), y_interval=(-1.6, 1.6), expand=False, swap=False, **kwargs
 ):
     if array.shape[-1] != 3 or swap:
         array = np.swapaxes(array, 0, 1)

@@ -40,14 +40,10 @@ parser.add_option(
 
 (options, args) = parser.parse_args()
 if options.run_name is None:
-    print(
-        "Provide compulsory option run_name with -r <run_name> or --run <run_name> \n"
-    )
+    print("Provide compulsory option run_name with -r <run_name> or --run <run_name> \n")
     print("End Execution!")
     sys.exit()
 
-d = DelphesNumpy(
-    options.run_name, tag=options.tag, delphes_preffix=options.delphes_prefix
-)
+d = DelphesNumpy(options.run_name, tag=options.tag, delphes_preffix=options.delphes_prefix)
 for item in d:
     print_events(item)

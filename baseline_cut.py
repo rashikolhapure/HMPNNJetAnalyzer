@@ -51,16 +51,12 @@ def dijet_cut(events, logging=False):
             continue
 
         if passed_event_index == 0:
-            return_dict["Jet"], return_dict["Tower"] = np.array(
-                [jets[:2]]
-            ), np.array([tower])
+            return_dict["Jet"], return_dict["Tower"] = np.array([jets[:2]]), np.array([tower])
             return_dict["jet_delphes"] = [array_jets[:]]
             return_dict["Tower"] = [tower]
             return_dict["Track"] = [track]
         else:
-            return_dict["Jet"] = np.concatenate(
-                (return_dict["Jet"], np.array([jets[:2]])), axis=0
-            )
+            return_dict["Jet"] = np.concatenate((return_dict["Jet"], np.array([jets[:2]])), axis=0)
             return_dict["Tower"].append(tower)
             return_dict["Track"].append(track)
             return_dict["jet_delphes"].append(array_jets[:])

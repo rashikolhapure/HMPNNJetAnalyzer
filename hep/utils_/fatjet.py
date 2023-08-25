@@ -69,8 +69,7 @@ class FatJet(object):
         for i in range(len(self.fatjets)):
             for item in electron_eta_phi:
                 R = np.sqrt(
-                    (self.fatjets[i].eta - item[0]) ** 2
-                    + (self.fatjets[i].phi - item[1]) ** 2
+                    (self.fatjets[i].eta - item[0]) ** 2 + (self.fatjets[i].phi - item[1]) ** 2
                 )
                 if R < self.R:
                     if i not in indices:
@@ -87,13 +86,9 @@ class FatJet(object):
     def Get(self):
         """get list of fatjet in PseudoJet class"""
         if type(self.Tower[0]) == np.ndarray:
-            temp = np.concatenate(
-                (self.Tower, np.zeros((len(self.Tower), 1))), axis=1
-            )
+            temp = np.concatenate((self.Tower, np.zeros((len(self.Tower), 1))), axis=1)
         else:
-            temp = ru.GetNumpy(
-                self.Tower, format="lhc", observable_first=False
-            )
+            temp = ru.GetNumpy(self.Tower, format="lhc", observable_first=False)
         vectors = []
         for item in temp:
             vectors.append(
@@ -109,9 +104,7 @@ class FatJet(object):
             )
         vectors = np.array(vectors)
         self.Vectors = vectors
-        sequence = cluster(
-            vectors, p=self.AlgorithmDict[self.Algorithm], R=self.R
-        )
+        sequence = cluster(vectors, p=self.AlgorithmDict[self.Algorithm], R=self.R)
         self.cluster_sequence = sequence
         self.fatjets = sequence.inclusive_jets(ptmin=self.PtMin)
         return self.fatjets
@@ -137,13 +130,9 @@ class FatJet(object):
             return return_array
         for item in fatjets:
             if format == "root":
-                return_array.append(
-                    ru.GetTLorentzVector(item, format="fatjet")
-                )
+                return_array.append(ru.GetTLorentzVector(item, format="fatjet"))
             else:
-                return_array.append(
-                    np.array([item.eta, item.phi, item.pt], dtype="float64")
-                )
+                return_array.append(np.array([item.eta, item.phi, item.pt], dtype="float64"))
         return np.array(return_array)
 
     def Recluster(self, fatjet, r=0.4, dcut=0.5, algorithm="CA", subjets=3):

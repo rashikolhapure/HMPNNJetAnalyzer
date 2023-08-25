@@ -3,9 +3,7 @@ from collections import namedtuple
 import numpy as np
 
 
-InputState = namedtuple(
-    "InputState", ["name", "shape", "index", "network_input_index"]
-)
+InputState = namedtuple("InputState", ["name", "shape", "index", "network_input_index"])
 IndexKey = namedtuple("IndexKey", ["class_name", "start", "end", "data_type"])
 
 
