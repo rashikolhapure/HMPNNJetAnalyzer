@@ -35,19 +35,35 @@ class FatJet(object):
         self.Algorithm = algorithm
         self.R = r
         self.PtMin = pt_min
-        self.AlgorithmDict = {"antikt": -1, "CA": 0, "kt": 1}
+        self.AlgorithmDict = {
+            "antikt": -1,
+            "CA": 0,
+            "kt": 1,
+        }
         self.Vectors = None
         self.fatjets = None
         self.cluster_sequence = None
 
     def ConstructVector(self, fatjet):
-        if type(fatjet[0]) == TLorentzVector:
-            fatjet = ru.GetNumpy(fatjet, format="lhc", observable_first=False)
+        if (
+            type(fatjet[0])
+            == TLorentzVector
+        ):
+            fatjet = ru.GetNumpy(
+                fatjet,
+                format="lhc",
+                observable_first=False,
+            )
         vectors = []
         for item in fatjet:
             vectors.append(
                 np.array(
-                    (item[0], item[1], item[2], item[3]),
+                    (
+                        item[0],
+                        item[1],
+                        item[2],
+                        item[3],
+                    ),
                     dtype=[
                         ("pT", "f8"),
                         ("eta", "f8"),
@@ -64,20 +80,48 @@ class FatJet(object):
             print(lepton, self.fatjets)
         electron_eta_phi = []
         for item in lepton:
-            electron_eta_phi.append([item[1], item[2]])
+            electron_eta_phi.append(
+                [item[1], item[2]]
+            )
         indices = []
-        for i in range(len(self.fatjets)):
-            for item in electron_eta_phi:
+        for i in range(
+            len(self.fatjets)
+        ):
+            for (
+                item
+            ) in electron_eta_phi:
                 R = np.sqrt(
-                    (self.fatjets[i].eta - item[0]) ** 2 + (self.fatjets[i].phi - item[1]) ** 2
+                    (
+                        self.fatjets[
+                            i
+                        ].eta
+                        - item[0]
+                    )
+                    ** 2
+                    + (
+                        self.fatjets[
+                            i
+                        ].phi
+                        - item[1]
+                    )
+                    ** 2
                 )
                 if R < self.R:
-                    if i not in indices:
-                        indices.append(i)
+                    if (
+                        i
+                        not in indices
+                    ):
+                        indices.append(
+                            i
+                        )
         FatJets = []
-        for i in range(len(self.fatjets)):
+        for i in range(
+            len(self.fatjets)
+        ):
             if i not in indices:
-                FatJets.append(self.fatjets[i])
+                FatJets.append(
+                    self.fatjets[i]
+                )
         self.fatjets = FatJets
         if self.Verbose:
             print(self.fatjets)
@@ -85,15 +129,40 @@ class FatJet(object):
 
     def Get(self):
         """get list of fatjet in PseudoJet class"""
-        if type(self.Tower[0]) == np.ndarray:
-            temp = np.concatenate((self.Tower, np.zeros((len(self.Tower), 1))), axis=1)
+        if (
+            type(self.Tower[0])
+            == np.ndarray
+        ):
+            temp = np.concatenate(
+                (
+                    self.Tower,
+                    np.zeros(
+                        (
+                            len(
+                                self.Tower
+                            ),
+                            1,
+                        )
+                    ),
+                ),
+                axis=1,
+            )
         else:
-            temp = ru.GetNumpy(self.Tower, format="lhc", observable_first=False)
+            temp = ru.GetNumpy(
+                self.Tower,
+                format="lhc",
+                observable_first=False,
+            )
         vectors = []
         for item in temp:
             vectors.append(
                 np.array(
-                    (item[0], item[1], item[2], item[3]),
+                    (
+                        item[0],
+                        item[1],
+                        item[2],
+                        item[3],
+                    ),
                     dtype=[
                         ("pT", "f8"),
                         ("eta", "f8"),
@@ -104,12 +173,26 @@ class FatJet(object):
             )
         vectors = np.array(vectors)
         self.Vectors = vectors
-        sequence = cluster(vectors, p=self.AlgorithmDict[self.Algorithm], R=self.R)
-        self.cluster_sequence = sequence
-        self.fatjets = sequence.inclusive_jets(ptmin=self.PtMin)
+        sequence = cluster(
+            vectors,
+            p=self.AlgorithmDict[
+                self.Algorithm
+            ],
+            R=self.R,
+        )
+        self.cluster_sequence = (
+            sequence
+        )
+        self.fatjets = (
+            sequence.inclusive_jets(
+                ptmin=self.PtMin
+            )
+        )
         return self.fatjets
 
-    def GetConstituents(self, fatjets, format="root"):
+    def GetConstituents(
+        self, fatjets, format="root"
+    ):
         """get a numpy array of len(fatjets) containing TLorentzVector of the constituents of each fatjet"""
         return_array = []
         if format == "image":
@@ -118,7 +201,11 @@ class FatJet(object):
                     np.swapaxes(
                         np.array(
                             [
-                                [particle.eta, particle.phi, particle.pt]
+                                [
+                                    particle.eta,
+                                    particle.phi,
+                                    particle.pt,
+                                ]
                                 for particle in item.constituents()
                             ],
                             dtype="float64",
@@ -130,20 +217,58 @@ class FatJet(object):
             return return_array
         for item in fatjets:
             if format == "root":
-                return_array.append(ru.GetTLorentzVector(item, format="fatjet"))
+                return_array.append(
+                    ru.GetTLorentzVector(
+                        item,
+                        format="fatjet",
+                    )
+                )
             else:
-                return_array.append(np.array([item.eta, item.phi, item.pt], dtype="float64"))
+                return_array.append(
+                    np.array(
+                        [
+                            item.eta,
+                            item.phi,
+                            item.pt,
+                        ],
+                        dtype="float64",
+                    )
+                )
         return np.array(return_array)
 
-    def Recluster(self, fatjet, r=0.4, dcut=0.5, algorithm="CA", subjets=3):
-        pt_min = 0.03 * np.sum(fatjet).Pt()
-        vectors = self.ConstructVector(fatjet)
+    def Recluster(
+        self,
+        fatjet,
+        r=0.4,
+        dcut=0.5,
+        algorithm="CA",
+        subjets=3,
+    ):
+        pt_min = (
+            0.03 * np.sum(fatjet).Pt()
+        )
+        vectors = self.ConstructVector(
+            fatjet
+        )
         # print (vectors)
-        sequence = cluster(vectors, R=r, p=self.AlgorithmDict[algorithm])
-        return sequence.inclusive_jets(ptmin=pt_min)[:subjets]
+        sequence = cluster(
+            vectors,
+            R=r,
+            p=self.AlgorithmDict[
+                algorithm
+            ],
+        )
+        return sequence.inclusive_jets(
+            ptmin=pt_min
+        )[:subjets]
 
 
-def Print(fatjet, name=None, format="lhc", constituents=False):
+def Print(
+    fatjet,
+    name=None,
+    format="lhc",
+    constituents=False,
+):
     if name != None:
         print(name)
     if not constituents:
@@ -156,8 +281,12 @@ def Print(fatjet, name=None, format="lhc", constituents=False):
                 f"    Px: {fatjet.px:20.16f}        Py: {fatjet.py:20.16f}        Pz : {fatjet.pz:20.16f}        E: {fatjet.e:20.16f}"
             )
     else:
-        print("Constituents of array: ")
-        for item in fatjet.constituents():
+        print(
+            "Constituents of array: "
+        )
+        for (
+            item
+        ) in fatjet.constituents():
             if format == "lhc":
                 print(
                     f"    Eta: {item.eta:20.16f}        Phi: {item.phi:20.16f}        Pt : {item.pt:20.16f}        Mass: {item.mass:20.16f}"

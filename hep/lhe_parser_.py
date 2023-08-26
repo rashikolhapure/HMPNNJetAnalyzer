@@ -2,7 +2,19 @@ import os
 import sys
 from collections import namedtuple
 
-lhe_particle = namedtuple("lhe_particle", ["PID", "Status", "Px", "Py", "Pz", "E", "Mass", "Name"])
+lhe_particle = namedtuple(
+    "lhe_particle",
+    [
+        "PID",
+        "Status",
+        "Px",
+        "Py",
+        "Pz",
+        "E",
+        "Mass",
+        "Name",
+    ],
+)
 
 from tqdm import tqdm
 import numpy as np
@@ -46,12 +58,40 @@ PID_to_particle_dict = {
     51: "sk",
 }
 MAP = PID_to_particle_dict
-charged_leptons = {"e+", "e-", "mu+", "mu-", "ta+", "ta-"}
-neutrinos = {"ve", "vm", "vt", "ve~", "vm~", "vt~"}
-jets = {"u", "d", "c", "s", "u~", "d~", "c~", "s~", "g", "b", "b~"}
+charged_leptons = {
+    "e+",
+    "e-",
+    "mu+",
+    "mu-",
+    "ta+",
+    "ta-",
+}
+neutrinos = {
+    "ve",
+    "vm",
+    "vt",
+    "ve~",
+    "vm~",
+    "vt~",
+}
+jets = {
+    "u",
+    "d",
+    "c",
+    "s",
+    "u~",
+    "d~",
+    "c~",
+    "s~",
+    "g",
+    "b",
+    "b~",
+}
 b = {"b", "b~"}
 
-leptons = charged_leptons.union(neutrinos)
+leptons = charged_leptons.union(
+    neutrinos
+)
 
 
 def read_lhe(
@@ -64,14 +104,24 @@ def read_lhe(
     add_attribute=False,
     run_name=None,
 ):
-    print("Reading from file:", os.path.join(path, filename))
+    print(
+        "Reading from file:",
+        os.path.join(path, filename),
+    )
     if filename.endswith(".gz"):
         pwd = os.getcwd()
         os.chdir(path)
-        os.system("gzip -d " + filename)
+        os.system(
+            "gzip -d " + filename
+        )
         os.chdir(pwd)
-        filename = filename[: -len(".gz")]
-    lhe_file = open(os.path.join(path, filename), "r")
+        filename = filename[
+            : -len(".gz")
+        ]
+    lhe_file = open(
+        os.path.join(path, filename),
+        "r",
+    )
     event_count, flag = 0, 0
     events = []
     count = 0
@@ -86,16 +136,24 @@ def read_lhe(
                     event_particles,
                     dtype=[
                         ("PID", "i4"),
-                        ("Status", "i4"),
+                        (
+                            "Status",
+                            "i4",
+                        ),
                         ("Px", "f4"),
                         ("Py", "f4"),
                         ("Pz", "f4"),
                         ("E", "f4"),
                         ("Mass", "f4"),
-                        ("Name", "string"),
+                        (
+                            "Name",
+                            "string",
+                        ),
                     ],
                 )
-            events.append(event_particles)
+            events.append(
+                event_particles
+            )
             event = False
             count += 1
             if length is not None:
@@ -104,69 +162,156 @@ def read_lhe(
         if event:
             if line.startswith("<"):
                 continue
-            evaluated = [eval(x) for x in splitted]
+            evaluated = [
+                eval(x)
+                for x in splitted
+            ]
             if len(evaluated) != 13:
                 event_particles = []
             else:
                 if final_state_only:
-                    if evaluated[1] == 1:
+                    if (
+                        evaluated[1]
+                        == 1
+                    ):
                         particle = lhe_particle(
-                            PID=evaluated[0],
-                            Status=evaluated[1],
-                            Px=evaluated[6],
-                            Py=evaluated[7],
-                            Pz=evaluated[8],
-                            E=evaluated[9],
-                            Mass=evaluated[10],
-                            Name=MAP[evaluated[0]],
+                            PID=evaluated[
+                                0
+                            ],
+                            Status=evaluated[
+                                1
+                            ],
+                            Px=evaluated[
+                                6
+                            ],
+                            Py=evaluated[
+                                7
+                            ],
+                            Pz=evaluated[
+                                8
+                            ],
+                            E=evaluated[
+                                9
+                            ],
+                            Mass=evaluated[
+                                10
+                            ],
+                            Name=MAP[
+                                evaluated[
+                                    0
+                                ]
+                            ],
                         )
-                        event_particles.append(particle)
-                        if "debug" in sys.argv:
-                            print(particle)
+                        event_particles.append(
+                            particle
+                        )
+                        if (
+                            "debug"
+                            in sys.argv
+                        ):
+                            print(
+                                particle
+                            )
                 else:
                     if exclude_initial:
-                        if evaluated[1] != -1:
+                        if (
+                            evaluated[
+                                1
+                            ]
+                            != -1
+                        ):
                             particle = lhe_particle(
-                                PID=evaluated[0],
-                                Status=evaluated[1],
-                                Px=evaluated[6],
-                                Py=evaluated[7],
-                                Pz=evaluated[8],
-                                E=evaluated[9],
-                                Mass=evaluated[10],
-                                Name=MAP[evaluated[0]],
+                                PID=evaluated[
+                                    0
+                                ],
+                                Status=evaluated[
+                                    1
+                                ],
+                                Px=evaluated[
+                                    6
+                                ],
+                                Py=evaluated[
+                                    7
+                                ],
+                                Pz=evaluated[
+                                    8
+                                ],
+                                E=evaluated[
+                                    9
+                                ],
+                                Mass=evaluated[
+                                    10
+                                ],
+                                Name=MAP[
+                                    evaluated[
+                                        0
+                                    ]
+                                ],
                             )
-                            event_particles.append(particle)
+                            event_particles.append(
+                                particle
+                            )
                     else:
                         particle = lhe_particle(
-                            PID=evaluated[0],
-                            Status=evaluated[1],
-                            Px=evaluated[6],
-                            Py=evaluated[7],
-                            Pz=evaluated[8],
-                            E=evaluated[9],
-                            Mass=evaluated[10],
-                            Name=MAP[evaluated[0]],
+                            PID=evaluated[
+                                0
+                            ],
+                            Status=evaluated[
+                                1
+                            ],
+                            Px=evaluated[
+                                6
+                            ],
+                            Py=evaluated[
+                                7
+                            ],
+                            Pz=evaluated[
+                                8
+                            ],
+                            E=evaluated[
+                                9
+                            ],
+                            Mass=evaluated[
+                                10
+                            ],
+                            Name=MAP[
+                                evaluated[
+                                    0
+                                ]
+                            ],
                         )
-                        event_particles.append(particle)
+                        event_particles.append(
+                            particle
+                        )
                     # if "debug" in sys.argv: print (particle)
         if "<event>" in splitted:
             event = True
     if add_attribute:
-        assert run_name is not None, "Provide run_name to add to attribute!"
+        assert (
+            run_name is not None
+        ), "Provide run_name to add to attribute!"
         event_attributes = [
             EventAttribute(
                 run_name=run_name,
                 tag=filename,
-                path=os.path.join(path, filename),
+                path=os.path.join(
+                    path, filename
+                ),
                 index=_,
             )
             for _ in range(len(events))
         ]
         if return_structured:
-            return np.array(events), np.array(event_attributes)
+            return np.array(
+                events
+            ), np.array(
+                event_attributes
+            )
         else:
-            return events, event_attributes
+            return (
+                events,
+                event_attributes,
+            )
     if return_structured:
         return np.array(events)
     else:
@@ -201,30 +346,72 @@ def reverse_dict(dictionary):
     for key, val in dictionary.items():
         assert hasattr(val, "__iter__")
         for item in val:
-            assert item not in return_dict, "Found degeneracy, cannot build unique map!"
+            assert (
+                item not in return_dict
+            ), "Found degeneracy, cannot build unique map!"
             return_dict[item] = key
     return return_dict
 
 
-def convert_to_dict(events, final_states=None, return_vector=True, name=True, sort=True):
+def convert_to_dict(
+    events,
+    final_states=None,
+    return_vector=True,
+    name=True,
+    sort=True,
+):
     assert final_states is not None
-    print("Converting to final_states: ", final_states)
-    return_dict = {item: [] for item in final_states}
-    reverse_map = reverse_dict(final_states)
+    print(
+        "Converting to final_states: ",
+        final_states,
+    )
+    return_dict = {
+        item: []
+        for item in final_states
+    }
+    reverse_map = reverse_dict(
+        final_states
+    )
     for event in events:
-        current = {item: [] for item in final_states}
+        current = {
+            item: []
+            for item in final_states
+        }
         for particle in event:
-            append_key = reverse_map[particle.Name]
+            append_key = reverse_map[
+                particle.Name
+            ]
             current[append_key].append(
-                TLorentzVector(particle.Px, particle.Py, particle.Pz, particle.E)
+                TLorentzVector(
+                    particle.Px,
+                    particle.Py,
+                    particle.Pz,
+                    particle.E,
+                )
             )
-        for key, val in current.items():
+        for (
+            key,
+            val,
+        ) in current.items():
             if sort:
-                val = ru.Sort(np.array(val))
+                val = ru.Sort(
+                    np.array(val)
+                )
             # ru.Print(val,name=key)
-            return_dict[key].append(val)
-    for key, val in return_dict.items():
-        return_dict[key] = np.array(val)
-    print("Returning as numpy.ndarray of TLorentzVector!")
-    return_dict["final_states"] = final_states
+            return_dict[key].append(
+                val
+            )
+    for (
+        key,
+        val,
+    ) in return_dict.items():
+        return_dict[key] = np.array(
+            val
+        )
+    print(
+        "Returning as numpy.ndarray of TLorentzVector!"
+    )
+    return_dict[
+        "final_states"
+    ] = final_states
     return return_dict
