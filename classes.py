@@ -1,7 +1,9 @@
 import os
 
 from .hep.config import Paths
-from .genutils import check_dir
+from .genutils import (
+    check_dir,
+)
 
 
 class Method(object):
@@ -12,11 +14,15 @@ class Method(object):
             "input_data",
             "output_data",
         )
-        self.input_data = kwargs.get(
-            "input_data"
+        self.input_data = (
+            kwargs.get(
+                "input_data"
+            )
         )
-        self.output_data = kwargs.get(
-            "output_data"
+        self.output_data = (
+            kwargs.get(
+                "output_data"
+            )
         )
         self.max_count = None
         self.count = 0
@@ -34,9 +40,13 @@ class PhysicsMethod(Method):
         return self
 
     def __len__(self):
-        assert self.max_count, (
+        assert (
+            self.max_count
+        ), (
             "Calling uninitialized "
-            + type(self).__name__
+            + type(
+                self
+            ).__name__
         )
         return self.max_count
 
@@ -61,25 +71,29 @@ class Data(object):
         }
         # assert compulsory_keys.issubset(set(kwargs.keys()))
         self.dtypes = args
-        self.prefix_path = kwargs.get(
-            "prefix_path"
+        self.prefix_path = (
+            kwargs.get(
+                "prefix_path"
+            )
         )
-        self.reader_method = (
-            kwargs.get("reader_method")
+        self.reader_method = kwargs.get(
+            "reader_method"
         )
-        self.writer_method = (
-            kwargs.get("writer_method")
+        self.writer_method = kwargs.get(
+            "writer_method"
         )
-        self.data_ext = kwargs.get(
-            "extension"
+        self.data_ext = (
+            kwargs.get(
+                "extension"
+            )
         )
         self.file_ext = None
-        self.mg_event_path = (
-            os.path.join(
-                Paths.madgraph_dir,
-                kwargs["run_name"],
-                "Events",
-            )
+        self.mg_event_path = os.path.join(
+            Paths.madgraph_dir,
+            kwargs[
+                "run_name"
+            ],
+            "Events",
         )
         self.max_count = "NA"
 

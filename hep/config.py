@@ -3,7 +3,9 @@ import pickle
 import sys
 
 
-from collections import namedtuple
+from collections import (
+    namedtuple,
+)
 
 
 Index = namedtuple(
@@ -107,34 +109,38 @@ photon_index = Index(
     Eem=None,
     Ehad=None,
 )
-GenParticleIndex = namedtuple(
-    "GenParticleIndex",
-    [
-        "PT",
-        "Eta",
-        "Phi",
-        "E",
-        "PID",
-        "M1",
-        "M2",
-        "D1",
-        "D2",
-        "Status",
-        "Mass",
-    ],
+GenParticleIndex = (
+    namedtuple(
+        "GenParticleIndex",
+        [
+            "PT",
+            "Eta",
+            "Phi",
+            "E",
+            "PID",
+            "M1",
+            "M2",
+            "D1",
+            "D2",
+            "Status",
+            "Mass",
+        ],
+    )
 )
-gen_particle_index = GenParticleIndex(
-    PT=0,
-    Eta=1,
-    Phi=2,
-    E=3,
-    PID=4,
-    M1=5,
-    M2=6,
-    D1=7,
-    D2=8,
-    Status=9,
-    Mass=10,
+gen_particle_index = (
+    GenParticleIndex(
+        PT=0,
+        Eta=1,
+        Phi=2,
+        E=3,
+        PID=4,
+        M1=5,
+        M2=6,
+        D1=7,
+        D2=8,
+        Status=9,
+        Mass=10,
+    )
 )
 
 
@@ -205,7 +211,11 @@ neutrinos = {
 
 
 class FinalStates:
-    _attributes = ["PT", "Eta", "Phi"]
+    _attributes = [
+        "PT",
+        "Eta",
+        "Phi",
+    ]
     index_map = {
         "PT": 0,
         "ET": 0,
@@ -259,7 +269,11 @@ class FinalStates:
             "Phi",
             "E",
         ],
-        "Track": ["PT", "Eta", "Phi"],
+        "Track": [
+            "PT",
+            "Eta",
+            "Phi",
+        ],
         "Particle": [
             "PT",
             "Eta",
@@ -284,13 +298,17 @@ class Paths:
         madgraph_dir = os.environ[
             "mdgraph_dir_AB"
         ]
-        other_dir = os.environ[
-            "mdgraph_dir"
-        ]
+        other_dir = (
+            os.environ[
+                "mdgraph_dir"
+            ]
+        )
     else:
-        madgraph_dir = os.environ[
-            "mdgraph_dir"
-        ]
+        madgraph_dir = (
+            os.environ[
+                "mdgraph_dir"
+            ]
+        )
         other_dir = os.environ[
             "mdgraph_dir_AB"
         ]

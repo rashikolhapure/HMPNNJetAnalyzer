@@ -5,11 +5,15 @@ from matplotlib.patches import (
     FancyArrowPatch,
 )
 import matplotlib.colors as colors
-from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d import (
+    Axes3D,
+)
 from mpl_toolkits.axes_grid1 import (
     make_axes_locatable,
 )
-from mpl_toolkits.mplot3d import proj3d
+from mpl_toolkits.mplot3d import (
+    proj3d,
+)
 
 try:
     from hep_ml.hep.utils.fatjet import (
@@ -36,7 +40,9 @@ import sys
 pwd = os.getcwd()
 
 
-class Arrow3D(FancyArrowPatch):
+class Arrow3D(
+    FancyArrowPatch
+):
     """3d arrow patch"""
 
     def __init__(
@@ -54,7 +60,11 @@ class Arrow3D(FancyArrowPatch):
             *args,
             **kwargs
         )
-        self._verts3d = xs, ys, zs
+        self._verts3d = (
+            xs,
+            ys,
+            zs,
+        )
 
     def draw(self, renderer):
         (
@@ -102,51 +112,91 @@ class Plotter:
             range != "image"
             and not range
         ):
-            range = self.image_range
+            range = (
+                self.image_range
+            )
         self.title = title
-        self.projection = projection
-        if projection != "subplots":
+        self.projection = (
+            projection
+        )
+        if (
+            projection
+            != "subplots"
+        ):
             fig, axes = (
                 plt.figure(
                     figsize=size
                 ),
                 plt.axes(),
             )
-            if self.title is not None:
-                fig.suptitle(title)
-            if projection == "3d":
+            if (
+                self.title
+                is not None
+            ):
+                fig.suptitle(
+                    title
+                )
+            if (
+                projection
+                == "3d"
+            ):
                 axes = fig.add_subplot(
                     111,
                     projection="3d",
                 )
-            elif projection == "image":
+            elif (
+                projection
+                == "image"
+            ):
                 pass
             else:
-                fig.add_subplot(axes)
+                fig.add_subplot(
+                    axes
+                )
             if (
-                projection == None
-                and range != None
+                projection
+                == None
+                and range
+                != None
                 and set_range
             ):
                 axes.set_xlim(
-                    range["x"]
+                    range[
+                        "x"
+                    ]
                 ), axes.set_ylim(
-                    range["y"]
+                    range[
+                        "y"
+                    ]
                 )
-            if x_name is not None:
+            if (
+                x_name
+                is not None
+            ):
                 axes.set_xlabel(
-                    x_name, fontsize=40
+                    x_name,
+                    fontsize=40,
                 )
-            if y_name is not None:
+            if (
+                y_name
+                is not None
+            ):
                 axes.set_ylabel(
-                    y_name, fontsize=40
+                    y_name,
+                    fontsize=40,
                 )
-            self.fig, self.axes = (
+            (
+                self.fig,
+                self.axes,
+            ) = (
                 fig,
                 axes,
             )
         else:
-            self.fig, self.axes = (
+            (
+                self.fig,
+                self.axes,
+            ) = (
                 None,
                 None,
             )
@@ -154,11 +204,19 @@ class Plotter:
             self.marker,
             self.cmap,
             self.markersize,
-        ) = ("s", "Blues", 10)
+        ) = (
+            "s",
+            "Blues",
+            10,
+        )
 
-    def SetRange(self, range=None):
+    def SetRange(
+        self, range=None
+    ):
         if range == None:
-            range = self.image_range
+            range = (
+                self.image_range
+            )
         self.axes.set_xlim(
             range["x"]
         ), self.axes.set_ylim(
@@ -175,16 +233,28 @@ class Plotter:
     ):
         if "s" not in kwargs:
             kwargs["s"] = 8
-        eta = track[:, track_index.Eta]
-        phi = track[:, track_index.Phi]
-        pt = track[:, track_index.PT]
+        eta = track[
+            :,
+            track_index.Eta,
+        ]
+        phi = track[
+            :,
+            track_index.Phi,
+        ]
+        pt = track[
+            :, track_index.PT
+        ]
         self.scatter_plot(
-            [eta, phi, pt], **kwargs
+            [eta, phi, pt],
+            **kwargs
         )
         return
 
     def tower_scatter(
-        self, tower, val="ET", **kwargs
+        self,
+        tower,
+        val="ET",
+        **kwargs
     ):
         # if "edgecolors" not in kwargs:kwargs["edgecolors"]="b"
         if "s" not in kwargs:
@@ -193,14 +263,19 @@ class Plotter:
             FinalStates.index_map
         )
         eta = tower[
-            :, tower_map["Eta"]
+            :,
+            tower_map["Eta"],
         ]
         phi = tower[
-            :, tower_map["Phi"]
+            :,
+            tower_map["Phi"],
         ]
-        Z = tower[:, tower_map[val]]
+        Z = tower[
+            :, tower_map[val]
+        ]
         self.scatter_plot(
-            [eta, phi, Z], **kwargs
+            [eta, phi, Z],
+            **kwargs
         )
         return
 
@@ -220,15 +295,29 @@ class Plotter:
             type(lepton[0])
             == TLorentzVector
         ):
-            lep, fat1, fat2 = (
+            (
+                lep,
+                fat1,
+                fat2,
+            ) = (
                 ru.GetNumpy(
-                    np.sum(lepton)
+                    np.sum(
+                        lepton
+                    )
                 ),
                 ru.GetNumpy(
-                    np.sum(fatjet[0])
+                    np.sum(
+                        fatjet[
+                            0
+                        ]
+                    )
                 ),
                 ru.GetNumpy(
-                    np.sum(fatjet[1])
+                    np.sum(
+                        fatjet[
+                            1
+                        ]
+                    )
                 ),
             )
             (
@@ -236,16 +325,32 @@ class Plotter:
                 fat1_np,
                 fat2_np,
             ) = (
-                ru.GetNumpy(lepton),
-                ru.GetNumpy(fatjet[0]),
-                ru.GetNumpy(fatjet[1]),
+                ru.GetNumpy(
+                    lepton
+                ),
+                ru.GetNumpy(
+                    fatjet[0]
+                ),
+                ru.GetNumpy(
+                    fatjet[1]
+                ),
             )
             # print (lep_np.shape,fat1_np.shape,fat2_np.shape)
         else:
-            lep, fat1, fat2 = (
-                kwargs["lep_vec"],
-                kwargs["fat_vec"][0],
-                kwargs["fat_vec"][1],
+            (
+                lep,
+                fat1,
+                fat2,
+            ) = (
+                kwargs[
+                    "lep_vec"
+                ],
+                kwargs[
+                    "fat_vec"
+                ][0],
+                kwargs[
+                    "fat_vec"
+                ][1],
             )
             (
                 lep_np,
@@ -274,10 +379,14 @@ class Plotter:
                 cmap="Blues",
                 norm=colors.LogNorm(
                     vmin=np.min(
-                        fat1_np[2]
+                        fat1_np[
+                            2
+                        ]
                     ),
                     vmax=np.max(
-                        fat1_np[2]
+                        fat1_np[
+                            2
+                        ]
                     ),
                 ),
             )
@@ -290,10 +399,14 @@ class Plotter:
                 cmap="YlGn",
                 norm=colors.LogNorm(
                     vmin=np.min(
-                        fat1_np[2]
+                        fat1_np[
+                            2
+                        ]
                     ),
                     vmax=np.max(
-                        fat1_np[2]
+                        fat1_np[
+                            2
+                        ]
                     ),
                 ),
             )
@@ -315,10 +428,14 @@ class Plotter:
                 cmap="Blues",
                 norm=colors.LogNorm(
                     vmin=np.min(
-                        fat1_np[2]
+                        fat1_np[
+                            2
+                        ]
                     ),
                     vmax=np.max(
-                        fat1_np[2]
+                        fat1_np[
+                            2
+                        ]
                     ),
                 ),
             )
@@ -331,16 +448,23 @@ class Plotter:
                 cmap="YlGn",
                 norm=colors.LogNorm(
                     vmin=np.min(
-                        fat1_np[2]
+                        fat1_np[
+                            2
+                        ]
                     ),
                     vmax=np.max(
-                        fat1_np[2]
+                        fat1_np[
+                            2
+                        ]
                     ),
                 ),
             )
         self.axes.add_patch(
             Circle(
-                (lep[0], lep[1]),
+                (
+                    lep[0],
+                    lep[1],
+                ),
                 radius=r_lep,
                 fill=False,
                 color="red",
@@ -349,7 +473,10 @@ class Plotter:
         )
         self.axes.add_patch(
             Circle(
-                (fat1[0], fat1[1]),
+                (
+                    fat1[0],
+                    fat1[1],
+                ),
                 radius=r_fat,
                 fill=False,
                 color="Blue",
@@ -358,14 +485,19 @@ class Plotter:
         )
         self.axes.add_patch(
             Circle(
-                (fat2[0], fat2[1]),
+                (
+                    fat2[0],
+                    fat2[1],
+                ),
                 radius=r_fat,
                 color="green",
                 label="Fat2",
                 fill=False,
             )
         )
-        self.axes.legend(loc="best")
+        self.axes.legend(
+            loc="best"
+        )
         # sys.exit()
         if show == True:
             # plt.colorbar()
@@ -384,9 +516,15 @@ class Plotter:
             fatjet[0],
             fatjet[1],
         ) = (
-            ru.GetNumpy(lepton),
-            ru.GetNumpy(fatjet[0]),
-            ru.GetNumpy(fatjet[1]),
+            ru.GetNumpy(
+                lepton
+            ),
+            ru.GetNumpy(
+                fatjet[0]
+            ),
+            ru.GetNumpy(
+                fatjet[1]
+            ),
         )
         # print (lepton.shape,fatjet[0].shape,fatjet[1].shape)
         # sys.exit()
@@ -401,9 +539,15 @@ class Plotter:
         extremum = np.swapaxes(
             np.array(
                 [
-                    np.min(tot, axis=1)
+                    np.min(
+                        tot,
+                        axis=1,
+                    )
                     - 0.2,
-                    np.max(tot, axis=1)
+                    np.max(
+                        tot,
+                        axis=1,
+                    )
                     + 0.2,
                 ]
             ),
@@ -432,15 +576,32 @@ class Plotter:
             extremum[2]
         )
         count = 0
-        for item in np.swapaxes(
+        for (
+            item
+        ) in np.swapaxes(
             fatjet[0], 0, 1
         ):
             if count == 0:
                 self.axes.add_artist(
                     Arrow3D(
-                        (0, item[0]),
-                        (0, item[1]),
-                        (0, item[2]),
+                        (
+                            0,
+                            item[
+                                0
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                1
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                2
+                            ],
+                        ),
                         mutation_scale=20,
                         lw=1,
                         arrowstyle="-|>",
@@ -451,24 +612,56 @@ class Plotter:
             else:
                 self.axes.add_artist(
                     Arrow3D(
-                        (0, item[0]),
-                        (0, item[1]),
-                        (0, item[2]),
+                        (
+                            0,
+                            item[
+                                0
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                1
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                2
+                            ],
+                        ),
                         mutation_scale=20,
                         lw=1,
                         arrowstyle="-|>",
                         color="b",
                     )
                 )
-        for item in np.swapaxes(
+        for (
+            item
+        ) in np.swapaxes(
             fatjet[1], 0, 1
         ):
             if count == 0:
                 self.axes.add_artist(
                     Arrow3D(
-                        (0, item[0]),
-                        (0, item[1]),
-                        (0, item[2]),
+                        (
+                            0,
+                            item[
+                                0
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                1
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                2
+                            ],
+                        ),
                         mutation_scale=20,
                         lw=1,
                         arrowstyle="-|>",
@@ -479,24 +672,56 @@ class Plotter:
             else:
                 self.axes.add_artist(
                     Arrow3D(
-                        (0, item[0]),
-                        (0, item[1]),
-                        (0, item[2]),
+                        (
+                            0,
+                            item[
+                                0
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                1
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                2
+                            ],
+                        ),
                         mutation_scale=20,
                         lw=1,
                         arrowstyle="-|>",
                         color="g",
                     )
                 )
-        for item in np.swapaxes(
+        for (
+            item
+        ) in np.swapaxes(
             lepton, 0, 1
         ):
             if count == 0:
                 self.axes.add_artist(
                     Arrow3D(
-                        (0, item[0]),
-                        (0, item[1]),
-                        (0, item[2]),
+                        (
+                            0,
+                            item[
+                                0
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                1
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                2
+                            ],
+                        ),
                         mutation_scale=20,
                         lw=1,
                         arrowstyle="-|>",
@@ -507,16 +732,33 @@ class Plotter:
             else:
                 self.axes.add_artist(
                     Arrow3D(
-                        (0, item[0]),
-                        (0, item[1]),
-                        (0, item[2]),
+                        (
+                            0,
+                            item[
+                                0
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                1
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                2
+                            ],
+                        ),
                         mutation_scale=20,
                         lw=1,
                         arrowstyle="-|>",
                         color="r",
                     )
                 )
-        self.axes.legend(loc="best")
+        self.axes.legend(
+            loc="best"
+        )
         if show:
             plt.show()
         return
@@ -529,16 +771,18 @@ class Plotter:
         r=0.4,
         no_subjets=3,
     ):
-        self.FatJet(fatjet, show=False)
+        self.FatJet(
+            fatjet,
+            show=False,
+        )
         subjets = FatJet().Recluster(
             fatjet,
             r=r,
             subjets=no_subjets,
         )
-        plotting_arrays = (
-            FatJet().GetConstituents(
-                subjets, format="image"
-            )
+        plotting_arrays = FatJet().GetConstituents(
+            subjets,
+            format="image",
         )
         cmap, color = [
             "Blues",
@@ -546,8 +790,12 @@ class Plotter:
             "RdPu",
         ], ["b", "g", "r"]
         count = 1
-        for array, coordinate in zip(
-            plotting_arrays, subjets
+        for (
+            array,
+            coordinate,
+        ) in zip(
+            plotting_arrays,
+            subjets,
         ):
             # self.axes.scatter(array[0],array[1],c=array[2],cmap=cmap[count-1],s=self.markersize,marker=self.marker)
             self.axes.add_patch(
@@ -559,14 +807,19 @@ class Plotter:
                     radius=r,
                     fill=False,
                     color=color[
-                        count - 1
+                        count
+                        - 1
                     ],
                     label="SubJet"
-                    + str(count),
+                    + str(
+                        count
+                    ),
                 )
             )
             count += 1
-        self.axes.legend(loc="best")
+        self.axes.legend(
+            loc="best"
+        )
         if show:
             plt.show()
         return
@@ -581,22 +834,33 @@ class Plotter:
     ):
         # ru.Print(np.sum(fatjet))
         center = [
-            np.sum(fatjet).Eta(),
-            np.sum(fatjet).Phi(),
-        ]
-        if len(fatjet.shape) != 2:
-            fatjet = ru.GetNumpy(
+            np.sum(
                 fatjet
+            ).Eta(),
+            np.sum(
+                fatjet
+            ).Phi(),
+        ]
+        if (
+            len(fatjet.shape)
+            != 2
+        ):
+            fatjet = (
+                ru.GetNumpy(
+                    fatjet
+                )
             )
         extremum = np.swapaxes(
             np.array(
                 [
                     np.min(
-                        fatjet, axis=1
+                        fatjet,
+                        axis=1,
                     )
                     - 0.2,
                     np.max(
-                        fatjet, axis=1
+                        fatjet,
+                        axis=1,
                     )
                     + 0.2,
                 ]
@@ -617,8 +881,12 @@ class Plotter:
             c=fatjet[2],
             cmap=cmap,
             norm=colors.LogNorm(
-                vmin=np.min(fatjet[2]),
-                vmax=np.max(fatjet[2]),
+                vmin=np.min(
+                    fatjet[2]
+                ),
+                vmax=np.max(
+                    fatjet[2]
+                ),
             ),
             label=label,
         )
@@ -650,7 +918,10 @@ class Plotter:
             ],
             dtype="float64",
         )
-        if len(fatjet.shape) != 2:
+        if (
+            len(fatjet.shape)
+            != 2
+        ):
             fatjet = ru.GetNumpy(
                 fatjet,
                 format="lorentz",
@@ -755,18 +1026,37 @@ class Plotter:
             extremum[2]
         )
         if axis == "off":
-            self.axes.axis("off")
+            self.axes.axis(
+                "off"
+            )
         # self.axes.scatter(fatjet[0],fatjet[1],fatjet[2],c=Z,cmap="Blues",norm=colors.LogNorm(vmin=np.min(Z), vmax=np.max(Z)))
         count = 0
-        for item in np.swapaxes(
+        for (
+            item
+        ) in np.swapaxes(
             fatjet, 0, 1
         ):
             if count == 0:
                 self.axes.add_artist(
                     Arrow3D(
-                        (0, item[0]),
-                        (0, item[1]),
-                        (0, item[2]),
+                        (
+                            0,
+                            item[
+                                0
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                1
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                2
+                            ],
+                        ),
                         mutation_scale=20,
                         lw=1,
                         arrowstyle="-|>",
@@ -777,9 +1067,24 @@ class Plotter:
             else:
                 self.axes.add_artist(
                     Arrow3D(
-                        (0, item[0]),
-                        (0, item[1]),
-                        (0, item[2]),
+                        (
+                            0,
+                            item[
+                                0
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                1
+                            ],
+                        ),
+                        (
+                            0,
+                            item[
+                                2
+                            ],
+                        ),
                         mutation_scale=20,
                         lw=1,
                         arrowstyle="-|>",
@@ -789,9 +1094,18 @@ class Plotter:
         if summed != None:
             self.axes.add_artist(
                 Arrow3D(
-                    (0, summed.X()),
-                    (0, summed.Y()),
-                    (0, summed.Z()),
+                    (
+                        0,
+                        summed.X(),
+                    ),
+                    (
+                        0,
+                        summed.Y(),
+                    ),
+                    (
+                        0,
+                        summed.Z(),
+                    ),
                     mutation_scale=20,
                     lw=1,
                     arrowstyle="-|>",
@@ -806,8 +1120,12 @@ class Plotter:
             plt.show()
         return
 
-    def plot_axes(self, axes):
-        x_bound = axes.get_xbound()
+    def plot_axes(
+        self, axes
+    ):
+        x_bound = (
+            axes.get_xbound()
+        )
         axes.plot(
             np.linspace(
                 x_bound[0],
@@ -818,7 +1136,9 @@ class Plotter:
             "--k",
             alpha=0.5,
         )
-        y_bound = axes.get_ybound()
+        y_bound = (
+            axes.get_ybound()
+        )
         axes.plot(
             np.zeros(100),
             np.linspace(
@@ -841,8 +1161,11 @@ class Plotter:
         **kwargs
     ):
         pwd = os.getcwd()
-        plot_axes = kwargs.get(
-            "plot_axes", False
+        plot_axes = (
+            kwargs.get(
+                "plot_axes",
+                False,
+            )
         )
         if plot_axes:
             if (
@@ -859,24 +1182,41 @@ class Plotter:
                 self.plot_axes(
                     self.axes
                 )
-        if save_path == "plots":
+        if (
+            save_path
+            == "plots"
+        ):
             dirs = os.listdir(
                 os.getcwd()
             )
-            if "plots" not in dirs:
-                os.mkdir("plots")
-            os.chdir(pwd + "/plots")
+            if (
+                "plots"
+                not in dirs
+            ):
+                os.mkdir(
+                    "plots"
+                )
+            os.chdir(
+                pwd
+                + "/plots"
+            )
         else:
-            os.chdir(save_path)
+            os.chdir(
+                save_path
+            )
         if (
             self.projection
             == "subplots"
         ):
-            for i, item in enumerate(
+            for (
+                i,
+                item,
+            ) in enumerate(
                 self.axes
             ):
                 if (
-                    i in legend_axes
+                    i
+                    in legend_axes
                     and set_legends
                 ):
                     item.legend(
@@ -936,11 +1276,14 @@ class Plotter:
                     ),
                 )
         self.fig.savefig(
-            title + "." + extension,
+            title
+            + "."
+            + extension,
             format=extension,
             dpi=dpi,
             bbox_inches=kwargs.get(
-                "bbox_inches", "tight"
+                "bbox_inches",
+                "tight",
             ),
             pad_inches=kwargs.get(
                 "pad", 0.4
@@ -951,7 +1294,9 @@ class Plotter:
         print(
             "Output plot saved at ",
             os.getcwd(),
-            title + "." + extension,
+            title
+            + "."
+            + extension,
         )
         os.chdir(pwd)
         return
@@ -968,15 +1313,27 @@ class Plotter:
         **kwargs
     ):
         # plt.title(title)
-        if array.shape[-1] == 1:
-            array = np.squeeze(array)
+        if (
+            array.shape[-1]
+            == 1
+        ):
+            array = (
+                np.squeeze(
+                    array
+                )
+            )
         if log_scale:
             # array=array+np.min(array[ array != 0])
             print(
                 np.min(
-                    array[array != 0]
+                    array[
+                        array
+                        != 0
+                    ]
                 ),
-                np.max(array),
+                np.max(
+                    array
+                ),
             )
             # if self.projection=="subplots":
             # im=self.axes.matshow(array,cmap=cmap,origin="lower",norm=colors.LogNorm(vmin=kwargs.get("vmin",1), vmax=kwargs.get("vmax",200)) )
@@ -996,7 +1353,9 @@ class Plotter:
                     ),
                     vmax=kwargs.get(
                         "vmax",
-                        np.max(array),
+                        np.max(
+                            array
+                        ),
                     ),
                 ),
             )
@@ -1011,7 +1370,9 @@ class Plotter:
             != "subplots"
             and set_colorbar
         ):
-            self.set_colorbar(im)
+            self.set_colorbar(
+                im
+            )
         if show:
             plt.show()
         return im
@@ -1035,7 +1396,8 @@ class Plotter:
                     "right",
                     size="5%",
                     pad=kwargs.get(
-                        "pad", 0.05
+                        "pad",
+                        0.05,
                     ),
                     norm=kwargs.get(
                         "norm"
@@ -1047,14 +1409,13 @@ class Plotter:
                     orientation="vertical",
                 )  # format='%.0e'
             else:
-                cbar = (
-                    self.fig.colorbar(
-                        im,
-                        ax=axes,
-                        pad=kwargs.get(
-                            "pad", 0.05
-                        ),
-                    )
+                cbar = self.fig.colorbar(
+                    im,
+                    ax=axes,
+                    pad=kwargs.get(
+                        "pad",
+                        0.05,
+                    ),
                 )  # format='%.0e'
         else:
             cbar = self.fig.colorbar(
@@ -1069,15 +1430,21 @@ class Plotter:
             axis="y",
             which="major",
             labelsize=kwargs.get(
-                "labelsize", 30
+                "labelsize",
+                30,
             ),
         )
         if clim is not None:
             # cbar.vmin,cbar.vmax=clim[0],clim[1]
             # print (cbar.vmin,cbar.vmax)
             # sys.exit()
-            cbar.set_clim(*clim)
-        if ylabel is not None:
+            cbar.set_clim(
+                *clim
+            )
+        if (
+            ylabel
+            is not None
+        ):
             cbar.ax.set_ylabel(
                 ylabel,
                 labelpad=0.01,
@@ -1100,7 +1467,11 @@ class Plotter:
         **kwargs
     ):  # plot jet image with cmap
         if "axes" in kwargs:
-            axes = kwargs.pop("axes")
+            axes = (
+                kwargs.pop(
+                    "axes"
+                )
+            )
         else:
             axes = None
         """
@@ -1119,13 +1490,24 @@ class Plotter:
         if log_scale:
             if np.min(Z) < 0:
                 assert (
-                    abs(np.min(Z))
+                    abs(
+                        np.min(
+                            Z
+                        )
+                    )
                     < 10e-12
                 )
-                Z = Z + np.min(Z)
+                Z = (
+                    Z
+                    + np.min(
+                        Z
+                    )
+                )
             Z = (
                 Z
-                + np.min(Z[Z != 0])
+                + np.min(
+                    Z[Z != 0]
+                )
                 * 0.000000001
             )
         if cmap == None:
@@ -1141,8 +1523,12 @@ class Plotter:
                 c=color,
                 cmap=cmap,
                 norm=colors.LogNorm(
-                    vmin=np.min(Z),
-                    vmax=np.max(Z),
+                    vmin=np.min(
+                        Z
+                    ),
+                    vmax=np.max(
+                        Z
+                    ),
                 ),
                 label=label,
                 **kwargs

@@ -3,7 +3,9 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 import __main__
-from itertools import combinations
+from itertools import (
+    combinations,
+)
 
 
 def predict_enc(
@@ -30,12 +32,14 @@ def predict_enc(
     return_array = []
     class_count = 0
     names = [
-        item for item in data_dict
+        item
+        for item in data_dict
     ]
     # names.reverse()
     print(names)
     new_dict = {
-        item: [] for item in data_dict
+        item: []
+        for item in data_dict
     }
     for item in data_dict:
         lat_dim = data_dict[
@@ -43,7 +47,9 @@ def predict_enc(
         ].shape[-1]
         temp = np.swapaxes(
             enc.predict(
-                data_dict[item],
+                data_dict[
+                    item
+                ],
                 verbose=1,
             ),
             0,
@@ -52,24 +58,43 @@ def predict_enc(
         print(
             item,
             temp.shape,
-            np.mean(temp, axis=1),
-            np.std(temp, axis=1),
+            np.mean(
+                temp, axis=1
+            ),
+            np.std(
+                temp, axis=1
+            ),
         )
         # sys.exit()
         if type == "binned":
-            new_dict[item] = temp
-            num_plots = temp.shape[0]
+            new_dict[
+                item
+            ] = temp
+            num_plots = (
+                temp.shape[0]
+            )
             continue
-        for combs in combinations(
+        for (
+            combs
+        ) in combinations(
             temp, 2
         ):
             print(
-                combs[0].shape,
-                new_dict[item],
+                combs[
+                    0
+                ].shape,
+                new_dict[
+                    item
+                ],
             )
             # sys.exit()
-            new_dict[item].append(
-                [combs[0], combs[1]]
+            new_dict[
+                item
+            ].append(
+                [
+                    combs[0],
+                    combs[1],
+                ]
             )
         print(
             len(
@@ -88,14 +113,22 @@ def predict_enc(
                 )
             )
         )
-        num_plots = len(new_dict[item])
+        num_plots = len(
+            new_dict[item]
+        )
     print(num_plots)
     for item in new_dict:
-        array = new_dict[item]
+        array = new_dict[
+            item
+        ]
         print(
             item,
-            np.mean(array, axis=1),
-            np.std(array, axis=1),
+            np.mean(
+                array, axis=1
+            ),
+            np.std(
+                array, axis=1
+            ),
         )
     if type == "scatter":
         scatter(
@@ -140,19 +173,36 @@ def scatter(
 
     The function generates scatter plots of latent space coordinates, either in individual plots or in subplots depending on the subplots parameter. If subplots are used, a single plot is generated with all subplots, otherwise, individual plots are generated for each scatter plot. The plots are saved in the directory specified by save_path. If order is specified, the inputs are plotted in the specified order, otherwise, the inputs are plotted in the order they appear in the new_dict dictionary. The suffix parameter can be used to add a string to the end of the filename.
     """
-    rows = int(np.sqrt(num_plots)) + 1
-    for i in range(num_plots):
+    rows = (
+        int(
+            np.sqrt(
+                num_plots
+            )
+        )
+        + 1
+    )
+    for i in range(
+        num_plots
+    ):
         if subplots:
             plt.subplot(
-                rows, rows, i + 1
+                rows,
+                rows,
+                i + 1,
             )
         for item in order:
             plt.scatter(
-                new_dict[item][i][0],
-                new_dict[item][i][1],
+                new_dict[
+                    item
+                ][i][0],
+                new_dict[
+                    item
+                ][i][1],
                 label=item,
             )
-        plt.legend(loc="best")
+        plt.legend(
+            loc="best"
+        )
         if not subplots:
             try:
                 plt.savefig(
@@ -167,7 +217,9 @@ def scatter(
                 )
             except:
                 pass
-            plt.show(block=False)
+            plt.show(
+                block=False
+            )
             plt.close()
     if subplots:
         try:
@@ -211,20 +263,35 @@ def binner(
 
     The function generates binned plots of latent space coordinates, either in individual plots or in subplots depending on the subplots parameter. If subplots are used, a single plot is generated with all subplots, otherwise, individual plots are generated for each binned plot. The plots are saved in the directory specified by save_path. The suffix parameter can be used to add a string to the end of the filename.
     """
-    rows = int(np.sqrt(num_plots)) + 1
-    for i in range(num_plots):
+    rows = (
+        int(
+            np.sqrt(
+                num_plots
+            )
+        )
+        + 1
+    )
+    for i in range(
+        num_plots
+    ):
         if subplots:
             plt.subplot(
-                rows, rows, i + 1
+                rows,
+                rows,
+                i + 1,
             )
         for item in data:
             plt.hist(
-                data[item][i],
+                data[item][
+                    i
+                ],
                 bins=bins,
                 histtype="step",
                 label=item,
             )
-        plt.legend(loc="best")
+        plt.legend(
+            loc="best"
+        )
         if not subplots:
             try:
                 plt.savefig(
@@ -239,7 +306,9 @@ def binner(
                 )
             except:
                 pass
-            plt.show(block=False)
+            plt.show(
+                block=False
+            )
             plt.close()
     if subplots:
         try:
@@ -259,7 +328,9 @@ def binner(
 
 
 def transfer_weights(
-    trained, model, verbose=False
+    trained,
+    model,
+    verbose=False,
 ):
     """
     The function transfer_weights takes in two Keras models, trained and model, and transfers the weights of the layers from the trained model to the corresponding layers in the model based on their order.
@@ -277,10 +348,16 @@ def transfer_weights(
     """
     enc_layers = model.layers
     count = 0
-    for layer in trained.layers:
-        temp = layer.get_weights()
+    for (
+        layer
+    ) in trained.layers:
+        temp = (
+            layer.get_weights()
+        )
         if verbose:
-            print("temp", temp)
+            print(
+                "temp", temp
+            )
         model.layers[
             count
         ].set_weights(temp)
@@ -292,7 +369,9 @@ def transfer_weights(
                 ].get_weights(),
             )
         count += 1
-        if count == len(enc_layers):
+        if count == len(
+            enc_layers
+        ):
             break
     return model
 
@@ -310,9 +389,14 @@ if __name__ == "__main__":
     data_bg = np.load(
         "./data/zjj.npy"
     )[:180000]
-    data_sg, data_bg = np.expand_dims(
+    (
+        data_sg,
+        data_bg,
+    ) = np.expand_dims(
         data_sg, -1
-    ), np.expand_dims(data_bg, -1)
+    ), np.expand_dims(
+        data_bg, -1
+    )
     data = {
         "V jets": data_sg,
         "QCD jets": data_bg,
@@ -320,12 +404,20 @@ if __name__ == "__main__":
     for item in data:
         print(
             item,
-            np.mean(data[item]),
-            np.std(data[item]),
+            np.mean(
+                data[item]
+            ),
+            np.std(
+                data[item]
+            ),
         )
     # sys.exit()
-    encoder = transfer_weights(
-        model, encoder, verbose=False
+    encoder = (
+        transfer_weights(
+            model,
+            encoder,
+            verbose=False,
+        )
     )
     predict_enc(
         encoder,

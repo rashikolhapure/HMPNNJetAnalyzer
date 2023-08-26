@@ -4,12 +4,22 @@ import sys
 
 import numpy as np
 
-if "operation_check" not in sys.argv:
+if (
+    "operation_check"
+    not in sys.argv
+):
     import tensorflow.keras as keras
 
-from ..classes import NetworkMethod
-from ..network.data import ModelData
-from ..io.saver import Unpickle, Pickle
+from ..classes import (
+    NetworkMethod,
+)
+from ..network.data import (
+    ModelData,
+)
+from ..io.saver import (
+    Unpickle,
+    Pickle,
+)
 from ..genutils import (
     check_file,
     check_dir,
@@ -26,7 +36,9 @@ class ExecutionError(Error):
     pass
 
 
-class Inference(NetworkMethod):
+class Inference(
+    NetworkMethod
+):
     def __init__(
         self,
         model_name,
@@ -34,26 +46,30 @@ class Inference(NetworkMethod):
         **kwargs
     ):
         self.tag = tag
-        self.extra_handler_kwargs = (
+        self.extra_handler_kwargs = kwargs.get(
+            "extra_handler_kwargs",
+            {},
+        )
+        self.model_name = (
+            model_name
+        )
+        self.run_tag = (
             kwargs.get(
-                "extra_handler_kwargs",
-                {},
+                "run_tag",
+                "no_tag",
             )
         )
-        self.model_name = model_name
-        self.run_tag = kwargs.get(
-            "run_tag", "no_tag"
-        )
-        self.preprocess_tag = (
-            kwargs.get(
-                "preprocess_tag"
-            )
+        self.preprocess_tag = kwargs.get(
+            "preprocess_tag"
         )
         self._prefix_path = check_dir(
             "./network_runs"
         )
-        self.best = kwargs.get(
-            "best", "high"
+        self.best = (
+            kwargs.get(
+                "best",
+                "high",
+            )
         )
         self.run_path = os.path.join(
             self._prefix_path,
@@ -62,21 +78,18 @@ class Inference(NetworkMethod):
             self.model_name,
         )
         self.data_path = os.path.join(
-            self.run_path, "data"
+            self.run_path,
+            "data",
         )
-        self.model_checkpoints = (
-            os.path.join(
-                self.run_path,
-                "model_checkpoints",
-            )
+        self.model_checkpoints = os.path.join(
+            self.run_path,
+            "model_checkpoints",
         )
         # if "inference" in kwargs and kwargs["inference"] != "run":
-        self.inference_path = (
-            check_dir(
-                os.path.join(
-                    self.run_path,
-                    "inference",
-                )
+        self.inference_path = check_dir(
+            os.path.join(
+                self.run_path,
+                "inference",
             )
         )
         self.data_save_path = check_dir(
@@ -96,31 +109,59 @@ class Inference(NetworkMethod):
                 self.model_checkpoints
             )
         )
-        self.class_names = None
-        self.tolerance = kwargs.get(
-            "tolerance", 0.02
+        self.class_names = (
+            None
         )
-        self.best_model_path = None
+        self.tolerance = (
+            kwargs.get(
+                "tolerance",
+                0.02,
+            )
+        )
+        self.best_model_path = (
+            None
+        )
         self.unoperated_seperated_data = (
             None
         )
-        self.operated_data = None
+        self.operated_data = (
+            None
+        )
         self.operated_seperated_data = (
             None
         )
         self.model = None
-        self.handler_kwargs = None
-        self.replaced_data = None
-        self.input_keys = None
-        self.signal_prediction = None
-        self.signal_acc = None
-        self.get_model = kwargs.get(
-            "get_model", False
+        self.handler_kwargs = (
+            None
+        )
+        self.replaced_data = (
+            None
+        )
+        self.input_keys = (
+            None
+        )
+        self.signal_prediction = (
+            None
+        )
+        self.signal_acc = (
+            None
+        )
+        self.get_model = (
+            kwargs.get(
+                "get_model",
+                False,
+            )
         )
         self.all_data = None
-        self.per_run_model_paths = None
-        self.per_run_models = None
-        if not self.get_model:
+        self.per_run_model_paths = (
+            None
+        )
+        self.per_run_models = (
+            None
+        )
+        if (
+            not self.get_model
+        ):
             if (
                 "dictionary.pickle"
                 in os.listdir(
@@ -131,10 +172,8 @@ class Inference(NetworkMethod):
                     "data_handler"
                     in kwargs
                 ), "Provide data handler used while training model"
-                self.load_data = (
-                    kwargs.get(
-                        "data_handler"
-                    )
+                self.load_data = kwargs.get(
+                    "data_handler"
                 )
                 self.unoperated_data = self.handler_load(
                     **self.extra_handler_kwargs
@@ -148,13 +187,20 @@ class Inference(NetworkMethod):
         self, data, **kwargs
     ):
         """replace a particular class <out_key> with a new class <in_key> with <data_tag> loaded from ./processed_events/<data_tag>/all"""
-        assert "new_class" in kwargs
-        new_class = kwargs.get(
+        assert (
             "new_class"
+            in kwargs
+        )
+        new_class = (
+            kwargs.get(
+                "new_class"
+            )
         )
         out_key = kwargs.get(
             "out_key",
-            self.class_names[-1],
+            self.class_names[
+                -1
+            ],
         )
         preprocess_tag = kwargs.get(
             "data_tag",
@@ -171,15 +217,24 @@ class Inference(NetworkMethod):
             + "/all/",
         )
         # print_events(data),print_events(new_data)
-        prev_data = data.pop(out_key)
+        prev_data = data.pop(
+            out_key
+        )
         # print_events(prev_data)
         X_new = [
-            [] for _ in self.input_keys
+            []
+            for _ in self.input_keys
         ]
-        for i, key in enumerate(
+        for (
+            i,
+            key,
+        ) in enumerate(
             self.input_keys
         ):
-            if key == "tower_image":
+            if (
+                key
+                == "tower_image"
+            ):
                 X_new[
                     i
                 ] = np.expand_dims(
@@ -189,17 +244,26 @@ class Inference(NetworkMethod):
                     -1,
                 )
             else:
-                X_new[i] = new_data[
+                X_new[
+                    i
+                ] = new_data[
                     key
                 ]
-            length = len(X_new[i])
-        if len(input_keys) == 1:
+            length = len(
+                X_new[i]
+            )
+        if (
+            len(input_keys)
+            == 1
+        ):
             X_new = X_new[0]
         Y_index = np.where(
             prev_data["Y"][0]
         )
         print(Y_index)
-        Y_new = np.zeros((length, 2))
+        Y_new = np.zeros(
+            (length, 2)
+        )
         Y_new[:, Y_index] = 1
         print(Y_new[:10])
         # print (prev_data.shape)
@@ -210,48 +274,66 @@ class Inference(NetworkMethod):
         # print_events(data[in_key])
         return data
 
-    def handler_load(self, **opt):
+    def handler_load(
+        self, **opt
+    ):
         # print (self.data_path,os.listdir(self.data_path))
         # sys.exit()
         dictionary = Unpickle(
             "dictionary.pickle",
             load_path=self.data_path,
         )
-        self.class_names = dictionary[
-            "classes"
-        ]
-        load_path = dictionary[
-            "load_path"
-        ]
+        self.class_names = (
+            dictionary[
+                "classes"
+            ]
+        )
+        load_path = (
+            dictionary[
+                "load_path"
+            ]
+        )
         kwargs = dictionary[
             "handler_kwargs"
         ]
         kwargs[
             "input_keys"
-        ] = dictionary["input_keys"]
-        kwargs.update(opt)
-        self.input_keys = dictionary[
+        ] = dictionary[
             "input_keys"
         ]
+        kwargs.update(opt)
+        self.input_keys = (
+            dictionary[
+                "input_keys"
+            ]
+        )
         kwargs[
             "preprocess_tag"
         ] = dictionary[
             "preprocess_tag"
         ]
         assert (
-            kwargs["preprocess_tag"]
+            kwargs[
+                "preprocess_tag"
+            ]
             == self.preprocess_tag
         )
-        self.handler_kwargs = kwargs
-        kwargs["indices"] = Unpickle(
+        self.handler_kwargs = (
+            kwargs
+        )
+        kwargs[
+            "indices"
+        ] = Unpickle(
             "indices.pickle",
             load_path=self.data_path,
         )
         self.all_data = self.load_data(
-            self.class_names, **kwargs
+            self.class_names,
+            **kwargs
         )
         if opt.get(
-            "return_all", False
+            "return_all",
+            False,
         ):
             print(
                 "Return all option active"
@@ -259,19 +341,26 @@ class Inference(NetworkMethod):
             warn(
                 "Do not use return_all =True option while using function methods!"
             )
-            return self.all_data
+            return (
+                self.all_data
+            )
         else:
             return self.all_data[
                 self.tag
             ]
 
-    def model_data_load(self):
+    def model_data_load(
+        self,
+    ):
         try:
             data = Unpickle(
-                self.tag + ".pickle",
+                self.tag
+                + ".pickle",
                 load_path=self.data_path,
             )
-        except Exception as e:
+        except (
+            Exception
+        ) as e:
             print(
                 e,
                 "\nCould not load "
@@ -295,8 +384,12 @@ class Inference(NetworkMethod):
                     "class 1",
                 )
             else:
-                class_names = []
-                for key in index[
+                class_names = (
+                    []
+                )
+                for (
+                    key
+                ) in index[
                     "val"
                 ]:
                     if (
@@ -306,25 +399,54 @@ class Inference(NetworkMethod):
                         class_names.append(
                             key.class_name
                         )
-                self.class_names = (
-                    tuple(class_names)
+                self.class_names = tuple(
+                    class_names
                 )
         finally:
-            print(self.class_names)
+            print(
+                self.class_names
+            )
         return data
 
-    def seperate_classes(self, data):
-        print("Seperating classes...")
-        X, Y = data["X"], data["Y"]
-        class_0, class_1 = np.nonzero(
+    def seperate_classes(
+        self, data
+    ):
+        print(
+            "Seperating classes..."
+        )
+        X, Y = (
+            data["X"],
+            data["Y"],
+        )
+        (
+            class_0,
+            class_1,
+        ) = np.nonzero(
             Y[:, 0]
-        ), np.nonzero(Y[:, 1])
-        if "debug" in sys.argv:
+        ), np.nonzero(
+            Y[:, 1]
+        )
+        if (
+            "debug"
+            in sys.argv
+        ):
             print(
-                type(class_0),
-                len(class_0[0]),
-                class_0[0][:2],
-                Y[class_0[0][:2]],
+                type(
+                    class_0
+                ),
+                len(
+                    class_0[
+                        0
+                    ]
+                ),
+                class_0[0][
+                    :2
+                ],
+                Y[
+                    class_0[
+                        0
+                    ][:2]
+                ],
             )
         if type(X) != list:
             X0 = X[class_0]
@@ -338,18 +460,27 @@ class Inference(NetworkMethod):
                 item[class_1]
                 for item in X
             ]
-        Y0, Y1 = Y[class_0], Y[class_1]
-        if not self.class_names:
+        Y0, Y1 = (
+            Y[class_0],
+            Y[class_1],
+        )
+        if (
+            not self.class_names
+        ):
             self.class_names = (
                 "class_0",
                 "class_1",
             )
         return {
-            self.class_names[0]: {
+            self.class_names[
+                0
+            ]: {
                 "X": X0,
                 "Y": Y0,
             },
-            self.class_names[1]: {
+            self.class_names[
+                1
+            ]: {
                 "X": X1,
                 "Y": Y1,
             },
@@ -360,39 +491,60 @@ class Inference(NetworkMethod):
     ):
         val_acc = []
         remove_inds = []
-        for i, item in enumerate(
+        for (
+            i,
+            item,
+        ) in enumerate(
             model_files
         ):
             try:
                 val = eval(
                     item[
-                        : -len(".hdf5")
-                    ].split("_")[-1]
+                        : -len(
+                            ".hdf5"
+                        )
+                    ].split(
+                        "_"
+                    )[
+                        -1
+                    ]
                 )
             except NameError:
                 print(
                     item,
                     " no val_acc in filename.",
                 )
-                remove_inds.append(i)
+                remove_inds.append(
+                    i
+                )
                 continue
             else:
-                val_acc.append(val)
+                val_acc.append(
+                    val
+                )
         model_files = [
             item
             for i, item in enumerate(
                 model_files
             )
-            if i not in remove_inds
+            if i
+            not in remove_inds
         ]
         # print (item,eval(item[:-len(".hdf5")].split("_")[-1]))
-        val_acc = np.array(val_acc)
-        if self.best == "high":
+        val_acc = np.array(
+            val_acc
+        )
+        if (
+            self.best
+            == "high"
+        ):
             ind = -1
         else:
             ind = 0
         model_path = model_files[
-            val_acc.argsort()[ind]
+            val_acc.argsort()[
+                ind
+            ]
         ]
         return model_path
 
@@ -408,10 +560,8 @@ class Inference(NetworkMethod):
             "Loading best model from path : ",
             model_path,
         )
-        model = (
-            keras.models.load_model(
-                model_path
-            )
+        model = keras.models.load_model(
+            model_path
         )
         self.best_model_path = (
             model_path
@@ -428,28 +578,41 @@ class Inference(NetworkMethod):
         )
         runs = np.unique(
             [
-                item.split("/")[-2]
+                item.split(
+                    "/"
+                )[-2]
                 for item in model_files
             ]
         )
         per_run_files = [
             [] for _ in runs
         ]
-        for item in model_files:
-            current_run = item.split(
-                "/"
-            )[-2]
+        for (
+            item
+        ) in model_files:
+            current_run = (
+                item.split(
+                    "/"
+                )[-2]
+            )
             add_ind = np.where(
-                current_run == runs
-            )[0][0]
+                current_run
+                == runs
+            )[
+                0
+            ][
+                0
+            ]
             per_run_files[
                 add_ind
             ].append(item)
         model_paths = []
         models = []
-        for item in per_run_files:
-            best_current_path = (
-                self.choose_model(item)
+        for (
+            item
+        ) in per_run_files:
+            best_current_path = self.choose_model(
+                item
             )
             print(
                 "Loading model from path: ",
@@ -466,17 +629,29 @@ class Inference(NetworkMethod):
         self.per_run_model_paths = (
             model_paths
         )
-        self.per_run_models = models
-        return self.per_run_models
+        self.per_run_models = (
+            models
+        )
+        return (
+            self.per_run_models
+        )
 
     def per_run_predict(
         self, **kwargs
     ):
-        if self.per_run_models is None:
+        if (
+            self.per_run_models
+            is None
+        ):
             self.get_best_from_seperate_runs()
-        global_model = self.model
+        global_model = (
+            self.model
+        )
         return_list = []
-        for item, path in zip(
+        for (
+            item,
+            path,
+        ) in zip(
             self.per_run_models,
             self.per_run_model_paths,
         ):
@@ -488,7 +663,9 @@ class Inference(NetworkMethod):
             print(
                 "Layer config of the model: "
             )
-            for layer in item.layers:
+            for (
+                layer
+            ) in item.layers:
                 print(
                     layer.get_config()
                 )
@@ -496,14 +673,20 @@ class Inference(NetworkMethod):
             input(
                 "Press enter to continue: "
             )
-            append_dict = self.predict(
-                **kwargs
+            append_dict = (
+                self.predict(
+                    **kwargs
+                )
             )
-            print_events(append_dict)
+            print_events(
+                append_dict
+            )
             return_list.append(
                 append_dict
             )
-        self.model = global_model
+        self.model = (
+            global_model
+        )
         return return_list
 
     def predict(
@@ -524,7 +707,10 @@ class Inference(NetworkMethod):
             self.get_best_model()
             # self.model.summary()
         return_dict = {}
-        if operation == "None":
+        if (
+            operation
+            == "None"
+        ):
             combined_data = (
                 self.unoperated_data
             )
@@ -533,7 +719,8 @@ class Inference(NetworkMethod):
                 "performing operation..."
             )
             if (
-                "debug" in sys.argv
+                "debug"
+                in sys.argv
                 or "operation_check"
                 in sys.argv
                 or not split
@@ -545,34 +732,38 @@ class Inference(NetworkMethod):
                 operation,
                 self.unoperated_data,
             )
-        seperated = (
-            self.seperate_classes(
-                combined_data
-            )
+        seperated = self.seperate_classes(
+            combined_data
         )
-        class_names = self.class_names
+        class_names = (
+            self.class_names
+        )
         if replace:
             print(
                 "replacing ",
-                class_names[-1],
+                class_names[
+                    -1
+                ],
                 " with :",
                 replace,
             )
-            seperated = (
-                self.replace_data(
-                    seperated,
-                    new_class=replace,
-                )
+            seperated = self.replace_data(
+                seperated,
+                new_class=replace,
             )
             class_names = (
-                self.class_names[0],
+                self.class_names[
+                    0
+                ],
                 replace,
             )
 
         if roc_plot:
             roc_dict = {
                 "combined": self.model.predict(
-                    combined_data["X"],
+                    combined_data[
+                        "X"
+                    ],
                     verbose=2,
                 )
             }
@@ -591,7 +782,9 @@ class Inference(NetworkMethod):
             saved_dict = {}
         if (
             class_names[-1]
-            == self.class_names[-1]
+            == self.class_names[
+                -1
+            ]
         ):
             print(
                 "Evaluating combined validation data: "
@@ -599,15 +792,24 @@ class Inference(NetworkMethod):
             return_dict[
                 "combined"
             ] = self.model.evaluate(
-                x=combined_data["X"],
-                y=combined_data["Y"],
+                x=combined_data[
+                    "X"
+                ],
+                y=combined_data[
+                    "Y"
+                ],
                 batch_size=batch_size,
                 verbose=1,
             )
             saved_dict[
                 "combined"
-            ] = return_dict["combined"]
-        for i, item in enumerate(
+            ] = return_dict[
+                "combined"
+            ]
+        for (
+            i,
+            item,
+        ) in enumerate(
             class_names
         ):
             # if item==self.class_names[0] and self.signal_prediction is not None: continue
@@ -616,30 +818,50 @@ class Inference(NetworkMethod):
                 item,
             )
             self.model.evaluate(
-                x=seperated[item]["X"],
-                y=seperated[item]["Y"],
+                x=seperated[
+                    item
+                ]["X"],
+                y=seperated[
+                    item
+                ]["Y"],
                 batch_size=batch_size,
                 verbose=1,
             )
             return_dict[
                 item
             ] = self.model.predict(
-                seperated[item]["X"],
+                seperated[
+                    item
+                ]["X"],
                 verbose=1,
             )[
                 :, 0
             ]
             return_dict[
-                item + "_true"
-            ] = seperated[item]["Y"][
+                item
+                + "_true"
+            ] = seperated[
+                item
+            ][
+                "Y"
+            ][
                 :, 0
             ]
             if i == 0:
-                y_true, y_pred = (
-                    seperated[item][
+                (
+                    y_true,
+                    y_pred,
+                ) = (
+                    seperated[
+                        item
+                    ][
                         "Y"
-                    ][:, 0],
-                    return_dict[item],
+                    ][
+                        :, 0
+                    ],
+                    return_dict[
+                        item
+                    ],
                 )
             else:
                 (
@@ -650,7 +872,12 @@ class Inference(NetworkMethod):
                         y_true,
                         seperated[
                             item
-                        ]["Y"][:, 0],
+                        ][
+                            "Y"
+                        ][
+                            :,
+                            0,
+                        ],
                     ),
                     axis=0,
                 ), np.concatenate(
@@ -664,40 +891,59 @@ class Inference(NetworkMethod):
                 )
             saved_dict[
                 item
-            ] = return_dict[item]
+            ] = return_dict[
+                item
+            ]
             if roc_plot:
                 roc_dict[
                     item
                 ] = self.model.predict(
-                    seperated[item][
+                    seperated[
+                        item
+                    ][
                         "X"
                     ],
                     verbose=2,
                 )
                 if save:
                     Pickle(
-                        roc_dict[item],
-                        "roc_" + item,
+                        roc_dict[
+                            item
+                        ],
+                        "roc_"
+                        + item,
                         save_path=self.data_save_path,
                     )
             if (
-                self.signal_acc is None
+                self.signal_acc
+                is None
                 and item
-                == self.class_names[0]
+                == self.class_names[
+                    0
+                ]
             ):
-                self.signal_acc = (
-                    return_dict[item]
-                )
+                self.signal_acc = return_dict[
+                    item
+                ]
                 self.signal_prediction = self.model.predict(
-                    seperated[item][
+                    seperated[
+                        item
+                    ][
                         "X"
                     ],
                     verbose=2,
                 )
                 # Pickle(self.signal_prediction,"roc_"+item,save_path=self.data_save_path)
-        return_dict["y_true"] = y_true
-        return_dict["y_pred"] = y_pred
-        if "channel" in combined_data:
+        return_dict[
+            "y_true"
+        ] = y_true
+        return_dict[
+            "y_pred"
+        ] = y_pred
+        if (
+            "channel"
+            in combined_data
+        ):
             return_dict[
                 "channel"
             ] = combined_data[

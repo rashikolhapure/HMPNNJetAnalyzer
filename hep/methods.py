@@ -3,7 +3,9 @@ import os
 
 import numpy as np
 
-np.set_printoptions(precision=16)
+np.set_printoptions(
+    precision=16
+)
 
 
 from .data import (
@@ -21,23 +23,36 @@ from ..genutils import (
     print_events,
     pool_splitter,
 )
-from ..io.saver import Pickle, Unpickle
-from ..classes import PhysicsMethod
+from ..io.saver import (
+    Pickle,
+    Unpickle,
+)
+from ..classes import (
+    PhysicsMethod,
+)
 
 
-class OverwriteError(Exception):
+class OverwriteError(
+    Exception
+):
     def __init__(
         self,
         message="OverwriteException",
     ):
         super(
-            OverwriteError, self
+            OverwriteError,
+            self,
         ).__init__(message)
 
 
-class DelphesNumpy(PhysicsMethod):
+class DelphesNumpy(
+    PhysicsMethod
+):
     def __init__(
-        self, run_name, *args, **kwargs
+        self,
+        run_name,
+        *args,
+        **kwargs,
     ):
         print(
             self.__class__.__name__,
@@ -50,7 +65,9 @@ class DelphesNumpy(PhysicsMethod):
             input_data="RootEvents",
             output_data="NumpyEvents",
         )
-        self.run_name = run_name
+        self.run_name = (
+            run_name
+        )
         if (
             kwargs.get(
                 "root_file_path"
@@ -65,13 +82,16 @@ class DelphesNumpy(PhysicsMethod):
                     "index",
                 ),
                 select_runs=kwargs.get(
-                    "select_runs", []
+                    "select_runs",
+                    [],
                 ),
                 tag=kwargs.get(
-                    "root_file_tag", ""
+                    "root_file_tag",
+                    "",
                 ),
                 ignore_runs=kwargs.get(
-                    "ignore_runs", []
+                    "ignore_runs",
+                    [],
                 ),
             )
         else:
@@ -94,10 +114,14 @@ class DelphesNumpy(PhysicsMethod):
             mode="w",
             max_count=self.in_data.max_count,
             prefix=kwargs.get(
-                "root_file_tag", ""
+                "root_file_tag",
+                "",
             ),
         )
-        if "root_file_path" in kwargs:
+        if (
+            "root_file_path"
+            in kwargs
+        ):
             self.out_data.mg_event_path = (
                 self.in_data.mg_event_path
             )
@@ -122,35 +146,41 @@ class DelphesNumpy(PhysicsMethod):
             self.extract_gen_particles = (
                 True
             )
-        self.include_eflow = (
-            kwargs.get(
-                "include_eflow", False
-            )
+        self.include_eflow = kwargs.get(
+            "include_eflow",
+            False,
         )
-        if not self.include_eflow:
+        if (
+            not self.include_eflow
+        ):
             try:
                 self.final_state_attributes.pop(
                     "EFlow"
                 )
             except KeyError:
                 pass
-        self.include_track = (
-            kwargs.get(
-                "include_track", False
-            )
+        self.include_track = kwargs.get(
+            "include_track",
+            False,
         )
-        if not self.include_track:
+        if (
+            not self.include_track
+        ):
             try:
                 self.final_state_attributes.pop(
                     "Track"
                 )
             except KeyError:
                 pass
-        self.overwrite = kwargs.get(
-            "overwrite", False
+        self.overwrite = (
+            kwargs.get(
+                "overwrite",
+                False,
+            )
         )
         self.root_tag = kwargs.get(
-            "root_file_tag", ""
+            "root_file_tag",
+            "",
         )
         self.Events = None
         self.current = None
@@ -163,16 +193,23 @@ class DelphesNumpy(PhysicsMethod):
         ) in (
             self.final_state_attributes.items()
         ):
-            print(f"{key:15}  {val}\n")
+            print(
+                f"{key:15}  {val}\n"
+            )
 
     def __next__(self):
-        if self.count < self.max_count:
+        if (
+            self.count
+            < self.max_count
+        ):
             self.count += 1
             self.current = next(
                 self.in_data
             )
             try:
-                if self.overwrite:
+                if (
+                    self.overwrite
+                ):
                     raise OverwriteError
                 current = Unpickle(
                     self.out_data.prefix
@@ -184,7 +221,9 @@ class DelphesNumpy(PhysicsMethod):
                 self.out_data.exception = (
                     False
                 )
-            except Exception as e:
+            except (
+                Exception
+            ) as e:
                 if (
                     "Particle"
                     in self.final_state_attributes
@@ -205,15 +244,11 @@ class DelphesNumpy(PhysicsMethod):
                         "path"
                     ],
                 )
-                self.Events = (
-                    self.current[
-                        "Delphes"
-                    ]
-                )
+                self.Events = self.current[
+                    "Delphes"
+                ]
                 current = {}
-                for (
-                    final_state
-                ) in (
+                for final_state in (
                     self.final_state_attributes
                 ):
                     # if self.exclude_gen_particles and final_State=="Particle": continue
@@ -257,7 +292,9 @@ class DelphesNumpy(PhysicsMethod):
                 current[
                     "EventAttribute"
                 ] = event_attribute
-                print_events(current)
+                print_events(
+                    current
+                )
                 if (
                     "Particle"
                     not in self.final_state_attributes
@@ -276,7 +313,9 @@ class DelphesNumpy(PhysicsMethod):
                 self.out_data.current_run = self.current[
                     "path"
                 ]
-                next(self.out_data)
+                next(
+                    self.out_data
+                )
                 if (
                     self.extract_gen_particles
                 ):
@@ -290,11 +329,9 @@ class DelphesNumpy(PhysicsMethod):
                             "Particle"
                         ],
                     )
-                    self.Events = (
-                        self.current[
-                            "Delphes"
-                        ]
-                    )
+                    self.Events = self.current[
+                        "Delphes"
+                    ]
                     current[
                         "Particle"
                     ] = self.get(
@@ -303,7 +340,9 @@ class DelphesNumpy(PhysicsMethod):
                             "Particle"
                         ],
                     )
-                return current
+                return (
+                    current
+                )
         else:
             raise StopIteration
 
@@ -316,11 +355,16 @@ class DelphesNumpy(PhysicsMethod):
         """class method to directly select <final_state> with list of <attributes> at <indices> from <root_file>.
         returns a numpy array of either len(indices) with variable shape depending on the <final_state>
         """
-        return_dict, temp_dict = (
+        (
+            return_dict,
+            temp_dict,
+        ) = (
             dict(),
             dict(),
         )
-        for item in attributes:
+        for (
+            item
+        ) in attributes:
             temp_dict[
                 item
             ] = self.Events[
@@ -332,23 +376,39 @@ class DelphesNumpy(PhysicsMethod):
             ].array()
         if indices == None:
             indices = np.arange(
-                len(temp_dict[item])
+                len(
+                    temp_dict[
+                        item
+                    ]
+                )
             )
         return_array = []
-        for event_index in indices:
+        for (
+            event_index
+        ) in indices:
             array = [
                 []
                 for i in range(
-                    len(attributes)
+                    len(
+                        attributes
+                    )
                 )
             ]
             for i in range(
-                len(attributes)
+                len(
+                    attributes
+                )
             ):
-                array[i] = np.array(
+                array[
+                    i
+                ] = np.array(
                     temp_dict[
-                        attributes[i]
-                    ][event_index],
+                        attributes[
+                            i
+                        ]
+                    ][
+                        event_index
+                    ],
                     dtype="float64",
                 )
             return_array.append(
@@ -361,61 +421,84 @@ class DelphesNumpy(PhysicsMethod):
                     1,
                 )
             )
-        return np.array(return_array)
+        return np.array(
+            return_array
+        )
 
 
-class BaselineCuts(PhysicsMethod):
+class BaselineCuts(
+    PhysicsMethod
+):
     def __init__(
-        self, run_name, *args, **kwargs
+        self,
+        run_name,
+        *args,
+        **kwargs,
     ):
         super().__init__(
             input_data="NumpyEvents",
             output_data="PassedEvents",
         )
-        self.num_cores = kwargs.get(
-            "num_cores"
+        self.num_cores = (
+            kwargs.get(
+                "num_cores"
+            )
         )
         self.read_partons = kwargs.get(
-            "read_partons", None
+            "read_partons",
+            None,
         )
         self.exclude_keys = kwargs.get(
-            "exclude_keys", []
+            "exclude_keys",
+            [],
         )
         self.ignore_keys = kwargs.get(
             "ignore_keys", []
         )
-        self.run_name = run_name
+        self.run_name = (
+            run_name
+        )
         self.in_data = NumpyEvents(
             run_name,
             mode="r",
             run_tag=kwargs.get(
-                "run_tag", "None"
+                "run_tag",
+                "None",
             ),
             prefix=kwargs.get(
-                "delphes_prefix", ""
+                "delphes_prefix",
+                "",
             ),
             both_dirs=kwargs.get(
-                "both_dirs", False
+                "both_dirs",
+                False,
             ),
             select_runs=kwargs.get(
-                "select_runs", []
+                "select_runs",
+                [],
             ),
             ignore_runs=kwargs.get(
-                "ignore_runs", []
+                "ignore_runs",
+                [],
             ),
         )
         self.out_data = PassedEvents(
             run_name,
             mode="w",
             max_count=self.in_data.max_count,
-            tag=kwargs.get("tag", ""),
+            tag=kwargs.get(
+                "tag", ""
+            ),
             save=kwargs.get(
                 "save", False
             ),
         )
         self.count = 0
-        self.cut_args = kwargs.get(
-            "cut_args", {}
+        self.cut_args = (
+            kwargs.get(
+                "cut_args",
+                {},
+            )
         )
         self.max_count = (
             self.in_data.max_count
@@ -426,7 +509,10 @@ class BaselineCuts(PhysicsMethod):
         assert (
             self.cut
         ), "Set a cut first"
-        if self.count < self.max_count:
+        if (
+            self.count
+            < self.max_count
+        ):
             self.count += 1
             in_events = next(
                 self.in_data
@@ -456,7 +542,10 @@ class BaselineCuts(PhysicsMethod):
                         "partonic_"
                         + key
                     ] = val
-            if "debug" in sys.argv:
+            if (
+                "debug"
+                in sys.argv
+            ):
                 passed_events = self.cut(
                     in_events,
                     **self.cut_args,
@@ -486,38 +575,53 @@ class BaselineCuts(PhysicsMethod):
             self.out_data.current_events = (
                 passed_events
             )
-            next(self.out_data)
-            return passed_events
+            next(
+                self.out_data
+            )
+            return (
+                passed_events
+            )
         else:
             raise StopIteration
 
 
-class PreProcess(PhysicsMethod):
+class PreProcess(
+    PhysicsMethod
+):
     def __init__(
-        self, run_name, *args, **kwargs
+        self,
+        run_name,
+        *args,
+        **kwargs,
     ):
         super().__init__(
             run_name=run_name,
             input_data="PassedEvents",
             output_data="PreprocessedEvents",
         )
-        self.num_cores = kwargs.get(
-            "num_cores"
+        self.num_cores = (
+            kwargs.get(
+                "num_cores"
+            )
         )
         self.in_data = PassedEvents(
             run_name,
             tag=kwargs.get(
-                "cut_tag", "try"
+                "cut_tag",
+                "try",
             ),
             mode="r",
             run_tag=kwargs.get(
-                "run_tag", "None"
+                "run_tag",
+                "None",
             ),
             both_dirs=kwargs.get(
-                "both_dirs", False
+                "both_dirs",
+                False,
             ),
             remove_keys=kwargs.get(
-                "remove_keys", []
+                "remove_keys",
+                [],
             ),
         )
         self.max_count = len(
@@ -531,18 +635,26 @@ class PreProcess(PhysicsMethod):
             mode="w",
             max_count=self.max_count,
         )
-        self.preprocess = None
+        self.preprocess = (
+            None
+        )
 
     def __next__(self):
         assert (
             self.preprocess
         ), "Set preprocess function first!"
-        if self.count < self.max_count:
+        if (
+            self.count
+            < self.max_count
+        ):
             self.count += 1
             passed_events = next(
                 self.in_data
             )
-            if "debug" not in sys.argv:
+            if (
+                "debug"
+                not in sys.argv
+            ):
                 if (
                     self.num_cores
                     is not None
@@ -558,10 +670,8 @@ class PreProcess(PhysicsMethod):
                         passed_events,
                     )
             else:
-                preprocessed = (
-                    self.preprocess(
-                        passed_events
-                    )
+                preprocessed = self.preprocess(
+                    passed_events
                 )
             self.out_data.current_run = (
                 self.in_data.current_run
@@ -569,8 +679,12 @@ class PreProcess(PhysicsMethod):
             self.out_data.current_events = (
                 preprocessed
             )
-            next(self.out_data)
-            return preprocessed
+            next(
+                self.out_data
+            )
+            return (
+                preprocessed
+            )
         else:
             raise StopIteration
 
@@ -584,11 +698,21 @@ if __name__ == "__main__":
             "Tower": None,
         },
         image_shapes={
-            "FatJet": (32, 32),
-            "Tower": (100, 100),
+            "FatJet": (
+                32,
+                32,
+            ),
+            "Tower": (
+                100,
+                100,
+            ),
         },
     )
     # now.cut=now.sample_cut
-    for events, path, index in now:
+    for (
+        events,
+        path,
+        index,
+    ) in now:
         print(path, index)
         print_events(events)

@@ -1,6 +1,8 @@
 import os
 import sys
-from collections import namedtuple
+from collections import (
+    namedtuple,
+)
 
 lhe_particle = namedtuple(
     "lhe_particle",
@@ -18,10 +20,14 @@ lhe_particle = namedtuple(
 
 from tqdm import tqdm
 import numpy as np
-from ROOT import TLorentzVector
+from ROOT import (
+    TLorentzVector,
+)
 import gzip
 import hep_ml.hep.utils.root_utils as ru
-from .config import EventAttribute
+from .config import (
+    EventAttribute,
+)
 
 PID_to_particle_dict = {
     1: "u",
@@ -90,7 +96,9 @@ t = {"t", "t~"}
 a = {"gamma"}
 Electrons = {"e+", "e-"}
 Muons = {"mu+", "mu-"}
-Leptons = Electrons.union(Muons)
+Leptons = Electrons.union(
+    Muons
+)
 
 
 # leptons=charged_leptons.union(neutrinos)
@@ -107,13 +115,18 @@ def read_lhe(
 ):
     print(
         "Reading from file:",
-        os.path.join(path, filename),
+        os.path.join(
+            path, filename
+        ),
     )
-    if filename.endswith(".gz"):
+    if filename.endswith(
+        ".gz"
+    ):
         #
         lhe_file = gzip.open(
             os.path.join(
-                path, filename
+                path,
+                filename,
             ),
             "rt",
         )
@@ -128,7 +141,8 @@ def read_lhe(
     else:
         lhe_file = open(
             os.path.join(
-                path, filename
+                path,
+                filename,
             ),
             "r",
         )
@@ -136,26 +150,51 @@ def read_lhe(
     events = []
     count = 0
     event = False
-    lines = lhe_file.readlines()
+    lines = (
+        lhe_file.readlines()
+    )
     lhe_file.close()
     event_weights = []
     for line in tqdm(lines):
-        splitted = line.split()
-        if "</event>" in splitted:
+        splitted = (
+            line.split()
+        )
+        if (
+            "</event>"
+            in splitted
+        ):
             if return_structured:
                 event_particles = np.array(
                     event_particles,
                     dtype=[
-                        ("PID", "i4"),
+                        (
+                            "PID",
+                            "i4",
+                        ),
                         (
                             "Status",
                             "i4",
                         ),
-                        ("Px", "f4"),
-                        ("Py", "f4"),
-                        ("Pz", "f4"),
-                        ("E", "f4"),
-                        ("Mass", "f4"),
+                        (
+                            "Px",
+                            "f4",
+                        ),
+                        (
+                            "Py",
+                            "f4",
+                        ),
+                        (
+                            "Pz",
+                            "f4",
+                        ),
+                        (
+                            "E",
+                            "f4",
+                        ),
+                        (
+                            "Mass",
+                            "f4",
+                        ),
                         (
                             "Name",
                             "string",
@@ -167,30 +206,52 @@ def read_lhe(
             )
             event = False
             count += 1
-            if length is not None:
-                if count == length:
+            if (
+                length
+                is not None
+            ):
+                if (
+                    count
+                    == length
+                ):
                     break
         if event:
-            if line.startswith("<"):
+            if line.startswith(
+                "<"
+            ):
                 continue
             evaluated = [
                 eval(x)
                 for x in splitted
             ]
-            if len(evaluated) == 6:
-                event_weight = (
-                    evaluated[2]
+            if (
+                len(
+                    evaluated
                 )
+                == 6
+            ):
+                event_weight = evaluated[
+                    2
+                ]
                 # event_weight=np.sign(evaluated[2])
                 event_weights.append(
                     event_weight
                 )
-            if len(evaluated) != 13:
-                event_particles = []
+            if (
+                len(
+                    evaluated
+                )
+                != 13
+            ):
+                event_particles = (
+                    []
+                )
             else:
                 if final_state_only:
                     if (
-                        evaluated[1]
+                        evaluated[
+                            1
+                        ]
                         == 1
                     ):
                         particle = lhe_particle(
@@ -306,32 +367,45 @@ def read_lhe(
                         "debug"
                         in sys.argv
                     ):
-                        print(particle)
-        if "<event>" in splitted:
+                        print(
+                            particle
+                        )
+        if (
+            "<event>"
+            in splitted
+        ):
             event = True
     event_weights = np.array(
         event_weights
     )
-    assert len(event_weights) == len(
+    assert len(
+        event_weights
+    ) == len(
         events
     ), "Incompatible weights and events!"
     if add_attribute:
         assert (
-            run_name is not None
+            run_name
+            is not None
         ), "Provide run_name to add to attribute!"
         event_attributes = [
             EventAttribute(
                 run_name=run_name,
                 tag=filename,
                 path=os.path.join(
-                    path, filename
+                    path,
+                    filename,
                 ),
                 index=_,
             )
-            for _ in range(len(events))
+            for _ in range(
+                len(events)
+            )
         ]
     if return_structured:
-        events = np.array(events)
+        events = np.array(
+            events
+        )
         event_attributes = np.array(
             event_attributes
         )
@@ -357,8 +431,12 @@ def read_lhe(
             return events
 
 
-def get_cross_section(path_to_file):
-    f = open(path_to_file, "r")
+def get_cross_section(
+    path_to_file,
+):
+    f = open(
+        path_to_file, "r"
+    )
     imp = []
     append = False
     for line in f:
@@ -366,14 +444,21 @@ def get_cross_section(path_to_file):
             append = False
             break
         if append:
-            imp.append(line.split())
+            imp.append(
+                line.split()
+            )
         if "<init>" in line:
             append = True
     f.close()
-    cross_section = eval(imp[-1][0])
+    cross_section = eval(
+        imp[-1][0]
+    )
     error = eval(imp[-1][1])
     # print (imp,cross_section,error)
-    return cross_section, error
+    return (
+        cross_section,
+        error,
+    )
 
 
 def reverse_dict(dictionary):
@@ -382,13 +467,21 @@ def reverse_dict(dictionary):
     return dictionary with all items in value and returns the key of the particular iter_val key
     """
     return_dict = {}
-    for key, val in dictionary.items():
-        assert hasattr(val, "__iter__")
+    for (
+        key,
+        val,
+    ) in dictionary.items():
+        assert hasattr(
+            val, "__iter__"
+        )
         for item in val:
             assert (
-                item not in return_dict
+                item
+                not in return_dict
             ), "Found degeneracy, cannot build unique map!"
-            return_dict[item] = key
+            return_dict[
+                item
+            ] = key
     return return_dict
 
 
@@ -401,10 +494,17 @@ def convert_to_dict(
     add_charge=None,
     attributes=None,
 ):
-    assert final_states is not None
-    if return_vector is False:
+    assert (
+        final_states
+        is not None
+    )
+    if (
+        return_vector
+        is False
+    ):
         assert (
-            attributes is not None
+            attributes
+            is not None
         ), "Provide attributes array for return_vector=False"
     print(
         "Converting to final_states: ",
@@ -414,25 +514,41 @@ def convert_to_dict(
         item: []
         for item in final_states
     }
-    if add_charge is not None:
-        for item in add_charge:
+    if (
+        add_charge
+        is not None
+    ):
+        for (
+            item
+        ) in add_charge:
             return_dict[
-                item + "_charge"
+                item
+                + "_charge"
             ] = []
-    reverse_map = reverse_dict(
-        final_states
+    reverse_map = (
+        reverse_dict(
+            final_states
+        )
     )
     for event in events:
         current = {
             item: []
             for item in final_states
         }
-        if add_charge is not None:
-            for item in add_charge:
+        if (
+            add_charge
+            is not None
+        ):
+            for (
+                item
+            ) in add_charge:
                 current[
-                    item + "_charge"
+                    item
+                    + "_charge"
                 ] = []
-        for particle in event:
+        for (
+            particle
+        ) in event:
             append_key = reverse_map[
                 particle.Name
             ]
@@ -462,7 +578,9 @@ def convert_to_dict(
                     )
             else:
                 array = []
-                for item in attributes:
+                for (
+                    item
+                ) in attributes:
                     array.append(
                         getattr(
                             particle,
@@ -471,30 +589,37 @@ def convert_to_dict(
                     )
                 current[
                     append_key
-                ].append(array)
+                ].append(
+                    array
+                )
                 # print (array,particle,attributes)
         for (
             key,
             val,
         ) in current.items():
-            if sort and return_vector:
+            if (
+                sort
+                and return_vector
+            ):
                 if not key.endswith(
                     "charge"
                 ):
                     val = ru.Sort(
-                        np.array(val)
+                        np.array(
+                            val
+                        )
                     )
             # ru.Print(val,name=key)
-            return_dict[key].append(
-                val
-            )
+            return_dict[
+                key
+            ].append(val)
     for (
         key,
         val,
     ) in return_dict.items():
-        return_dict[key] = np.array(
-            val
-        )
+        return_dict[
+            key
+        ] = np.array(val)
     print(
         "Returning as numpy.ndarray of {}!".format(
             "TLorentzVector"

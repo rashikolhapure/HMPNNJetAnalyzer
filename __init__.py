@@ -1,4 +1,7 @@
-from .io.saver import Pickle, Unpickle
+from .io.saver import (
+    Pickle,
+    Unpickle,
+)
 from .genutils import (
     print_events,
     check_dir,

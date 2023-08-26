@@ -12,14 +12,18 @@ from tensorflow.keras.callbacks import (
     TensorBoard,
 )
 
-from ..classes import NetworkMethod
+from ..classes import (
+    NetworkMethod,
+)
 from ..io.saver import Pickle
 from ..genutils import (
     print_events,
     check_dir,
 )
 from .keras_utils import opt
-from .numpy_utils import InputState
+from .numpy_utils import (
+    InputState,
+)
 from .data import (
     ModelData,
     DataHandler,
@@ -39,40 +43,48 @@ The fit method fits the compiled model to the training data. It checks if the tr
 """
 
 
-class KerasModel(NetworkMethod):
-    def __init__(self, **kwargs):
+class KerasModel(
+    NetworkMethod
+):
+    def __init__(
+        self, **kwargs
+    ):
         compulsory_kwargs = {
             "class_names",
             "input_states",
             "preprocess_tag",
             "run_name",
         }
-        assert (
-            compulsory_kwargs.issubset(
-                set(kwargs.keys())
+        assert compulsory_kwargs.issubset(
+            set(
+                kwargs.keys()
             )
         )
         self.input_states = kwargs.get(
             "input_states"
         )
-        self.class_names = kwargs.get(
-            "class_names"
+        self.class_names = (
+            kwargs.get(
+                "class_names"
+            )
         )
         self.num_classes = len(
             self.class_names
         )
-        self.preprocess_tag = (
-            kwargs.get(
-                "preprocess_tag", ""
-            )
+        self.preprocess_tag = kwargs.get(
+            "preprocess_tag",
+            "",
         )
         self.model = None
         self.network_type = kwargs.get(
-            "network_type", "jet_image"
+            "network_type",
+            "jet_image",
         )
         self.compiled = False
         self.history = None
-        self.data_handler = None
+        self.data_handler = (
+            None
+        )
         self.lr = kwargs.get(
             "lr", 0.0001
         )
@@ -80,54 +92,84 @@ class KerasModel(NetworkMethod):
             "loss",
             "categorical_crossentropy",
         )
-        self.opt_name = kwargs.get(
-            "opt", "Nadam"
+        self.opt_name = (
+            kwargs.get(
+                "opt",
+                "Nadam",
+            )
         )
-        self.model_type = kwargs.get(
-            "model_type", ""
+        self.model_type = (
+            kwargs.get(
+                "model_type",
+                "",
+            )
         )
         if (
             self.model_type
             == "autoencoder"
         ):
-            self.loss = (
-                "mean_squared_error"
+            self.loss = "mean_squared_error"
+        self.save = (
+            kwargs.get(
+                "save", False
             )
-        self.save = kwargs.get(
-            "save", False
         )
-        self.run_name = kwargs.get(
-            "run_name"
+        self.run_name = (
+            kwargs.get(
+                "run_name"
+            )
         )
-        if "data_handler" in kwargs:
-            self.in_data = DataHandler(
-                **kwargs
+        if (
+            "data_handler"
+            in kwargs
+        ):
+            self.in_data = (
+                DataHandler(
+                    **kwargs
+                )
             )
         else:
-            self.in_data = ModelData(
-                **kwargs
+            self.in_data = (
+                ModelData(
+                    **kwargs
+                )
             )
-        self.network_file = None
+        self.network_file = (
+            None
+        )
         self.save_run = False
         self.save_dir = None
-        self.train_data = None
+        self.train_data = (
+            None
+        )
         self.val_data = None
-        self.history_save_path = None
+        self.history_save_path = (
+            None
+        )
 
-    def check_consistency(self, model):
+    def check_consistency(
+        self, model
+    ):
         print(
             "Checking consistency..."
         )
-        if type(model.input) != list:
+        if (
+            type(model.input)
+            != list
+        ):
             if (
-                len(model.input.shape)
+                len(
+                    model.input.shape
+                )
                 > 1
             ):
                 i = None
             else:
                 i = None
             assert (
-                model.input.shape[1:i]
+                model.input.shape[
+                    1:i
+                ]
                 == self.input_states[
                     0
                 ].shape
@@ -148,7 +190,9 @@ class KerasModel(NetworkMethod):
         else:
             assert len(
                 model.input
-            ) == len(self.input_states)
+            ) == len(
+                self.input_states
+            )
             for (
                 input_state,
                 network_input,
@@ -199,8 +243,10 @@ class KerasModel(NetworkMethod):
         self.model = model
         self.compiled = True
         if "loss" in kwargs:
-            self.loss = kwargs.get(
-                "loss"
+            self.loss = (
+                kwargs.get(
+                    "loss"
+                )
             )
         if (
             self.model_type
@@ -210,18 +256,25 @@ class KerasModel(NetworkMethod):
                 "mean_squared_error"
             ]
         else:
-            default_metric = ["acc"]
+            default_metric = [
+                "acc"
+            ]
         metrics = kwargs.get(
-            "metrics", default_metric
+            "metrics",
+            default_metric,
         )
         self.lr = kwargs.get(
             "lr", self.lr
         )
         self.opt_name = kwargs.get(
-            "optimizer", self.opt_name
+            "optimizer",
+            self.opt_name,
         )
-        opt_kwargs = kwargs.get(
-            "opt_kwargs", {}
+        opt_kwargs = (
+            kwargs.get(
+                "opt_kwargs",
+                {},
+            )
         )
         self.model.compile(
             loss=self.loss,
@@ -251,7 +304,8 @@ class KerasModel(NetworkMethod):
         checkpoints_path = check_dir(
             os.path.join(
                 self.in_data.model_checkpoints_path,
-                "run_" + str(count),
+                "run_"
+                + str(count),
             )
         )
         self.history_save_path = (
@@ -262,26 +316,34 @@ class KerasModel(NetworkMethod):
                 "cp network.py "
                 + self.history_save_path
             )
-        except Exception as e:
+        except (
+            Exception
+        ) as e:
             print(e)
         pwd = os.getcwd()
         os.chdir(
             self.history_save_path
         )
         with open(
-            "network_specs.dat", "w+"
+            "network_specs.dat",
+            "w+",
         ) as File:
             self.model.summary(
                 print_fn=lambda x: File.write(
                     x + "\n"
                 )
             )
-            File.write("\nClasses: ")
+            File.write(
+                "\nClasses: "
+            )
             for (
                 item
-            ) in self.class_names:
+            ) in (
+                self.class_names
+            ):
                 File.write(
-                    item + "   "
+                    item
+                    + "   "
                 )
             File.write(
                 "Optimizer: "
@@ -295,7 +357,9 @@ class KerasModel(NetworkMethod):
             )
             File.write(
                 "Learning rate: "
-                + str(self.lr)
+                + str(
+                    self.lr
+                )
                 + "\n"
             )
             File.write(
@@ -313,7 +377,8 @@ class KerasModel(NetworkMethod):
             "period", 1
         )
         if kwargs.get(
-            "hyper_opt", False
+            "hyper_opt",
+            False,
         ):
             checkpoint = []
         else:
@@ -369,14 +434,17 @@ class KerasModel(NetworkMethod):
                         "val_acc",
                     ),
                     min_delta=kwargs.get(
-                        "min_delta", 3
+                        "min_delta",
+                        3,
                     ),
                     patience=kwargs.get(
-                        "patience", 5
+                        "patience",
+                        5,
                     ),
                     verbose=1,
                     mode=kwargs.get(
-                        "mode", "max"
+                        "mode",
+                        "max",
                     ),
                     restore_best_weights=True,
                 )
@@ -392,18 +460,37 @@ class KerasModel(NetworkMethod):
         encoder=False,
         **kwargs
     ):
-        if self.train_data is None:
+        if (
+            self.train_data
+            is None
+        ):
             (
                 X,
                 Y,
                 X_t,
                 Y_t,
-            ) = self.in_data.get_data()
-            self.train_data = X, Y
-            self.val_data = X_t, Y_t
+            ) = (
+                self.in_data.get_data()
+            )
+            self.train_data = (
+                X,
+                Y,
+            )
+            self.val_data = (
+                X_t,
+                Y_t,
+            )
         else:
-            X, Y = self.train_data
-            X_t, Y_t = self.val_data
+            (
+                X,
+                Y,
+            ) = (
+                self.train_data
+            )
+            (
+                X_t,
+                Y_t,
+            ) = self.val_data
         # print (X.shape,Y.shape,X_t.shape,Y_t.shape)
         # sys.exit()
         if self.save:
@@ -412,9 +499,13 @@ class KerasModel(NetworkMethod):
                 **kwargs
             )
         else:
-            checkpoints = None
+            checkpoints = (
+                None
+            )
         if epochs == 0:
-            print("Checked...")
+            print(
+                "Checked..."
+            )
             sys.exit()
         # print (X.shape,Y.shape,X_t.shape,Y_t.shape)
         self.History = self.model.fit(
@@ -425,7 +516,10 @@ class KerasModel(NetworkMethod):
             verbose=verbose,
             epochs=epochs,
             shuffle=shuffle,
-            validation_data=(X_t, Y_t),
+            validation_data=(
+                X_t,
+                Y_t,
+            ),
         )
         if self.save:
             if encoder:
@@ -446,4 +540,6 @@ class KerasModel(NetworkMethod):
                     "model.hdf5",
                 )
             )
-        return self.History.history
+        return (
+            self.History.history
+        )

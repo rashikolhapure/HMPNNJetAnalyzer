@@ -1,16 +1,27 @@
 import numpy as np
-from ROOT import TLorentzVector
+from ROOT import (
+    TLorentzVector,
+)
 import sys
 
 att_dict = {
-    "image": ["eta", "phi", "pt"],
+    "image": [
+        "eta",
+        "phi",
+        "pt",
+    ],
     "lhc": [
         "pt",
         "eta",
         "phi",
         "mass",
     ],
-    "lorentz": ["px", "py", "pz", "E"],
+    "lorentz": [
+        "px",
+        "py",
+        "pz",
+        "E",
+    ],
 }
 
 
@@ -25,17 +36,25 @@ def GetTLorentzVector(
 
     if (
         format != "fatjet"
-        and len(array.shape) > 2
+        and len(array.shape)
+        > 2
     ):
         assert (
-            array.shape[-1] == 4
+            array.shape[-1]
+            == 4
         ), "No Lorentz Axis!"
         print(
             "Multidimensional array detected, taking the last axis as the 4-vector axis!"
         )
-        shape = array.shape[:-1]
+        shape = array.shape[
+            :-1
+        ]
         # print (array[:4])
-        array = array.reshape(-1, 4)
+        array = (
+            array.reshape(
+                -1, 4
+            )
+        )
         reshape = True
         # print (shape,array[:16])
     else:
@@ -46,13 +65,17 @@ def GetTLorentzVector(
             [
                 TLorentzVector()
                 for i in range(
-                    len(array)
+                    len(
+                        array
+                    )
                 )
             ]
         )
         count = 0
         for item in array:
-            vec[count].SetPtEtaPhiM(
+            vec[
+                count
+            ].SetPtEtaPhiM(
                 item.pt,
                 item.eta,
                 item.phi,
@@ -62,15 +85,28 @@ def GetTLorentzVector(
         return vec
     # assert format in ("lhc","lorentz") and (array.shape[-2]==3 or array.shape[-1]==4) and len(array.shape)==2
     if len(array.shape) == 1:
-        vec = TLorentzVector()
+        vec = (
+            TLorentzVector()
+        )
         if particle == "MET":
-            assert format == "lhc"
+            assert (
+                format
+                == "lhc"
+            )
         if format == "lhc":
-            if len(array) == 4:
-                mass = array[-1]
+            if (
+                len(array)
+                == 4
+            ):
+                mass = array[
+                    -1
+                ]
             else:
                 mass = 0.0
-            if particle == "MET":
+            if (
+                particle
+                == "MET"
+            ):
                 vec.SetPtEtaPhiM(
                     array[0],
                     0.0,
@@ -93,41 +129,89 @@ def GetTLorentzVector(
             )
         return vec
     else:
-        assert particle == "visible"
+        assert (
+            particle
+            == "visible"
+        )
         vec = [
             TLorentzVector()
-            for i in range(len(array))
+            for i in range(
+                len(array)
+            )
         ]
         if format == "lhc":
-            if array.shape[-1] == 3:
+            if (
+                array.shape[
+                    -1
+                ]
+                == 3
+            ):
                 mass = np.zeros(
-                    len(array)
+                    len(
+                        array
+                    )
                 )
             else:
-                mass = array[:, -1]
-            for i in range(len(vec)):
-                vec[i].SetPtEtaPhiM(
-                    array[i][0],
-                    array[i][1],
-                    array[i][2],
+                mass = array[
+                    :, -1
+                ]
+            for i in range(
+                len(vec)
+            ):
+                vec[
+                    i
+                ].SetPtEtaPhiM(
+                    array[i][
+                        0
+                    ],
+                    array[i][
+                        1
+                    ],
+                    array[i][
+                        2
+                    ],
                     mass[i],
                 )
-        elif format == "image":
-            for i in range(len(vec)):
-                vec[i].SetPtEtaPhiM(
-                    array[i][2],
-                    array[i][0],
-                    array[i][1],
+        elif (
+            format == "image"
+        ):
+            for i in range(
+                len(vec)
+            ):
+                vec[
+                    i
+                ].SetPtEtaPhiM(
+                    array[i][
+                        2
+                    ],
+                    array[i][
+                        0
+                    ],
+                    array[i][
+                        1
+                    ],
                     10e-16,
                 )
                 Print(vec[i])
         else:
-            for i in range(len(vec)):
-                vec[i].SetPxPyPzE(
-                    array[i][0],
-                    array[i][1],
-                    array[i][2],
-                    array[i][3],
+            for i in range(
+                len(vec)
+            ):
+                vec[
+                    i
+                ].SetPxPyPzE(
+                    array[i][
+                        0
+                    ],
+                    array[i][
+                        1
+                    ],
+                    array[i][
+                        2
+                    ],
+                    array[i][
+                        3
+                    ],
                 )
         if reshape:
             return np.array(
@@ -162,7 +246,12 @@ def GetNumpy(
             )
         else:
             return_array = np.zeros(
-                (len(vectors), 3),
+                (
+                    len(
+                        vectors
+                    ),
+                    3,
+                ),
                 dtype="float64",
             )
             for i in range(
@@ -230,11 +319,17 @@ def GetNumpy(
                         ),
                         dtype="float64",
                     )
-                for i in range(
-                    len(vectors)
+                for (
+                    i
+                ) in range(
+                    len(
+                        vectors
+                    )
                 ):
                     if (
-                        vectors[i].M()
+                        vectors[
+                            i
+                        ].M()
                         == 0
                         and vectors[
                             i
@@ -242,7 +337,10 @@ def GetNumpy(
                         == 0
                     ):
                         continue
-                    if diff is None:
+                    if (
+                        diff
+                        is None
+                    ):
                         return_array[
                             i
                         ] = np.array(
@@ -307,14 +405,25 @@ def GetNumpy(
                             )
             else:
                 return_array = np.zeros(
-                    (len(vectors), 4),
+                    (
+                        len(
+                            vectors
+                        ),
+                        4,
+                    ),
                     dtype="float64",
                 )
-                for i in range(
-                    len(vectors)
+                for (
+                    i
+                ) in range(
+                    len(
+                        vectors
+                    )
                 ):
                     if (
-                        vectors[i].M()
+                        vectors[
+                            i
+                        ].M()
                         == 0
                         and vectors[
                             i
@@ -357,15 +466,25 @@ def GetNumpy(
             )
         else:
             return_array = np.zeros(
-                (len(vectors), 4),
+                (
+                    len(
+                        vectors
+                    ),
+                    4,
+                ),
                 dtype="float64",
             )
             for i in range(
                 len(vectors)
             ):
                 if (
-                    vectors[i].M() == 0
-                    and vectors[i].P()
+                    vectors[
+                        i
+                    ].M()
+                    == 0
+                    and vectors[
+                        i
+                    ].P()
                     == 0
                 ):
                     continue
@@ -382,7 +501,9 @@ def GetNumpy(
                         vectors[
                             i
                         ].Pz(),
-                        vectors[i].E(),
+                        vectors[
+                            i
+                        ].E(),
                     ],
                     dtype="float64",
                 )
@@ -392,7 +513,9 @@ def GetNumpy(
         )
     if observable_first:
         return np.swapaxes(
-            return_array, 0, 1
+            return_array,
+            0,
+            1,
         )
     else:
         return return_array
@@ -474,20 +597,30 @@ def Sort(
         raise ValueError
 
     if order == "desc":
-        indices = np.flip(indices)
+        indices = np.flip(
+            indices
+        )
     if return_indices:
-        return array[indices], indices
+        return (
+            array[indices],
+            indices,
+        )
     else:
         return array[indices]
 
 
 def Print(
-    vector, format="lhc", name=None
+    vector,
+    format="lhc",
+    name=None,
 ):
     """TLorentzVector print utility function"""
     if name != None:
         print(name)
-    if type(vector) == TLorentzVector:
+    if (
+        type(vector)
+        == TLorentzVector
+    ):
         if format == "lhc":
             print(
                 f"    Eta: {vector.Eta():20.16f}        Phi: {vector.Phi():20.16f}        Pt : {vector.Pt():20.16f}        Mass: {vector.M():20.16f}        P= {vector.P():20.16f}"
@@ -501,7 +634,10 @@ def Print(
             "Constituents of array: "
         )
         for item in vector:
-            if format == "lhc":
+            if (
+                format
+                == "lhc"
+            ):
                 print(
                     f"    Eta: {item.Eta():20.16f}        Phi: {item.Phi():20.16f}        Pt : {item.Pt():20.16f}        Mass: {item.M():20.16f}        P= {item.P():20.16f}"
                 )
@@ -512,30 +648,48 @@ def Print(
     return
 
 
-def Broadcast(fatjets, check=False):
+def Broadcast(
+    fatjets, check=False
+):
     return_array = []
-    for i in range(len(fatjets)):
+    for i in range(
+        len(fatjets)
+    ):
         if i == 0:
-            item = list(fatjets[i])
+            item = list(
+                fatjets[i]
+            )
             item.append(
                 TLorentzVector()
             )
-            item = np.array(item)
+            item = np.array(
+                item
+            )
         else:
             item = fatjets[i]
-        return_array.append(item)
+        return_array.append(
+            item
+        )
     return_array = np.array(
         return_array
     )
     if check:
-        for i in range(len(fatjets)):
+        for i in range(
+            len(fatjets)
+        ):
             # print (fatjets[i].shape,return_array[i].shape,type(fatjets[i]),type(return_array[i]))
             s1, s2 = np.sum(
                 fatjets[i]
-            ), np.sum(return_array[i])
+            ), np.sum(
+                return_array[
+                    i
+                ]
+            )
             assert (
-                s1.M() == s2.M()
-                and s1.Pt() == s2.Pt()
+                s1.M()
+                == s2.M()
+                and s1.Pt()
+                == s2.Pt()
                 and s1.Eta()
                 == s2.Eta()
                 and s1.Phi()

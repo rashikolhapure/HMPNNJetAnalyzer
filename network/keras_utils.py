@@ -32,49 +32,85 @@ def opt(
         " initialized with learning rate ",
         learning_rate,
     )
-    if opt_dict[optimizer_name] == 0:
+    if (
+        opt_dict[
+            optimizer_name
+        ]
+        == 0
+    ):
         return keras.optimizers.Adam(
-            lr=learning_rate, **kwargs
+            lr=learning_rate,
+            **kwargs,
         )
-    elif opt_dict[optimizer_name] == 1:
+    elif (
+        opt_dict[
+            optimizer_name
+        ]
+        == 1
+    ):
         return keras.optimizers.Adamax(
-            lr=learning_rate, **kwargs
+            lr=learning_rate,
+            **kwargs,
         )
-    elif opt_dict[optimizer_name] == 2:
+    elif (
+        opt_dict[
+            optimizer_name
+        ]
+        == 2
+    ):
         return keras.optimizers.Nadam(
-            lr=learning_rate, **kwargs
+            lr=learning_rate,
+            **kwargs,
         )
-    elif opt_dict[optimizer_name] == 3:
-        return (
-            keras.optimizers.Adadelta(
-                lr=learning_rate,
-                **kwargs,
-            )
+    elif (
+        opt_dict[
+            optimizer_name
+        ]
+        == 3
+    ):
+        return keras.optimizers.Adadelta(
+            lr=learning_rate,
+            **kwargs,
         )
-    elif opt_dict[optimizer_name] == 4:
-        return (
-            keras.optimizers.Adagrad(
-                lr=learning_rate,
-                **kwargs,
-            )
+    elif (
+        opt_dict[
+            optimizer_name
+        ]
+        == 4
+    ):
+        return keras.optimizers.Adagrad(
+            lr=learning_rate,
+            **kwargs,
         )
-    elif opt_dict[optimizer_name] == 5:
-        return (
-            keras.optimizers.RMSprop(
-                lr=learning_rate,
-                **kwargs,
-            )
+    elif (
+        opt_dict[
+            optimizer_name
+        ]
+        == 5
+    ):
+        return keras.optimizers.RMSprop(
+            lr=learning_rate,
+            **kwargs,
         )
-    elif opt_dict[optimizer_name] == 6:
+    elif (
+        opt_dict[
+            optimizer_name
+        ]
+        == 6
+    ):
         return keras.optimizers.SGD(
-            lr=learning_rate, **kwargs
+            lr=learning_rate,
+            **kwargs,
         )
-    elif opt_dict[optimizer_name] == 7:
-        return (
-            keras.optimizers.Adadelta(
-                lr=learning_rate,
-                **kwargs,
-            )
+    elif (
+        opt_dict[
+            optimizer_name
+        ]
+        == 7
+    ):
+        return keras.optimizers.Adadelta(
+            lr=learning_rate,
+            **kwargs,
         )
     else:
         raise ValueError(
@@ -97,12 +133,21 @@ def array_shuffle(
         args[0].shape[0]
     )
     # np.random.seed(seed=random_seed)
-    np.random.shuffle(ind_map)
+    np.random.shuffle(
+        ind_map
+    )
     args = list(args)
-    for i in range(len(args)):
-        args[i] = args[i][ind_map]
+    for i in range(
+        len(args)
+    ):
+        args[i] = args[i][
+            ind_map
+        ]
         # print (args[i][:10])
-    return tuple(args), ind_map
+    return (
+        tuple(args),
+        ind_map,
+    )
 
 
 """
@@ -112,10 +157,15 @@ hyperparameters, and returns a list of dictionaries where each dictionary contai
 """
 
 
-def get_hyper_opt_kwargs(**kwargs):
+def get_hyper_opt_kwargs(
+    **kwargs,
+):
     keys = []
     values = []
-    for key, val in kwargs.items():
+    for (
+        key,
+        val,
+    ) in kwargs.items():
         keys.append(
             key
         ), values.append(val)
@@ -131,7 +181,8 @@ def get_hyper_opt_kwargs(**kwargs):
             {
                 key: val
                 for key, val in zip(
-                    keys, item
+                    keys,
+                    item,
                 )
             }
         )

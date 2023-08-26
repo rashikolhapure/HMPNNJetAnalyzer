@@ -1,7 +1,9 @@
 import os
 import multiprocessing
 import sys
-from optparse import OptionParser
+from optparse import (
+    OptionParser,
+)
 
 from .hep.config import (
     gen_particle_index,
@@ -19,7 +21,10 @@ def print_vectors(
     """prints the array of vectors either in (pt,eta,phi,mass) or (px,py,pz,E)"""
 
     def print_single(vector):
-        if format == "lorentz":
+        if (
+            format
+            == "lorentz"
+        ):
             print(
                 f"Px: {vector.px:10.8f}  Py: {vector.py:10.8f}  Pz: {vector.pz:10.8f}  E: {vector.e:10.8f}"
             )
@@ -28,9 +33,14 @@ def print_vectors(
                 f"Pt: {vector.pt:.8f} Eta: {vector.eta:.8f} Phi: {vector.phi:.8f} Mass: {vector.mass:.8f}"
             )
 
-    if hasattr(vectors, "__iter__"):
+    if hasattr(
+        vectors, "__iter__"
+    ):
         list(
-            map(print_single, vectors)
+            map(
+                print_single,
+                vectors,
+            )
         )
     else:
         print_single(vectors)
@@ -41,18 +51,29 @@ def rescale(array):
     print(array.shape)
     print(
         "Rescaling:\n mean values:",
-        np.mean(array, axis=0),
+        np.mean(
+            array, axis=0
+        ),
         " Standard Deviations: ",
-        np.std(array, axis=0),
+        np.std(
+            array, axis=0
+        ),
     )
     array = (
-        array - np.mean(array, axis=0)
+        array
+        - np.mean(
+            array, axis=0
+        )
     ) / np.std(array, axis=0)
     print(
         "Rescaling:\n mean values:",
-        np.mean(array, axis=0),
+        np.mean(
+            array, axis=0
+        ),
         " Standard Deviations: ",
-        np.std(array, axis=0),
+        np.std(
+            array, axis=0
+        ),
     )
     return array
 
@@ -70,7 +91,10 @@ def print_particle(
     # print (order,particle)
     if ind is not None:
         print(
-            "Ind: ", ind, " ", end=""
+            "Ind: ",
+            ind,
+            " ",
+            end="",
         )
     [
         print(
@@ -81,8 +105,12 @@ def print_particle(
             end="",
         )
         for name, item in zip(
-            order[start:stop],
-            particle[start:stop],
+            order[
+                start:stop
+            ],
+            particle[
+                start:stop
+            ],
         )
     ]
     try:
@@ -99,14 +127,20 @@ def print_particle(
             "Particle name not in SM particles"
         )
     if four_vec:
-        print("4-vec:", end="")
+        print(
+            "4-vec:", end=""
+        )
         [
             print(
                 "  ",
-                round(item, 4),
+                round(
+                    item, 4
+                ),
                 end="",
             )
-            for item in particle[:4]
+            for item in particle[
+                :4
+            ]
         ]
         print()
     if mass:
@@ -143,7 +177,9 @@ def choose_bin(
         jets = np.expand_dims(
             np.array(
                 [
-                    np.sum(item)
+                    np.sum(
+                        item
+                    )
                     for item in jets
                 ]
             ),
@@ -153,67 +189,117 @@ def choose_bin(
     if bin_var == "pt_j0":
         true_indices = [
             i
-            for i in range(len(jets))
-            if jets[i][0].Pt()
+            for i in range(
+                len(jets)
+            )
+            if jets[i][
+                0
+            ].Pt()
             >= Range[0]
-            and jets[i][0].Pt()
+            and jets[i][
+                0
+            ].Pt()
             <= Range[1]
         ]
     elif bin_var == "pt_j1":
         true_indices = [
             i
-            for i in range(len(jets))
-            if jets[i][1].Pt()
+            for i in range(
+                len(jets)
+            )
+            if jets[i][
+                1
+            ].Pt()
             >= Range[0]
-            and jets[i][1].Pt()
+            and jets[i][
+                1
+            ].Pt()
             <= Range[1]
         ]
     elif bin_var == "eta_j0":
         true_indices = [
             i
-            for i in range(len(jets))
-            if jets[i][0].Eta()
+            for i in range(
+                len(jets)
+            )
+            if jets[i][
+                0
+            ].Eta()
             >= Range[0]
-            and jets[i][0].Eta()
+            and jets[i][
+                0
+            ].Eta()
             <= Range[1]
         ]
     elif bin_var == "eta_j1":
         true_indices = [
             i
-            for i in range(len(jets))
-            if jets[i][1].Eta()
+            for i in range(
+                len(jets)
+            )
+            if jets[i][
+                1
+            ].Eta()
             >= Range[0]
-            and jets[i][1].Eta()
+            and jets[i][
+                1
+            ].Eta()
             <= Range[1]
         ]
-    elif bin_var == "delta_eta":
+    elif (
+        bin_var
+        == "delta_eta"
+    ):
         true_indices = [
             i
-            for i in range(len(jets))
+            for i in range(
+                len(jets)
+            )
             if abs(
-                jets[i][0].Eta()
-                - jets[i][1].Eta()
+                jets[i][
+                    0
+                ].Eta()
+                - jets[i][
+                    1
+                ].Eta()
             )
             >= Range[0]
             and abs(
-                jets[i][0].Eta()
-                - jets[i][1].Eta()
+                jets[i][
+                    0
+                ].Eta()
+                - jets[i][
+                    1
+                ].Eta()
             )
             <= Range[1]
         ]
-    elif bin_var == "delta_phi":
+    elif (
+        bin_var
+        == "delta_phi"
+    ):
         true_indices = [
             i
-            for i in range(len(jets))
+            for i in range(
+                len(jets)
+            )
             if abs(
-                jets[i][0].DeltaPhi(
-                    jets[i][1]
+                jets[i][
+                    0
+                ].DeltaPhi(
+                    jets[i][
+                        1
+                    ]
                 )
             )
             >= Range[0]
             and abs(
-                jets[i][0].DeltaPhi(
-                    jets[i][1]
+                jets[i][
+                    0
+                ].DeltaPhi(
+                    jets[i][
+                        1
+                    ]
                 )
             )
             <= Range[1]
@@ -221,10 +307,16 @@ def choose_bin(
     elif bin_var == "m_jj":
         true_indices = [
             i
-            for i in range(len(jets))
-            if np.sum(jets[i]).M()
+            for i in range(
+                len(jets)
+            )
+            if np.sum(
+                jets[i]
+            ).M()
             >= Range[0]
-            and np.sum(jets[i]).M()
+            and np.sum(
+                jets[i]
+            ).M()
             <= Range[1]
         ]
     else:
@@ -238,16 +330,32 @@ def choose_bin(
         + str(Range[1])
     )
     binned_events = {}
-    for key, val in events.items():
+    for (
+        key,
+        val,
+    ) in events.items():
         try:
-            if key == "EventAttribute":
-                val = np.array(val)
-            binned_events[key] = val[
+            if (
+                key
+                == "EventAttribute"
+            ):
+                val = (
+                    np.array(
+                        val
+                    )
+                )
+            binned_events[
+                key
+            ] = val[
                 true_indices
             ]
-        except TypeError as e:
+        except (
+            TypeError
+        ) as e:
             print(e, key)
-            if key in {"cut_flow"}:
+            if key in {
+                "cut_flow"
+            }:
                 binned_events[
                     key
                 ] = val
@@ -255,24 +363,41 @@ def choose_bin(
 
 
 def cut_counter(
-    prev_cut_flow, current_cut_flow
+    prev_cut_flow,
+    current_cut_flow,
 ):
-    if len(prev_cut_flow.keys()) == 0:
-        return current_cut_flow
+    if (
+        len(
+            prev_cut_flow.keys()
+        )
+        == 0
+    ):
+        return (
+            current_cut_flow
+        )
     else:
         for (
             key,
             val,
-        ) in current_cut_flow.items():
-            if type(val) != int:
+        ) in (
+            current_cut_flow.items()
+        ):
+            if (
+                type(val)
+                != int
+            ):
                 print(
                     key,
                     " has value ",
-                    type(val),
+                    type(
+                        val
+                    ),
                     " skipping...",
                 )
                 continue
-            prev_cut_flow[key] += val
+            prev_cut_flow[
+                key
+            ] += val
         return prev_cut_flow
 
 
@@ -294,22 +419,30 @@ def cut_efficiency(
                 "total_efficiency"
             ],
             "Total: ",
-            cut_flow["total"],
+            cut_flow[
+                "total"
+            ],
             "Passed: ",
-            cut_flow["passed"],
+            cut_flow[
+                "passed"
+            ],
         )
     count = 0
     for key in order:
         # count+=cut_flow[key]
         efficiencies[key] = (
             cut_flow[key]
-            / cut_flow["total"]
+            / cut_flow[
+                "total"
+            ]
         )
         if verbose:
             print(
                 key,
                 " :",
-                efficiencies[key],
+                efficiencies[
+                    key
+                ],
             )
         # tot=tot-cut_flow[key]
     # if verbose: print ("Total rejected: ","\nRemaining: ",tot,"\nSum: ",count+tot)
@@ -318,24 +451,36 @@ def cut_efficiency(
 
 
 def dir_ext_count(
-    ext, dir_path, prefix="", suffix=""
+    ext,
+    dir_path,
+    prefix="",
+    suffix="",
 ):
     path = []
-    for item in os.listdir(dir_path):
+    for item in os.listdir(
+        dir_path
+    ):
         if item.startswith(
             prefix
-        ) and item.endswith(ext):
-            print(item, prefix)
+        ) and item.endswith(
+            ext
+        ):
+            print(
+                item, prefix
+            )
             if (
                 item[
                     -len(ext)
-                    - len(suffix) :
+                    - len(
+                        suffix
+                    ) :
                 ]
                 == suffix
             ):
                 path.append(
                     os.path.join(
-                        dir_path, item
+                        dir_path,
+                        item,
                     )
                 )
     return path
@@ -348,13 +493,22 @@ def workaround_concatenate(
 ):
     return_array = []
     for item in to_return:
-        return_array.append(item)
+        return_array.append(
+            item
+        )
     for item in to_append:
-        return_array.append(item)
-    if return_type != "array":
+        return_array.append(
+            item
+        )
+    if (
+        return_type
+        != "array"
+    ):
         return return_array
     else:
-        return np.array(return_array)
+        return np.array(
+            return_array
+        )
 
 
 def merge_flat_dict(
@@ -365,7 +519,14 @@ def merge_flat_dict(
     exclude=[],
 ):
     """combine two dictionaries of same set of <keys> with <numpy.array> as values"""
-    if len(list(append.keys())) == 0:
+    if (
+        len(
+            list(
+                append.keys()
+            )
+        )
+        == 0
+    ):
         if keys == "all":
             return temp
         else:
@@ -373,11 +534,16 @@ def merge_flat_dict(
             for item in keys:
                 return_dict[
                     item
-                ] = temp[item]
+                ] = temp[
+                    item
+                ]
     if keys == "all":
         keys = temp.keys()
     for item in append:
-        if item == "EventAttribute":
+        if (
+            item
+            == "EventAttribute"
+        ):
             print(
                 "Found EventAttribute, concatenating as list..."
             )
@@ -393,13 +559,18 @@ def merge_flat_dict(
             continue
         if (
             item not in keys
-            or item in exclude
+            or item
+            in exclude
         ):
             continue
         if (
-            type(append[item])
+            type(
+                append[item]
+            )
             == np.ndarray
-            and type(temp[item])
+            and type(
+                temp[item]
+            )
             == np.ndarray
         ):
             try:
@@ -407,14 +578,20 @@ def merge_flat_dict(
                     item
                 ] = np.concatenate(
                     (
-                        append[item],
-                        temp[item][
+                        append[
+                            item
+                        ],
+                        temp[
+                            item
+                        ][
                             :append_length
                         ],
                     ),
                     axis=0,
                 )
-            except ValueError as e:
+            except (
+                ValueError
+            ) as e:
                 print(
                     e,
                     "trying workaround method",
@@ -422,70 +599,127 @@ def merge_flat_dict(
                 append[
                     item
                 ] = workaround_concatenate(
-                    append[item],
-                    temp[item][
+                    append[
+                        item
+                    ],
+                    temp[
+                        item
+                    ][
                         :append_length
                     ],
                 )
         elif (
-            type(append[item]) == list
-            and type(temp[item])
+            type(
+                append[item]
+            )
+            == list
+            and type(
+                temp[item]
+            )
             == list
         ):
-            if "debug" in sys.argv:
+            if (
+                "debug"
+                in sys.argv
+            ):
                 print(
                     "list",
                     item,
-                    len(append[item]),
-                    len(temp[item]),
-                    append[item][
+                    len(
+                        append[
+                            item
+                        ]
+                    ),
+                    len(
+                        temp[
+                            item
+                        ]
+                    ),
+                    append[
+                        item
+                    ][
                         0
                     ].shape,
-                    append[item][
+                    append[
+                        item
+                    ][
                         1
                     ].shape,
-                    temp[item][
+                    temp[
+                        item
+                    ][
                         0
                     ].shape,
-                    temp[item][
+                    temp[
+                        item
+                    ][
                         1
                     ].shape,
                 )
             assert len(
                 append[item]
-            ) == len(temp[item])
+            ) == len(
+                temp[item]
+            )
             for i in range(
-                len(append[item])
+                len(
+                    append[
+                        item
+                    ]
+                )
             ):
                 append[item][
                     i
                 ] = np.concatenate(
                     (
-                        append[item][
+                        append[
+                            item
+                        ][
                             i
                         ],
-                        temp[item][i][
+                        temp[
+                            item
+                        ][i][
                             :append_length
                         ],
                     ),
                     axis=0,
                 )
-            if "debug" in sys.argv:
+            if (
+                "debug"
+                in sys.argv
+            ):
                 print(
                     "list",
                     item,
-                    len(append[item]),
-                    len(temp[item]),
-                    append[item][
+                    len(
+                        append[
+                            item
+                        ]
+                    ),
+                    len(
+                        temp[
+                            item
+                        ]
+                    ),
+                    append[
+                        item
+                    ][
                         0
                     ].shape,
-                    append[item][
+                    append[
+                        item
+                    ][
                         1
                     ].shape,
-                    temp[item][
+                    temp[
+                        item
+                    ][
                         0
                     ].shape,
-                    temp[item][
+                    temp[
+                        item
+                    ][
                         1
                     ].shape,
                 )
@@ -493,18 +727,24 @@ def merge_flat_dict(
     return append
 
 
-def print_events(events, name=None):
+def print_events(
+    events, name=None
+):
     """Function for printing nested dictionary with atmost 3 levels, with final value being a numpy.ndarry, prints the shape of the array"""
     if name:
         print(name)
     for channel in events:
         if hasattr(
-            events[channel], "shape"
+            events[channel],
+            "shape",
         ) or hasattr(
-            events[channel], "__len__"
+            events[channel],
+            "__len__",
         ):
             if hasattr(
-                events[channel],
+                events[
+                    channel
+                ],
                 "shape",
             ):
                 print(
@@ -523,7 +763,9 @@ def print_events(events, name=None):
                     "    Final State: ",
                     channel,
                     np.array(
-                        events[channel]
+                        events[
+                            channel
+                        ]
                     ).shape,
                     " dtype: EventAttribute",
                 )
@@ -534,7 +776,9 @@ def print_events(events, name=None):
                     "    Final State:",
                     channel,
                     len(
-                        events[channel]
+                        events[
+                            channel
+                        ]
                     ),
                     f" dtype: {type(events[channel])}",
                 )
@@ -562,30 +806,52 @@ def check_file(
     """
     path = []
     pwd = os.getcwd()
-    if pwd != os.path.abspath(
-        event_folder
+    if (
+        pwd
+        != os.path.abspath(
+            event_folder
+        )
     ):
-        os.chdir(event_folder)
+        os.chdir(
+            event_folder
+        )
     # print (event_folder,os.listdir(event_folder))
     for item in os.listdir(
         event_folder
     ):
         # print (os.getcwd()+"/"+item,os.path.isdir(os.getcwd()+"/"+item))
-        if os.path.isdir(item):
-            files = os.listdir(item)
-            if run_tag != "None":
-                if run_tag not in {
-                    item[
-                        : len(run_tag)
-                    ]
-                    for item in files
-                }:
+        if os.path.isdir(
+            item
+        ):
+            files = (
+                os.listdir(
+                    item
+                )
+            )
+            if (
+                run_tag
+                != "None"
+            ):
+                if (
+                    run_tag
+                    not in {
+                        item[
+                            : len(
+                                run_tag
+                            )
+                        ]
+                        for item in files
+                    }
+                ):
                     continue
             os.chdir(item)
             assert os.access(
                 ".", os.W_OK
             ), os.getcwd()
-            if target_file is not None:
+            if (
+                target_file
+                is not None
+            ):
                 if (
                     target_file
                     in files
@@ -596,9 +862,13 @@ def check_file(
                         os.getcwd(),
                         " skipping ",
                     )
-                    os.chdir("..")
+                    os.chdir(
+                        ".."
+                    )
                     continue
-            for filename in files:
+            for (
+                filename
+            ) in files:
                 if full_name:
                     if (
                         filename
@@ -612,7 +882,9 @@ def check_file(
                             )
                         )
                     continue
-                if not suffix:
+                if (
+                    not suffix
+                ):
                     if (
                         filename[
                             -len(
@@ -621,7 +893,9 @@ def check_file(
                         ]
                         == name
                         and filename[
-                            : len(tag)
+                            : len(
+                                tag
+                            )
                         ]
                         == tag
                     ):
@@ -635,11 +909,15 @@ def check_file(
                     continue
                 if (
                     filename[
-                        -len(name) :
+                        -len(
+                            name
+                        ) :
                     ]
                     == name
                     and filename[
-                        len(tag) :
+                        len(
+                            tag
+                        ) :
                     ]
                     == tag
                 ):
@@ -676,28 +954,44 @@ def arg_split(
     verbose=False,
 ):
     """to fix: not splitting args with len(array)==num_cores correctly into iterables of single length"""
-    print("Arge type: ", type(args))
+    print(
+        "Arge type: ",
+        type(args),
+    )
     if (
-        type(args) == np.ndarray
+        type(args)
+        == np.ndarray
         or type(args) == list
     ):
         step = int(
-            len(args) / num_cores
+            len(args)
+            / num_cores
         )
         arg = []
         for i in range(
-            0, len(args), step
+            0,
+            len(args),
+            step,
         ):
             try:
                 arg.append(
-                    args[i : i + step]
+                    args[
+                        i : i
+                        + step
+                    ]
                 )
-            except IndexError:
-                arg.append(args[i:])
+            except (
+                IndexError
+            ):
+                arg.append(
+                    args[i:]
+                )
     elif type(args) == dict:
         arg = [
             dict()
-            for i in range(num_cores)
+            for i in range(
+                num_cores
+            )
         ]
         if verbose:
             print(
@@ -705,36 +999,53 @@ def arg_split(
                 len(arg),
             )
             print_events(
-                args, name="Original:"
+                args,
+                name="Original:",
             )
         start_inds = []
         for key in args:
-            if key in ignore_keys:
+            if (
+                key
+                in ignore_keys
+            ):
                 print(
                     "Ignoring key: ",
                     key,
                 )
                 continue
             if (
-                type(args[key])
+                type(
+                    args[key]
+                )
                 == np.ndarray
             ):
                 step = (
                     int(
-                        len(args[key])
+                        len(
+                            args[
+                                key
+                            ]
+                        )
                         / num_cores
                     )
                     + 1
                 )
             else:
                 step = int(
-                    len(args[key])
+                    len(
+                        args[
+                            key
+                        ]
+                    )
                     / num_cores
                 )
             count = 0
             # print (key,step,np.array(args[key]).shape)
             for key in args:
-                if key in ignore_keys:
+                if (
+                    key
+                    in ignore_keys
+                ):
                     print(
                         "Ignoring key: ",
                         key,
@@ -742,15 +1053,25 @@ def arg_split(
                     continue
                 step = (
                     int(
-                        len(args[key])
+                        len(
+                            args[
+                                key
+                            ]
+                        )
                         / num_cores
                     )
                     + 1
                 )
                 count = 0
-                for i in range(
+                for (
+                    i
+                ) in range(
                     0,
-                    len(args[key]),
+                    len(
+                        args[
+                            key
+                        ]
+                    ),
                     step,
                 ):
                     if (
@@ -760,27 +1081,42 @@ def arg_split(
                         start_inds.append(
                             i
                         )
-                    arg[count][
+                    arg[
+                        count
+                    ][
                         key
-                    ] = args[key][
-                        i : i + step
+                    ] = args[
+                        key
+                    ][
+                        i : i
+                        + step
                     ]
-                    count += 1
+                    count += (
+                        1
+                    )
 
         if verbose:
             core_ind = 0
             print(
                 "Splitted dictionaries with: Arg_<start_ind>_<core_ind>"
             )
-            for start, item in zip(
-                start_inds, arg
+            for (
+                start,
+                item,
+            ) in zip(
+                start_inds,
+                arg,
             ):
                 print_events(
                     item,
                     name="Arg_"
-                    + str(start)
+                    + str(
+                        start
+                    )
                     + "_"
-                    + str(core_ind),
+                    + str(
+                        core_ind
+                    ),
                 )
             core_ind += 1
     else:
@@ -808,9 +1144,14 @@ def pool_splitter(
 ):
     """utility function for multiprocessing any function with single argument of either numpy.ndarray or flat dict with numpy.ndarray values"""
     add_dict = {}
-    for item in ignore_keys + add_keys:
+    for item in (
+        ignore_keys
+        + add_keys
+    ):
         if item in args:
-            add_dict[item] = args.pop(
+            add_dict[
+                item
+            ] = args.pop(
                 item
             )
     arg = arg_split(
@@ -820,12 +1161,19 @@ def pool_splitter(
         verbose=verbose,
     )
     arg = [
-        item for item in arg if item
+        item
+        for item in arg
+        if item
     ]
-    for key, val in add_dict.items():
+    for (
+        key,
+        val,
+    ) in add_dict.items():
         if key in add_keys:
             for item in arg:
-                item[key] = val
+                item[
+                    key
+                ] = val
     if len(arg) < num_cores:
         print(
             "Not enough arguments to split in :",
@@ -834,8 +1182,12 @@ def pool_splitter(
         )
         num_cores = len(arg)
     if with_lock:
-        print("Initialising lock...")
-        l = multiprocessing.Lock()
+        print(
+            "Initialising lock..."
+        )
+        l = (
+            multiprocessing.Lock()
+        )
         p = multiprocessing.Pool(
             processes=num_cores,
             initializer=init_lock,
@@ -854,18 +1206,29 @@ def pool_splitter(
             + " cores..."
         )
     try:
-        data = p.map(function, arg)
-    except KeyboardInterrupt as ki:
+        data = p.map(
+            function, arg
+        )
+    except (
+        KeyboardInterrupt
+    ) as ki:
         p.close()
         raise ki
     finally:
         p.close()
     print("Done!")
-    if type(data[0]) == np.ndarray:
-        return np.concatenate(
-            data, axis=0
+    if (
+        type(data[0])
+        == np.ndarray
+    ):
+        return (
+            np.concatenate(
+                data, axis=0
+            )
         )
-    elif type(data[0]) == dict:
+    elif (
+        type(data[0]) == dict
+    ):
         # if len(data)>16:
         #    print ("Splitting concatenation on 8 cores...")
         #    p=multiprocessing.Pool(processes=8)
@@ -873,7 +1236,8 @@ def pool_splitter(
         #    data=p.map(combine_dict,new_args)
         #    p.close()
         data = combine_dict(
-            data, exclude=exclude
+            data,
+            exclude=exclude,
         )
         data.update(add_dict)
         return data
@@ -884,20 +1248,40 @@ def pool_splitter(
 def seperate_classes(
     data, class_names
 ):
-    print("Seperating classes...")
-    X, Y = data["X"], data["Y"]
-    class_0, class_1 = np.nonzero(
+    print(
+        "Seperating classes..."
+    )
+    X, Y = (
+        data["X"],
+        data["Y"],
+    )
+    (
+        class_0,
+        class_1,
+    ) = np.nonzero(
         Y[:, 0]
-    ), np.nonzero(Y[:, 1])
+    ), np.nonzero(
+        Y[:, 1]
+    )
     if "debug" in sys.argv:
         print(
             type(class_0),
             len(class_0[0]),
             class_0[0][:2],
-            Y[class_0[0][:2]],
+            Y[
+                class_0[0][
+                    :2
+                ]
+            ],
         )
-    X0, Y0 = X[class_0], Y[class_0]
-    X1, Y1 = X[class_1], Y[class_1]
+    X0, Y0 = (
+        X[class_0],
+        Y[class_0],
+    )
+    X1, Y1 = (
+        X[class_1],
+        Y[class_1],
+    )
     # if not class_names: self.class_names=("class_0","class_1")
     return {
         class_names[0]: {
@@ -912,7 +1296,9 @@ def seperate_classes(
 
 
 def concatenate_list(
-    data, verbose=False, **kwargs
+    data,
+    verbose=False,
+    **kwargs,
 ):
     count = 0
     if verbose:
@@ -920,7 +1306,9 @@ def concatenate_list(
             print(
                 "-------------------------------------------------"
             )
-            for particle in item:
+            for (
+                particle
+            ) in item:
                 try:
                     print(
                         particle,
@@ -947,54 +1335,97 @@ def concatenate_list(
                 return_dict[
                     particle
                 ] = []
-            for event in list(
-                item[particle]
+            for (
+                event
+            ) in list(
+                item[
+                    particle
+                ]
             ):
                 return_dict[
                     particle
-                ].append(event)
+                ].append(
+                    event
+                )
     for item in return_dict:
-        return_dict[item] = np.array(
+        return_dict[
+            item
+        ] = np.array(
             return_dict[item]
         )
     if "cut_flow" in kwargs:
         return_dict[
             "cut_flow"
-        ] = kwargs.get("cut_flow")
+        ] = kwargs.get(
+            "cut_flow"
+        )
     return return_dict
 
 
-def combine_dict(data, exclude=[]):
-    print("Combining dictionaries...")
+def combine_dict(
+    data, exclude=[]
+):
+    print(
+        "Combining dictionaries..."
+    )
     # sys.exit()
     return_dict = dict()
     cont, count = False, 0
     if "cut_flow" in data[0]:
         sum_dicts = [
-            data[i].pop("cut_flow")
-            for i in range(len(data))
+            data[i].pop(
+                "cut_flow"
+            )
+            for i in range(
+                len(data)
+            )
         ]
         cut_flow = {}
-        for item in sum_dicts:
-            cut_flow = cut_counter(
-                cut_flow, item
+        for (
+            item
+        ) in sum_dicts:
+            cut_flow = (
+                cut_counter(
+                    cut_flow,
+                    item,
+                )
             )
         add = True
     else:
         add = False
-    for i in range(len(data)):
-        if len(data[i].keys()) == 0:
+    for i in range(
+        len(data)
+    ):
+        if (
+            len(
+                data[
+                    i
+                ].keys()
+            )
+            == 0
+        ):
             continue
         for key in data[i]:
-            if key in exclude:
+            if (
+                key
+                in exclude
+            ):
                 continue
             if count == 0:
                 return_dict[
                     key
-                ] = data[i][key]
+                ] = data[i][
+                    key
+                ]
             else:
                 if (
-                    type(data[i][key])
+                    type(
+                        data[
+                            i
+                        ][
+                            key
+                        ]
+                    )
                     == list
                 ):
                     return_dict[
@@ -1003,7 +1434,11 @@ def combine_dict(data, exclude=[]):
                         return_dict[
                             key
                         ]
-                        + data[i][key]
+                        + data[
+                            i
+                        ][
+                            key
+                        ]
                     )
                 else:
                     try:
@@ -1016,13 +1451,13 @@ def combine_dict(data, exclude=[]):
                                 ],
                                 data[
                                     i
-                                ][key],
+                                ][
+                                    key
+                                ],
                             ),
                             axis=0,
                         )
-                    except (
-                        ValueError
-                    ) as E:
+                    except ValueError as E:
                         print(
                             E,
                             "\nCould not concatenate as numpy array, appending as lists...",
@@ -1037,7 +1472,9 @@ def combine_dict(data, exclude=[]):
                         )
         count += 1
     for key in exclude:
-        return_dict[key] = data[0][key]
+        return_dict[
+            key
+        ] = data[0][key]
     if add:
         return_dict[
             "cut_flow"

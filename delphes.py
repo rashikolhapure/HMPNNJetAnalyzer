@@ -14,7 +14,9 @@ from hep_ml.hep.methods import (
 from hep_ml.genutils import (
     print_events,
 )
-from optparse import OptionParser
+from optparse import (
+    OptionParser,
+)
 
 parser = OptionParser()
 parser.add_option(
@@ -42,7 +44,10 @@ parser.add_option(
 )
 
 
-(options, args) = parser.parse_args()
+(
+    options,
+    args,
+) = parser.parse_args()
 if options.run_name is None:
     print(
         "Provide compulsory option run_name with -r <run_name> or --run <run_name> \n"
