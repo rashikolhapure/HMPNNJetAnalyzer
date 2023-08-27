@@ -45,7 +45,7 @@ From deep within the heart of high-energy physics to the cosmos of machine learn
 
 ## 🌌 Beam Me Up, Scotty!
 
-1. 🛸 Clone the repository: `git clone https://github.com/yourusername/hmpnn-jet-analysis.git`
+1. 🛸 Clone the repository: `git clone https://github.com/rajveer43/hep_ml.git`
 2. 🌌 Navigate to the project realm: `cd hmpnn-jet-analysis`
 3. 🪄 Set up your mystical environment: `pip install -r requirements.txt`
 4. 🌟 Explore the galaxy for captivating data explorations and spellbinding model training examples.
