@@ -1,4 +1,4 @@
-# 🚀 HyperGraph Magic: Unraveling Jets with HMPNNs
+# 🚀 HyperGraph Magic: Unraveling Particle Jets with HMPNNs
 
 
 📡 **"Houston, we have jets!"** 🛰️
