@@ -48,12 +48,7 @@ From deep within the heart of high-energy physics to the cosmos of machine learn
 1. 🛸 Clone the repository: `git clone https://github.com/yourusername/hmpnn-jet-analysis.git`
 2. 🌌 Navigate to the project realm: `cd hmpnn-jet-analysis`
 3. 🪄 Set up your mystical environment: `pip install -r requirements.txt`
-4. 🌟 Explore the `notebooks/` galaxy for captivating data explorations and spellbinding model training examples.
-
-## 🧞‍♂️ Contribute & Join the Quest
-
-- **Join the Fellowship:** Contributions are enchantments that make our journey richer. Submit your pull request and be part of the magic!
-- **Magic Portal (Issue)**: For significant enchantments, step through the magic portal and open an issue to discuss your ideas.
+4. 🌟 Explore the galaxy for captivating data explorations and spellbinding model training examples.
 
 ## ⚡ Warp-Speed License
 
