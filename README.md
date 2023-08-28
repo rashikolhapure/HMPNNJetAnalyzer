@@ -4,7 +4,7 @@
 
 🎉 Welcome to the journey of **HyperGraph Message Passing Neural Networks** (HMPNNs) exploring the mesmerizing realm of high-energy particle collisions! Strap in, because we're about to decode the symphony of particles through a fusion of physics and machine learning. 🤯
 
-![Particle Orchestra](project-banner-image.jpg)
+![Particle Orchestra](images/atlas.png)
 
 ## 🪐 Pioneering Particle Performances
 
