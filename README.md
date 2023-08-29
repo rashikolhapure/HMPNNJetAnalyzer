@@ -10,10 +10,7 @@
 
 🔬 **Quantum Chromodynamics (QCD)**, the tale of strong quark-gluon interactions, sets the stage for our journey:
 
-<video width="640" height="360" controls>
-    <source src="videos/4.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
+https://github.com/rajveer43/hep_ml/assets/64583161/c6034ad6-aa9b-4c5b-a00b-fe305d05cbbd
 
 🔥 **"Particle Aria"** - Jets emerge as sparkling sprays of particles in high-energy collisions, their songs resonating through the cosmos. 🌠
 
