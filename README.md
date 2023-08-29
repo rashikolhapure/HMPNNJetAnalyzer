@@ -20,7 +20,11 @@ In the grand theater of high-energy collisions, the particle jets dance with com
 
 ## 🌟 Glorious Galaxy of Findings
 
+![AUC Curve](images/auc.jpg)
+    
 ✨ **Stellar Performance** - Our model shines bright with stellar accuracy and AUC in distinguishing top quarks from QCD jets. The stars align for precision! ✨
+
+![Permutation Invarient](images/PI.png)
 
 🌐 **Hypergraph Odyssey** - In the land of hypergraphs, our HMPNNs are fearless explorers, traversing multiple nodes, hyperedges, and labels. 🛰️
 
