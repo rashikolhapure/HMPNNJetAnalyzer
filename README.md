@@ -6,27 +6,66 @@
 
 ![Particle Orchestra](images/atlas.png)
 
+## ⚛️ Quantum Chronicles of QCD
+
+🔬 **Quantum Chromodynamics (QCD)**, the tale of strong quark-gluon interactions, sets the stage for our journey:
+
+<video width="640" height="360" controls>
+    <source src="videos/4.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+🔥 **"Particle Aria"** - Jets emerge as sparkling sprays of particles in high-energy collisions, their songs resonating through the cosmos. 🌠
+
+⚛️ **"QCD's Cosmic Dance"** - QCD jets, birthed from quarks and gluons, converse a different cosmic language compared to non-QCD jets. Their energy, multiplicity, and dance steps set them apart. 💃
+
+🪐 **"Quantum Properties"** - Jet classification unveils their essence: the jet mass, substructure, energy, and a plethora of features shape their cosmic choreography. 🛰️
+
+## 🌟 Stars in the Jet Constellation
+
+🌟 **"Our Celestial Ensemble"** - The dataset twinkles with MC simulated events, unraveling top quark tagging mysteries. 1.2M training events, 400k validation events, and 400k test events make up our cosmic ensemble. 🎭
+
+🔍 **"Particle Puzzle Pieces"** - The dataset embodies hadronic tops for the signal, QCD diets background, Pythia8's ATLAS detector card, and the Pythia 8-generated quark and gluon jet datasets. Each piece holds a cosmic puzzle. 🧩
+
+## 🚀 Particle Jet Portals
+
+🪐 **"Hypergraph Voyage"** - We steer the cosmic ship of Hypergraph Message Passing, crafting graphs in the (η, φ)-plane and passing cosmic messages to weave cosmic insights. 🚢
+
+🎩 **"Magic Four-Vectors"** - Directions sculpt our message weights, as four-vectors dance with information exchange, painting the cosmic symphony of jet features. 🌈
+
+🧙‍♂️ **"Neural Cosmic Oracle"** - A cosmic climax ensues as our cosmic representation reaches the cosmic Neural Network Oracle. The oracle's verdict unveils the cosmic binary classification score, decoding QCD and non-QCD jets' cosmic essence. 🌌
+
 ## 🪐 Pioneering Particle Performances
 
 In the grand theater of high-energy collisions, the particle jets dance with complexity and mystery. These performances are captivating, yes, but often a conundrum. Fear not, for our cast of **Neural Networks** are here to decipher the enigmatic jets with precision! 🌌
 
+![irc](images/auc.jpg)
+
 🤖 **"Classifier Extraordinaire!"** - Our algorithm shines in distinguishing jet types, unraveling secrets essential for a myriad of physics analyses. 🕵️‍♂️
+
+![irc](images/ir1.jpg)
 
 🧙‍♂️ **"Magic of IRC Safety!"** - With a sprinkle of physics, our HMPNNs honor IRC safety, ensuring predictions stay steadfast even in the face of soft emissions. 🪄
 
+![qcd_radiation](images/energy%20comaprison.png)
+
 📡 **"Navigating the Jet Stream!"** - Taming the QCD radiation dragon, our neural wizards stay cool while venturing into the vast jet landscape. 🌀
+
+![different size of qcd jets](images/Ogul_TCT_Jets_Tracks_HighPTj.png)
 
 💥 **"Scalable Sorcery!"** - Be it tiny jets or colossal ones, our HMPNNs flaunt the magic of scalability, adapting to various jet sizes and types. 🎩
 
 ## 🌟 Glorious Galaxy of Findings
 
 ![AUC Curve](images/auc.jpg)
-    
+
 ✨ **Stellar Performance** - Our model shines bright with stellar accuracy and AUC in distinguishing top quarks from QCD jets. The stars align for precision! ✨
 
 ![Permutation Invarient](images/PI.png)
 
 🌐 **Hypergraph Odyssey** - In the land of hypergraphs, our HMPNNs are fearless explorers, traversing multiple nodes, hyperedges, and labels. 🛰️
+
+![AUC Curve](images/roc.jpg)
 
 🌌 **Cosmic Radius Reckoning** - Tune in for the cosmic dance as we test different values of R, controlling jet radius. Bigger isn't always better, and smaller isn't always wiser. 🔮
 
@@ -80,15 +119,7 @@ Amidst the quest for new physics beyond the Standard Model, the need for swift a
 
 💥 **"Performance Meteors!"** - Behold as we gauge the cosmic dance, measuring the celestial performance and computational cost of HMPNNs. ⚡
 
-## ⚛️ Quantum Chronicles of QCD
 
-🔬 **Quantum Chromodynamics (QCD)**, the tale of strong quark-gluon interactions, sets the stage for our journey:
-
-🔥 **"Particle Aria"** - Jets emerge as sparkling sprays of particles in high-energy collisions, their songs resonating through the cosmos. 🌠
-
-⚛️ **"QCD's Cosmic Dance"** - QCD jets, birthed from quarks and gluons, converse a different cosmic language compared to non-QCD jets. Their energy, multiplicity, and dance steps set them apart. 💃
-
-🪐 **"Quantum Properties"** - Jet classification unveils their essence: the jet mass, substructure, energy, and a plethora of features shape their cosmic choreography. 🛰️
 
 ## 🌟 Stars in the Jet Constellation
 
@@ -103,18 +134,6 @@ Amidst the quest for new physics beyond the Standard Model, the need for swift a
 🎩 **"Magic Four-Vectors"** - Directions sculpt our message weights, as four-vectors dance with information exchange, painting the cosmic symphony of jet features. 🌈
 
 🧙‍♂️ **"Neural Cosmic Oracle"** - A cosmic climax ensues as our cosmic representation reaches the cosmic Neural Network Oracle. The oracle's verdict unveils the cosmic binary classification score, decoding QCD and non-QCD jets' cosmic essence. 🌌
-
-## 🪄 Cosmic Implications
-
-As we unveil the cosmic truths, implications resonate through the cosmos:
-
-- 🛸 **Cosmic Precision**: Our cosmic approach enriches machine learning-based QCD studies, launching a cosmic era of precision.
-
-- 🚀 **Particle Calibrations**: Particle jet calibration ascends to new cosmic heights, casting a cosmic net of accuracy.
-
-- 🪐 **Machine Learning Constellations**: The cosmic impact reverberates, nurturing novel cosmic machine learning techniques across cosmic domains.
-
-![End of the Cosmic Odyssey](project-end-image.jpg)
 
 
 ## 🪐 Beyond the Stars: Cosmic Fellowship
