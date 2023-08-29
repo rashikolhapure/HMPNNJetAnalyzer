@@ -83,58 +83,14 @@ From deep within the heart of high-energy physics to the cosmos of machine learn
 
 - 🎩 **Innovation Spells**: Our HMPNN saga inspires new machine learning techniques, reverberating beyond particle physics into diverse realms. 💬
 
-![End of the Voyage](project-end-image.jpg)
+<!-- ![End of the Voyage](project-end-image.jpg) -->
 
 ## 🌌 Beam Me Up, Scotty!
 
 1. 🛸 Clone the repository: `git clone https://github.com/rajveer43/hep_ml.git`
 2. 🌌 Navigate to the project realm: `cd hep_ml`
 3. 🪄 Set up your mystical environment: `pip install -r requirements.txt`
-4. 🌟 Explore the `notebooks/` galaxy for captivating data explorations and spellbinding model training examples.
-
-## ⚡ Warp-Speed License
-
-This project is enchanted under the [MIT License](LICENSE), allowing you to wield its powers with freedom!
-
----
-
-🚀 Embark with us on a journey that transcends particles and codes, and let's redefine the frontiers of understanding together! ⚛️
-
-
-# 🚀 HyperGraph Alchemy: Deciphering Particle Jets with HMPNNs
-
-🌌 **"Where Particles Meet Magic!"** 🪄
-
-🎉 Greetings, cosmic wanderer! Venture into the cosmic depths with us as we wield the power of **HyperGraph Message Passing Neural Networks (HMPNNs)** to illuminate the enigmatic realm of high-energy particle collisions. 🌠
-
-![Cosmic Symphony](project-banner-image.jpg)
-
-## 🪐 Quantum Enigmas and Learning Miracles
-
-Amidst the quest for new physics beyond the Standard Model, the need for swift and accurate analyses of intricate high-energy particle collision data arises. Here, the orchestra of **Machine Learning Models** takes center stage, conducting harmonious analyses on variable-sized inputs. It's the symphony where particles tango with learning miracles! 🎻
-
-🌀 **"A Jet Odyssey!"** - Our odyssey delves into the cosmic choreography of particle jets, unlocking their secrets with the prowess of HMPNNs. 🌌
-
-🔮 **"Order of Constellations!"** - HMPNNs work their magic by embracing the **permutation-invariant property**, unshaken by the shifting order of jet constituents. 🪐
-
-💥 **"Performance Meteors!"** - Behold as we gauge the cosmic dance, measuring the celestial performance and computational cost of HMPNNs. ⚡
-
-
-
-## 🌟 Stars in the Jet Constellation
-
-🌟 **"Our Celestial Ensemble"** - The dataset twinkles with MC simulated events, unraveling top quark tagging mysteries. 1.2M training events, 400k validation events, and 400k test events make up our cosmic ensemble. 🎭
-
-🔍 **"Particle Puzzle Pieces"** - The dataset embodies hadronic tops for the signal, QCD diets background, Pythia8's ATLAS detector card, and the Pythia 8-generated quark and gluon jet datasets. Each piece holds a cosmic puzzle. 🧩
-
-## 🚀 Particle Jet Portals
-
-🪐 **"Hypergraph Voyage"** - We steer the cosmic ship of Hypergraph Message Passing, crafting graphs in the (η, φ)-plane and passing cosmic messages to weave cosmic insights. 🚢
-
-🎩 **"Magic Four-Vectors"** - Directions sculpt our message weights, as four-vectors dance with information exchange, painting the cosmic symphony of jet features. 🌈
-
-🧙‍♂️ **"Neural Cosmic Oracle"** - A cosmic climax ensues as our cosmic representation reaches the cosmic Neural Network Oracle. The oracle's verdict unveils the cosmic binary classification score, decoding QCD and non-QCD jets' cosmic essence. 🌌
-
+4. 🌟 Explore the `images/` galaxy for captivating data explorations and spellbinding model training examples.
 
 ## 🪐 Beyond the Stars: Cosmic Fellowship
 
@@ -144,6 +100,26 @@ Amidst the quest for new physics beyond the Standard Model, the need for swift a
 ## ⚡ Cosmic Code
 
 This cosmic journey abides under the [Cosmic License](LICENSE), granting cosmic sovereignty in wielding its magic!
+
+## ⚡ Warp-Speed License
+
+This project is enchanted under the [MIT License](LICENSE), allowing you to wield its powers with freedom!
+
+<!-- --- -->
+
+<!-- 🚀 Embark with us on a journey that transcends particles and codes, and let's redefine the frontiers of understanding together! ⚛️ -->
+
+
+<!-- # 🚀 HyperGraph Alchemy: Deciphering Particle Jets with HMPNNs
+
+🌌 **"Where Particles Meet Magic!"** 🪄
+
+🎉 Greetings, cosmic wanderer! Venture into the cosmic depths with us as we wield the power of **HyperGraph Message Passing Neural Networks (HMPNNs)** to illuminate the enigmatic realm of high-energy particle collisions. 🌠 -->
+
+<!-- ![Cosmic Symphony](project-banner-image.jpg) -->
+
+
+
 
 ---
 
