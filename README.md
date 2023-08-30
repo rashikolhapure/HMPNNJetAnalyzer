@@ -62,7 +62,7 @@ In the grand theater of high-energy collisions, the particle jets dance with com
 
 ✨ **Stellar Performance** - Our model shines bright with stellar accuracy and AUC in distinguishing top quarks from QCD jets. The stars align for precision! ✨
 
-AUC Values for Gluons vs Quark Tagging Dataset
+1. AUC Values for Gluons vs Quark Tagging Dataset
 
 | Sr. No. | R<sub>0</sub> | Accuracy       |
 | ------- | ------------- | -------------- |
@@ -72,8 +72,7 @@ AUC Values for Gluons vs Quark Tagging Dataset
 | 4       | 0.3           | 0.8916±0.0008 |
 | 5       | 0.4           | 0.8919±0.0006 |
 
-
-1. AUC Values for Top Tagging Dataset
+2. AUC Values for Top Tagging Dataset
 
 | Sr. No. | R<sub>0</sub> | Accuracy       |
 | ------- | ------------- | -------------- |
@@ -83,7 +82,7 @@ AUC Values for Gluons vs Quark Tagging Dataset
 | 4       | 0.4           | 0.9782±0.0002 |
 | 5       | 0.5           | 0.9781±0.0002 |
 
-AUC Values for W Tagging Dataset
+3. AUC Values for W Tagging Dataset
 
 | Sr. No. | R<sub>0</sub> | Accuracy       |
 | ------- | ------------- | -------------- |
