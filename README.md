@@ -62,109 +62,36 @@ In the grand theater of high-energy collisions, the particle jets dance with com
 
 ✨ **Stellar Performance** - Our model shines bright with stellar accuracy and AUC in distinguishing top quarks from QCD jets. The stars align for precision! ✨
 
-### AUC Values for Gluons vs Quark Tagging Dataset
-<table>
-  <tr>
-    <th>Sr. No.</th>
-    <th>R<sub>0</sub></th>
-    <th>Accuracy</th>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>0.1</td>
-    <td>0.8824±0.0005</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>0.1</td>
-    <td>0.8888±0.0013</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>0.2</td>
-    <td>0.8909±0.0009</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>0.3</td>
-    <td>0.8916±0.0008</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>0.4</td>
-    <td>0.8919±0.0006</td>
-  </tr>
-</table>
+AUC Values for Gluons vs Quark Tagging Dataset
 
-### AUC Values for Top Tagging Dataset
+| Sr. No. | R<sub>0</sub> | Accuracy       |
+| ------- | ------------- | -------------- |
+| 1       | 0.1           | 0.8824±0.0005 |
+| 2       | 0.1           | 0.8888±0.0013 |
+| 3       | 0.2           | 0.8909±0.0009 |
+| 4       | 0.3           | 0.8916±0.0008 |
+| 5       | 0.4           | 0.8919±0.0006 |
 
-<table>
-  <tr>
-    <th>Sr. No.</th>
-    <th>R<sub>0</sub></th>
-    <th>Accuracy</th>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>0.1</td>
-    <td>0.9734±0.0009</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>0.2</td>
-    <td>0.9764±0.0004</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>0.3</td>
-    <td>0.9779±0.0005</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>0.4</td>
-    <td>0.9782±0.0002</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>0.5</td>
-    <td>0.9781±0.0002</td>
-  </tr>
-</table>
 
-### AUC Values for W Tagging Dataset
+1. AUC Values for Top Tagging Dataset
 
-<table>
-  <tr>
-    <th>Sr. No.</th>
-    <th>R<sub>0</sub></th>
-    <th>Accuracy</th>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>0.1</td>
-    <td>0.9865±0.0004</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>0.2</td>
-    <td>0.9864±0.0004</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>0.3</td>
-    <td>0.9863±0.0004</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>0.4</td>
-    <td>0.9868±0.0004</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>0.5</td>
-    <td>0.9868±0.0005</td>
-  </tr>
-</table>
+| Sr. No. | R<sub>0</sub> | Accuracy       |
+| ------- | ------------- | -------------- |
+| 1       | 0.1           | 0.9734±0.0009 |
+| 2       | 0.2           | 0.9764±0.0004 |
+| 3       | 0.3           | 0.9779±0.0005 |
+| 4       | 0.4           | 0.9782±0.0002 |
+| 5       | 0.5           | 0.9781±0.0002 |
+
+AUC Values for W Tagging Dataset
+
+| Sr. No. | R<sub>0</sub> | Accuracy       |
+| ------- | ------------- | -------------- |
+| 1       | 0.1           | 0.9865±0.0004 |
+| 2       | 0.2           | 0.9864±0.0004 |
+| 3       | 0.3           | 0.9863±0.0004 |
+| 4       | 0.4           | 0.9868±0.0004 |
+| 5       | 0.5           | 0.9868±0.0005 |
 
 ![Permutation Invarient](images/PI.png)
 
