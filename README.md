@@ -14,6 +14,26 @@ HMPNNs bring a multitude of motivations to the table. Firstly, the adaptability 
 
 Through this innovative approach, HMPNNs hold the promise to unlock hidden insights within jet analysis data, ultimately contributing to a deeper understanding of the complex world of particle collisions.
 
+## Unveiling the Subnuclear World: Exploring Particle Physics Beyond the Standard Model
+
+The Large Hadron Collider (LHC) unites multidisciplinary expertise to unravel matter's subnuclear structure. Operating under the Standard Model's (SM) umbrella, LHC's proton collisions adhere to three fundamental interactions—electromagnetic, weak nuclear, and strong nuclear forces. However, the SM remains incomplete, fueling inquiries into dark matter, matter-antimatter asymmetry, and more.
+
+This project delves into Beyond Standard Model (BSM) Particle Physics. We analyze particle jets generated in high-energy LHC collisions. Jets, collimated particle sprays, emerge from quarks and gluons combining to form hadrons, shedding light on fundamental particle properties and interaction forces.
+
+![Particle Jet Production](images/particle_jet_production.png)
+
+These particle jets play a pivotal role in understanding complex interactions. By adopting Hypergraph Message Passing Neural Networks (HMPNNs), we navigate the intricate relationships within jet data, aiming to unlock hidden insights. This innovative approach extends beyond traditional models, enhancing our comprehension of particle collisions.
+
+### Key Points
+- LHC investigates matter's subnuclear structure through proton collisions.
+- While the Standard Model explains fundamental forces, it's incomplete.
+- BSM Particle Physics explores jet data using novel techniques.
+- Particle jets provide insights into fundamental particle properties.
+- HMPNNs promise to unveil new insights by deciphering jet data relationships.
+
+[Watch Video](https://www.youtube.com/watch?v=VIDEO_ID)
+
+
 
 
 ## 📡 **"Houston, we have jets!"** 🛰️
