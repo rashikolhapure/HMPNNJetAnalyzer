@@ -8,7 +8,9 @@ from itertools import (
 )
 
 
-def predict_enc(enc, data_dict, subplots=False, type="scatter", save_path="./plots", **kwargs):
+def predict_enc(
+    enc, data_dict, subplots=False, type="scatter", save_path="./plots", **kwargs
+):
     """Predicts the encoded values for each data item in data_dict using the encoder enc, and generates scatter or binned plots for the pairwise combinations of these encoded values.
 
     Parameters:

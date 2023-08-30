@@ -150,7 +150,9 @@ def SumCombinations(
 
 def UnequalSet(*args):
     for i in range(len(args) - 1):
-        assert len(list(args[i])) == len(list(args[i + 1])) and type(args[i]) == type(args[i + 1])
+        assert len(list(args[i])) == len(list(args[i + 1])) and type(args[i]) == type(
+            args[i + 1]
+        )
         for item in list(args[i]):
             assert args[i].count(item) == 1
             if item in list(args[i + 1]):
@@ -189,7 +191,9 @@ def GetMass(particle):
         return_array = np.zeros(particle.shape[0])
         count = 0
         for item in particle:
-            return_array[count] = item[0] * np.sqrt(1 - np.sum(item[1:] ** 2) / item[0] ** 2)
+            return_array[count] = item[0] * np.sqrt(
+                1 - np.sum(item[1:] ** 2) / item[0] ** 2
+            )
             count += 1
         return_array = return_array.reshape(tuple(init_shape[:-1]))
         return return_array

@@ -167,7 +167,8 @@ class ModelData(object):
                 item,
             ) in enumerate(in_data):
                 final_state_dict = {
-                    input_state: item[input_state.name] for input_state in self.input_states
+                    input_state: item[input_state.name]
+                    for input_state in self.input_states
                 }
                 length = final_state_dict[self.input_states[0]].shape[0]
                 if not self.check and self.model_type != "autoencoder":
@@ -221,8 +222,12 @@ class ModelData(object):
                 return_dict[run_name]["Y"][:-10],
             )
             if type(return_dict[run_name]["X"]) == list:
-                temp_train = [np_array[:split_point] for np_array in return_dict[run_name]["X"]]
-                temp_val = [np_array[split_point:] for np_array in return_dict[run_name]["X"]]
+                temp_train = [
+                    np_array[:split_point] for np_array in return_dict[run_name]["X"]
+                ]
+                temp_val = [
+                    np_array[split_point:] for np_array in return_dict[run_name]["X"]
+                ]
                 if not train_dict:
                     (
                         train_dict["X"],
@@ -239,9 +244,9 @@ class ModelData(object):
                         return_dict[run_name]["Y"][split_point:],
                     )
                 else:
-                    assert len(train_dict["X"]) == len(temp_train) and len(val_dict["X"]) == len(
-                        temp_val
-                    )
+                    assert len(train_dict["X"]) == len(temp_train) and len(
+                        val_dict["X"]
+                    ) == len(temp_val)
                     train_dict["X"] = [
                         np.concatenate(
                             (
@@ -383,7 +388,8 @@ class ModelData(object):
                 item,
             ) in enumerate(in_data):
                 final_state_dict = {
-                    input_state: item[input_state.name] for input_state in self.input_states
+                    input_state: item[input_state.name]
+                    for input_state in self.input_states
                 }
                 if not self.check and self.model_type != "autoencoder":
                     self.check_consistency(final_state_dict)
@@ -394,7 +400,8 @@ class ModelData(object):
                 length = final_state_dict[self.input_states[0]].shape[0]
                 if self.validation_tag != "":
                     condition = (
-                        self.validation_tag in os.listdir(in_data.current_run) and not val_full
+                        self.validation_tag in os.listdir(in_data.current_run)
+                        and not val_full
                     )
                 else:
                     condition = not val_full
@@ -599,7 +606,9 @@ class ModelData(object):
             else:
                 assert input_state.shape == current_array.shape[2:], "Wrong input shape"
                 i = 2
-                assert input_state.index < current_array.shape[1], IndexError("Index out of range")
+                assert input_state.index < current_array.shape[1], IndexError(
+                    "Index out of range"
+                )
             print(
                 input_state.shape,
                 "==",
@@ -710,16 +719,16 @@ class ModelData(object):
                 for input_state in self.input_states:
                     loaded_shape = temp_dict[input_state.name].shape
                     if input_state.index != None:
-                        X[input_state.network_input_index][key.start : key.end] = temp_dict[
-                            input_state.name
-                        ][
+                        X[input_state.network_input_index][
+                            key.start : key.end
+                        ] = temp_dict[input_state.name][
                             :,
                             input_state.index,
                         ]
                     else:
-                        X[input_state.network_input_index][key.start : key.end] = temp_dict[
-                            input_state.name
-                        ]
+                        X[input_state.network_input_index][
+                            key.start : key.end
+                        ] = temp_dict[input_state.name]
                     Y[
                         key.start : key.end,
                         class_indices[key.class_name],
@@ -795,7 +804,9 @@ class ModelData(object):
                         axis=0,
                     )
         else:
-            lengths = {item: max(key.end for key in index_dict[item]) for item in index_dict}
+            lengths = {
+                item: max(key.end for key in index_dict[item]) for item in index_dict
+            }
             data_dict = {
                 item: {
                     space: array
@@ -1024,7 +1035,9 @@ class AutoencoderData(ModelData):
                 container_val = array_shuffle(all=container_val)
                 train_data = {"Y": container_train["Y"]}
                 val_data = {"Y": container_val["Y"]}
-                train_data["X"] = [container_train["X" + str(i)] for i in range(len(train_X))]
+                train_data["X"] = [
+                    container_train["X" + str(i)] for i in range(len(train_X))
+                ]
                 val_data["X"] = [container_val["X" + str(i)] for i in range(len(val_X))]
                 train_data["ind_map"] = container_train["ind_map"]
                 val_data["ind_map"] = container_val["ind_map"]
@@ -1175,7 +1188,9 @@ class DataHandler(object):
             "indices",
             load_path=self.data_save_path,
         )
-        return self.data_handler(self.class_names, input_keys=dictionary["input_keys"], **kwargs)
+        return self.data_handler(
+            self.class_names, input_keys=dictionary["input_keys"], **kwargs
+        )
 
     def get_data(self):
         if "dictionary" in os.listdir(self.data_save_path):

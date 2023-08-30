@@ -417,13 +417,15 @@ class Plotter:
             0,
             1,
         )
-        self.axes.set_xscale("symlog"), self.axes.set_yscale("symlog"), self.axes.set_zscale(
+        self.axes.set_xscale("symlog"), self.axes.set_yscale(
             "symlog"
-        )
-        self.axes.set_xlabel("$P_x$"), self.axes.set_ylabel("$P_y$"), self.axes.set_zlabel("$P_z$")
-        self.axes.set_xlim(extremum[0]), self.axes.set_ylim(extremum[1]), self.axes.set_zlim(
-            extremum[2]
-        )
+        ), self.axes.set_zscale("symlog")
+        self.axes.set_xlabel("$P_x$"), self.axes.set_ylabel(
+            "$P_y$"
+        ), self.axes.set_zlabel("$P_z$")
+        self.axes.set_xlim(extremum[0]), self.axes.set_ylim(
+            extremum[1]
+        ), self.axes.set_zlim(extremum[2])
         count = 0
         for item in np.swapaxes(fatjet[0], 0, 1):
             if count == 0:
@@ -754,13 +756,15 @@ class Plotter:
                 1,
             )
         # print (extremum)
-        self.axes.set_xscale("symlog"), self.axes.set_yscale("symlog"), self.axes.set_zscale(
+        self.axes.set_xscale("symlog"), self.axes.set_yscale(
             "symlog"
-        )
-        self.axes.set_xlabel("$P_x$"), self.axes.set_ylabel("$P_y$"), self.axes.set_zlabel("$P_z$")
-        self.axes.set_xlim(extremum[0]), self.axes.set_ylim(extremum[1]), self.axes.set_zlim(
-            extremum[2]
-        )
+        ), self.axes.set_zscale("symlog")
+        self.axes.set_xlabel("$P_x$"), self.axes.set_ylabel(
+            "$P_y$"
+        ), self.axes.set_zlabel("$P_z$")
+        self.axes.set_xlim(extremum[0]), self.axes.set_ylim(
+            extremum[1]
+        ), self.axes.set_zlim(extremum[2])
         if axis == "off":
             self.axes.axis("off")
         # self.axes.scatter(fatjet[0],fatjet[1],fatjet[2],c=Z,cmap="Blues",norm=colors.LogNorm(vmin=np.min(Z), vmax=np.max(Z)))

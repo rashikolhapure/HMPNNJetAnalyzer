@@ -107,7 +107,9 @@ class Inference(NetworkMethod):
         self.per_run_models = None
         if not self.get_model:
             if "dictionary.pickle" in os.listdir(self.data_path):
-                assert "data_handler" in kwargs, "Provide data handler used while training model"
+                assert (
+                    "data_handler" in kwargs
+                ), "Provide data handler used while training model"
                 self.load_data = kwargs.get("data_handler")
                 self.unoperated_data = self.handler_load(**self.extra_handler_kwargs)
             else:
@@ -295,7 +297,9 @@ class Inference(NetworkMethod):
                 continue
             else:
                 val_acc.append(val)
-        model_files = [item for i, item in enumerate(model_files) if i not in remove_inds]
+        model_files = [
+            item for i, item in enumerate(model_files) if i not in remove_inds
+        ]
         # print (item,eval(item[:-len(".hdf5")].split("_")[-1]))
         val_acc = np.array(val_acc)
         if self.best == "high":

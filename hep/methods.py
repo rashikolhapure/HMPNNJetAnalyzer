@@ -200,7 +200,10 @@ class DelphesNumpy(PhysicsMethod):
                 ]
                 current["EventAttribute"] = event_attribute
                 print_events(current)
-                if "Particle" not in self.final_state_attributes and self.extract_gen_particles:
+                if (
+                    "Particle" not in self.final_state_attributes
+                    and self.extract_gen_particles
+                ):
                     print("Adding Particle class...")
                     self.final_state_attributes["Particle"] = particle_atttributes
             finally:

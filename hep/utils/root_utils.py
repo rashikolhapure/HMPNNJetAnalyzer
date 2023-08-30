@@ -36,7 +36,9 @@ def GetTLorentzVector(
 
     if format != "fatjet" and len(array.shape) > 2:
         assert array.shape[-1] == 4, "No Lorentz Axis!"
-        print("Multidimensional array detected, taking the last axis as the 4-vector axis!")
+        print(
+            "Multidimensional array detected, taking the last axis as the 4-vector axis!"
+        )
         shape = array.shape[:-1]
         # print (array[:4])
         array = array.reshape(-1, 4)

@@ -52,13 +52,13 @@ def rotate(*args, **kwargs):
         (
             item[0],
             item[1],
-        ) = item[0] * np.cos(
-            theta
-        ) + item[1] * np.sin(
-            theta
-        ), -item[0] * np.sin(
-            theta
-        ) + item[1] * np.cos(theta)
+        ) = item[
+            0
+        ] * np.cos(theta) + item[
+            1
+        ] * np.sin(theta), -item[
+            0
+        ] * np.sin(theta) + item[1] * np.cos(theta)
     if len(args) == 1:
         return args[0]
     return args
@@ -243,7 +243,9 @@ def regularize_fatjet(fatjet, r=1.2):
     return num_fat, subjets
 
 
-def remove_jets(lorentz_tower, lorentz_jets, r=0.4, return_jets=False, shift_jets=True, **kwargs):
+def remove_jets(
+    lorentz_tower, lorentz_jets, r=0.4, return_jets=False, shift_jets=True, **kwargs
+):
     if kwargs.get("verbose", False):
         print("Removing jet constituents...")
         print(lorentz_tower.shape)
@@ -402,7 +404,10 @@ def image_to_var(
         phi_range[1] - phi_interval / 2,
         images.shape[phi_axis],
     )
-    assert len(eta_centers) == images.shape[eta_axis] and len(phi_centers) == images.shape[phi_axis]
+    assert (
+        len(eta_centers) == images.shape[eta_axis]
+        and len(phi_centers) == images.shape[phi_axis]
+    )
     return_array = []
     for image in images:
         indices = np.where(image)
@@ -633,7 +638,12 @@ def tower_bin(tower, format="tower", **kwargs):
 
 
 def binner(
-    array, x_interval=(-1.6, 1.6), y_interval=(-1.6, 1.6), expand=False, swap=False, **kwargs
+    array,
+    x_interval=(-1.6, 1.6),
+    y_interval=(-1.6, 1.6),
+    expand=False,
+    swap=False,
+    **kwargs
 ):
     if array.shape[-1] != 3 or swap:
         array = np.swapaxes(array, 0, 1)

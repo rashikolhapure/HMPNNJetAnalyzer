@@ -19,27 +19,26 @@ from hep_ml.plotter import (
 )
 
 
-"""
-This code defines a function called pad_values which takes in three arguments: events, target_shapes, and value.
-
-events is a dictionary containing numpy arrays of different shapes, and target_shapes is also a dictionary containing 
-the desired shapes for each corresponding array in events.
-
-The function pads each array in events with zeros to match the desired shape in target_shapes. 
-The padding is done along the second and third dimensions of the arrays, and the value of the 
-padding is set to value, which defaults to zero.
-
-If the command line argument "plot" is present, the function also creates a 
-plot of the original and padded arrays for the 10th element of each array in events. 
-The plots are saved as an eps file named "zero_pad".
-"""
-
-
 def pad_values(
     events,
     target_shapes,
     value=0,
 ):
+    """
+    This code defines a function called pad_values which takes in three arguments: events, target_shapes, and value.
+
+    events is a dictionary containing numpy arrays of different shapes, and target_shapes is also a dictionary containing
+    the desired shapes for each corresponding array in events.
+
+    The function pads each array in events with zeros to match the desired shape in target_shapes.
+    The padding is done along the second and third dimensions of the arrays, and the value of the
+    padding is set to value, which defaults to zero.
+
+    If the command line argument "plot" is present, the function also creates a
+    plot of the original and padded arrays for the 10th element of each array in events.
+    The plots are saved as an eps file named "zero_pad".
+    """
+
     for (
         key,
         new_shape,
@@ -127,14 +126,6 @@ def pad_values(
     return events
 
 
-"""
-This function load_data loads the data for a machine learning model. 
-The data is stored in different files for different classes, and the function 
-loads the data from these files and creates a training and validation dataset. 
-The function allows for different types of input data and different pre-processing techniques.
-"""
-
-
 def load_data(
     classes,
     length=30000,
@@ -146,6 +137,24 @@ def load_data(
     run_io=False,
     **kwargs
 ):
+    """
+    Load and preprocess data for training and validation.
+
+    Args:
+        classes (list): List of classes or data sources.
+        length (int, optional): Number of data samples to load. Defaults to 30000.
+        preprocess_tag (str, optional): Tag for preprocessed data. Defaults to None.
+        test_train_split (float, optional): Proportion of data for validation. Defaults to 0.25.
+        input_keys (list, optional): List of input keys for data. Defaults to ["high_level"].
+        return_array (bool, optional): Return data as arrays if True. Defaults to False.
+        function (function, optional): Custom function for data preprocessing. Defaults to None.
+        run_io (bool, optional): If True, use RunIO for loading events. Defaults to False.
+        **kwargs: Additional keyword arguments for data loading and preprocessing.
+
+    Returns:
+        dict: Dictionary containing training and validation data, classes, and path information.
+    """
+
     count = 0
     normalize = kwargs.get("normalize", False)
     target_shapes = kwargs.get(
@@ -337,7 +346,9 @@ def load_data(
                 combined[-1][:10],
                 combined[-1][10:],
             )
-        combined = list(train_test_split(*combined, shuffle=True, random_state=12, test_size=0.25))
+        combined = list(
+            train_test_split(*combined, shuffle=True, random_state=12, test_size=0.25)
+        )
         X_train, X_val = (
             [],
             [],

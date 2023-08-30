@@ -54,7 +54,9 @@ class RootEvents(PhysicsData):
         self.ignore_runs = kwargs.get("ignore_runs", [])
         if "root_file_path" in kwargs:
             self.runs = [kwargs.get("root_file_path")]
-            self.mg_event_path = os.path.abspath(os.path.dirname(kwargs.get("root_file_path")))
+            self.mg_event_path = os.path.abspath(
+                os.path.dirname(kwargs.get("root_file_path"))
+            )
             assert os.access(
                 self.mg_event_path,
                 os.F_OK,

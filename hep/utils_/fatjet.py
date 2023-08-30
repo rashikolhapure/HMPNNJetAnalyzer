@@ -109,7 +109,8 @@ class FatJet(object):
         for i in range(len(self.fatjets)):
             for item in electron_eta_phi:
                 R = np.sqrt(
-                    (self.fatjets[i].eta - item[0]) ** 2 + (self.fatjets[i].phi - item[1]) ** 2
+                    (self.fatjets[i].eta - item[0]) ** 2
+                    + (self.fatjets[i].phi - item[1]) ** 2
                 )
                 if R < self.R:
                     if i not in indices:

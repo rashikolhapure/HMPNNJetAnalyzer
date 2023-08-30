@@ -239,7 +239,9 @@ class Deform(Operator):
             array.shape,
             dtype="float64",
         )
-        soft_inds = [i for i in range(len(x)) if array[x, y, 0][i] <= self.soft_scale * ht_sum]
+        soft_inds = [
+            i for i in range(len(x)) if array[x, y, 0][i] <= self.soft_scale * ht_sum
+        ]
         try:
             def_inds = np.random.choice(
                 soft_inds,
@@ -305,7 +307,9 @@ class Deform(Operator):
         ht_sum = np.sum(array)
         # if "debug" in sys.argv: print (array[np.where(array)])
         x, y, _ = np.where(array)
-        hard_indices = [i for i in range(len(x)) if array[x, y, 0][i] >= self.hard_scale * ht_sum]
+        hard_indices = [
+            i for i in range(len(x)) if array[x, y, 0][i] >= self.hard_scale * ht_sum
+        ]
         if "debug" in sys.argv:
             print(self.hard_scale * ht_sum)
         deformed = self.unconstrained_deform(
@@ -322,7 +326,9 @@ class Deform(Operator):
             array.shape,
             dtype="float64",
         )
-        hard_indices = [i for i in range(len(x)) if array[x, y, 0][i] >= self.hard_scale * ht_sum]
+        hard_indices = [
+            i for i in range(len(x)) if array[x, y, 0][i] >= self.hard_scale * ht_sum
+        ]
         if "debug" in sys.argv:
             print(self.hard_scale * ht_sum)
         hard_array[
@@ -515,7 +521,9 @@ def operator(
     """dir_name where the data and model_checkpoints are stored. operation_name is a class method belonging to an initiated operation_class,
     the class method must depend on the parameter_name, iterates the Inference.predict function over all parameter_values
     """
-    assert parameter_name in dir(operation_class) and operation_name in dir(operation_class)
+    assert parameter_name in dir(operation_class) and operation_name in dir(
+        operation_class
+    )
     assert parameter_name in operation_class.relevance[operation_name]
     if roc_plot:
         assert "roc_plot_values" in kwargs

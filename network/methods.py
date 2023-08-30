@@ -120,7 +120,10 @@ class KerasModel(NetworkMethod):
                     i = None
                 # assert network_input.shape[:i]==input_state.shape
         if self.network_type != "autoencoder":
-            assert self.num_classes == model.output.shape[1] and len(model.output.shape) == 2
+            assert (
+                self.num_classes == model.output.shape[1]
+                and len(model.output.shape) == 2
+            )
         return
 
     def compile(self, model, check=True, **kwargs):
@@ -255,7 +258,9 @@ class KerasModel(NetworkMethod):
             )
         return checkpoint
 
-    def fit(self, verbose=1, batch_size=300, shuffle=True, epochs=5, encoder=False, **kwargs):
+    def fit(
+        self, verbose=1, batch_size=300, shuffle=True, epochs=5, encoder=False, **kwargs
+    ):
         if self.train_data is None:
             (
                 X,
