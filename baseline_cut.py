@@ -42,9 +42,7 @@ from hep_ml.exe_utils import (
 )
 
 
-def dijet_cut(
-    events, logging=False
-):
+def dijet_cut(events, logging=False):
     (
         passed_met,
         passed_tower,
@@ -61,25 +59,16 @@ def dijet_cut(
         0,
         0,
     )
-    ind = (
-        FinalStates.index_map
-    )
+    ind = FinalStates.index_map
     return_dict = dict()
     passed_indices = []
     for (
         jets,
         tower,
         track,
-    ) in zip(
-        Jets, Towers, Tracks
-    ):
+    ) in zip(Jets, Towers, Tracks):
         event_index += 1
-        if (
-            event_index
-            % 5000
-            == 0
-            and logging
-        ):
+        if event_index % 5000 == 0 and logging:
             print(
                 "Event count: ",
                 event_index,
@@ -89,129 +78,44 @@ def dijet_cut(
         array_jets = jets
         if len(jets) < 2:
             continue
-        jets = ru.GetTLorentzVector(
-            jets[:, :4]
-        )
-        if (
-            jets[0].Pt()
-            < 150.0
-        ):
+        jets = ru.GetTLorentzVector(jets[:, :4])
+        if jets[0].Pt() < 150.0:
             continue
-        if (
-            jets[1].Pt()
-            < 130.0
-        ):
+        if jets[1].Pt() < 130.0:
             continue
-        if (
-            abs(
-                jets[0].Eta()
-            )
-            > 4.7
-        ):
+        if abs(jets[0].Eta()) > 4.7:
             continue
-        if (
-            abs(
-                jets[1].Eta()
-            )
-            > 4.7
-        ):
+        if abs(jets[1].Eta()) > 4.7:
             continue
 
-        if (
-            passed_event_index
-            == 0
-        ):
+        if passed_event_index == 0:
             (
-                return_dict[
-                    "Jet"
-                ],
-                return_dict[
-                    "Tower"
-                ],
+                return_dict["Jet"],
+                return_dict["Tower"],
             ) = np.array(
                 [jets[:2]]
-            ), np.array(
-                [tower]
-            )
-            return_dict[
-                "jet_delphes"
-            ] = [
-                array_jets[:]
-            ]
-            return_dict[
-                "Tower"
-            ] = [tower]
-            return_dict[
-                "Track"
-            ] = [track]
+            ), np.array([tower])
+            return_dict["jet_delphes"] = [array_jets[:]]
+            return_dict["Tower"] = [tower]
+            return_dict["Track"] = [track]
         else:
-            return_dict[
-                "Jet"
-            ] = np.concatenate(
+            return_dict["Jet"] = np.concatenate(
                 (
-                    return_dict[
-                        "Jet"
-                    ],
-                    np.array(
-                        [
-                            jets[
-                                :2
-                            ]
-                        ]
-                    ),
+                    return_dict["Jet"],
+                    np.array([jets[:2]]),
                 ),
                 axis=0,
             )
-            return_dict[
-                "Tower"
-            ].append(tower)
-            return_dict[
-                "Track"
-            ].append(track)
-            return_dict[
-                "jet_delphes"
-            ].append(
-                array_jets[:]
-            )
-        passed_indices.append(
-            event_index - 1
-        )
-        passed_event_index += (
-            1
-        )
-    if (
-        passed_event_index
-        > 1
-    ):
-        return_dict[
-            "Tower"
-        ] = np.array(
-            return_dict[
-                "Tower"
-            ]
-        )
-        return_dict[
-            "jet_delphes"
-        ] = np.array(
-            return_dict[
-                "jet_delphes"
-            ]
-        )
-        return_dict[
-            "passed_indices"
-        ] = np.array(
-            passed_indices
-        )
-        return_dict[
-            "Track"
-        ] = np.array(
-            return_dict[
-                "Track"
-            ]
-        )
-    if (
-        passed_event_index
-        == 1
-    ):
+            return_dict["Tower"].append(tower)
+            return_dict["Track"].append(track)
+            return_dict["jet_delphes"].append(array_jets[:])
+        passed_indices.append(event_index - 1)
+        passed_event_index += 1
+    if passed_event_index > 1:
+        return_dict["Tower"] = np.array(return_dict["Tower"])
+        return_dict["jet_delphes"] = np.array(return_dict["jet_delphes"])
+        return_dict["passed_indices"] = np.array(passed_indices)
+        return_dict["Track"] = np.array(return_dict["Track"])
+    if passed_event_index == 1:
         return {}
     return return_dict

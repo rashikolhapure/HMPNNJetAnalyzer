@@ -28,9 +28,7 @@ def dict_hdf(
     Returns: None
 
     """
-    dataframe = pd.DataFrame.from_dict(
-        python_dict
-    )
+    dataframe = pd.DataFrame.from_dict(python_dict)
     pwd = os.getcwd()
     os.chdir(save_path)
     dataframe.to_hdf(
@@ -42,9 +40,7 @@ def dict_hdf(
     print(
         filename,
         " saved at ",
-        os.path.abspath(
-            save_path
-        ),
+        os.path.abspath(save_path),
     )
     return
 
@@ -84,17 +80,11 @@ def Unpickle(
             )
         )
     if "." not in filename:
-        filename = (
-            filename
-            + extension
-        )
+        filename = filename + extension
     pwd = os.getcwd()
     if load_path != ".":
         os.chdir(load_path)
-    if (
-        filename[-4:]
-        == ".npy"
-    ):
+    if filename[-4:] == ".npy":
         ret = np.load(
             filename,
             allow_pickle=True,
@@ -108,45 +98,25 @@ def Unpickle(
         os.chdir(pwd)
         return ret
     try:
-        with open(
-            filename, "rb"
-        ) as File:
-            return_object = (
-                pickle.load(
-                    File,
-                    **kwargs,
-                )
+        with open(filename, "rb") as File:
+            return_object = pickle.load(
+                File,
+                **kwargs,
             )
     except Exception as e:
         print(
             e,
             " checking if folder with ",
-            filename.split(
-                "."
-            )[0],
+            filename.split(".")[0],
             " exists..",
         )
         try:
-            os.chdir(
-                filename.split(
-                    "."
-                )[
-                    0
-                ]
-            )
-        except (
-            Exception
-        ) as e:
+            os.chdir(filename.split(".")[0])
+        except Exception as e:
             os.chdir(pwd)
             raise e
-        print(
-            "exists! loading..."
-        )
-        return_object = (
-            folder_load(
-                keys=keys
-            )
-        )
+        print("exists! loading...")
+        return_object = folder_load(keys=keys)
     if verbose:
         print(
             filename,
@@ -182,17 +152,8 @@ def Pickle(
     Returns: None
 
     """
-    if (
-        "." not in filename
-        and type(
-            python_object
-        )
-        != np.ndarray
-    ):
-        filename = (
-            filename
-            + extension
-        )
+    if "." not in filename and type(python_object) != np.ndarray:
+        filename = filename + extension
     if path is not None:
         save_path = path
     if verbose:
@@ -206,28 +167,12 @@ def Pickle(
     if save_path != ".":
         os.chdir(save_path)
     if not overwrite:
-        if (
-            filename
-            in os.listdir(
-                "."
-            )
-        ):
-            raise IOError(
-                "File already exists!"
-            )
+        if filename in os.listdir("."):
+            raise IOError("File already exists!")
     if append:
-        assert (
-            type(
-                python_object
-            )
-            == dict
-        )
-        prev = Unpickle(
-            filename
-        )
-        print_events(
-            prev, name="old"
-        )
+        assert type(python_object) == dict
+        prev = Unpickle(filename)
+        print_events(prev, name="old")
         python_object = merge_flat_dict(
             prev,
             python_object,
@@ -236,10 +181,7 @@ def Pickle(
             python_object,
             name="appended",
         )
-    if (
-        type(python_object)
-        == np.ndarray
-    ):
+    if type(python_object) == np.ndarray:
         np.save(
             filename,
             python_object,
@@ -255,14 +197,9 @@ def Pickle(
                 python_object,
                 File,
             )
-        except (
-            OverflowError
-        ) as e:
+        except OverflowError as e:
             File.close()
-            os.system(
-                "rm "
-                + filename
-            )
+            os.system("rm " + filename)
             os.chdir(pwd)
             print(
                 e,
@@ -270,19 +207,14 @@ def Pickle(
             )
             folder_save(
                 python_object,
-                filename.split(
-                    "."
-                )[
-                    0
-                ],
+                filename.split(".")[0],
                 save_path,
             )
             return
         suffix = ""
     if verbose:
         print(
-            filename
-            + suffix,
+            filename + suffix,
             " saved at ",
             os.getcwd(),
         )
@@ -315,9 +247,7 @@ def folder_save(
     os.chdir(save_path)
     try:
         os.mkdir(folder_name)
-    except (
-        FileExistsError
-    ) as e:
+    except FileExistsError as e:
         print(
             e,
             "Overwriting...",
@@ -326,44 +256,27 @@ def folder_save(
         os.chdir(folder_name)
     for item in events:
         if append:
-            print(
-                "appending..."
-            )
-            events[
-                item
-            ] = np.concatenate(
+            print("appending...")
+            events[item] = np.concatenate(
                 (
                     np.load(
-                        item
-                        + ".npy",
+                        item + ".npy",
                         allow_pickle=True,
                     ),
-                    events[
-                        item
-                    ],
+                    events[item],
                 ),
                 axis=0,
             )
-        if (
-            type(
-                events[item]
-            )
-            == list
-        ):
-            print(
-                "list type found as val, creating directory..."
-            )
+        if type(events[item]) == list:
+            print("list type found as val, creating directory...")
             os.mkdir(item)
             os.chdir(item)
             for (
                 i,
                 array,
-            ) in enumerate(
-                events[item]
-            ):
+            ) in enumerate(events[item]):
                 np.save(
-                    item
-                    + str(i),
+                    item + str(i),
                     array,
                     allow_pickle=True,
                 )
@@ -380,21 +293,16 @@ def folder_save(
                 allow_pickle=True,
             )
             print(
-                item
-                + ".npy saved at ",
+                item + ".npy saved at ",
                 os.getcwd(),
                 "shape = ",
-                events[
-                    item
-                ].shape,
+                events[item].shape,
             )
     os.chdir(pwd)
     return
 
 
-def folder_load(
-    keys=None, length=None
-):
+def folder_load(keys=None, length=None):
     """
     Load all the .npy files in the current directory as numpy arrays and return a dictionary containing
     the arrays with keys equal to the filenames without the .npy extension.
@@ -408,51 +316,32 @@ def folder_load(
     """
     events = dict()
     pwd = os.getcwd()
-    for (
-        filename
-    ) in os.listdir("."):
-        if os.path.isdir(
-            filename
-        ):
-            os.chdir(
-                filename
-            )
-            events[
-                filename
-            ] = [
+    for filename in os.listdir("."):
+        if os.path.isdir(filename):
+            os.chdir(filename)
+            events[filename] = [
                 np.load(
                     array_files,
                     allow_pickle=True,
                 )
-                for array_files in os.listdir(
-                    "."
-                )
+                for array_files in os.listdir(".")
             ]
             os.chdir("..")
             continue
         if keys is not None:
-            if (
-                filename[:-4]
-                not in keys
-            ):
+            if filename[:-4] not in keys:
                 continue
         try:
-            events[
-                filename[:-4]
-            ] = np.load(
+            events[filename[:-4]] = np.load(
                 filename,
                 allow_pickle=True,
-            )[
-                :length
-            ]
+            )[:length]
         except IOError as e:
             os.chdir(pwd)
             raise e
         else:
             print(
-                filename[
-                    :-4
-                ],
+                filename[:-4],
                 " loaded to python dictionary...",
             )
     return events
@@ -477,60 +366,22 @@ class RunIO:
         """
         _MASTER_DIR = "./python_pickles"
         self._mode = mode
-        self._pwd = (
-            os.getcwd()
-        )
-        self.run_name = (
-            run_name
-        )
+        self._pwd = os.getcwd()
+        self.run_name = run_name
         try:
-            os.chdir(
-                _MASTER_DIR
-            )
+            os.chdir(_MASTER_DIR)
         except OSError:
-            os.mkdir(
-                _MASTER_DIR
-            )
-            os.chdir(
-                _MASTER_DIR
-            )
-        if (
-            run_name
-            not in os.listdir()
-        ):
-            assert (
-                mode == "w"
-            ), (
-                run_name
-                + " directory not found!"
-            )
-            os.mkdir(
-                self.run_name
-            )
-        os.chdir(
-            self.run_name
-        )
-        if (
-            dir_name
-            not in os.listdir(
-                "."
-            )
-        ):
-            assert (
-                mode == "w"
-            ), (
-                dir_name
-                + " not found!"
-            )
-            os.mkdir(
-                dir_name
-            )
+            os.mkdir(_MASTER_DIR)
+            os.chdir(_MASTER_DIR)
+        if run_name not in os.listdir():
+            assert mode == "w", run_name + " directory not found!"
+            os.mkdir(self.run_name)
+        os.chdir(self.run_name)
+        if dir_name not in os.listdir("."):
+            assert mode == "w", dir_name + " not found!"
+            os.mkdir(dir_name)
         os.chdir(dir_name)
-        self.__path = (
-            os.path.abspath(
-                "."
-            )
-        )
+        self.__path = os.path.abspath(".")
         out_dict = {
             "w": "saving",
             "r": "loading",
@@ -561,20 +412,10 @@ class RunIO:
         """
         pwd = os.getcwd()
         os.chdir(self.__path)
-        if (
-            filename
-            not in os.listdir(
-                "."
-            )
-            or re_initialize
-        ):
-            File = open(
-                filename, "w"
-            )
+        if filename not in os.listdir(".") or re_initialize:
+            File = open(filename, "w")
         else:
-            File = open(
-                filename, "a"
-            )
+            File = open(filename, "a")
         os.chdir(pwd)
         return File
 
@@ -591,28 +432,19 @@ class RunIO:
 
         """
         if self._mode == "r":
-            raise IOError(
-                "Attempting to write in read-only instance of RunIO object"
-            )
+            raise IOError("Attempting to write in read-only instance of RunIO object")
         pwd = os.getcwd()
         os.chdir(self.__path)
         for item in events:
             if append:
-                print(
-                    "appending..."
-                )
-                events[
-                    item
-                ] = np.concatenate(
+                print("appending...")
+                events[item] = np.concatenate(
                     (
                         np.load(
-                            item
-                            + ".npy",
+                            item + ".npy",
                             allow_pickle=True,
                         ),
-                        events[
-                            item
-                        ],
+                        events[item],
                     ),
                     axis=0,
                 )
@@ -621,20 +453,15 @@ class RunIO:
                 events[item],
             )
             print(
-                item
-                + ".npy saved at ",
+                item + ".npy saved at ",
                 os.getcwd(),
                 "shape = ",
-                events[
-                    item
-                ].shape,
+                events[item].shape,
             )
         os.chdir(pwd)
         return
 
-    def load_events(
-        self, length=None
-    ):
+    def load_events(self, length=None):
         """Load events as numpy arrays from the directory.
 
         Parameters:
@@ -647,30 +474,18 @@ class RunIO:
         pwd = os.getcwd()
         os.chdir(self.__path)
         events = dict()
-        for (
-            filename
-        ) in os.listdir("."):
+        for filename in os.listdir("."):
             try:
-                events[
-                    filename[
-                        :-4
-                    ]
-                ] = np.load(
+                events[filename[:-4]] = np.load(
                     filename,
                     allow_pickle=True,
-                )[
-                    :length
-                ]
-            except (
-                IOError
-            ) as e:
+                )[:length]
+            except IOError as e:
                 os.chdir(pwd)
                 raise e
             else:
                 print(
-                    filename[
-                        :-4
-                    ],
+                    filename[:-4],
                     " loaded to python dictionary...",
                 )
         os.chdir(pwd)

@@ -3,9 +3,7 @@ import os
 
 import numpy as np
 
-np.set_printoptions(
-    precision=16
-)
+np.set_printoptions(precision=16)
 
 
 from .data import (
@@ -32,9 +30,7 @@ from ..classes import (
 )
 
 
-class OverwriteError(
-    Exception
-):
+class OverwriteError(Exception):
     def __init__(
         self,
         message="OverwriteException",
@@ -45,9 +41,7 @@ class OverwriteError(
         ).__init__(message)
 
 
-class DelphesNumpy(
-    PhysicsMethod
-):
+class DelphesNumpy(PhysicsMethod):
     def __init__(
         self,
         run_name,
@@ -65,15 +59,8 @@ class DelphesNumpy(
             input_data="RootEvents",
             output_data="NumpyEvents",
         )
-        self.run_name = (
-            run_name
-        )
-        if (
-            kwargs.get(
-                "root_file_path"
-            )
-            is None
-        ):
+        self.run_name = run_name
+        if kwargs.get("root_file_path") is None:
             self.in_data = RootEvents(
                 run_name,
                 return_vals=(
@@ -102,13 +89,9 @@ class DelphesNumpy(
                     "path",
                     "index",
                 ),
-                root_file_path=kwargs.get(
-                    "root_file_path"
-                ),
+                root_file_path=kwargs.get("root_file_path"),
             )
-        self.max_count = len(
-            self.in_data
-        )
+        self.max_count = len(self.in_data)
         self.out_data = NumpyEvents(
             run_name,
             mode="w",
@@ -118,13 +101,8 @@ class DelphesNumpy(
                 "",
             ),
         )
-        if (
-            "root_file_path"
-            in kwargs
-        ):
-            self.out_data.mg_event_path = (
-                self.in_data.mg_event_path
-            )
+        if "root_file_path" in kwargs:
+            self.out_data.mg_event_path = self.in_data.mg_event_path
         self.final_state_attributes = kwargs.get(
             "final_state_atributes",
             FinalStates.attributes,
@@ -133,50 +111,32 @@ class DelphesNumpy(
             "include_gen_particles",
             False,
         ):
-            print(
-                "Removing GenParticle from final state list..."
-            )
-            self.extract_gen_particles = (
-                False
-            )
-            self.final_state_attributes.pop(
-                "Particle"
-            )
+            print("Removing GenParticle from final state list...")
+            self.extract_gen_particles = False
+            self.final_state_attributes.pop("Particle")
         else:
-            self.extract_gen_particles = (
-                True
-            )
+            self.extract_gen_particles = True
         self.include_eflow = kwargs.get(
             "include_eflow",
             False,
         )
-        if (
-            not self.include_eflow
-        ):
+        if not self.include_eflow:
             try:
-                self.final_state_attributes.pop(
-                    "EFlow"
-                )
+                self.final_state_attributes.pop("EFlow")
             except KeyError:
                 pass
         self.include_track = kwargs.get(
             "include_track",
             False,
         )
-        if (
-            not self.include_track
-        ):
+        if not self.include_track:
             try:
-                self.final_state_attributes.pop(
-                    "Track"
-                )
+                self.final_state_attributes.pop("Track")
             except KeyError:
                 pass
-        self.overwrite = (
-            kwargs.get(
-                "overwrite",
-                False,
-            )
+        self.overwrite = kwargs.get(
+            "overwrite",
+            False,
         )
         self.root_tag = kwargs.get(
             "root_file_tag",
@@ -184,165 +144,82 @@ class DelphesNumpy(
         )
         self.Events = None
         self.current = None
-        print(
-            "Extracting final state attributes:\n"
-        )
+        print("Extracting final state attributes:\n")
         for (
             key,
             val,
-        ) in (
-            self.final_state_attributes.items()
-        ):
-            print(
-                f"{key:15}  {val}\n"
-            )
+        ) in self.final_state_attributes.items():
+            print(f"{key:15}  {val}\n")
 
     def __next__(self):
-        if (
-            self.count
-            < self.max_count
-        ):
+        if self.count < self.max_count:
             self.count += 1
-            self.current = next(
-                self.in_data
-            )
+            self.current = next(self.in_data)
             try:
-                if (
-                    self.overwrite
-                ):
+                if self.overwrite:
                     raise OverwriteError
                 current = Unpickle(
-                    self.out_data.prefix
-                    + "_delphes.pickle",
-                    load_path=self.current[
-                        "path"
-                    ],
+                    self.out_data.prefix + "_delphes.pickle",
+                    load_path=self.current["path"],
                 )
-                self.out_data.exception = (
-                    False
-                )
-            except (
-                Exception
-            ) as e:
-                if (
-                    "Particle"
-                    in self.final_state_attributes
-                ):
-                    print(
-                        "Excluding Particle for writing to pickle file..."
-                    )
-                    particle_atttributes = self.final_state_attributes.pop(
-                        "Particle"
-                    )
-                self.out_data.exception = (
-                    True
-                )
+                self.out_data.exception = False
+            except Exception as e:
+                if "Particle" in self.final_state_attributes:
+                    print("Excluding Particle for writing to pickle file...")
+                    particle_atttributes = self.final_state_attributes.pop("Particle")
+                self.out_data.exception = True
                 print(e)
                 print(
                     "\nReading root file from ",
-                    self.current[
-                        "path"
-                    ],
+                    self.current["path"],
                 )
-                self.Events = self.current[
-                    "Delphes"
-                ]
+                self.Events = self.current["Delphes"]
                 current = {}
-                for final_state in (
-                    self.final_state_attributes
-                ):
+                for final_state in self.final_state_attributes:
                     # if self.exclude_gen_particles and final_State=="Particle": continue
                     print(
                         "Extracting branch :",
                         final_state,
                         "\nAttributes:",
-                        self.final_state_attributes[
-                            final_state
-                        ],
+                        self.final_state_attributes[final_state],
                     )
-                    current[
-                        final_state
-                    ] = self.get(
+                    current[final_state] = self.get(
                         final_state,
-                        self.final_state_attributes[
-                            final_state
-                        ],
+                        self.final_state_attributes[final_state],
                     )
-                print(
-                    "Adding EventAttribute..."
-                )
-                length = len(
-                    current[
-                        final_state
-                    ]
-                )
+                print("Adding EventAttribute...")
+                length = len(current[final_state])
                 event_attribute = [
                     EventAttribute(
                         run_name=self.run_name,
                         tag=self.root_tag,
-                        path=self.current[
-                            "path"
-                        ],
+                        path=self.current["path"],
                         index=_,
                     )
-                    for _ in range(
-                        length
-                    )
+                    for _ in range(length)
                 ]
-                current[
-                    "EventAttribute"
-                ] = event_attribute
-                print_events(
-                    current
-                )
-                if (
-                    "Particle"
-                    not in self.final_state_attributes
-                    and self.extract_gen_particles
-                ):
-                    print(
-                        "Adding Particle class..."
-                    )
-                    self.final_state_attributes[
-                        "Particle"
-                    ] = particle_atttributes
+                current["EventAttribute"] = event_attribute
+                print_events(current)
+                if "Particle" not in self.final_state_attributes and self.extract_gen_particles:
+                    print("Adding Particle class...")
+                    self.final_state_attributes["Particle"] = particle_atttributes
             finally:
-                self.out_data.current_events = (
-                    current
-                )
-                self.out_data.current_run = self.current[
-                    "path"
-                ]
-                next(
-                    self.out_data
-                )
-                if (
-                    self.extract_gen_particles
-                ):
+                self.out_data.current_events = current
+                self.out_data.current_run = self.current["path"]
+                next(self.out_data)
+                if self.extract_gen_particles:
                     print(
                         "Extracting Particle : ",
-                        self.current[
-                            "path"
-                        ],
+                        self.current["path"],
                         "\nAttributes: ",
-                        self.final_state_attributes[
-                            "Particle"
-                        ],
+                        self.final_state_attributes["Particle"],
                     )
-                    self.Events = self.current[
-                        "Delphes"
-                    ]
-                    current[
-                        "Particle"
-                    ] = self.get(
+                    self.Events = self.current["Delphes"]
+                    current["Particle"] = self.get(
                         "Particle",
-                        self.final_state_attributes[
-                            "Particle"
-                        ],
+                        self.final_state_attributes["Particle"],
                     )
-                return (
-                    current
-                )
+                return current
         else:
             raise StopIteration
 
@@ -362,53 +239,16 @@ class DelphesNumpy(
             dict(),
             dict(),
         )
-        for (
-            item
-        ) in attributes:
-            temp_dict[
-                item
-            ] = self.Events[
-                final_state
-            ][
-                final_state
-                + "."
-                + item
-            ].array()
+        for item in attributes:
+            temp_dict[item] = self.Events[final_state][final_state + "." + item].array()
         if indices == None:
-            indices = np.arange(
-                len(
-                    temp_dict[
-                        item
-                    ]
-                )
-            )
+            indices = np.arange(len(temp_dict[item]))
         return_array = []
-        for (
-            event_index
-        ) in indices:
-            array = [
-                []
-                for i in range(
-                    len(
-                        attributes
-                    )
-                )
-            ]
-            for i in range(
-                len(
-                    attributes
-                )
-            ):
-                array[
-                    i
-                ] = np.array(
-                    temp_dict[
-                        attributes[
-                            i
-                        ]
-                    ][
-                        event_index
-                    ],
+        for event_index in indices:
+            array = [[] for i in range(len(attributes))]
+            for i in range(len(attributes)):
+                array[i] = np.array(
+                    temp_dict[attributes[i]][event_index],
                     dtype="float64",
                 )
             return_array.append(
@@ -421,14 +261,10 @@ class DelphesNumpy(
                     1,
                 )
             )
-        return np.array(
-            return_array
-        )
+        return np.array(return_array)
 
 
-class BaselineCuts(
-    PhysicsMethod
-):
+class BaselineCuts(PhysicsMethod):
     def __init__(
         self,
         run_name,
@@ -439,11 +275,7 @@ class BaselineCuts(
             input_data="NumpyEvents",
             output_data="PassedEvents",
         )
-        self.num_cores = (
-            kwargs.get(
-                "num_cores"
-            )
-        )
+        self.num_cores = kwargs.get("num_cores")
         self.read_partons = kwargs.get(
             "read_partons",
             None,
@@ -452,12 +284,8 @@ class BaselineCuts(
             "exclude_keys",
             [],
         )
-        self.ignore_keys = kwargs.get(
-            "ignore_keys", []
-        )
-        self.run_name = (
-            run_name
-        )
+        self.ignore_keys = kwargs.get("ignore_keys", [])
+        self.run_name = run_name
         self.in_data = NumpyEvents(
             run_name,
             mode="r",
@@ -486,44 +314,24 @@ class BaselineCuts(
             run_name,
             mode="w",
             max_count=self.in_data.max_count,
-            tag=kwargs.get(
-                "tag", ""
-            ),
-            save=kwargs.get(
-                "save", False
-            ),
+            tag=kwargs.get("tag", ""),
+            save=kwargs.get("save", False),
         )
         self.count = 0
-        self.cut_args = (
-            kwargs.get(
-                "cut_args",
-                {},
-            )
+        self.cut_args = kwargs.get(
+            "cut_args",
+            {},
         )
-        self.max_count = (
-            self.in_data.max_count
-        )
+        self.max_count = self.in_data.max_count
         self.cut = None
 
     def __next__(self):
-        assert (
-            self.cut
-        ), "Set a cut first"
-        if (
-            self.count
-            < self.max_count
-        ):
+        assert self.cut, "Set a cut first"
+        if self.count < self.max_count:
             self.count += 1
-            in_events = next(
-                self.in_data
-            )
-            if (
-                self.read_partons
-                is not None
-            ):
-                print(
-                    "Adding parton level information!"
-                )
+            in_events = next(self.in_data)
+            if self.read_partons is not None:
+                print("Adding parton level information!")
                 parton_dict = self.read_partons(
                     path=self.in_data.current_run,
                     run_name=self.run_name,
@@ -535,26 +343,15 @@ class BaselineCuts(
                 for (
                     key,
                     val,
-                ) in (
-                    parton_dict.items()
-                ):
-                    in_events[
-                        "partonic_"
-                        + key
-                    ] = val
-            if (
-                "debug"
-                in sys.argv
-            ):
+                ) in parton_dict.items():
+                    in_events["partonic_" + key] = val
+            if "debug" in sys.argv:
                 passed_events = self.cut(
                     in_events,
                     **self.cut_args,
                 )
             else:
-                if (
-                    self.num_cores
-                    is not None
-                ):
+                if self.num_cores is not None:
                     passed_events = pool_splitter(
                         self.cut,
                         in_events,
@@ -569,25 +366,15 @@ class BaselineCuts(
                         ignore_keys=self.ignore_keys,
                         exclude=self.exclude_keys,
                     )
-            self.out_data.current_run = (
-                self.in_data.current_run
-            )
-            self.out_data.current_events = (
-                passed_events
-            )
-            next(
-                self.out_data
-            )
-            return (
-                passed_events
-            )
+            self.out_data.current_run = self.in_data.current_run
+            self.out_data.current_events = passed_events
+            next(self.out_data)
+            return passed_events
         else:
             raise StopIteration
 
 
-class PreProcess(
-    PhysicsMethod
-):
+class PreProcess(PhysicsMethod):
     def __init__(
         self,
         run_name,
@@ -599,11 +386,7 @@ class PreProcess(
             input_data="PassedEvents",
             output_data="PreprocessedEvents",
         )
-        self.num_cores = (
-            kwargs.get(
-                "num_cores"
-            )
-        )
+        self.num_cores = kwargs.get("num_cores")
         self.in_data = PassedEvents(
             run_name,
             tag=kwargs.get(
@@ -624,41 +407,22 @@ class PreProcess(
                 [],
             ),
         )
-        self.max_count = len(
-            self.in_data
-        )
+        self.max_count = len(self.in_data)
         self.out_data = PreProcessedEvents(
             run_name,
-            tag=kwargs.get(
-                "tag", "try"
-            ),
+            tag=kwargs.get("tag", "try"),
             mode="w",
             max_count=self.max_count,
         )
-        self.preprocess = (
-            None
-        )
+        self.preprocess = None
 
     def __next__(self):
-        assert (
-            self.preprocess
-        ), "Set preprocess function first!"
-        if (
-            self.count
-            < self.max_count
-        ):
+        assert self.preprocess, "Set preprocess function first!"
+        if self.count < self.max_count:
             self.count += 1
-            passed_events = next(
-                self.in_data
-            )
-            if (
-                "debug"
-                not in sys.argv
-            ):
-                if (
-                    self.num_cores
-                    is not None
-                ):
+            passed_events = next(self.in_data)
+            if "debug" not in sys.argv:
+                if self.num_cores is not None:
                     preprocessed = pool_splitter(
                         self.preprocess,
                         passed_events,
@@ -670,21 +434,11 @@ class PreProcess(
                         passed_events,
                     )
             else:
-                preprocessed = self.preprocess(
-                    passed_events
-                )
-            self.out_data.current_run = (
-                self.in_data.current_run
-            )
-            self.out_data.current_events = (
-                preprocessed
-            )
-            next(
-                self.out_data
-            )
-            return (
-                preprocessed
-            )
+                preprocessed = self.preprocess(passed_events)
+            self.out_data.current_run = self.in_data.current_run
+            self.out_data.current_events = preprocessed
+            next(self.out_data)
+            return preprocessed
         else:
             raise StopIteration
 

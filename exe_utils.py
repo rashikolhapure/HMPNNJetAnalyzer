@@ -16,9 +16,7 @@ def get_from_indices(
     keys=None,
 ):
     if keys == None:
-        keys = list(
-            events.keys()
-        )
+        keys = list(events.keys())
     return_array = {}
     for (
         key,
@@ -26,46 +24,22 @@ def get_from_indices(
     ) in events.items():
         if key not in keys:
             continue
-        return_array[
-            key
-        ] = val[indices]
+        return_array[key] = val[indices]
     return return_array
 
 
-def get_delphes(
-    run_names, **kwargs
-):
-    if (
-        type(run_names)
-        == str
-    ):
-        run_names = [
-            run_names
-        ]
-    for (
-        run_name
-    ) in run_names:
-        now = DelphesNumpy(
-            run_name,
-            **kwargs
-        )
+def get_delphes(run_names, **kwargs):
+    if type(run_names) == str:
+        run_names = [run_names]
+    for run_name in run_names:
+        now = DelphesNumpy(run_name, **kwargs)
         for events in now:
-            print_events(
-                events
-            )
+            print_events(events)
     return
 
 
-def get_numpy_events(
-    run_name,
-    runs="first",
-    **kwargs
-):
-    now = NumpyEvents(
-        run_name,
-        mode="r",
-        **kwargs
-    )
+def get_numpy_events(run_name, runs="first", **kwargs):
+    now = NumpyEvents(run_name, mode="r", **kwargs)
     return_dict = {}
     for item in now:
         if runs == "first":

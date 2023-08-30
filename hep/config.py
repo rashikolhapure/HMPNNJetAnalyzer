@@ -109,38 +109,34 @@ photon_index = Index(
     Eem=None,
     Ehad=None,
 )
-GenParticleIndex = (
-    namedtuple(
-        "GenParticleIndex",
-        [
-            "PT",
-            "Eta",
-            "Phi",
-            "E",
-            "PID",
-            "M1",
-            "M2",
-            "D1",
-            "D2",
-            "Status",
-            "Mass",
-        ],
-    )
+GenParticleIndex = namedtuple(
+    "GenParticleIndex",
+    [
+        "PT",
+        "Eta",
+        "Phi",
+        "E",
+        "PID",
+        "M1",
+        "M2",
+        "D1",
+        "D2",
+        "Status",
+        "Mass",
+    ],
 )
-gen_particle_index = (
-    GenParticleIndex(
-        PT=0,
-        Eta=1,
-        Phi=2,
-        E=3,
-        PID=4,
-        M1=5,
-        M2=6,
-        D1=7,
-        D2=8,
-        Status=9,
-        Mass=10,
-    )
+gen_particle_index = GenParticleIndex(
+    PT=0,
+    Eta=1,
+    Phi=2,
+    E=3,
+    PID=4,
+    M1=5,
+    M2=6,
+    D1=7,
+    D2=8,
+    Status=9,
+    Mass=10,
 )
 
 
@@ -188,10 +184,7 @@ PID_to_particle = {
     -24: "w-",
     25: "h",
 }
-particle_to_PID = {
-    val: key
-    for key, val in PID_to_particle.items()
-}
+particle_to_PID = {val: key for key, val in PID_to_particle.items()}
 charged_leptons = {
     "e+",
     "e-",
@@ -238,10 +231,8 @@ class FinalStates:
             "TauTag",
             "Charge",
         ],
-        "Muon": _attributes
-        + ["Charge"],
-        "Electron": _attributes
-        + ["Charge"],
+        "Muon": _attributes + ["Charge"],
+        "Electron": _attributes + ["Charge"],
         "MissingET": [
             "MET",
             "Eta",
@@ -295,23 +286,11 @@ class Paths:
     # if "ab" in sys.argv: madgraph_dir=os.path.abspath("/home/akanksha/MG5_aMC_v2_5_5/")
     # else: madgraph_dir=os.path.abspath("/home/vishalng/MG5_aMC_v2_6_5/")
     if "ab" in sys.argv:
-        madgraph_dir = os.environ[
-            "mdgraph_dir_AB"
-        ]
-        other_dir = (
-            os.environ[
-                "mdgraph_dir"
-            ]
-        )
+        madgraph_dir = os.environ["mdgraph_dir_AB"]
+        other_dir = os.environ["mdgraph_dir"]
     else:
-        madgraph_dir = (
-            os.environ[
-                "mdgraph_dir"
-            ]
-        )
-        other_dir = os.environ[
-            "mdgraph_dir_AB"
-        ]
+        madgraph_dir = os.environ["mdgraph_dir"]
+        other_dir = os.environ["mdgraph_dir_AB"]
 
 
 class Bins:

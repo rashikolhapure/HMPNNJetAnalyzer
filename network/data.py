@@ -32,17 +32,9 @@ from .numpy_utils import (
 
 
 class ModelData(object):
-    def __init__(
-        self, *args, **kwargs
-    ):
-        self._prefix_path = check_dir(
-            "./network_runs"
-        )
-        self.mode = (
-            kwargs.get(
-                "mode", "w"
-            )
-        )
+    def __init__(self, *args, **kwargs):
+        self._prefix_path = check_dir("./network_runs")
+        self.mode = kwargs.get("mode", "w")
         self.save_as = kwargs.get(
             "save_as",
             "numpy_array",
@@ -53,65 +45,32 @@ class ModelData(object):
             "class_names",
         }
         if self.mode == "w":
-            assert compulsory_kwargs.issubset(
-                set(
-                    kwargs.keys()
-                )
-            )
-        if (
-            "test_split"
-            not in kwargs.keys()
-        ):
+            assert compulsory_kwargs.issubset(set(kwargs.keys()))
+        if "test_split" not in kwargs.keys():
             assert {
                 "train_length",
                 "validation_length",
-            }.issubset(
-                set(
-                    kwargs.keys()
-                )
-            )
-            self.load_data = (
-                self._load_data
-            )
+            }.issubset(set(kwargs.keys()))
+            self.load_data = self._load_data
         else:
-            print(
-                "Load all data first! "
-            )
-            self.load_data = (
-                self._load_all_data
-            )
+            print("Load all data first! ")
+            self.load_data = self._load_all_data
         self.total_length = kwargs.get(
             "total_length",
             100,
         )
-        self.test_split = (
-            kwargs.get(
-                "test_split",
-                0.2,
-            )
+        self.test_split = kwargs.get(
+            "test_split",
+            0.2,
         )
-        self.model_type = (
-            kwargs.get(
-                "model_type",
-                "model",
-            )
+        self.model_type = kwargs.get(
+            "model_type",
+            "model",
         )
-        self.preprocess_tag = kwargs.get(
-            "preprocess_tag"
-        )
-        self.class_names = (
-            kwargs.get(
-                "class_names"
-            )
-        )
-        self.input_states = kwargs.get(
-            "input_states"
-        )
-        self.save = (
-            kwargs.get(
-                "save", False
-            )
-        )
+        self.preprocess_tag = kwargs.get("preprocess_tag")
+        self.class_names = kwargs.get("class_names")
+        self.input_states = kwargs.get("input_states")
+        self.save = kwargs.get("save", False)
         if self.save:
             self.run_tag = kwargs.get(
                 "run_tag",
@@ -131,9 +90,7 @@ class ModelData(object):
             )
             self.run_name = kwargs.get(
                 "run_name",
-                self.model_type
-                + "_"
-                + self.preprocess_tag,
+                self.model_type + "_" + self.preprocess_tag,
             )
             self.run_path = check_dir(
                 os.path.join(
@@ -179,100 +136,55 @@ class ModelData(object):
         self.check = False
 
     def _load_all_data(self):
-        return_dict = {
-            run_name: {}
-            for run_name in self.class_names
-        }
+        return_dict = {run_name: {} for run_name in self.class_names}
         train_dict = {}
         val_dict = {}
         temp_indices = {
-            "split_point": {
-                run_name: None
-                for run_name in self.class_names
-            },
-            "class_interval": {
-                run_name: None
-                for run_name in self.class_names
-            },
+            "split_point": {run_name: None for run_name in self.class_names},
+            "class_interval": {run_name: None for run_name in self.class_names},
         }
-        temp_indices[
-            "class_indices"
-        ] = {
-            run_name: None
-            for run_name in self.class_names
-        }
+        temp_indices["class_indices"] = {run_name: None for run_name in self.class_names}
         count = 0
         class_index = 0
-        for (
-            run_name
-        ) in (
-            self.class_names
-        ):
+        for run_name in self.class_names:
             in_data = PreProcessedEvents(
                 run_name,
                 mode="r",
                 tag=self.preprocess_tag,
             )
-            assert (
-                len(in_data)
-                > 0
-            ), (
+            assert len(in_data) > 0, (
                 "No matching preprocessed events with tag: "
                 + self.preprocess_tag
                 + "  in run: "
                 + run_name
             )
-            tot_length = len(
-                in_data
-            )
+            tot_length = len(in_data)
             print(tot_length)
             all_dict = {}
             class_count = 0
             for (
                 data_count,
                 item,
-            ) in enumerate(
-                in_data
-            ):
+            ) in enumerate(in_data):
                 final_state_dict = {
-                    input_state: item[
-                        input_state.name
-                    ]
-                    for input_state in self.input_states
+                    input_state: item[input_state.name] for input_state in self.input_states
                 }
-                length = final_state_dict[
-                    self.input_states[
-                        0
-                    ]
-                ].shape[
-                    0
-                ]
-                if (
-                    not self.check
-                    and self.model_type
-                    != "autoencoder"
-                ):
-                    self.check_consistency(
-                        final_state_dict
-                    )
+                length = final_state_dict[self.input_states[0]].shape[0]
+                if not self.check and self.model_type != "autoencoder":
+                    self.check_consistency(final_state_dict)
                 temp_indices[
                     IndexKey(
                         run_name,
                         count,
-                        count
-                        + length,
+                        count + length,
                         "all",
                     )
                 ] = (
                     in_data.current_run,
                     self.preprocess_tag,
                 )
-                count += (
-                    length
-                )
-                class_count += (
-                    length
-                )
+                count += length
+                class_count += length
                 all_dict = merge_flat_dict(
                     all_dict,
                     self.network_input(
@@ -280,160 +192,57 @@ class ModelData(object):
                         class_index,
                     ),
                 )
-            self.index_dict = (
-                temp_indices
-            )
-            return_dict[
-                run_name
-            ] = all_dict
-            if (
-                "debug"
-                in sys.argv
-            ):
-                print(
-                    run_name
-                )
-            split_point = int(
-                len(
-                    return_dict[
-                        run_name
-                    ][
-                        "Y"
-                    ]
-                )
-                * (
-                    1
-                    - self.test_split
-                )
-            )
-            temp_indices[
-                "split_point"
-            ][run_name] = (
-                count
-                - class_count
-                + split_point,
+            self.index_dict = temp_indices
+            return_dict[run_name] = all_dict
+            if "debug" in sys.argv:
+                print(run_name)
+            split_point = int(len(return_dict[run_name]["Y"]) * (1 - self.test_split))
+            temp_indices["split_point"][run_name] = (
+                count - class_count + split_point,
                 split_point,
             )
-            temp_indices[
-                "class_interval"
-            ][run_name] = (
-                count
-                - class_count,
+            temp_indices["class_interval"][run_name] = (
+                count - class_count,
                 count,
             )
-            temp_indices[
-                "class_indices"
-            ][
-                run_name
-            ] = class_index
+            temp_indices["class_indices"][run_name] = class_index
             for (
                 key,
                 value,
-            ) in (
-                temp_indices.items()
-            ):
+            ) in temp_indices.items():
                 print(
                     key,
                     value,
                 )
             print(
                 "Return dict: ",
-                return_dict[
-                    run_name
-                ]["X"][
-                    0
-                ].shape,
-                return_dict[
-                    run_name
-                ]["Y"].shape,
-                return_dict[
-                    run_name
-                ]["Y"][:-10],
+                return_dict[run_name]["X"][0].shape,
+                return_dict[run_name]["Y"].shape,
+                return_dict[run_name]["Y"][:-10],
             )
-            if (
-                type(
-                    return_dict[
-                        run_name
-                    ][
-                        "X"
-                    ]
-                )
-                == list
-            ):
-                temp_train = [
-                    np_array[
-                        :split_point
-                    ]
-                    for np_array in return_dict[
-                        run_name
-                    ][
-                        "X"
-                    ]
-                ]
-                temp_val = [
-                    np_array[
-                        split_point:
-                    ]
-                    for np_array in return_dict[
-                        run_name
-                    ][
-                        "X"
-                    ]
-                ]
-                if (
-                    not train_dict
-                ):
+            if type(return_dict[run_name]["X"]) == list:
+                temp_train = [np_array[:split_point] for np_array in return_dict[run_name]["X"]]
+                temp_val = [np_array[split_point:] for np_array in return_dict[run_name]["X"]]
+                if not train_dict:
                     (
-                        train_dict[
-                            "X"
-                        ],
-                        train_dict[
-                            "Y"
-                        ],
+                        train_dict["X"],
+                        train_dict["Y"],
                     ) = (
                         temp_train,
-                        return_dict[
-                            run_name
-                        ][
-                            "Y"
-                        ][
-                            :split_point
-                        ],
+                        return_dict[run_name]["Y"][:split_point],
                     )
                     (
-                        val_dict[
-                            "X"
-                        ],
-                        val_dict[
-                            "Y"
-                        ],
+                        val_dict["X"],
+                        val_dict["Y"],
                     ) = (
                         temp_val,
-                        return_dict[
-                            run_name
-                        ][
-                            "Y"
-                        ][
-                            split_point:
-                        ],
+                        return_dict[run_name]["Y"][split_point:],
                     )
                 else:
-                    assert len(
-                        train_dict[
-                            "X"
-                        ]
-                    ) == len(
-                        temp_train
-                    ) and len(
-                        val_dict[
-                            "X"
-                        ]
-                    ) == len(
+                    assert len(train_dict["X"]) == len(temp_train) and len(val_dict["X"]) == len(
                         temp_val
                     )
-                    train_dict[
-                        "X"
-                    ] = [
+                    train_dict["X"] = [
                         np.concatenate(
                             (
                                 all_data,
@@ -442,15 +251,11 @@ class ModelData(object):
                             axis=0,
                         )
                         for all_data, to_append in zip(
-                            train_dict[
-                                "X"
-                            ],
+                            train_dict["X"],
                             temp_train,
                         )
                     ]
-                    val_dict[
-                        "X"
-                    ] = [
+                    val_dict["X"] = [
                         np.concatenate(
                             (
                                 all_data,
@@ -459,226 +264,88 @@ class ModelData(object):
                             axis=0,
                         )
                         for all_data, to_append in zip(
-                            val_dict[
-                                "X"
-                            ],
+                            val_dict["X"],
                             temp_val,
                         )
                     ]
-                    train_dict[
-                        "Y"
-                    ] = np.concatenate(
+                    train_dict["Y"] = np.concatenate(
                         (
-                            train_dict[
-                                "Y"
-                            ],
-                            return_dict[
-                                run_name
-                            ][
-                                "Y"
-                            ][
-                                :split_point
-                            ],
+                            train_dict["Y"],
+                            return_dict[run_name]["Y"][:split_point],
                         ),
                         axis=0,
                     )
-                    val_dict[
-                        "Y"
-                    ] = np.concatenate(
+                    val_dict["Y"] = np.concatenate(
                         (
-                            val_dict[
-                                "Y"
-                            ],
-                            return_dict[
-                                run_name
-                            ][
-                                "Y"
-                            ][
-                                split_point:
-                            ],
+                            val_dict["Y"],
+                            return_dict[run_name]["Y"][split_point:],
                         ),
                         axis=0,
                     )
-                if (
-                    "debug"
-                    in sys.argv
-                ):
+                if "debug" in sys.argv:
+                    print("train: ")
+                    [print(array.shape) for array in train_dict["X"]]
                     print(
-                        "train: "
+                        train_dict["Y"].shape,
+                        train_dict["Y"][-10:],
                     )
-                    [
-                        print(
-                            array.shape
-                        )
-                        for array in train_dict[
-                            "X"
-                        ]
-                    ]
-                    print(
-                        train_dict[
-                            "Y"
-                        ].shape,
-                        train_dict[
-                            "Y"
-                        ][
-                            -10:
-                        ],
-                    )
-                    print(
-                        "val:"
-                    )
-                    [
-                        print(
-                            array.shape
-                        )
-                        for array in val_dict[
-                            "X"
-                        ]
-                    ]
-                    print(
-                        val_dict[
-                            "Y"
-                        ].shape
-                    )
+                    print("val:")
+                    [print(array.shape) for array in val_dict["X"]]
+                    print(val_dict["Y"].shape)
             else:
-                if (
-                    not train_dict
-                ):
+                if not train_dict:
                     (
-                        train_dict[
-                            "X"
-                        ],
-                        train_dict[
-                            "Y"
-                        ],
+                        train_dict["X"],
+                        train_dict["Y"],
                     ) = (
-                        return_dict[
-                            run_name
-                        ][
-                            "X"
-                        ][
-                            :split_point
-                        ],
-                        return_dict[
-                            run_name
-                        ][
-                            "Y"
-                        ][
-                            :split_point
-                        ],
+                        return_dict[run_name]["X"][:split_point],
+                        return_dict[run_name]["Y"][:split_point],
                     )
                     (
-                        val_dict[
-                            "X"
-                        ],
-                        val_dict[
-                            "Y"
-                        ],
+                        val_dict["X"],
+                        val_dict["Y"],
                     ) = (
-                        return_dict[
-                            run_name
-                        ][
-                            "X"
-                        ][
-                            split_point:
-                        ],
-                        return_dict[
-                            run_name
-                        ][
-                            "Y"
-                        ][
-                            split_point:
-                        ],
+                        return_dict[run_name]["X"][split_point:],
+                        return_dict[run_name]["Y"][split_point:],
                     )
                 else:
-                    train_dict[
-                        "X"
-                    ] = np.concatenate(
+                    train_dict["X"] = np.concatenate(
                         (
-                            train_dict[
-                                "X"
-                            ],
-                            return_dict[
-                                run_name
-                            ][
-                                "X"
-                            ][
-                                :split_point
-                            ],
+                            train_dict["X"],
+                            return_dict[run_name]["X"][:split_point],
                         ),
                         axis=0,
                     )
-                    train_dict[
-                        "Y"
-                    ] = np.concatenate(
+                    train_dict["Y"] = np.concatenate(
                         (
-                            train_dict[
-                                "Y"
-                            ],
-                            return_dict[
-                                run_name
-                            ][
-                                "Y"
-                            ][
-                                :split_point
-                            ],
+                            train_dict["Y"],
+                            return_dict[run_name]["Y"][:split_point],
                         ),
                         axis=0,
                     )
-                    val_dict[
-                        "X"
-                    ] = np.concatenate(
+                    val_dict["X"] = np.concatenate(
                         (
-                            val_dict[
-                                "X"
-                            ],
-                            return_dict[
-                                run_name
-                            ][
-                                "X"
-                            ][
-                                split_point:
-                            ],
+                            val_dict["X"],
+                            return_dict[run_name]["X"][split_point:],
                         ),
                         axis=0,
                     )
-                    val_dict[
-                        "Y"
-                    ] = np.concatenate(
+                    val_dict["Y"] = np.concatenate(
                         (
-                            val_dict[
-                                "Y"
-                            ],
-                            return_dict[
-                                run_name
-                            ][
-                                "Y"
-                            ][
-                                split_point:
-                            ],
+                            val_dict["Y"],
+                            return_dict[run_name]["Y"][split_point:],
                         ),
                         axis=0,
                     )
             class_index += 1
-        self.index_dict = (
-            temp_indices
-        )
-        self.train_data = (
-            train_dict
-        )
-        self.val_data = (
-            val_dict
-        )
-        self.data = (
-            return_dict
-        )
+        self.index_dict = temp_indices
+        self.train_data = train_dict
+        self.val_data = val_dict
+        self.data = return_dict
         return
 
     def _load_data(self):
-        return_dict = {
-            run_name: {}
-            for run_name in self.class_names
-        }
+        return_dict = {run_name: {} for run_name in self.class_names}
         train_dict = {}
         val_dict = {}
         (
@@ -687,34 +354,21 @@ class ModelData(object):
         ) = (0, 0)
         class_index = 0
         class_indices = {}
-        for (
-            run_name
-        ) in (
-            self.class_names
-        ):
+        for run_name in self.class_names:
             in_data = PreProcessedEvents(
                 run_name,
                 mode="r",
                 tag=self.preprocess_tag,
             )
-            assert (
-                len(in_data)
-                > 0
-            ), (
+            assert len(in_data) > 0, (
                 "No matching preprocessed events with tag: "
                 + self.preprocess_tag
                 + "  in run: "
                 + run_name
             )
-            class_train_count = (
-                0
-            )
-            class_val_count = (
-                0
-            )
-            tot_length = len(
-                in_data
-            )
+            class_train_count = 0
+            class_val_count = 0
+            tot_length = len(in_data)
             print(tot_length)
             (
                 val_full,
@@ -723,72 +377,31 @@ class ModelData(object):
                 False,
                 False,
             )
-            class_indices[
-                run_name
-            ] = class_index
+            class_indices[run_name] = class_index
             for (
                 data_count,
                 item,
-            ) in enumerate(
-                in_data
-            ):
+            ) in enumerate(in_data):
                 final_state_dict = {
-                    input_state: item[
-                        input_state.name
-                    ]
-                    for input_state in self.input_states
+                    input_state: item[input_state.name] for input_state in self.input_states
                 }
-                if (
-                    not self.check
-                    and self.model_type
-                    != "autoencoder"
-                ):
-                    self.check_consistency(
-                        final_state_dict
-                    )
-                return_dict[
-                    run_name
-                ] = merge_flat_dict(
-                    return_dict[
-                        run_name
-                    ],
+                if not self.check and self.model_type != "autoencoder":
+                    self.check_consistency(final_state_dict)
+                return_dict[run_name] = merge_flat_dict(
+                    return_dict[run_name],
                     final_state_dict,
                 )
-                length = final_state_dict[
-                    self.input_states[
-                        0
-                    ]
-                ].shape[
-                    0
-                ]
-                if (
-                    self.validation_tag
-                    != ""
-                ):
+                length = final_state_dict[self.input_states[0]].shape[0]
+                if self.validation_tag != "":
                     condition = (
-                        self.validation_tag
-                        in os.listdir(
-                            in_data.current_run
-                        )
-                        and not val_full
+                        self.validation_tag in os.listdir(in_data.current_run) and not val_full
                     )
                 else:
-                    condition = (
-                        not val_full
-                    )
+                    condition = not val_full
                 if condition:
-                    tag = (
-                        "val"
-                    )
-                    if (
-                        class_val_count
-                        + length
-                        > self.validation_length
-                    ):
-                        length = (
-                            self.validation_length
-                            - class_val_count
-                        )
+                    tag = "val"
+                    if class_val_count + length > self.validation_length:
+                        length = self.validation_length - class_val_count
                         val_dict = merge_flat_dict(
                             val_dict,
                             self.network_input(
@@ -806,41 +419,23 @@ class ModelData(object):
                                 class_index,
                             ),
                         )
-                    self.index_dict[
-                        "val"
-                    ][
+                    self.index_dict["val"][
                         IndexKey(
                             run_name,
                             val_count,
-                            val_count
-                            + length,
+                            val_count + length,
                             tag,
                         )
                     ] = (
                         in_data.current_run,
                         self.preprocess_tag,
                     )
-                    val_count = (
-                        val_count
-                        + length
-                    )
-                    class_val_count = (
-                        class_val_count
-                        + length
-                    )
-                elif (
-                    not train_full
-                ):
+                    val_count = val_count + length
+                    class_val_count = class_val_count + length
+                elif not train_full:
                     tag = "train"
-                    if (
-                        class_train_count
-                        + length
-                        > self.train_length
-                    ):
-                        length = (
-                            self.train_length
-                            - class_train_count
-                        )
+                    if class_train_count + length > self.train_length:
+                        length = self.train_length - class_train_count
                         train_dict = merge_flat_dict(
                             train_dict,
                             self.network_input(
@@ -858,63 +453,34 @@ class ModelData(object):
                                 class_index,
                             ),
                         )
-                    self.index_dict[
-                        "train"
-                    ][
+                    self.index_dict["train"][
                         IndexKey(
                             run_name,
                             train_count,
-                            train_count
-                            + length,
+                            train_count + length,
                             tag,
                         )
                     ] = (
                         in_data.current_run,
                         self.preprocess_tag,
                     )
-                    train_count = (
-                        train_count
-                        + length
-                    )
-                    class_train_count = (
-                        class_train_count
-                        + length
-                    )
+                    train_count = train_count + length
+                    class_train_count = class_train_count + length
                 else:
                     break
-            self.check = (
-                False
-            )
+            self.check = False
             class_index += 1
-        self.index_dict[
-            "class_indices"
-        ] = class_indices
-        for (
-            item
-        ) in self.index_dict:
-            for (
-                key
-            ) in self.index_dict[
-                item
-            ]:
+        self.index_dict["class_indices"] = class_indices
+        for item in self.index_dict:
+            for key in self.index_dict[item]:
                 print(
                     item,
                     key,
-                    self.index_dict[
-                        item
-                    ][
-                        key
-                    ],
+                    self.index_dict[item][key],
                 )
-        self.data = (
-            return_dict
-        )
-        self.train_data = (
-            train_dict
-        )
-        self.val_data = (
-            val_dict
-        )
+        self.data = return_dict
+        self.train_data = train_dict
+        self.val_data = val_dict
         return
 
     def network_input(
@@ -923,105 +489,40 @@ class ModelData(object):
         class_index,
     ):
         return_dict = {}
-        if (
-            len(
-                self.input_states
-            )
-            == 1
-        ):
-            if (
-                type(
-                    self.input_states[
-                        0
-                    ].index
-                )
-                == int
-            ):
-                return_dict[
-                    "X"
-                ] = final_state_dict[
-                    self.input_states[
-                        0
-                    ]
-                ][
+        if len(self.input_states) == 1:
+            if type(self.input_states[0].index) == int:
+                return_dict["X"] = final_state_dict[self.input_states[0]][
                     :,
-                    self.input_states[
-                        0
-                    ].index,
+                    self.input_states[0].index,
                 ]
             else:
-                return_dict[
-                    "X"
-                ] = final_state_dict[
-                    self.input_states[
-                        0
-                    ]
-                ]
-            total_entries = len(
-                return_dict[
-                    "X"
-                ]
-            )
+                return_dict["X"] = final_state_dict[self.input_states[0]]
+            total_entries = len(return_dict["X"])
         else:
-            listed = [
-                0
-            ] * len(
-                self.input_states
-            )
-            for (
-                f_state
-            ) in (
-                self.input_states
-            ):
-                if (
-                    type(
-                        f_state.index
-                    )
-                    == int
-                ):
-                    listed[
-                        f_state.network_input_index
-                    ] = final_state_dict[
-                        f_state
-                    ][
+            listed = [0] * len(self.input_states)
+            for f_state in self.input_states:
+                if type(f_state.index) == int:
+                    listed[f_state.network_input_index] = final_state_dict[f_state][
                         :,
                         f_state.index,
                     ]
                 else:
-                    listed[
-                        f_state.network_input_index
-                    ] = final_state_dict[
-                        f_state
-                    ]
-            return_dict[
-                "X"
-            ] = listed
-            total_entries = len(
-                return_dict[
-                    "X"
-                ][0]
-            )
+                    listed[f_state.network_input_index] = final_state_dict[f_state]
+            return_dict["X"] = listed
+            total_entries = len(return_dict["X"][0])
         temp_y = np.zeros(
             (
                 total_entries,
-                len(
-                    self.class_names
-                ),
+                len(self.class_names),
             ),
             dtype="float64",
         )
-        temp_y[
-            :, class_index
-        ] = 1.0
-        return_dict[
-            "Y"
-        ] = temp_y
+        temp_y[:, class_index] = 1.0
+        return_dict["Y"] = temp_y
         return return_dict
 
     def write_to_disk(self):
-        assert (
-            self.mode == "w"
-        ), "Trying to write in read instance of class"
+        assert self.mode == "w", "Trying to write in read instance of class"
         print(
             "Saving to: ",
             self.data_save_path,
@@ -1044,53 +545,31 @@ class ModelData(object):
                 "index_dict.h",
             ),
         ]
-        for (
-            item
-        ) in save_list:
+        for item in save_list:
             try:
                 Pickle(
                     item[0],
                     item[1],
                     save_path=self.data_save_path,
                 )
-            except (
-                OverflowError
-            ) as e:
+            except OverflowError as e:
                 print(
                     e,
                     "Could not save ",
                     item[1],
                     "saving as .npy",
                 )
-                pwd = (
-                    os.getcwd()
-                )
-                os.chdir(
-                    self.data_save_path
-                )
+                pwd = os.getcwd()
+                os.chdir(self.data_save_path)
                 try:
-                    os.mkdir(
-                        item[
-                            1
-                        ][
-                            -2:
-                        ]
-                    )
-                except (
-                    OSError
-                ):
+                    os.mkdir(item[1][-2:])
+                except OSError:
                     pass
-                os.chdir(
-                    item[1][
-                        -2:
-                    ]
-                )
+                os.chdir(item[1][-2:])
                 for (
                     key,
                     val,
-                ) in item[
-                    0
-                ].items():
+                ) in item[0].items():
                     np.save(
                         key,
                         val,
@@ -1102,66 +581,29 @@ class ModelData(object):
         self,
         final_states_dict,
     ):
-        print(
-            "First load! Checking consistency..."
-        )
-        for (
-            input_state
-        ) in (
-            self.input_states
-        ):
-            assert (
-                input_state
-                in final_states_dict
-            )
+        print("First load! Checking consistency...")
+        for input_state in self.input_states:
+            assert input_state in final_states_dict
             print(
                 input_state.name,
                 " found in dict keys!",
             )
-            current_array = final_states_dict[
-                input_state
-            ]
+            current_array = final_states_dict[input_state]
             print(
-                current_array.shape[
-                    1:
-                ],
+                current_array.shape[1:],
                 input_state.shape,
             )
-            if (
-                input_state.index
-                is None
-            ):
-                assert (
-                    input_state.shape
-                    == current_array.shape[
-                        1:
-                    ]
-                ), "Wrong input shape!"
+            if input_state.index is None:
+                assert input_state.shape == current_array.shape[1:], "Wrong input shape!"
                 i = 1
             else:
-                assert (
-                    input_state.shape
-                    == current_array.shape[
-                        2:
-                    ]
-                ), "Wrong input shape"
+                assert input_state.shape == current_array.shape[2:], "Wrong input shape"
                 i = 2
-                assert (
-                    input_state.index
-                    < current_array.shape[
-                        1
-                    ]
-                ), IndexError(
-                    "Index out of range"
-                )
+                assert input_state.index < current_array.shape[1], IndexError("Index out of range")
             print(
                 input_state.shape,
                 "==",
-                final_states_dict[
-                    input_state
-                ].shape[
-                    i:
-                ],
+                final_states_dict[input_state].shape[i:],
             )
         self.check = True
         return
@@ -1169,157 +611,62 @@ class ModelData(object):
     def multiple_input_check(
         self,
     ):
-        print(
-            self.train_data.keys()
-        )  # ,self.train_data["Y"][-10:])
-        if (
-            type(
-                self.train_data[
-                    "X"
-                ]
-            )
-            != list
-        ):
-            self.train_data = nu_shuffle(
-                **self.train_data
-            )
-            self.val_data = nu_shuffle(
-                **self.val_data
-            )
+        print(self.train_data.keys())  # ,self.train_data["Y"][-10:])
+        if type(self.train_data["X"]) != list:
+            self.train_data = nu_shuffle(**self.train_data)
+            self.val_data = nu_shuffle(**self.val_data)
         else:
-            args_train = tuple(
-                self.train_data[
-                    "X"
-                ]
-                + [
-                    self.train_data[
-                        "Y"
-                    ]
-                ]
-            )
-            args_val = tuple(
-                self.val_data[
-                    "X"
-                ]
-                + [
-                    self.val_data[
-                        "Y"
-                    ]
-                ]
-            )
+            args_train = tuple(self.train_data["X"] + [self.train_data["Y"]])
+            args_val = tuple(self.val_data["X"] + [self.val_data["Y"]])
             (
                 args_train,
                 _,
-            ) = array_shuffle(
-                *args_train
-            )
+            ) = array_shuffle(*args_train)
             (
                 args_val,
                 _,
-            ) = array_shuffle(
-                *args_val
+            ) = array_shuffle(*args_val)
+            (
+                self.train_data["X"],
+                self.train_data["Y"],
+            ) = (
+                list(args_train[:-1]),
+                args_train[-1],
             )
             (
-                self.train_data[
-                    "X"
-                ],
-                self.train_data[
-                    "Y"
-                ],
+                self.val_data["X"],
+                self.val_data["Y"],
             ) = (
-                list(
-                    args_train[
-                        :-1
-                    ]
-                ),
-                args_train[
-                    -1
-                ],
-            )
-            (
-                self.val_data[
-                    "X"
-                ],
-                self.val_data[
-                    "Y"
-                ],
-            ) = (
-                list(
-                    args_val[
-                        :-1
-                    ]
-                ),
+                list(args_val[:-1]),
                 args_val[-1],
             )
-        if (
-            self.model_type
-            != "autoencoder"
-        ):
+        if self.model_type != "autoencoder":
             print(
                 "Checking shuffled...",
-                self.train_data[
-                    "Y"
-                ][
-                    :10
-                ],
-                self.train_data[
-                    "Y"
-                ][
-                    -10:
-                ],
+                self.train_data["Y"][:10],
+                self.train_data["Y"][-10:],
             )
         return (
             self.train_data,
             self.val_data,
         )
 
-    def pre_inputs(
-        self, total_length
-    ):
-        X = [
-            []
-            for i in range(
-                len(
-                    self.input_states
-                )
-            )
-        ]
+    def pre_inputs(self, total_length):
+        X = [[] for i in range(len(self.input_states))]
         print(X)
-        for (
-            input_state
-        ) in (
-            self.input_states
-        ):
-            shape = tuple(
-                [
-                    total_length
-                ]
-                + list(
-                    input_state.shape
-                )
-            )
-            X[
-                input_state.network_input_index
-            ] = np.zeros(
-                shape
-            )
+        for input_state in self.input_states:
+            shape = tuple([total_length] + list(input_state.shape))
+            X[input_state.network_input_index] = np.zeros(shape)
             Y = np.zeros(
                 (
                     total_length,
-                    len(
-                        self.class_names
-                    ),
+                    len(self.class_names),
                 )
             )
-        [
-            print(item.shape)
-            for item in X
-        ]
+        [print(item.shape) for item in X]
         return X, Y
 
-    def load_from_index_dict(
-        self, path
-    ):
+    def load_from_index_dict(self, path):
         """currently writing for binary class, change later for n-class classification"""
         pwd = os.getcwd()
         print(path, pwd)
@@ -1328,46 +675,22 @@ class ModelData(object):
             load_path=path,
         )
         try:
-            split_points = index_dict.pop(
-                "split_point"
-            )
+            split_points = index_dict.pop("split_point")
         except KeyError:
             split_points = {}
         try:
-            class_intervals = index_dict.pop(
-                "class_interval"
-            )
+            class_intervals = index_dict.pop("class_interval")
         except KeyError:
-            total_lengths = (
-                {}
-            )
+            total_lengths = {}
         try:
-            class_indices = index_dict.pop(
-                "class_indices"
-            )
-            run_names = [
-                key
-                for key in class_indices
-            ]
-            total_length = max(
-                [
-                    class_intervals[
-                        name
-                    ][
-                        -1
-                    ]
-                    for name in run_names
-                ]
-            )
-            print(
-                total_length
-            )
+            class_indices = index_dict.pop("class_indices")
+            run_names = [key for key in class_indices]
+            total_length = max([class_intervals[name][-1] for name in run_names])
+            print(total_length)
             (
                 X,
                 Y,
-            ) = self.pre_inputs(
-                total_length
-            )
+            ) = self.pre_inputs(total_length)
         except KeyError:
             run_names = []
         (
@@ -1375,211 +698,104 @@ class ModelData(object):
             val_dict,
         ) = ({}, {})
         all_count = 0
-        if (
-            "train"
-            not in index_dict
-            and "val"
-            not in index_dict
-        ):
+        if "train" not in index_dict and "val" not in index_dict:
             for (
                 key,
                 value,
-            ) in (
-                index_dict.items()
-            ):
+            ) in index_dict.items():
                 temp_dict = Unpickle(
-                    "preprocessed_"
-                    + value[
-                        1
-                    ]
-                    + ".h",
-                    load_path=value[
-                        0
-                    ],
+                    "preprocessed_" + value[1] + ".h",
+                    load_path=value[0],
                 )
-                for input_state in (
-                    self.input_states
-                ):
-                    loaded_shape = temp_dict[
-                        input_state.name
-                    ].shape
-                    if (
-                        input_state.index
-                        != None
-                    ):
-                        X[
-                            input_state.network_input_index
-                        ][
-                            key.start : key.end
-                        ] = temp_dict[
+                for input_state in self.input_states:
+                    loaded_shape = temp_dict[input_state.name].shape
+                    if input_state.index != None:
+                        X[input_state.network_input_index][key.start : key.end] = temp_dict[
                             input_state.name
                         ][
                             :,
                             input_state.index,
                         ]
                     else:
-                        X[
-                            input_state.network_input_index
-                        ][
-                            key.start : key.end
-                        ] = temp_dict[
+                        X[input_state.network_input_index][key.start : key.end] = temp_dict[
                             input_state.name
                         ]
                     Y[
                         key.start : key.end,
-                        class_indices[
-                            key.class_name
-                        ],
+                        class_indices[key.class_name],
                     ] = 1.0
                     print(
                         input_state.name,
                         key.start,
                         key.end,
                     )
-                if (
-                    "debug"
-                    in sys.argv
-                ):
+                if "debug" in sys.argv:
                     print(
-                        Y[
-                            key.start : key.start
-                            + 10
-                        ],
+                        Y[key.start : key.start + 10],
                         key,
                     )
-            for (
-                run_name
-            ) in run_names:
+            for run_name in run_names:
                 (
                     start,
                     end,
                 ) = (
-                    class_intervals[
-                        run_name
-                    ][
-                        0
-                    ],
-                    class_intervals[
-                        run_name
-                    ][
-                        1
-                    ],
+                    class_intervals[run_name][0],
+                    class_intervals[run_name][1],
                 )
-                split = split_points[
-                    run_name
-                ][
-                    0
-                ]
+                split = split_points[run_name][0]
                 print(
                     start,
                     split,
                     end,
                 )
-                if (
-                    "X"
-                    not in train_dict
-                ):
-                    train_dict[
-                        "X"
-                    ] = [
-                        item[
-                            start:split
-                        ]
-                        for item in X
-                    ]
-                    train_dict[
-                        "Y"
-                    ] = Y[
-                        start:split
-                    ]
-                    val_dict[
-                        "X"
-                    ] = [
-                        item[
-                            split:end
-                        ]
-                        for item in X
-                    ]
-                    val_dict[
-                        "Y"
-                    ] = Y[
-                        split:end
-                    ]
+                if "X" not in train_dict:
+                    train_dict["X"] = [item[start:split] for item in X]
+                    train_dict["Y"] = Y[start:split]
+                    val_dict["X"] = [item[split:end] for item in X]
+                    val_dict["Y"] = Y[split:end]
                 else:
-                    train_dict[
-                        "X"
-                    ] = [
+                    train_dict["X"] = [
                         np.concatenate(
                             (
                                 prev_item,
-                                item[
-                                    start:split
-                                ],
+                                item[start:split],
                             ),
                             axis=0,
                         )
                         for prev_item, item in zip(
-                            train_dict[
-                                "X"
-                            ],
+                            train_dict["X"],
                             X,
                         )
                     ]
-                    train_dict[
-                        "Y"
-                    ] = np.concatenate(
+                    train_dict["Y"] = np.concatenate(
                         (
-                            train_dict[
-                                "Y"
-                            ],
-                            Y[
-                                start:split
-                            ],
+                            train_dict["Y"],
+                            Y[start:split],
                         ),
                         axis=0,
                     )
-                    val_dict[
-                        "X"
-                    ] = [
+                    val_dict["X"] = [
                         np.concatenate(
                             (
                                 prev_item,
-                                item[
-                                    split:end
-                                ],
+                                item[split:end],
                             ),
                             axis=0,
                         )
                         for prev_item, item in zip(
-                            val_dict[
-                                "X"
-                            ],
+                            val_dict["X"],
                             X,
                         )
                     ]
-                    val_dict[
-                        "Y"
-                    ] = np.concatenate(
+                    val_dict["Y"] = np.concatenate(
                         (
-                            val_dict[
-                                "Y"
-                            ],
-                            Y[
-                                split:end
-                            ],
+                            val_dict["Y"],
+                            Y[split:end],
                         ),
                         axis=0,
                     )
         else:
-            lengths = {
-                item: max(
-                    key.end
-                    for key in index_dict[
-                        item
-                    ]
-                )
-                for item in index_dict
-            }
+            lengths = {item: max(key.end for key in index_dict[item]) for item in index_dict}
             data_dict = {
                 item: {
                     space: array
@@ -1588,29 +804,16 @@ class ModelData(object):
                             "X",
                             "Y",
                         ),
-                        self.pre_inputs(
-                            lengths[
-                                item
-                            ]
-                        ),
+                        self.pre_inputs(lengths[item]),
                     )
                 }
                 for item in index_dict
             }
-            if (
-                "debug"
-                in sys.argv
-            ):
-                print(
-                    lengths
-                )
+            if "debug" in sys.argv:
+                print(lengths)
             try:
-                class_indices = index_dict.pop(
-                    "class_indices"
-                )
-            except (
-                KeyError
-            ) as e:
+                class_indices = index_dict.pop("class_indices")
+            except KeyError as e:
                 print(
                     e,
                     "\n creating new class one-hot encoding, check correctness in case of inference or comparing pretrained models...",
@@ -1619,189 +822,72 @@ class ModelData(object):
                     item: i
                     for item, i in zip(
                         self.class_names,
-                        range(
-                            len(
-                                self.class_names
-                            )
-                        ),
+                        range(len(self.class_names)),
                     )
                 }
             for (
                 tag,
                 tag_indices,
-            ) in (
-                index_dict.items()
-            ):
+            ) in index_dict.items():
                 for (
                     key,
                     value,
-                ) in (
-                    tag_indices.items()
-                ):
+                ) in tag_indices.items():
                     temp_dict = Unpickle(
-                        "preprocessed_"
-                        + value[
-                            1
-                        ]
-                        + ".h",
-                        load_path=value[
-                            0
-                        ],
+                        "preprocessed_" + value[1] + ".h",
+                        load_path=value[0],
                     )
-                    for input_state in (
-                        self.input_states
-                    ):
-                        loaded_shape = temp_dict[
-                            input_state.name
-                        ].shape
-                        if (
-                            input_state.index
-                            != None
-                        ):
-                            data_dict[
-                                tag
-                            ][
-                                "X"
-                            ][
-                                input_state.network_input_index
-                            ][
+                    for input_state in self.input_states:
+                        loaded_shape = temp_dict[input_state.name].shape
+                        if input_state.index != None:
+                            data_dict[tag]["X"][input_state.network_input_index][
                                 key.start : key.end
-                            ] = temp_dict[
-                                input_state.name
-                            ][
-                                : key.end
-                                - key.start,
+                            ] = temp_dict[input_state.name][
+                                : key.end - key.start,
                                 input_state.index,
                             ]
                         else:
-                            data_dict[
-                                tag
-                            ][
-                                "X"
-                            ][
-                                input_state.network_input_index
-                            ][
+                            data_dict[tag]["X"][input_state.network_input_index][
                                 key.start : key.end
-                            ] = temp_dict[
-                                input_state.name
-                            ][
-                                : key.end
-                                - key.start
-                            ]
-                        data_dict[
-                            tag
-                        ][
-                            "Y"
-                        ][
+                            ] = temp_dict[input_state.name][: key.end - key.start]
+                        data_dict[tag]["Y"][
                             key.start : key.end,
-                            class_indices[
-                                key.class_name
-                            ],
+                            class_indices[key.class_name],
                         ] = 1.0
-                    if (
-                        "debug"
-                        in sys.argv
-                    ):
+                    if "debug" in sys.argv:
                         print(
-                            data_dict[
-                                tag
-                            ][
-                                "Y"
-                            ][
-                                key.start : key.start
-                                + 10
-                            ],
+                            data_dict[tag]["Y"][key.start : key.start + 10],
                             key,
                         )
-            if (
-                "debug"
-                in sys.argv
-            ):
+            if "debug" in sys.argv:
                 print(
-                    data_dict[
-                        "train"
-                    ][
-                        "X"
-                    ][
-                        0
-                    ].shape,
-                    data_dict[
-                        "train"
-                    ][
-                        "Y"
-                    ].shape,
-                    data_dict[
-                        "val"
-                    ][
-                        "X"
-                    ][
-                        0
-                    ].shape,
-                    data_dict[
-                        "val"
-                    ][
-                        "Y"
-                    ].shape,
+                    data_dict["train"]["X"][0].shape,
+                    data_dict["train"]["Y"].shape,
+                    data_dict["val"]["X"][0].shape,
+                    data_dict["val"]["Y"].shape,
                 )
             (
                 train_dict,
                 val_dict,
             ) = (
-                data_dict[
-                    "train"
-                ],
-                data_dict[
-                    "val"
-                ],
+                data_dict["train"],
+                data_dict["val"],
             )
-        if (
-            len(
-                self.input_states
-            )
-            == 1
-        ):
+        if len(self.input_states) == 1:
             (
-                train_dict[
-                    "X"
-                ],
-                val_dict[
-                    "X"
-                ],
+                train_dict["X"],
+                val_dict["X"],
             ) = (
-                train_dict[
-                    "X"
-                ][0],
-                val_dict[
-                    "X"
-                ][0],
+                train_dict["X"][0],
+                val_dict["X"][0],
             )
         else:
-            for (
-                item
-            ) in train_dict[
-                "X"
-            ]:
-                print(
-                    item.shape
-                )
-            print(
-                train_dict[
-                    "Y"
-                ].shape
-            )
-            for (
-                item
-            ) in val_dict[
-                "X"
-            ]:
-                print(
-                    item.shape
-                )
-            print(
-                val_dict[
-                    "Y"
-                ].shape
-            )
+            for item in train_dict["X"]:
+                print(item.shape)
+            print(train_dict["Y"].shape)
+            for item in val_dict["X"]:
+                print(item.shape)
+            print(val_dict["Y"].shape)
         return (
             train_dict,
             val_dict,
@@ -1817,9 +903,7 @@ class ModelData(object):
                 "val.h",
                 load_path=self.data_save_path,
             )
-        except (
-            Exception
-        ) as e:
+        except Exception as e:
             print(
                 e,
                 "\nTrying to reload from index dictionaries...",
@@ -1828,26 +912,15 @@ class ModelData(object):
                 (
                     self.train_data,
                     self.val_data,
-                ) = self.load_from_index_dict(
-                    self.data_save_path
-                )
-            except (
-                Exception
-            ) as e:
+                ) = self.load_from_index_dict(self.data_save_path)
+            except Exception as e:
                 print(
                     e,
                     "\n loading from madgraph events for the first time ...",
                 )
-                if (
-                    self.mode
-                    != "w"
-                ):
-                    raise IOError(
-                        "data not found"
-                    )
-                if (
-                    not self.train_data
-                ):
+                if self.mode != "w":
+                    raise IOError("data not found")
+                if not self.train_data:
                     self.load_data()
                 if self.save:
                     self.write_to_disk()
@@ -1855,36 +928,16 @@ class ModelData(object):
             (
                 train_data,
                 val_data,
-            ) = (
-                self.multiple_input_check()
-            )
-        self.train_data = (
-            train_data
-        )
-        self.val_data = (
-            val_data
-        )
-        if (
-            self.model_type
-            != "autoencoder"
-        ):
-            if (
-                self.mode
-                == "w"
-            ):
+            ) = self.multiple_input_check()
+        self.train_data = train_data
+        self.val_data = val_data
+        if self.model_type != "autoencoder":
+            if self.mode == "w":
                 return (
-                    self.train_data[
-                        "X"
-                    ],
-                    self.train_data[
-                        "Y"
-                    ],
-                    self.val_data[
-                        "X"
-                    ],
-                    self.val_data[
-                        "Y"
-                    ],
+                    self.train_data["X"],
+                    self.train_data["Y"],
+                    self.val_data["X"],
+                    self.val_data["Y"],
                 )
             else:
                 return (
@@ -1893,42 +946,22 @@ class ModelData(object):
                 )
         else:
             return (
-                self.train_data[
-                    "X"
-                ],
-                self.train_data[
-                    "X"
-                ],
-                self.val_data[
-                    "X"
-                ],
-                self.val_data[
-                    "X"
-                ],
+                self.train_data["X"],
+                self.train_data["X"],
+                self.val_data["X"],
+                self.val_data["X"],
             )
 
 
-class AutoencoderData(
-    ModelData
-):
-    def __init__(
-        *args, **kwargs
-    ):
-        super().__init__(
-            *args, **kwargs
-        )
+class AutoencoderData(ModelData):
+    def __init__(*args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     def get_data(self):
         if {
             "train.h",
             "val.h",
-        }.issubset(
-            set(
-                os.listdir(
-                    self.data_save_path
-                )
-            )
-        ):
+        }.issubset(set(os.listdir(self.data_save_path))):
             self.train_data = Unpickle(
                 "train.h",
                 load_path=self.data_save_path,
@@ -1938,205 +971,83 @@ class AutoencoderData(
                 load_path=self.data_save_path,
             )
         else:
-            if (
-                self.mode
-                != "w"
-            ):
-                raise IOError(
-                    "data not found"
-                )
-            if (
-                not self.train_data
-            ):
+            if self.mode != "w":
+                raise IOError("data not found")
+            if not self.train_data:
                 self.load_data()
             print(
-                self.train_data[
-                    "Y"
-                ][
-                    :10
-                ],
-                self.train_data[
-                    "Y"
-                ][
-                    -10:
-                ],
+                self.train_data["Y"][:10],
+                self.train_data["Y"][-10:],
             )
             (
                 train_X,
                 val_X,
             ) = (
-                self.train_data[
-                    "X"
-                ],
-                self.val_data[
-                    "X"
-                ],
+                self.train_data["X"],
+                self.val_data["X"],
             )
-            if (
-                type(train_X)
-                != list
-            ):
+            if type(train_X) != list:
                 train_data = array_shuffle(
                     X=np.expand_dims(
                         train_X,
                         -1,
                     ),
-                    Y=self.train_data[
-                        "Y"
-                    ],
+                    Y=self.train_data["Y"],
                 )
                 val_data = array_shuffle(
                     X=np.expand_dims(
                         val_X,
                         -1,
                     ),
-                    Y=self.val_data[
-                        "Y"
-                    ],
+                    Y=self.val_data["Y"],
                 )
             else:
                 container_train = {
                     "X"
-                    + str(
-                        i
-                    ): np.expand_dims(
+                    + str(i): np.expand_dims(
                         item,
                         -1,
                     )
-                    for i, item in enumerate(
-                        train_X
-                    )
+                    for i, item in enumerate(train_X)
                 }
-                container_train[
-                    "Y"
-                ] = self.train_data[
-                    "Y"
-                ]
+                container_train["Y"] = self.train_data["Y"]
                 container_val = {
                     "X"
-                    + str(
-                        i
-                    ): np.expand_dims(
+                    + str(i): np.expand_dims(
                         item,
                         -1,
                     )
-                    for i, item in enumerate(
-                        val_X
-                    )
+                    for i, item in enumerate(val_X)
                 }
-                container_val[
-                    "Y"
-                ] = self.val_data[
-                    "Y"
-                ]
-                container_train = array_shuffle(
-                    all=container_train
-                )
-                container_val = array_shuffle(
-                    all=container_val
-                )
-                train_data = {
-                    "Y": container_train[
-                        "Y"
-                    ]
-                }
-                val_data = {
-                    "Y": container_val[
-                        "Y"
-                    ]
-                }
-                train_data[
-                    "X"
-                ] = [
-                    container_train[
-                        "X"
-                        + str(
-                            i
-                        )
-                    ]
-                    for i in range(
-                        len(
-                            train_X
-                        )
-                    )
-                ]
-                val_data[
-                    "X"
-                ] = [
-                    container_val[
-                        "X"
-                        + str(
-                            i
-                        )
-                    ]
-                    for i in range(
-                        len(
-                            val_X
-                        )
-                    )
-                ]
-                train_data[
-                    "ind_map"
-                ] = container_train[
-                    "ind_map"
-                ]
-                val_data[
-                    "ind_map"
-                ] = container_val[
-                    "ind_map"
-                ]
-                self.shuffled_index_dict[
-                    "train"
-                ] = train_data[
-                    "ind_map"
-                ]
-                self.shuffled_index_dict[
-                    "val"
-                ] = val_data[
-                    "ind_map"
-                ]
-            self.train_data = (
-                train_data
-            )
-            self.val_data = (
-                val_data
-            )
+                container_val["Y"] = self.val_data["Y"]
+                container_train = array_shuffle(all=container_train)
+                container_val = array_shuffle(all=container_val)
+                train_data = {"Y": container_train["Y"]}
+                val_data = {"Y": container_val["Y"]}
+                train_data["X"] = [container_train["X" + str(i)] for i in range(len(train_X))]
+                val_data["X"] = [container_val["X" + str(i)] for i in range(len(val_X))]
+                train_data["ind_map"] = container_train["ind_map"]
+                val_data["ind_map"] = container_val["ind_map"]
+                self.shuffled_index_dict["train"] = train_data["ind_map"]
+                self.shuffled_index_dict["val"] = val_data["ind_map"]
+            self.train_data = train_data
+            self.val_data = val_data
             if self.save:
                 self.write_to_disk()
-        self.train_data = (
-            train_data
-        )
-        self.val_data = (
-            val_data
-        )
+        self.train_data = train_data
+        self.val_data = val_data
         return (
-            self.train_data[
-                "X"
-            ],
-            self.train_data[
-                "X"
-            ],
-            self.val_data[
-                "X"
-            ],
-            self.val_data[
-                "X"
-            ],
+            self.train_data["X"],
+            self.train_data["X"],
+            self.val_data["X"],
+            self.val_data["X"],
         )
 
 
 class DataHandler(object):
-    def __init__(
-        self, *args, **kwargs
-    ):
-        self._prefix_path = check_dir(
-            "./network_runs"
-        )
-        self.mode = (
-            kwargs.get(
-                "mode", "w"
-            )
-        )
+    def __init__(self, *args, **kwargs):
+        self._prefix_path = check_dir("./network_runs")
+        self.mode = kwargs.get("mode", "w")
         self.save_as = kwargs.get(
             "save_as",
             "numpy_array",
@@ -2146,43 +1057,23 @@ class DataHandler(object):
             "preprocess_tag",
             "class_names",
         }
-        assert compulsory_kwargs.issubset(
-            set(
-                kwargs.keys()
-            )
-        )
+        assert compulsory_kwargs.issubset(set(kwargs.keys()))
         self.total_length = kwargs.get(
             "total_length",
             100,
         )
-        self.test_split = (
-            kwargs.get(
-                "test_split",
-                0.2,
-            )
+        self.test_split = kwargs.get(
+            "test_split",
+            0.2,
         )
-        self.model_type = (
-            kwargs.get(
-                "model_type",
-                "model",
-            )
+        self.model_type = kwargs.get(
+            "model_type",
+            "model",
         )
-        self.preprocess_tag = kwargs.get(
-            "preprocess_tag"
-        )
-        self.class_names = (
-            kwargs.get(
-                "class_names"
-            )
-        )
-        self.input_states = kwargs.get(
-            "input_states"
-        )
-        self.save = (
-            kwargs.get(
-                "save", True
-            )
-        )
+        self.preprocess_tag = kwargs.get("preprocess_tag")
+        self.class_names = kwargs.get("class_names")
+        self.input_states = kwargs.get("input_states")
+        self.save = kwargs.get("save", True)
         if self.save:
             self.run_tag = kwargs.get(
                 "run_tag",
@@ -2202,9 +1093,7 @@ class DataHandler(object):
             )
             self.run_name = kwargs.get(
                 "run_name",
-                self.model_type
-                + "_"
-                + self.preprocess_tag,
+                self.model_type + "_" + self.preprocess_tag,
             )
             self.run_path = check_dir(
                 os.path.join(
@@ -2248,9 +1137,7 @@ class DataHandler(object):
             "val": {},
         }
         self.check = False
-        self.data_handler = kwargs.get(
-            "data_handler"
-        )
+        self.data_handler = kwargs.get("data_handler")
         self.handler_kwargs = kwargs.get(
             "handler_kwargs",
             {},
@@ -2266,95 +1153,50 @@ class DataHandler(object):
             "dictionary",
             load_path=self.data_save_path,
         )
-        kwargs = dictionary[
-            "handler_kwargs"
-        ]
+        kwargs = dictionary["handler_kwargs"]
         for (
             save_key,
             item,
         ) in zip(
-            dictionary[
-                "input_keys"
-            ],
+            dictionary["input_keys"],
             self.input_states,
         ):
-            assert (
-                save_key
-                == item.name
-            )
+            assert save_key == item.name
         for (
             name,
             real_name,
         ) in zip(
-            dictionary[
-                "classes"
-            ],
+            dictionary["classes"],
             self.class_names,
         ):
-            assert (
-                name
-                == real_name
-            )
-        assert (
-            self.preprocess_tag
-            == dictionary[
-                "preprocess_tag"
-            ]
-        )
-        kwargs[
-            "indices"
-        ] = Unpickle(
+            assert name == real_name
+        assert self.preprocess_tag == dictionary["preprocess_tag"]
+        kwargs["indices"] = Unpickle(
             "indices",
             load_path=self.data_save_path,
         )
-        return self.data_handler(
-            self.class_names,
-            input_keys=dictionary[
-                "input_keys"
-            ],
-            **kwargs
-        )
+        return self.data_handler(self.class_names, input_keys=dictionary["input_keys"], **kwargs)
 
     def get_data(self):
-        if (
-            "dictionary"
-            in os.listdir(
-                self.data_save_path
-            )
-        ):
-            data = (
-                self.handler_load()
-            )
+        if "dictionary" in os.listdir(self.data_save_path):
+            data = self.handler_load()
             save = False
         else:
             data = self.data_handler(
                 self.class_names,
-                input_keys=[
-                    item.name
-                    for item in self.input_states
-                ],
+                input_keys=[item.name for item in self.input_states],
                 **self.handler_kwargs
             )
             save = True
-        self.load_path = (
-            data.pop("path")
-        )
+        self.load_path = data.pop("path")
         (
             train,
             val,
         ) = data.pop(
             "train"
-        ), data.pop(
-            "val"
-        )
-        self.train_indices = train.pop(
-            "indices"
-        )
-        self.val_indices = (
-            val.pop(
-                "indices"
-            )
-        )
+        ), data.pop("val")
+        self.train_indices = train.pop("indices")
+        self.val_indices = val.pop("indices")
         if save:
             self.write_to_disk()
         return (
@@ -2369,23 +1211,16 @@ class DataHandler(object):
             "classes": self.class_names,
             "handler_kwargs": self.handler_kwargs,
             "preprocess_tag": self.preprocess_tag,
-            "input_keys": [
-                item.name
-                for item in self.input_states
-            ],
+            "input_keys": [item.name for item in self.input_states],
             "load_path": self.load_path,
         }
-        print(
-            "Saving kwargs..."
-        )
+        print("Saving kwargs...")
         Pickle(
             dictionary,
             "dictionary",
             save_path=self.data_save_path,
         )
-        print(
-            "Saving indices..."
-        )
+        print("Saving indices...")
         Pickle(
             {
                 "train": self.train_indices,
@@ -2421,9 +1256,7 @@ if __name__ == "__main__":
             32,
         ),
         preprocess_tag="try",
-        input_states=[
-            fatjet1
-        ],
+        input_states=[fatjet1],
         model_type="jet_image",
         run_name="trial",
         validation_tag="val",
