@@ -62,6 +62,54 @@ In the grand theater of high-energy collisions, the particle jets dance with com
 
 ✨ **Stellar Performance** - Our model shines bright with stellar accuracy and AUC in distinguishing top quarks from QCD jets. The stars align for precision! ✨
 
+Algorithm
+
+```python
+Input: QCD and non-QCD jet data
+
+# Preprocess the data
+    Split data into training and testing sets
+
+# Define the Hypergraph Message Passing Permutation Invariant Neural Network architecture
+    Define Function: ConstructHypergraph(batch_data)
+        # Constructs a hypergraph for the given batch of data
+        ...
+
+    Define Function: MessagePassing(hypergraph)
+        # Performs hypergraph message passing
+        ...
+
+    Define Function: PermutationInvariant(features)
+        # Computes the permutation invariant representation
+        ...
+
+# Define the Neural Network architecture
+    Define Function: ClassificationNN(input_dim, hidden_dim, output_dim)
+        # Defines the classification neural network architecture
+        ...
+
+# Training
+For each epoch in range(num_epochs):
+    For each batch_data in training_data:
+        hypergraph = ConstructHypergraph(batch_data)
+        MessagePassing(hypergraph)
+        representation = PermutationInvariant(features)
+        classification_output = ClassificationNN(representation)
+        loss = CalculateLoss(classification_output, labels)
+        UpdateParameters(loss)
+
+# Classification
+For each batch_data in testing_data:
+    hypergraph = ConstructHypergraph(batch_data)
+    MessagePassing(hypergraph)
+    representation = PermutationInvariant(features)
+    classification_output = ClassificationNN(representation)
+    predicted_labels = ApplySoftmax(classification_output)
+    final_labels = Classify(predicted_labels)
+
+Output: Predicted class labels for testing_data
+```
+
 1. AUC Values for Gluons vs Quark Tagging Dataset
 
 | Sr. No. | R<sub>0</sub> | Accuracy       |
