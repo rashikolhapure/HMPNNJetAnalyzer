@@ -1,5 +1,20 @@
 # 🚀 HyperGraph Magic: Unraveling Jets with HMPNNs
 
+## Hypergraph Message Passing Neural Networks for Jet Analysis
+
+The field of high-energy particle collision analysis has witnessed a surge in the utilization of machine learning techniques, particularly neural networks. These algorithms offer the potential to glean valuable insights from the intricate data resulting from these collisions. However, traditional neural network architectures like CNNs and RNNs fall short when dealing with the intricate and structured nature of such data.
+
+In recent times, the spotlight has turned to Graph Neural Networks (GNNs) for analyzing graph-structured data. Their triumphs span across computer vision, natural language processing, and other domains. Yet, the customary GNN framework operates under the assumption of binary, unordered edges—a limitation when applied to jet analysis.
+
+Enter Hypergraphs—a dynamic, expressive alternative to represent jet data. Unlike graphs, hypergraphs embrace hyperedges capable of linking multiple nodes and sporting multiple labels. Hypergraph Neural Networks (HGNNs) have emerged as a solution to extend GNNs to hypergraphs. However, their potential in jet analysis remains relatively untapped.
+
+In this context, Hypergraph Message Passing Neural Networks (HMPNNs) come into play. A novel spin on HGNNs, HMPNNs leverage message passing algorithms to enhance node and hyperedge features within a hypergraph. This approach, successful in domains like image segmentation and social network analysis, is ripe for exploration in jet analysis.
+
+HMPNNs bring a multitude of motivations to the table. Firstly, the adaptability of hypergraphs offers a nuanced portrayal of intricate high-energy collision data. Moreover, the sophisticated message passing algorithms of HMPNNs unravel the intricate relationships between nodes and hyperedges, resulting in richer and more precise data representations.
+
+Through this innovative approach, HMPNNs hold the promise to unlock hidden insights within jet analysis data, ultimately contributing to a deeper understanding of the complex world of particle collisions.
+
+
 
 📡 **"Houston, we have jets!"** 🛰️
 
