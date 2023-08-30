@@ -1,5 +1,6 @@
 # 🚀 HyperGraph Magic: Unraveling Jets with HMPNNs
 
+
 ## Hypergraph Message Passing Neural Networks for Jet Analysis
 
 The field of high-energy particle collision analysis has witnessed a surge in the utilization of machine learning techniques, particularly neural networks. These algorithms offer the potential to glean valuable insights from the intricate data resulting from these collisions. However, traditional neural network architectures like CNNs and RNNs fall short when dealing with the intricate and structured nature of such data.
@@ -33,6 +34,26 @@ These particle jets play a pivotal role in understanding complex interactions. B
 
 [Watch Video](https://www.youtube.com/watch?v=VIDEO_ID)
 
+## Research Objectives and Research Questions
+
+### Research Objectives:
+
+- Develop a hypergraph message passing neural network architecture for analyzing jets in high-energy particle collisions.
+- 
+- Assess the performance of the proposed hypergraph model.
+- 
+- Interpret the results, highlighting their significance in jet analysis, and explore the model's strengths and limitations.
+- 
+- Suggest future enhancements and research paths for hypergraph message passing neural networks in jet analysis and related domains.
+
+### Research Questions:
+
+1. How can hypergraph message passing neural networks effectively analyze jets in high-energy particle collisions?
+2. How does the accuracy and computational efficiency of the proposed hypergraph model compare to other leading approaches?
+3. What insights can be derived from the model's outcomes, and how do they impact the realm of high-energy physics jet analysis?
+4. What are the discernible strengths and limitations of the proposed model, and what avenues for improvement are worth investigating in future studies?
+
+Feel free to refer to the [complete research proposal](link_to_your_full_research_proposal.pdf) for comprehensive details.
 
 
 
