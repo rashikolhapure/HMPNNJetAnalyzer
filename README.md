@@ -110,6 +110,37 @@ For each batch_data in testing_data:
 Output: Predicted class labels for testing_data
 ```
 
+Simple Model Code:
+```python
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch_geometric.data import Data, DataLoader
+from torch_geometric.nn import MessagePassing
+
+# Define the Hypergraph Message Passing Permutation Invariant Neural Network
+class HypergraphMessagePassingPINN(nn.Module):
+    def __init__(self, input_dim, hidden_dim, output_dim):
+        super(HypergraphMessagePassingPINN, self).__init__()
+
+        # Define hypergraph construction, message passing, and permutation invariant layers
+        self.hypergraph_layer = HypergraphConstructionLayer(input_dim, hidden_dim)
+        self.message_passing_layer = MessagePassingLayer(hidden_dim)
+        self.permutation_invariant_layer = PermutationInvariantLayer(hidden_dim, output_dim)
+
+    def forward(self, data):
+        # Construct hypergraph
+        hypergraph = self.hypergraph_layer(data)
+
+        # Perform hypergraph message passing
+        x = self.message_passing_layer(hypergraph)
+
+        # Compute permutation invariant representation
+        representation = self.permutation_invariant_layer(x)
+
+        return representation
+```
+
 1. AUC Values for Gluons vs Quark Tagging Dataset
 
 | Sr. No. | R<sub>0</sub> | Accuracy       |
