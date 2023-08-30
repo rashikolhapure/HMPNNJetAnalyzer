@@ -61,34 +61,12 @@ In the grand theater of high-energy collisions, the particle jets dance with com
 ![AUC Curve](images/auc.jpg)
 
 ✨ **Stellar Performance** - Our model shines bright with stellar accuracy and AUC in distinguishing top quarks from QCD jets. The stars align for precision! ✨
-
-<html>
-<head>
-<style>
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-
-  th, td {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: center;
-  }
-
-  th {
-    background-color: #f2f2f2;
-  }
-</style>
-</head>
-<body>
-
 <h2>AUC Values for Gluons vs Quark Tagging Dataset</h2>
 
 <table>
   <tr>
     <th>Sr. No.</th>
-    <th>R0</th>
+    <th>R<sub>0</sub></th>
     <th>Accuracy</th>
   </tr>
   <tr>
@@ -117,9 +95,6 @@ In the grand theater of high-energy collisions, the particle jets dance with com
     <td>0.8919±0.0006</td>
   </tr>
 </table>
-
-</body>
-</html>
 
 ![Permutation Invarient](images/PI.png)
 
