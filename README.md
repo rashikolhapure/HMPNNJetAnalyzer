@@ -37,6 +37,38 @@ https://github.com/rajveer43/hep_ml/assets/64583161/c6034ad6-aa9b-4c5b-a00b-fe30
 
 🎩 **"Magic Four-Vectors"** - Directions sculpt our message weights, as four-vectors dance with information exchange, painting the cosmic symphony of jet features. 🌈
 
+Quark-Gluon Dataset Features
+
+The Pythia8 Quark and Gluon Jets dataset contains the following features:
+
+| Feature Name | Data Type | Description                    |
+|--------------|-----------|--------------------------------|
+| pt           | Float     | Transverse momentum            |
+| eta          | Float     | Pseudorapidity                 |
+| phi          | Float     | Azimuthal angle                |
+| mass         | Float     | Invariant mass                 |
+| b-tag        | Bool      | b-tagging information          |
+| particle ID  | Int       | ID of the particle             |
+| charge       | Int       | Charge of the particle         |
+| isQuark      | Bool      | True if quark, False if gluon  |
+| label        | Int       | 0 for gluon, 1 for quark       |
+
+Top Quark Tagging Dataset Features
+
+The Top Quark Tagging Dataset contains the following features:
+
+| Feature                      | Data Type   | Description                                            |
+|-----------------------------|-------------|--------------------------------------------------------|
+| Event ID                     | Categorical | Unique identifier for the event                        |
+| Jet ID                       | Categorical | Unique identifier for the jet                          |
+| number of tracks             | Numeric     | Number of charged particle tracks in the jet           |
+| number of SVs                | Numeric     | Number of secondary vertexes associated with the jet   |
+| jet energy/mass/width/sd_mass| Numeric     | Various properties of the jet                         |
+| track 1-3 d0/d0Err/z0/z0Err  | Numeric     | Impact parameters and associated errors of tracks     |
+| track 1-3 pt/eta/phi/e/charge| Numeric     | Kinematic and charge properties of tracks             |
+| SV 1-3 flight distance/flight distance error/mass/energy ratio| Numeric | Properties of secondary vertexes         |
+| is_signal_new                | Binary      | Binary indicator of whether the jet is a top quark or not |
+
 🧙‍♂️ **"Neural Cosmic Oracle"** - A cosmic climax ensues as our cosmic representation reaches the cosmic Neural Network Oracle. The oracle's verdict unveils the cosmic binary classification score, decoding QCD and non-QCD jets' cosmic essence. 🌌
 
 ## 🪐 Pioneering Particle Performances
