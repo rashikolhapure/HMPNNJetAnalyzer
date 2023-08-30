@@ -62,6 +62,115 @@ In the grand theater of high-energy collisions, the particle jets dance with com
 
 ✨ **Stellar Performance** - Our model shines bright with stellar accuracy and AUC in distinguishing top quarks from QCD jets. The stars align for precision! ✨
 
+Algorithm
+
+```python
+Input: QCD and non-QCD jet data
+
+# Preprocess the data
+    Split data into training and testing sets
+
+# Define the Hypergraph Message Passing Permutation Invariant Neural Network architecture
+    Define Function: ConstructHypergraph(batch_data)
+        # Constructs a hypergraph for the given batch of data
+        ...
+
+    Define Function: MessagePassing(hypergraph)
+        # Performs hypergraph message passing
+        ...
+
+    Define Function: PermutationInvariant(features)
+        # Computes the permutation invariant representation
+        ...
+
+# Define the Neural Network architecture
+    Define Function: ClassificationNN(input_dim, hidden_dim, output_dim)
+        # Defines the classification neural network architecture
+        ...
+
+# Training
+For each epoch in range(num_epochs):
+    For each batch_data in training_data:
+        hypergraph = ConstructHypergraph(batch_data)
+        MessagePassing(hypergraph)
+        representation = PermutationInvariant(features)
+        classification_output = ClassificationNN(representation)
+        loss = CalculateLoss(classification_output, labels)
+        UpdateParameters(loss)
+
+# Classification
+For each batch_data in testing_data:
+    hypergraph = ConstructHypergraph(batch_data)
+    MessagePassing(hypergraph)
+    representation = PermutationInvariant(features)
+    classification_output = ClassificationNN(representation)
+    predicted_labels = ApplySoftmax(classification_output)
+    final_labels = Classify(predicted_labels)
+
+Output: Predicted class labels for testing_data
+```
+
+Simple Model Code:
+```python
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch_geometric.data import Data, DataLoader
+from torch_geometric.nn import MessagePassing
+
+# Define the Hypergraph Message Passing Permutation Invariant Neural Network
+class HypergraphMessagePassingPINN(nn.Module):
+    def __init__(self, input_dim, hidden_dim, output_dim):
+        super(HypergraphMessagePassingPINN, self).__init__()
+
+        # Define hypergraph construction, message passing, and permutation invariant layers
+        self.hypergraph_layer = HypergraphConstructionLayer(input_dim, hidden_dim)
+        self.message_passing_layer = MessagePassingLayer(hidden_dim)
+        self.permutation_invariant_layer = PermutationInvariantLayer(hidden_dim, output_dim)
+
+    def forward(self, data):
+        # Construct hypergraph
+        hypergraph = self.hypergraph_layer(data)
+
+        # Perform hypergraph message passing
+        x = self.message_passing_layer(hypergraph)
+
+        # Compute permutation invariant representation
+        representation = self.permutation_invariant_layer(x)
+
+        return representation
+```
+
+1. AUC Values for Gluons vs Quark Tagging Dataset
+
+| Sr. No. | R<sub>0</sub> | Accuracy       |
+| ------- | ------------- | -------------- |
+| 1       | 0.1           | 0.8824±0.0005 |
+| 2       | 0.1           | 0.8888±0.0013 |
+| 3       | 0.2           | 0.8909±0.0009 |
+| 4       | 0.3           | 0.8916±0.0008 |
+| 5       | 0.4           | 0.8919±0.0006 |
+
+2. AUC Values for Top Tagging Dataset
+
+| Sr. No. | R<sub>0</sub> | Accuracy       |
+| ------- | ------------- | -------------- |
+| 1       | 0.1           | 0.9734±0.0009 |
+| 2       | 0.2           | 0.9764±0.0004 |
+| 3       | 0.3           | 0.9779±0.0005 |
+| 4       | 0.4           | 0.9782±0.0002 |
+| 5       | 0.5           | 0.9781±0.0002 |
+
+3. AUC Values for W Tagging Dataset
+
+| Sr. No. | R<sub>0</sub> | Accuracy       |
+| ------- | ------------- | -------------- |
+| 1       | 0.1           | 0.9865±0.0004 |
+| 2       | 0.2           | 0.9864±0.0004 |
+| 3       | 0.3           | 0.9863±0.0004 |
+| 4       | 0.4           | 0.9868±0.0004 |
+| 5       | 0.5           | 0.9868±0.0005 |
+
 ![Permutation Invarient](images/PI.png)
 
 🌐 **Hypergraph Odyssey** - In the land of hypergraphs, our HMPNNs are fearless explorers, traversing multiple nodes, hyperedges, and labels. 🛰️
