@@ -106,7 +106,9 @@ class Deform(Operator):
             )
         except ValueError:
             def_inds = indices
-        undef_inds = np.array([int(i) for i in range(len(x)) if i not in def_inds])
+        undef_inds = np.array(
+            [int(i) for i in range(len(x)) if i not in def_inds]
+        )
         x_def, y_def = (
             x[def_inds],
             y[def_inds],
@@ -178,7 +180,9 @@ class Deform(Operator):
         count = 0
         for i in range(len(x)):
             if (
-                np.sqrt((x[i] - center_ind[0]) ** 2 + (y[i] - center_ind[1]) ** 2)
+                np.sqrt(
+                    (x[i] - center_ind[0]) ** 2 + (y[i] - center_ind[1]) ** 2
+                )
                 <= self.deform_radius + 0.2
             ):
                 inds.append(i)
@@ -198,7 +202,9 @@ class Deform(Operator):
         count = 0
         for i in range(len(x)):
             if (
-                np.sqrt((x[i] - x[center_ind]) ** 2 + (y[i] - y[center_ind]) ** 2)
+                np.sqrt(
+                    (x[i] - x[center_ind]) ** 2 + (y[i] - y[center_ind]) ** 2
+                )
                 <= self.deform_radius + 0.2
             ):
                 inds.append(i)
@@ -209,7 +215,9 @@ class Deform(Operator):
                 y[inds],
             ]
         )
-        soft_inds = [i for i in inds if array[x[i], y[i], 0] <= self.soft_scale * ht_sum]
+        soft_inds = [
+            i for i in inds if array[x[i], y[i], 0] <= self.soft_scale * ht_sum
+        ]
         print(inds, soft_inds)
         sys.exit()
         try:
@@ -240,7 +248,9 @@ class Deform(Operator):
             dtype="float64",
         )
         soft_inds = [
-            i for i in range(len(x)) if array[x, y, 0][i] <= self.soft_scale * ht_sum
+            i
+            for i in range(len(x))
+            if array[x, y, 0][i] <= self.soft_scale * ht_sum
         ]
         try:
             def_inds = np.random.choice(
@@ -250,7 +260,9 @@ class Deform(Operator):
             )
         except ValueError:
             def_inds = soft_inds
-        undef_inds = np.array([int(i) for i in range(len(x)) if i not in def_inds])
+        undef_inds = np.array(
+            [int(i) for i in range(len(x)) if i not in def_inds]
+        )
         x_def, y_def = (
             x[def_inds],
             y[def_inds],
@@ -308,7 +320,9 @@ class Deform(Operator):
         # if "debug" in sys.argv: print (array[np.where(array)])
         x, y, _ = np.where(array)
         hard_indices = [
-            i for i in range(len(x)) if array[x, y, 0][i] >= self.hard_scale * ht_sum
+            i
+            for i in range(len(x))
+            if array[x, y, 0][i] >= self.hard_scale * ht_sum
         ]
         if "debug" in sys.argv:
             print(self.hard_scale * ht_sum)
@@ -327,7 +341,9 @@ class Deform(Operator):
             dtype="float64",
         )
         hard_indices = [
-            i for i in range(len(x)) if array[x, y, 0][i] >= self.hard_scale * ht_sum
+            i
+            for i in range(len(x))
+            if array[x, y, 0][i] >= self.hard_scale * ht_sum
         ]
         if "debug" in sys.argv:
             print(self.hard_scale * ht_sum)

@@ -140,7 +140,9 @@ def load_data(
                 combined[-1][10:],
             )
         combined = list(
-            train_test_split(*combined, shuffle=True, random_state=12, test_size=0.25)
+            train_test_split(
+                *combined, shuffle=True, random_state=12, test_size=0.25
+            )
         )
         X_train, X_val = (
             [],

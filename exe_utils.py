@@ -15,7 +15,7 @@ def get_from_indices(
     indices,
     keys=None,
 ):
-    if keys == None:
+    if keys is None:
         keys = list(events.keys())
     return_array = {}
     for (
@@ -29,7 +29,7 @@ def get_from_indices(
 
 
 def get_delphes(run_names, **kwargs):
-    if type(run_names) == str:
+    if isinstance(run_names, str):
         run_names = [run_names]
     for run_name in run_names:
         now = DelphesNumpy(run_name, **kwargs)

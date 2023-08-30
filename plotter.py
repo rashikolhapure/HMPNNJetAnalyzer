@@ -123,7 +123,7 @@ class Plotter:
                 pass
             else:
                 fig.add_subplot(axes)
-            if projection == None and range != None and set_range:
+            if projection is None and range is not None and set_range:
                 axes.set_xlim(range["x"]), axes.set_ylim(range["y"])
             if x_name is not None:
                 axes.set_xlabel(
@@ -161,7 +161,7 @@ class Plotter:
         )
 
     def SetRange(self, range=None):
-        if range == None:
+        if range is None:
             range = self.image_range
         self.axes.set_xlim(range["x"]), self.axes.set_ylim(range["y"])
         return
@@ -225,7 +225,7 @@ class Plotter:
         **kwargs
     ):
         """numpy.ndarray of TlorentzVectors lepton,fatjet[0],fatjet[1] are plotted in the (eta,phi) plane, colormapped logarithmically with pt"""
-        if type(lepton[0]) == TLorentzVector:
+        if isinstance(lepton[0], TLorentzVector):
             (
                 lep,
                 fat1,
@@ -695,7 +695,7 @@ class Plotter:
                 format="lorentz",
             )
         print(fatjet.shape)
-        if summed == None:
+        if summed is None:
             extremum = np.swapaxes(
                 np.array(
                     [
@@ -813,7 +813,7 @@ class Plotter:
                         color=arrow_color,
                     )
                 )
-        if summed != None:
+        if summed is not None:
             self.axes.add_artist(
                 Arrow3D(
                     (
@@ -1019,7 +1019,14 @@ class Plotter:
         return im
 
     def set_colorbar(
-        self, im, cax=None, axes=None, ylabel=None, ylabelsize=30, clim=None, **kwargs
+        self,
+        im,
+        cax=None,
+        axes=None,
+        ylabel=None,
+        ylabelsize=30,
+        clim=None,
+        **kwargs
     ):
         if cax is None:
             if axes is None:
@@ -1111,7 +1118,7 @@ class Plotter:
                 assert abs(np.min(Z)) < 10e-12
                 Z = Z + np.min(Z)
             Z = Z + np.min(Z[Z != 0]) * 0.000000001
-        if cmap == None:
+        if cmap is None:
             color = c
         else:
             color = Z
@@ -1132,7 +1139,14 @@ class Plotter:
             )
         else:
             im = self.axes.scatter(
-                X, Y, marker=marker, s=s, c=color, cmap=cmap, label=label, **kwargs
+                X,
+                Y,
+                marker=marker,
+                s=s,
+                c=color,
+                cmap=cmap,
+                label=label,
+                **kwargs
             )
         if set_colorbar:
             self.set_colorbar(im, axes=axes)

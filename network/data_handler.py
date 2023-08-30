@@ -177,7 +177,9 @@ def load_data(
                     item + ".h",
                     load_path="./processed_events/" + preprocess_tag + folder,
                 )
-                load_path = os.path.abs("./processed_events/" + preprocess_tag + folder)
+                load_path = os.path.abs(
+                    "./processed_events/" + preprocess_tag + folder
+                )
             else:
                 events = pool_splitter(
                     function,
@@ -233,7 +235,9 @@ def load_data(
                     X[i] = np.random.normal(
                         loc=sim_central_values[item]["mean"],
                         scale=sim_central_values[item]["scale"],
-                        size=tuple([length] + list(sim_central_values["shape"])),
+                        size=tuple(
+                            [length] + list(sim_central_values["shape"])
+                        ),
                     )
                 else:
                     X[i] = np.full(
@@ -347,7 +351,9 @@ def load_data(
                 combined[-1][10:],
             )
         combined = list(
-            train_test_split(*combined, shuffle=True, random_state=12, test_size=0.25)
+            train_test_split(
+                *combined, shuffle=True, random_state=12, test_size=0.25
+            )
         )
         X_train, X_val = (
             [],

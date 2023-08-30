@@ -58,7 +58,7 @@ def Unpickle(
     # if len(filename.split('.')) != 1: filename=filename+extension
     """
     Load a Python object from a file using pickle or numpy.load
-    
+
     Arguments:
     filename: the name of the file to be loaded (with or without extension)
     load_path: the directory where the file is located (default is the current directory)
@@ -152,7 +152,7 @@ def Pickle(
     Returns: None
 
     """
-    if "." not in filename and type(python_object) != np.ndarray:
+    if "." not in filename and not isinstance(python_object, np.ndarray):
         filename = filename + extension
     if path is not None:
         save_path = path
@@ -170,7 +170,7 @@ def Pickle(
         if filename in os.listdir("."):
             raise IOError("File already exists!")
     if append:
-        assert type(python_object) == dict
+        assert isinstance(python_object, dict)
         prev = Unpickle(filename)
         print_events(prev, name="old")
         python_object = merge_flat_dict(
@@ -181,7 +181,7 @@ def Pickle(
             python_object,
             name="appended",
         )
-    if type(python_object) == np.ndarray:
+    if isinstance(python_object, np.ndarray):
         np.save(
             filename,
             python_object,
@@ -267,7 +267,7 @@ def folder_save(
                 ),
                 axis=0,
             )
-        if type(events[item]) == list:
+        if isinstance(events[item], list):
             print("list type found as val, creating directory...")
             os.mkdir(item)
             os.chdir(item)
@@ -432,7 +432,9 @@ class RunIO:
 
         """
         if self._mode == "r":
-            raise IOError("Attempting to write in read-only instance of RunIO object")
+            raise IOError(
+                "Attempting to write in read-only instance of RunIO object"
+            )
         pwd = os.getcwd()
         os.chdir(self.__path)
         for item in events:

@@ -99,7 +99,8 @@ class RootEvents(PhysicsData):
                 new = [
                     item
                     for item in self.file
-                    if item.split("/")[-2].split("_")[1] not in self.ignore_runs
+                    if item.split("/")[-2].split("_")[1]
+                    not in self.ignore_runs
                 ]
                 self.files = new
         (
@@ -135,7 +136,7 @@ class RootEvents(PhysicsData):
                 "filename": splitted[1],
                 "index": self.count - 1,
             }
-            if type(self.return_vals) == str:
+            if isinstance(self.return_vals, str):
                 return return_dict[self.return_vals]
             else:
                 return {item: return_dict[item] for item in self.return_vals}
@@ -217,7 +218,8 @@ class NumpyEvents(PhysicsData):
                 new = [
                     item
                     for item in self.file
-                    if item.split("/")[-2].split("_")[1] not in self.ignore_runs
+                    if item.split("/")[-2].split("_")[1]
+                    not in self.ignore_runs
                 ]
                 self.files = new
             print(self.files)
@@ -229,7 +231,9 @@ class NumpyEvents(PhysicsData):
             try:
                 self.max_count = kwargs["max_count"]
             except KeyError:
-                raise KeyError("For write instance of NumpyEvents, provide max_count")
+                raise KeyError(
+                    "For write instance of NumpyEvents, provide max_count"
+                )
 
     def __next__(self):
         if self.count < self.max_count:

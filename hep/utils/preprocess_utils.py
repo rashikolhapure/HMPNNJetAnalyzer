@@ -1,6 +1,22 @@
-#!/home/vishal/anaconda3/envs/scikit_hep/bin/python
-# Author: Ng Vishal
-# Date: Aug 31,2019
+from ..config import (
+    tower_index,
+)
+from ...plotter import (
+    Plotter,
+)
+from ...plot_utils import (
+    seperate_image_plot,
+    plot_tower_jets,
+)
+from . import (
+    root_utils as ru,
+)
+from .fatjet import FatJet
+from ROOT import (
+    TVector3,
+    TLorentzVector,
+)
+import matplotlib.pyplot as plt
 import os
 import sys
 import math
@@ -8,29 +24,9 @@ import math
 import numpy as np
 
 np.set_printoptions(precision=16)
-import matplotlib.pyplot as plt
-from ROOT import (
-    TVector3,
-    TLorentzVector,
-)
-
-from .fatjet import FatJet
-from . import (
-    root_utils as ru,
-)
-from ...plot_utils import (
-    seperate_image_plot,
-    plot_tower_jets,
-)
-from ...plotter import (
-    Plotter,
-)
-from ..config import (
-    tower_index,
-)
 
 
-##################################### IMAGE PREPROCESSING#########################################
+##################################### IMAGE PREPROCESSING#################
 def translate(*args, **kwargs):
     """array of elements numpy array or float with coordinate in (X,Y), return X-x and Y-y"""
     for item in args:
@@ -56,13 +52,11 @@ def rotate(*args, **kwargs):
         (
             item[0],
             item[1],
-        ) = item[
-            0
-        ] * np.cos(theta) + item[
-            1
-        ] * np.sin(theta), -item[
-            0
-        ] * np.sin(theta) + item[1] * np.cos(theta)
+        ) = item[0] * np.cos(
+            theta
+        ) + item[1] * np.sin(
+            theta
+        ), -item[0] * np.sin(theta) + item[1] * np.cos(theta)
     if len(args) == 1:
         return args[0]
     return args
@@ -78,10 +72,10 @@ def reflect(*args):
     return args
 
 
-##################################################################################################
+##########################################################################
 
 
-#################################################FAT JET #########################################
+################################################# FAT JET ################
 def process_fatjets(fatjets, operation="all", subparts="subjets", **kwargs):
     """Regularize tower/fatjet in (eta,phi) plane wih translation to subpart[0], rotate such the subpart[1] is at eta=0, and reflect such that subpart[2]
     is at the positive phi"""
@@ -159,7 +153,11 @@ def shift_phi(
     tolerance=10e-8,
 ):
     assert phi >= (range[0] - tolerance) and phi <= (range[1] + tolerance), (
-        str(phi) + " not in prescribed range " + str(range[0]) + " to " + str(range[1])
+        str(phi)
+        + " not in prescribed range "
+        + str(range[0])
+        + " to "
+        + str(range[1])
     )
     if abs(shift) > 2 * np.pi:
         sign = np.sign(shift)
@@ -284,7 +282,9 @@ def regularize_fatjet(
     if force and len(subjets) < n_subjets:
         assert (
             len(fatjet) >= n_subjets
-        ), "Can't force, less number of jet ({}) constituents!".format(len(fatjet))
+        ), "Can't force, less number of jet ({}) constituents!".format(
+            len(fatjet)
+        )
         subjets = np.swapaxes(
             delta_num[:n_subjets],
             0,
@@ -503,7 +503,12 @@ def _regularize_fatjet(fatjet, r=1.2):
 
 
 def _remove_jets(
-    lorentz_tower, lorentz_jets, r=0.4, return_jets=False, shift_jets=True, **kwargs
+    lorentz_tower,
+    lorentz_jets,
+    r=0.4,
+    return_jets=False,
+    shift_jets=True,
+    **kwargs
 ):
     if kwargs.get("verbose", False):
         print("Removing jet constituents...")
@@ -523,10 +528,16 @@ def _remove_jets(
             jet.M(),
         )
         collect_indices = np.array(
-            [i for i, vect in enumerate(lorentz_tower) if vect.DeltaR(shifted_jet) <= r]
+            [
+                i
+                for i, vect in enumerate(lorentz_tower)
+                if vect.DeltaR(shifted_jet) <= r
+            ]
         )
         valid_indices = np.where(del_r > r)
-        collected_vectors = np.array([TLorentzVector() for _ in collect_indices])
+        collected_vectors = np.array(
+            [TLorentzVector() for _ in collect_indices]
+        )
         for i, item in zip(
             collect_indices,
             collected_vectors,
@@ -610,7 +621,9 @@ def remove_jets(lorentz_tower, lorentz_jets, r=0.4, **kwargs):
                 return_array.append(item)
             else:
                 other_array.append(item)
-        assert len(removed_constituents) == (len(return_array) + len(other_array))
+        assert len(removed_constituents) == (
+            len(return_array) + len(other_array)
+        )
     else:
         return_array = removed_constituents
     return_array = np.array(return_array)
@@ -634,9 +647,9 @@ def remove_jets(lorentz_tower, lorentz_jets, r=0.4, **kwargs):
         return return_array
 
 
-############################################################################################################
+##########################################################################
 # --------------------------------------------BINNING UTILS-------------------------------------------------#
-############################################################################################################
+##########################################################################
 
 
 def image_to_var(
@@ -867,11 +880,9 @@ def binner(
         (
             x_bin_size,
             y_bin_size,
-        ) = (
-            x_interval[1] - x_interval[0]
-        ) / shape[0], (
-            y_interval[1] - y_interval[0]
-        ) / shape[1]
+        ) = (x_interval[1] - x_interval[0]) / shape[
+            0
+        ], (y_interval[1] - y_interval[0]) / shape[1]
     else:
         assert "bin_size" in kwargs
         bin_size = kwargs.get("bin_size")

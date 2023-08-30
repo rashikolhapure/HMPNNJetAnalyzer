@@ -117,7 +117,7 @@ def SumCombinations(
     assert (
         len(FourVectors.shape) == 2 and FourVectors.shape[1] == 4
     ), "Invalid argument as FourVectors"
-    if Map == None:
+    if Map is None:
         Map = list(
             combinations(
                 np.arange(len(FourVectors)),
@@ -156,8 +156,8 @@ def SumCombinations(
 
 def UnequalSet(*args):
     for i in range(len(args) - 1):
-        assert len(list(args[i])) == len(list(args[i + 1])) and type(args[i]) == type(
-            args[i + 1]
+        assert len(list(args[i])) == len(list(args[i + 1])) and isinstance(
+            args[i], type(args[i + 1])
         )
         for item in list(args[i]):
             assert args[i].count(item) == 1
@@ -189,7 +189,9 @@ def MapDict(Map):
 def GetMass(particle):
     assert particle.shape[-1] == 4
     if len(particle.shape) == 1:
-        return particle[0] * np.sqrt(1 - np.sum(particle[1:] ** 2) / particle[0] ** 2)
+        return particle[0] * np.sqrt(
+            1 - np.sum(particle[1:] ** 2) / particle[0] ** 2
+        )
     else:
         init_shape = list(particle.shape)
         # print (particle)

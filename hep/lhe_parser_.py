@@ -1,3 +1,12 @@
+from .config import (
+    EventAttribute,
+)
+import hep_ml.hep.utils.root_utils as ru
+from ROOT import (
+    TLorentzVector,
+)
+import numpy as np
+from tqdm import tqdm
 import os
 import sys
 from collections import (
@@ -18,16 +27,6 @@ lhe_particle = namedtuple(
     ],
 )
 
-from tqdm import tqdm
-import numpy as np
-from ROOT import (
-    TLorentzVector,
-)
-
-import hep_ml.hep.utils.root_utils as ru
-from .config import (
-    EventAttribute,
-)
 
 PID_to_particle_dict = {
     1: "u",
@@ -289,7 +288,9 @@ def reverse_dict(dictionary):
     ) in dictionary.items():
         assert hasattr(val, "__iter__")
         for item in val:
-            assert item not in return_dict, "Found degeneracy, cannot build unique map!"
+            assert (
+                item not in return_dict
+            ), "Found degeneracy, cannot build unique map!"
             return_dict[item] = key
     return return_dict
 

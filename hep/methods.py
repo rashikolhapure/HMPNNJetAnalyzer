@@ -1,33 +1,31 @@
-import sys
-import os
-
-import numpy as np
-
-np.set_printoptions(precision=16)
-
-
-from .data import (
-    RootEvents,
-    NumpyEvents,
-    PassedEvents,
-    PreProcessedEvents,
+from ..classes import (
+    PhysicsMethod,
+)
+from ..io.saver import (
+    Pickle,
+    Unpickle,
+)
+from ..genutils import (
+    print_events,
+    pool_splitter,
 )
 from .config import (
     FinalStates,
     Paths,
     EventAttribute,
 )
-from ..genutils import (
-    print_events,
-    pool_splitter,
+from .data import (
+    RootEvents,
+    NumpyEvents,
+    PassedEvents,
+    PreProcessedEvents,
 )
-from ..io.saver import (
-    Pickle,
-    Unpickle,
-)
-from ..classes import (
-    PhysicsMethod,
-)
+import sys
+import os
+
+import numpy as np
+
+np.set_printoptions(precision=16)
 
 
 class OverwriteError(Exception):
@@ -166,7 +164,9 @@ class DelphesNumpy(PhysicsMethod):
             except Exception as e:
                 if "Particle" in self.final_state_attributes:
                     print("Excluding Particle for writing to pickle file...")
-                    particle_atttributes = self.final_state_attributes.pop("Particle")
+                    particle_atttributes = self.final_state_attributes.pop(
+                        "Particle"
+                    )
                 self.out_data.exception = True
                 print(e)
                 print(
@@ -176,7 +176,8 @@ class DelphesNumpy(PhysicsMethod):
                 self.Events = self.current["Delphes"]
                 current = {}
                 for final_state in self.final_state_attributes:
-                    # if self.exclude_gen_particles and final_State=="Particle": continue
+                    # if self.exclude_gen_particles and
+                    # final_State=="Particle": continue
                     print(
                         "Extracting branch :",
                         final_state,
@@ -205,7 +206,9 @@ class DelphesNumpy(PhysicsMethod):
                     and self.extract_gen_particles
                 ):
                     print("Adding Particle class...")
-                    self.final_state_attributes["Particle"] = particle_atttributes
+                    self.final_state_attributes[
+                        "Particle"
+                    ] = particle_atttributes
             finally:
                 self.out_data.current_events = current
                 self.out_data.current_run = self.current["path"]
@@ -243,8 +246,10 @@ class DelphesNumpy(PhysicsMethod):
             dict(),
         )
         for item in attributes:
-            temp_dict[item] = self.Events[final_state][final_state + "." + item].array()
-        if indices == None:
+            temp_dict[item] = self.Events[final_state][
+                final_state + "." + item
+            ].array()
+        if indices is None:
             indices = np.arange(len(temp_dict[item]))
         return_array = []
         for event_index in indices:

@@ -1,22 +1,20 @@
+from optparse import (
+    OptionParser,
+)
+from hep_ml.genutils import (
+    print_events,
+)
+from hep_ml.hep.methods import (
+    DelphesNumpy,
+)
+import matplotlib.pyplot as plt
+import numpy as np
 from path import main_path
 import os
 import sys
 
 sys.path.append(main_path)
 
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-from hep_ml.hep.methods import (
-    DelphesNumpy,
-)
-from hep_ml.genutils import (
-    print_events,
-)
-from optparse import (
-    OptionParser,
-)
 
 parser = OptionParser()
 parser.add_option(
@@ -49,7 +47,9 @@ parser.add_option(
     args,
 ) = parser.parse_args()
 if options.run_name is None:
-    print("Provide compulsory option run_name with -r <run_name> or --run <run_name> \n")
+    print(
+        "Provide compulsory option run_name with -r <run_name> or --run <run_name> \n"
+    )
     print("End Execution!")
     sys.exit()
 

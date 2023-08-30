@@ -278,7 +278,7 @@ def Print(
     format="lhc",
     constituents=False,
 ):
-    if name != None:
+    if name is not None:
         print(name)
     if not constituents:
         if format == "lhc":

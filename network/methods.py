@@ -30,19 +30,6 @@ from .data import (
 )
 
 
-"""
-The __init__ method initializes some attributes and checks that all the compulsory arguments are provided. It also sets some default values for some attributes if they are not provided in the arguments.
-
-The check_consistency method checks that the input and output shapes of the model match the expected shapes.
-
-The compile method compiles the model, setting the optimizer, loss function, and metrics.
-
-The set_checkpoints method sets up the checkpointing strategy for the model, which includes saving the model weights and optionally saving TensorBoard logs.
-
-The fit method fits the compiled model to the training data. It checks if the training data has been set, and if not, it gets the data using get_data from the DataHandler or ModelData class, depending on how the object was initialized. The method also accepts some optional arguments, such as the number of epochs, batch size, and whether to shuffle the data. If encoder=True, the method trains the model as an autoencoder.
-"""
-
-
 class KerasModel(NetworkMethod):
     def __init__(self, **kwargs):
         compulsory_kwargs = {
@@ -51,6 +38,11 @@ class KerasModel(NetworkMethod):
             "preprocess_tag",
             "run_name",
         }
+        #         optional_kwargs = {"model"}
+        """
+        The __init__ method initializes some attributes and checks that all the compulsory arguments are provided.
+        It also sets some default values for some attributes if they are not provided in the arguments.
+        """
         assert compulsory_kwargs.issubset(set(kwargs.keys()))
         self.input_states = kwargs.get("input_states")
         self.class_names = kwargs.get("class_names")
@@ -96,14 +88,21 @@ class KerasModel(NetworkMethod):
         self.history_save_path = None
 
     def check_consistency(self, model):
+        """
+        The check_consistency method checks that the input and output shapes of the model match the expected shapes.
+
+        """
         print("Checking consistency...")
-        if type(model.input) != list:
+        if not isinstance(model.input, list):
             if len(model.input.shape) > 1:
                 i = None
             else:
                 i = None
             assert model.input.shape[1:i] == self.input_states[0].shape, (
-                "" + str(model.input.shape[1:i]) + " " + str(self.input_states[0].shape)
+                ""
+                + str(model.input.shape[1:i])
+                + " "
+                + str(self.input_states[0].shape)
             )
         else:
             assert len(model.input) == len(self.input_states)
@@ -127,6 +126,9 @@ class KerasModel(NetworkMethod):
         return
 
     def compile(self, model, check=True, **kwargs):
+        """
+        The compile method compiles the model, setting the optimizer, loss function, and metrics.
+        """
         if self.model_type != "autoencoder" and check:
             self.check_consistency(model)
         self.model = model
@@ -157,7 +159,12 @@ class KerasModel(NetworkMethod):
         )
         return self.model
 
-    def set_checkpoints(self, include_tensorboard=False, early_stopping=False, **kwargs):
+    def set_checkpoints(
+        self, include_tensorboard=False, early_stopping=False, **kwargs
+    ):
+        """The set_checkpoints method sets up the checkpointing strategy for the model,
+        which includes saving the model weights and optionally saving TensorBoard logs.
+        """
         count = len(os.listdir(self.in_data.model_checkpoints_path)) + 1
         checkpoints_path = check_dir(
             os.path.join(
@@ -213,7 +220,8 @@ class KerasModel(NetworkMethod):
                     ModelCheckpoint(
                         filepath=os.path.join(
                             checkpoints_path,
-                            filename + "_{epoch:02d}_{val_mean_squared_error:.5f}.hdf5",
+                            filename
+                            + "_{epoch:02d}_{val_mean_squared_error:.5f}.hdf5",
                         ),
                         save_best_only=True,
                         period=period,
@@ -259,8 +267,20 @@ class KerasModel(NetworkMethod):
         return checkpoint
 
     def fit(
-        self, verbose=1, batch_size=300, shuffle=True, epochs=5, encoder=False, **kwargs
+        self,
+        verbose=1,
+        batch_size=300,
+        shuffle=True,
+        epochs=5,
+        encoder=False,
+        **kwargs
     ):
+        """
+        The fit method fits the compiled model to the training data. It checks if the training data has been set,
+        and if not, it gets the data using get_data from the DataHandler or ModelData class, depending on how
+        the object was initialized. The method also accepts some optional arguments, such as the number of epochs,
+        batch size, and whether to shuffle the data. If encoder=True, the method trains the model as an autoencoder.
+        """
         if self.train_data is None:
             (
                 X,

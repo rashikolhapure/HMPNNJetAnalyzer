@@ -141,9 +141,13 @@ class ModelData(object):
         val_dict = {}
         temp_indices = {
             "split_point": {run_name: None for run_name in self.class_names},
-            "class_interval": {run_name: None for run_name in self.class_names},
+            "class_interval": {
+                run_name: None for run_name in self.class_names
+            },
         }
-        temp_indices["class_indices"] = {run_name: None for run_name in self.class_names}
+        temp_indices["class_indices"] = {
+            run_name: None for run_name in self.class_names
+        }
         count = 0
         class_index = 0
         for run_name in self.class_names:
@@ -197,7 +201,9 @@ class ModelData(object):
             return_dict[run_name] = all_dict
             if "debug" in sys.argv:
                 print(run_name)
-            split_point = int(len(return_dict[run_name]["Y"]) * (1 - self.test_split))
+            split_point = int(
+                len(return_dict[run_name]["Y"]) * (1 - self.test_split)
+            )
             temp_indices["split_point"][run_name] = (
                 count - class_count + split_point,
                 split_point,
@@ -223,10 +229,12 @@ class ModelData(object):
             )
             if type(return_dict[run_name]["X"]) == list:
                 temp_train = [
-                    np_array[:split_point] for np_array in return_dict[run_name]["X"]
+                    np_array[:split_point]
+                    for np_array in return_dict[run_name]["X"]
                 ]
                 temp_val = [
-                    np_array[split_point:] for np_array in return_dict[run_name]["X"]
+                    np_array[split_point:]
+                    for np_array in return_dict[run_name]["X"]
                 ]
                 if not train_dict:
                     (
@@ -509,12 +517,16 @@ class ModelData(object):
             listed = [0] * len(self.input_states)
             for f_state in self.input_states:
                 if type(f_state.index) == int:
-                    listed[f_state.network_input_index] = final_state_dict[f_state][
+                    listed[f_state.network_input_index] = final_state_dict[
+                        f_state
+                    ][
                         :,
                         f_state.index,
                     ]
                 else:
-                    listed[f_state.network_input_index] = final_state_dict[f_state]
+                    listed[f_state.network_input_index] = final_state_dict[
+                        f_state
+                    ]
             return_dict["X"] = listed
             total_entries = len(return_dict["X"][0])
         temp_y = np.zeros(
@@ -601,10 +613,14 @@ class ModelData(object):
                 input_state.shape,
             )
             if input_state.index is None:
-                assert input_state.shape == current_array.shape[1:], "Wrong input shape!"
+                assert (
+                    input_state.shape == current_array.shape[1:]
+                ), "Wrong input shape!"
                 i = 1
             else:
-                assert input_state.shape == current_array.shape[2:], "Wrong input shape"
+                assert (
+                    input_state.shape == current_array.shape[2:]
+                ), "Wrong input shape"
                 i = 2
                 assert input_state.index < current_array.shape[1], IndexError(
                     "Index out of range"
@@ -694,7 +710,9 @@ class ModelData(object):
         try:
             class_indices = index_dict.pop("class_indices")
             run_names = [key for key in class_indices]
-            total_length = max([class_intervals[name][-1] for name in run_names])
+            total_length = max(
+                [class_intervals[name][-1] for name in run_names]
+            )
             print(total_length)
             (
                 X,
@@ -718,7 +736,7 @@ class ModelData(object):
                 )
                 for input_state in self.input_states:
                     loaded_shape = temp_dict[input_state.name].shape
-                    if input_state.index != None:
+                    if input_state.index is not None:
                         X[input_state.network_input_index][
                             key.start : key.end
                         ] = temp_dict[input_state.name][
@@ -805,7 +823,8 @@ class ModelData(object):
                     )
         else:
             lengths = {
-                item: max(key.end for key in index_dict[item]) for item in index_dict
+                item: max(key.end for key in index_dict[item])
+                for item in index_dict
             }
             data_dict = {
                 item: {
@@ -850,17 +869,23 @@ class ModelData(object):
                     )
                     for input_state in self.input_states:
                         loaded_shape = temp_dict[input_state.name].shape
-                        if input_state.index != None:
-                            data_dict[tag]["X"][input_state.network_input_index][
-                                key.start : key.end
-                            ] = temp_dict[input_state.name][
+                        if input_state.index is not None:
+                            data_dict[tag]["X"][
+                                input_state.network_input_index
+                            ][key.start : key.end] = temp_dict[
+                                input_state.name
+                            ][
                                 : key.end - key.start,
                                 input_state.index,
                             ]
                         else:
-                            data_dict[tag]["X"][input_state.network_input_index][
-                                key.start : key.end
-                            ] = temp_dict[input_state.name][: key.end - key.start]
+                            data_dict[tag]["X"][
+                                input_state.network_input_index
+                            ][key.start : key.end] = temp_dict[
+                                input_state.name
+                            ][
+                                : key.end - key.start
+                            ]
                         data_dict[tag]["Y"][
                             key.start : key.end,
                             class_indices[key.class_name],
@@ -1038,7 +1063,9 @@ class AutoencoderData(ModelData):
                 train_data["X"] = [
                     container_train["X" + str(i)] for i in range(len(train_X))
                 ]
-                val_data["X"] = [container_val["X" + str(i)] for i in range(len(val_X))]
+                val_data["X"] = [
+                    container_val["X" + str(i)] for i in range(len(val_X))
+                ]
                 train_data["ind_map"] = container_train["ind_map"]
                 val_data["ind_map"] = container_val["ind_map"]
                 self.shuffled_index_dict["train"] = train_data["ind_map"]
@@ -1300,7 +1327,7 @@ if __name__ == "__main__":
             Y[:10],
             Y[-10:],
         )
-    except:
+    except BaseException:
         print(
             X[0].shape,
             X[1].shape,

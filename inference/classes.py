@@ -111,7 +111,9 @@ class Inference(NetworkMethod):
                     "data_handler" in kwargs
                 ), "Provide data handler used while training model"
                 self.load_data = kwargs.get("data_handler")
-                self.unoperated_data = self.handler_load(**self.extra_handler_kwargs)
+                self.unoperated_data = self.handler_load(
+                    **self.extra_handler_kwargs
+                )
             else:
                 self.unoperated_data = self.model_data_load()
 
@@ -192,7 +194,9 @@ class Inference(NetworkMethod):
             False,
         ):
             print("Return all option active")
-            warn("Do not use return_all =True option while using function methods!")
+            warn(
+                "Do not use return_all =True option while using function methods!"
+            )
             return self.all_data
         else:
             return self.all_data[self.tag]
@@ -253,7 +257,7 @@ class Inference(NetworkMethod):
                 class_0[0][:2],
                 Y[class_0[0][:2]],
             )
-        if type(X) != list:
+        if not isinstance(X, list):
             X0 = X[class_0]
             X1 = X[class_1]
         else:
@@ -400,7 +404,11 @@ class Inference(NetworkMethod):
             combined_data = self.unoperated_data
         else:
             print("performing operation...")
-            if "debug" in sys.argv or "operation_check" in sys.argv or not split:
+            if (
+                "debug" in sys.argv
+                or "operation_check" in sys.argv
+                or not split
+            ):
                 combined_data = operation(self.unoperated_data)
             combined_data = pool_splitter(
                 operation,
@@ -451,7 +459,8 @@ class Inference(NetworkMethod):
             i,
             item,
         ) in enumerate(class_names):
-            # if item==self.class_names[0] and self.signal_prediction is not None: continue
+            # if item==self.class_names[0] and self.signal_prediction is not
+            # None: continue
             print(
                 "Evaluating class: ",
                 item,

@@ -9,7 +9,12 @@ from itertools import (
 
 
 def predict_enc(
-    enc, data_dict, subplots=False, type="scatter", save_path="./plots", **kwargs
+    enc,
+    data_dict,
+    subplots=False,
+    type="scatter",
+    save_path="./plots",
+    **kwargs
 ):
     """Predicts the encoded values for each data item in data_dict using the encoder enc, and generates scatter or binned plots for the pairwise combinations of these encoded values.
 
@@ -83,7 +88,9 @@ def predict_enc(
             np.std(array, axis=1),
         )
     if type == "scatter":
-        scatter(new_dict, num_plots, subplots, save_path, order=names, **kwargs)
+        scatter(
+            new_dict, num_plots, subplots, save_path, order=names, **kwargs
+        )
     elif type == "binned":
         binner(new_dict, num_plots, subplots, save_path, **kwargs)
     return
@@ -130,11 +137,16 @@ def scatter(
         if not subplots:
             try:
                 plt.savefig(
-                    save_path + "/latent_scatter_" + str(i) + "_" + suffix + ".png",
+                    save_path
+                    + "/latent_scatter_"
+                    + str(i)
+                    + "_"
+                    + suffix
+                    + ".png",
                     format="png",
                     dpi=1000,
                 )
-            except:
+            except BaseException:
                 pass
             plt.show(block=False)
             plt.close()
@@ -145,7 +157,7 @@ def scatter(
                 format="png",
                 dpi=1000,
             )
-        except:
+        except BaseException:
             pass
         plt.show(block=False)
         plt.close()
@@ -200,7 +212,7 @@ def binner(
                     format="png",
                     dpi=1000,
                 )
-            except:
+            except BaseException:
                 pass
             plt.show(block=False)
             plt.close()
@@ -211,7 +223,7 @@ def binner(
                 format="png",
                 dpi=1000,
             )
-        except:
+        except BaseException:
             pass
         plt.show(block=False)
         plt.close()

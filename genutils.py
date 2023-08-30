@@ -177,7 +177,8 @@ def choose_bin(
         true_indices = [
             i
             for i in range(len(jets))
-            if np.sum(jets[i]).M() >= Range[0] and np.sum(jets[i]).M() <= Range[1]
+            if np.sum(jets[i]).M() >= Range[0]
+            and np.sum(jets[i]).M() <= Range[1]
         ]
     else:
         raise ValueError
@@ -465,7 +466,10 @@ def check_file(
                         )
                     continue
                 if not suffix:
-                    if filename[-len(name) :] == name and filename[: len(tag)] == tag:
+                    if (
+                        filename[-len(name) :] == name
+                        and filename[: len(tag)] == tag
+                    ):
                         path.append(
                             os.path.join(
                                 event_folder,
@@ -474,7 +478,10 @@ def check_file(
                             )
                         )
                     continue
-                if filename[-len(name) :] == name and filename[len(tag) :] == tag:
+                if (
+                    filename[-len(name) :] == name
+                    and filename[len(tag) :] == tag
+                ):
                     path.append(
                         os.path.join(
                             event_folder,
@@ -584,7 +591,9 @@ def arg_split(
                 )
             core_ind += 1
     else:
-        raise TypeError("No algorithm for splitting arguments of type: " + type(args))
+        raise TypeError(
+            "No algorithm for splitting arguments of type: " + type(args)
+        )
     return arg
 
 
@@ -640,7 +649,13 @@ def pool_splitter(
     else:
         p = multiprocessing.Pool(processes=num_cores)
     if num_cores > 1:
-        print("Splitting " + function.__name__ + " on " + str(num_cores) + " cores...")
+        print(
+            "Splitting "
+            + function.__name__
+            + " on "
+            + str(num_cores)
+            + " cores..."
+        )
     try:
         data = p.map(function, arg)
     except KeyboardInterrupt as ki:

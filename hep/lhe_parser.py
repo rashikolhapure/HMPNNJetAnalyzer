@@ -1,3 +1,13 @@
+from .config import (
+    EventAttribute,
+)
+import hep_ml.hep.utils.root_utils as ru
+import gzip
+from ROOT import (
+    TLorentzVector,
+)
+import numpy as np
+from tqdm import tqdm
 import os
 import sys
 from collections import (
@@ -18,16 +28,6 @@ lhe_particle = namedtuple(
     ],
 )
 
-from tqdm import tqdm
-import numpy as np
-from ROOT import (
-    TLorentzVector,
-)
-import gzip
-import hep_ml.hep.utils.root_utils as ru
-from .config import (
-    EventAttribute,
-)
 
 PID_to_particle_dict = {
     1: "u",
@@ -251,7 +251,9 @@ def read_lhe(
         if "<event>" in splitted:
             event = True
     event_weights = np.array(event_weights)
-    assert len(event_weights) == len(events), "Incompatible weights and events!"
+    assert len(event_weights) == len(
+        events
+    ), "Incompatible weights and events!"
     if add_attribute:
         assert run_name is not None, "Provide run_name to add to attribute!"
         event_attributes = [
@@ -327,7 +329,9 @@ def reverse_dict(dictionary):
     ) in dictionary.items():
         assert hasattr(val, "__iter__")
         for item in val:
-            assert item not in return_dict, "Found degeneracy, cannot build unique map!"
+            assert (
+                item not in return_dict
+            ), "Found degeneracy, cannot build unique map!"
             return_dict[item] = key
     return return_dict
 
@@ -343,7 +347,9 @@ def convert_to_dict(
 ):
     assert final_states is not None
     if return_vector is False:
-        assert attributes is not None, "Provide attributes array for return_vector=False"
+        assert (
+            attributes is not None
+        ), "Provide attributes array for return_vector=False"
     print(
         "Converting to final_states: ",
         final_states,
@@ -371,7 +377,9 @@ def convert_to_dict(
                 )
                 if append_key in add_charge:
                     # print (particle,charge_dict[particle.Name])
-                    current[append_key + "_charge"].append(charge_dict[particle.Name])
+                    current[append_key + "_charge"].append(
+                        charge_dict[particle.Name]
+                    )
             else:
                 array = []
                 for item in attributes:

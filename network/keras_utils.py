@@ -5,9 +5,9 @@ from itertools import product
 import sys
 
 """
-This function takes a learning rate and the name of an optimizer as input and returns an instance of the specified 
-optimizer with the given learning rate. It uses a dictionary to map optimizer names to their corresponding integer values, 
-and then uses a series of conditional statements to return the appropriate optimizer instance. The **kwargs parameter 
+This function takes a learning rate and the name of an optimizer as input and returns an instance of the specified
+optimizer with the given learning rate. It uses a dictionary to map optimizer names to their corresponding integer values,
+and then uses a series of conditional statements to return the appropriate optimizer instance. The **kwargs parameter
 is used to pass any additional keyword arguments that may be needed for the specific optimizer.
 """
 
@@ -77,9 +77,9 @@ def opt(
 
 
 """
-This function takes one or more numpy arrays as input, shuffles the first axis (i.e., the rows), 
-and returns a tuple of shuffled arrays along with an index map that can be used to reverse the shuffling 
-later on. This function is useful for shuffling input data and corresponding labels to ensure that they 
+This function takes one or more numpy arrays as input, shuffles the first axis (i.e., the rows),
+and returns a tuple of shuffled arrays along with an index map that can be used to reverse the shuffling
+later on. This function is useful for shuffling input data and corresponding labels to ensure that they
 are randomized and correspond to each other.
 """
 
@@ -101,8 +101,8 @@ def array_shuffle(
 
 
 """
-This function takes a dictionary of hyperparameters as input and returns a list of all possible combinations of 
-hyperparameters. It uses the product function from the itertools module to generate all possible combinations of 
+This function takes a dictionary of hyperparameters as input and returns a list of all possible combinations of
+hyperparameters. It uses the product function from the itertools module to generate all possible combinations of
 hyperparameters, and returns a list of dictionaries where each dictionary contains a single combination of hyperparameters.
 """
 

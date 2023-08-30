@@ -52,7 +52,7 @@ class FatJet(object):
         self.cluster_sequence = None
 
     def ConstructVector(self, fatjet):
-        if type(fatjet[0]) == TLorentzVector:
+        if isinstance(fatjet[0], TLorentzVector):
             fatjet = ru.GetNumpy(
                 fatjet,
                 format="lhc",
@@ -126,7 +126,7 @@ class FatJet(object):
 
     def Get(self):
         """get list of fatjet in PseudoJet class"""
-        if type(self.Tower[0]) == np.ndarray:
+        if isinstance(self.Tower[0], np.ndarray):
             temp = np.concatenate(
                 (
                     self.Tower,
@@ -259,7 +259,7 @@ def Print(
     format="lhc",
     constituents=False,
 ):
-    if name != None:
+    if name is not None:
         print(name)
     if not constituents:
         if format == "lhc":

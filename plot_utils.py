@@ -224,7 +224,7 @@ def plot_tower_jets(
                 color=colors[i],
                 label="$j_"
                 + str(i)
-                + "\;p_T=$"
+                + "\\;p_T=$"
                 + str(
                     round(
                         item.Pt(),
@@ -235,7 +235,8 @@ def plot_tower_jets(
             )
         )
     # p.axes.add_patch(Circle((lorentz_jet[1].Eta(),lorentz_jet[1].Phi()),
-    #                        radius=0.5,fill=False,color="Blue",label="$j_2\;p_T=$"+str(round(lorentz_jet[1].Pt(),1))+" GeV"))
+    # radius=0.5,fill=False,color="Blue",label="$j_2\;p_T=$"+str(round(lorentz_jet[1].Pt(),1))+"
+    # GeV"))
     p.tower_scatter(array, **scatter_kwargs)
     if plotter is None:
         p.axes.legend(loc="best")
@@ -299,7 +300,7 @@ def subplot_compare_pileup(
                     color=colors[i],
                     label="$j_"
                     + str(i)
-                    + "\;p_T=$"
+                    + "\\;p_T=$"
                     + str(
                         round(
                             item.Pt(),
@@ -356,7 +357,9 @@ def compare_pileup_image(
     return
 
 
-def seperate_image_plot(left_bin, center_bin, right_bin, save_path=None, **kwargs):
+def seperate_image_plot(
+    left_bin, center_bin, right_bin, save_path=None, **kwargs
+):
     P = Plotter(
         projection="subplots",
     )
@@ -373,7 +376,7 @@ def seperate_image_plot(left_bin, center_bin, right_bin, save_path=None, **kwarg
     P.Image(center_bin)
     P.axes = axes[2]
     P.Image(right_bin)
-    if save_path != None:
+    if save_path is not None:
         P.save_fig(
             kwargs.get(
                 "name",

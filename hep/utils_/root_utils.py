@@ -121,7 +121,7 @@ def GetNumpy(
     default observable_first=True gives shape of (len(format),constituents) otherwise the axes are swaped
     """
     if format == "image":
-        if type(vectors) == TLorentzVector:
+        if isinstance(vectors, TLorentzVector):
             return np.array(
                 [
                     vectors.Eta(),
@@ -148,7 +148,7 @@ def GetNumpy(
                     dtype="float64",
                 )
     elif format == "lhc":
-        if type(vectors) == TLorentzVector:
+        if isinstance(vectors, TLorentzVector):
             return np.array(
                 [
                     vectors.Pt(),
@@ -179,7 +179,7 @@ def GetNumpy(
                     dtype="float64",
                 )
     elif format == "lorentz":
-        if type(vectors) == TLorentzVector:
+        if isinstance(vectors, TLorentzVector):
             return np.array(
                 [
                     vectors.Px(),
@@ -261,9 +261,9 @@ def Print(
     name=None,
 ):
     """TLorentzVector print utility function"""
-    if name != None:
+    if name is not None:
         print(name)
-    if type(vector) == TLorentzVector:
+    if isinstance(vector, TLorentzVector):
         if format == "lhc":
             print(
                 f"    Eta: {vector.Eta():20.16f}        Phi: {vector.Phi():20.16f}        Pt : {vector.Pt():20.16f}        Mass: {vector.M():20.16f}        P= {vector.P():20.16f}"
