@@ -62,6 +62,65 @@ In the grand theater of high-energy collisions, the particle jets dance with com
 
 ✨ **Stellar Performance** - Our model shines bright with stellar accuracy and AUC in distinguishing top quarks from QCD jets. The stars align for precision! ✨
 
+<html>
+<head>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+</style>
+</head>
+<body>
+
+<h2>AUC Values for Gluons vs Quark Tagging Dataset</h2>
+
+<table>
+  <tr>
+    <th>Sr. No.</th>
+    <th>R0</th>
+    <th>Accuracy</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>0.1</td>
+    <td>0.8824±0.0005</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>0.1</td>
+    <td>0.8888±0.0013</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>0.2</td>
+    <td>0.8909±0.0009</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>0.3</td>
+    <td>0.8916±0.0008</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>0.4</td>
+    <td>0.8919±0.0006</td>
+  </tr>
+</table>
+
+</body>
+</html>
+
 ![Permutation Invarient](images/PI.png)
 
 🌐 **Hypergraph Odyssey** - In the land of hypergraphs, our HMPNNs are fearless explorers, traversing multiple nodes, hyperedges, and labels. 🛰️
