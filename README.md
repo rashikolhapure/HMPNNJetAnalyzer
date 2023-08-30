@@ -39,8 +39,11 @@ These particle jets play a pivotal role in understanding complex interactions. B
 ### Research Objectives:
 
 - Develop a hypergraph message passing neural network architecture for analyzing jets in high-energy particle collisions.
+- 
 - Assess the performance of the proposed hypergraph model.
+- 
 - Interpret the results, highlighting their significance in jet analysis, and explore the model's strengths and limitations.
+- 
 - Suggest future enhancements and research paths for hypergraph message passing neural networks in jet analysis and related domains.
 
 ### Research Questions:
