@@ -39,11 +39,8 @@ These particle jets play a pivotal role in understanding complex interactions. B
 ### Research Objectives:
 
 - Develop a hypergraph message passing neural network architecture for analyzing jets in high-energy particle collisions.
-- 
 - Assess the performance of the proposed hypergraph model.
-- 
 - Interpret the results, highlighting their significance in jet analysis, and explore the model's strengths and limitations.
-- 
 - Suggest future enhancements and research paths for hypergraph message passing neural networks in jet analysis and related domains.
 
 ### Research Questions:
@@ -77,10 +74,69 @@ https://github.com/rajveer43/hep_ml/assets/64583161/c6034ad6-aa9b-4c5b-a00b-fe30
 
 ## 🌟 Stars in the Jet Constellation
 
-
-<!--add the dataset of the particle jets -->
-
 🌟 **"Our Celestial Ensemble"** - The dataset twinkles with MC simulated events, unraveling top quark tagging mysteries. 1.2M training events, 400k validation events, and 400k test events make up our cosmic ensemble. 🎭
+
+#### Quark and Gluon Jet Datasets - Pythia 8 Generated
+
+This dataset contains two sets of jet data generated using Pythia 8, representing quark and gluon jets. There are two versions of the dataset: one that includes all kinematically realizable quark jets and another that excludes charm and bottom quark jets at the level of the hard process. The generation parameters for these datasets are as follows:
+
+- Pythia Version: 8.226 (without bc jets), 8.235 (with bc jets)
+- Center-of-Mass Energy: √s = 14 TeV
+- Quark Source: WeakBosonAndParton:qg2gmZq
+- Gluon Source: WeakBosonAndParton:qqbar2gmZg (with Z boson decaying to neutrinos)
+- Jet Algorithm: FastJet 3.3.0, anti-kt algorithm with R=0.4
+- Transverse Momentum Range: pjetT ∈ [500, 550] GeV
+- Pseudorapidity Range: |yjet| < 1.7
+
+Each dataset consists of 20 files, stored in compressed NumPy format. Files that include charm and bottom jets have 'withbc' in their filename. Each file contains two arrays:
+
+1. **X (Features)**: A 3-dimensional array of shape (100000, M, 4), where M is the maximum multiplicity of jets in the file. The array represents a mix of 50,000 quark jets and 50,000 gluon jets, randomly sorted. Each particle in a jet is described by four features: transverse momentum (pt), rapidity, azimuthal angle, and pdgid (particle ID).
+2. **y (Labels)**: An array of shape (100000,), providing labels for the jets. A label of 0 corresponds to gluon jets, and a label of 1 corresponds to quark jets.
+
+If you use this dataset, kindly cite the following sources:
+- Zenodo Record: [Link](https://zenodo.org/record/3164691#.YWR6WrxBzm4)
+- Corresponding Paper: P. T. Komiske, E. M. Metodiev, J. Thaler, "Energy Flow Networks: Deep Sets for Particle Jets," JHEP 01 (2019) 121, [arXiv:1810.05165](https://arxiv.org/abs/1810.05165).
+
+For the corresponding Herwig jet dataset, you can find it on this [Zenodo Record](add-zenodo-link-for-herwig-jets).
+
+To work with these datasets in Python, you can use the EnergyFlow Python package for automatic download and reading.
+
+#### Top Quark Tagging Reference Dataset
+
+This dataset serves as a reference for the evaluation of top quark tagging architectures and includes MC simulated training/testing events. The dataset has been prepared by Kasieczka, Gregor; Plehn, Tilman; Thompson, Jennifer; Russel, Michael.
+
+#### Dataset Overview
+
+- Total Training Events: 1.2 million
+- Total Validation Events: 400,000
+- Total Test Events: 400,000
+
+Use the following labels to distinguish different purposes:
+- `train`: Training events
+- `val`: Validation events during training
+- `test`: Final testing and reporting results
+
+#### Description
+
+- Energy: 14 TeV
+- Signal: Hadronic tops
+- Background: QCD dijets
+- Detector Simulation: Delphes ATLAS detector card with Pythia 8
+- No MPI/pile-up included
+- Jet Clustering: Particle-flow entries (produced by Delphes E-flow) clustered into anti-kT 0.8 jets
+- Jet Transverse Momentum Range: [550, 650] GeV
+- Jet Eta Range: |eta| < 2
+- Jet Matching: All top jets matched to a parton-level top within ∆R = 0.8 and to all top decay partons within 0.8
+- Jet Constituents: Leading 200 jet constituent four-momenta stored with zero-padding for jets with fewer than 200 constituents
+- Constituent Sorting: Constituents sorted by pT, highest pT first
+- Truth Top Four-Momentum: Stored as truth_px, truth_py, truth_pz, truth_e
+- Jet Classification: A flag `is_signal_new` provided for each jet (1 for top, 0 for QCD)
+- Dataset Classification: Variable `ttv` (= test/train/validation) indicates the dataset a jet belongs to
+
+#### Citation
+
+If you use this dataset for your research, please cite the creators:
+- Kasieczka, Gregor; Plehn, Tilman; Thompson, Jennifer; Russel, Michael
 
 🔍 **"Particle Puzzle Pieces"** - The dataset embodies hadronic tops for the signal, QCD diets background, Pythia8's ATLAS detector card, and the Pythia 8-generated quark and gluon jet datasets. Each piece holds a cosmic puzzle. 🧩
 
