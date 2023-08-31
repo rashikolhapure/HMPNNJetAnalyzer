@@ -101,8 +101,42 @@ For the corresponding Herwig jet dataset, you can find it on this [Zenodo Record
 
 To work with these datasets in Python, you can use the EnergyFlow Python package for automatic download and reading.
 
-*Note*: The provided information has been formatted using Markdown for ease of presentation.
+#### Top Quark Tagging Reference Dataset
 
+This dataset serves as a reference for the evaluation of top quark tagging architectures and includes MC simulated training/testing events. The dataset has been prepared by Kasieczka, Gregor; Plehn, Tilman; Thompson, Jennifer; Russel, Michael.
+
+#### Dataset Overview
+
+- Total Training Events: 1.2 million
+- Total Validation Events: 400,000
+- Total Test Events: 400,000
+
+Use the following labels to distinguish different purposes:
+- `train`: Training events
+- `val`: Validation events during training
+- `test`: Final testing and reporting results
+
+#### Description
+
+- Energy: 14 TeV
+- Signal: Hadronic tops
+- Background: QCD dijets
+- Detector Simulation: Delphes ATLAS detector card with Pythia 8
+- No MPI/pile-up included
+- Jet Clustering: Particle-flow entries (produced by Delphes E-flow) clustered into anti-kT 0.8 jets
+- Jet Transverse Momentum Range: [550, 650] GeV
+- Jet Eta Range: |eta| < 2
+- Jet Matching: All top jets matched to a parton-level top within ∆R = 0.8 and to all top decay partons within 0.8
+- Jet Constituents: Leading 200 jet constituent four-momenta stored with zero-padding for jets with fewer than 200 constituents
+- Constituent Sorting: Constituents sorted by pT, highest pT first
+- Truth Top Four-Momentum: Stored as truth_px, truth_py, truth_pz, truth_e
+- Jet Classification: A flag `is_signal_new` provided for each jet (1 for top, 0 for QCD)
+- Dataset Classification: Variable `ttv` (= test/train/validation) indicates the dataset a jet belongs to
+
+#### Citation
+
+If you use this dataset for your research, please cite the creators:
+- Kasieczka, Gregor; Plehn, Tilman; Thompson, Jennifer; Russel, Michael
 
 🔍 **"Particle Puzzle Pieces"** - The dataset embodies hadronic tops for the signal, QCD diets background, Pythia8's ATLAS detector card, and the Pythia 8-generated quark and gluon jet datasets. Each piece holds a cosmic puzzle. 🧩
 
