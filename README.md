@@ -76,6 +76,8 @@ https://github.com/rajveer43/hep_ml/assets/64583161/c6034ad6-aa9b-4c5b-a00b-fe30
 
 🌟 **"Our Celestial Ensemble"** - The dataset twinkles with MC simulated events, unraveling top quark tagging mysteries. 1.2M training events, 400k validation events, and 400k test events make up our cosmic ensemble. 🎭
 
+The data has been produced using Monte Carlo simulations. The first 21 features (columns 2-22) are kinematic properties measured by the particle detectors in the accelerator. The last seven features are functions of the first 21 features; these are high-level features derived by physicists to help discriminate between the two classes. There is an interest in using deep learning methods to obviate the need for physicists to manually develop such features. Benchmark results using Bayesian Decision Trees from a standard physics package and 5-layer neural networks are presented in the original paper. The last 500,000 examples are used as a test set.
+
 #### Quark and Gluon Jet Datasets - Pythia 8 Generated
 
 This dataset contains two sets of jet data generated using Pythia 8, representing quark and gluon jets. There are two versions of the dataset: one that includes all kinematically realizable quark jets and another that excludes charm and bottom quark jets at the level of the hard process. The generation parameters for these datasets are as follows:
