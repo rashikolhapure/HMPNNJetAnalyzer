@@ -1,29 +1,42 @@
 #!/home/vishal/anaconda3/envs/scikit_hep/bin/python
 from pyjet import (
     cluster,
-    PseudoJet,
 )
 import numpy as np
 from . import (
     root_utils as ru,
 )
-import sys
 from ROOT import (
     TLorentzVector,
 )
 
 """
-This code defines a class called FatJet that uses the pyjet package to cluster jets from a set of input particles (towers), and to perform subjet clustering. The resulting jets are stored as a list of PseudoJet objects.
+This code defines a class called FatJet that uses the pyjet package to cluster
+jets from a set of input particles (towers), and to perform subjet clustering.
+The resulting jets are stored as a list of PseudoJet objects.
 
 The FatJet class has the following methods:
 
-__init__: Initializes the class with the input parameters, including the clustering algorithm (antikt, CA, or kt), the distance parameter R, the minimum transverse momentum pt_min for jet constituents, and a verbose flag to print output.
-ConstructVector: A helper function that converts a list of particles (each with pt, eta, phi, and mass) to an array of four-vectors.
-RemoveElectron: A function that removes fatjets formed with energy deposits from electrons.
-Get: Clusters jets from the input Tower particles using the specified algorithm and R parameter. Returns a list of PseudoJet objects representing the fatjets.
-GetConstituents: Given a list of fatjets, returns an array of particles (in TLorentzVector format) that make up each jet.
-Recluster: Performs subjet clustering on a given fatjet using the specified algorithm, R parameter, and dcut parameter. Returns a list of PseudoJet objects representing the subjets.
-Overall, this code provides a set of tools for jet clustering and subjet analysis, which are useful in particle physics analyses.
+__init__: Initializes the class with the input parameters, including the
+clustering algorithm (antikt, CA, or kt), the distance parameter R, the
+minimum transverse momentum pt_min for jet constituents, and a verbose flag to
+print output.
+
+ConstructVector: A helper function that converts a list of particles
+(each with pt, eta, phi, and mass) to an array of four-vectors.
+ClusterJets: Uses PyJet's ClusterSequence object to find clusters in the
+vectorized.
+RemoveElectron: A function that removes fatjets formed with energy deposits
+from electrons.
+Get: Clusters jets from the input Tower particles using the specified
+algorithm and R parameter. Returns a list of PseudoJet objects representing
+the fatjets.
+GetConstituents: Given a list of fatjets, returns an array of particles
+(in TLorentzVector format) that make up each jet.
+Recluster: Performs subjet clustering on a given fatjet using the specified
+algorithm, R parameter, and dcut parameter. Returns a list of PseudoJet objects
+representing the subjets. Overall, this code provides a set of tools for jet
+clustering and subjet analysis, which are useful in particle physics analyses.
 """
 
 
@@ -36,7 +49,10 @@ class FatJet(object):
         pt_min=200.0,
         verbose=False,
     ):
-        """<tower> should be numpy array with shape (constituents,3/4) with the second dimension being [pt,eta,phi,(mass)]"""
+        """
+        <tower> should be numpy array with shape (constituents,3/4) with 
+        the second dimension being [pt,eta,phi,(mass)]
+        """
         self.Tower = tower
         self.Verbose = verbose
         self.Algorithm = algorithm
@@ -91,7 +107,10 @@ class FatJet(object):
         return np.array(vectors)
 
     def RemoveElectron(self, lepton):
-        """If event contains electrons, remove fatjets formed with energy deposit of electrons"""
+        """
+        If event contains electrons, remove fatjets formed with energy
+        deposit of electrons
+        """
         if self.Verbose:
             print(
                 lepton,
@@ -191,7 +210,10 @@ class FatJet(object):
         fatjets,
         format="root",
     ):
-        """get a numpy array of len(fatjets) containing TLorentzVector of the constituents of each fatjet"""
+        """
+        get a numpy array of len(fatjets) containing TLorentzVector of
+        the constituents of each fatjet
+        """
         return_array = []
         if format == "image":
             for item in fatjets:
