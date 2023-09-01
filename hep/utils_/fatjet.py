@@ -50,7 +50,7 @@ class FatJet(object):
         verbose=False,
     ):
         """
-        <tower> should be numpy array with shape (constituents,3/4) with 
+        <tower> should be numpy array with shape (constituents,3/4) with
         the second dimension being [pt,eta,phi,(mass)]
         """
         self.Tower = tower
@@ -276,31 +276,43 @@ class FatJet(object):
 
 
 def Print(
-    fatjet,
-    name=None,
-    format="lhc",
-    constituents=False,
+        fatjet,
+        name=None,
+        format="lhc",
+        constituents=False,
 ):
     if name is not None:
         print(name)
     if not constituents:
         if format == "lhc":
             print(
-                f"    Eta: {fatjet.eta:20.16f}        Phi: {fatjet.phi:20.16f}        Pt : {fatjet.pt:20.16f}        Mass: {fatjet.mass:20.16f}"
+                f"    Eta: {fatjet.eta:20.16f}        "
+                f"Phi: {fatjet.phi:20.16f}        "
+                f"Pt : {fatjet.pt:20.16f}        "
+                f"Mass: {fatjet.mass:20.16f}"
             )
         else:
             print(
-                f"    Px: {fatjet.px:20.16f}        Py: {fatjet.py:20.16f}        Pz : {fatjet.pz:20.16f}        E: {fatjet.e:20.16f}"
+                f"    Px: {fatjet.px:20.16f}        "
+                f"Py: {fatjet.py:20.16f}        "
+                f"Pz : {fatjet.pz:20.16f}        "
+                f"E: {fatjet.e:20.16f}"
             )
     else:
         print("Constituents of array: ")
         for item in fatjet.constituents():
             if format == "lhc":
                 print(
-                    f"    Eta: {item.eta:20.16f}        Phi: {item.phi:20.16f}        Pt : {item.pt:20.16f}        Mass: {item.mass:20.16f}"
+                    f"    Eta: {item.eta:20.16f}        "
+                    f"Phi: {item.phi:20.16f}        "
+                    f"Pt : {item.pt:20.16f}        "
+                    f"Mass: {item.mass:20.16f}"
                 )
             else:
                 print(
-                    f"    Px : {item.px:20.16f}        Py: {item.py:20.16f}        Pz: {item.pz:20.16f}        E : {item.E:20.16f}"
+                    f"    Px : {item.px:20.16f}        "
+                    f"Py: {item.py:20.16f}        "
+                    f"Pz: {item.pz:20.16f}        "
+                    f"E : {item.E:20.16f}"
                 )
     return
