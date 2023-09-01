@@ -401,6 +401,22 @@ Our findings resonate across various domains in particle physics research, inclu
 - **Join the Cosmic Circle**: A cosmic contribution is a beacon in our galactic journey. Engage through a cosmic pull request and intertwine your cosmic magic!
 - **Astro-Potion (Issue)**: For grand cosmic spells, step into the cosmic realm of issues to conjure discussions on cosmic ideas.
 
+## Acknowledgments
+
+This dataset was created and hosted by the following organizations:
+
+- [CERN (European Organization for Nuclear Research)](https://home.cern/)
+- [Zenodo](https://zenodo.org/)
+- [Fermilab](https://www.fnal.gov/)
+
+## Acknowledgments for the Project Repo
+
+- [Physical Research Laboratory](https://www.prl.res.in/)
+- [Durham University](https://www.dur.ac.uk/)
+- [Indian Institute of Technology (IIT) Gandhinagar](https://www.iitgn.ac.in/)
+
+We extend our sincere gratitude to these organizations for their invaluable contributions to the field of particle physics and their support in making this dataset available to the research community.
+
 ## ⚡ Cosmic Code
 
 This cosmic journey abides under the [Cosmic License](LICENSE), granting cosmic sovereignty in wielding its magic!
@@ -419,12 +435,6 @@ This project is enchanted under the [MIT License](LICENSE), allowing you to wiel
 🌌 **"Where Particles Meet Magic!"** 🪄
 
 🎉 Greetings, cosmic wanderer! Venture into the cosmic depths with us as we wield the power of **HyperGraph Message Passing Neural Networks (HMPNNs)** to illuminate the enigmatic realm of high-energy particle collisions. 🌠 -->
-
-<!-- ![Cosmic Symphony](project-banner-image.jpg) -->
-
-
-
-
 ---
 
 ⚛️ Venture forth with us into the cosmic frontier where particles dance and codes merge, reshaping the cosmos of understanding! 🌌
