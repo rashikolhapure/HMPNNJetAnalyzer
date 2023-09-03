@@ -1,25 +1,25 @@
 # 🚀 HyperGraph Magic: Unraveling Jets with HMPNNs
 
-# Table of Contents
-1. [Introduction](#introduction)
+## Table of Contents
+1. [🚀 HyperGraph Magic: Unraveling Jets with HMPNNs](#hypergraph-magic:-unraveling-jets-with-HMPNNs)
 2. [Hypergraph Message Passing Neural Networks](#hypergraph-message-passing-neural-networks-for-jet-analysis)
-3. [Unveiling the Subnuclear World](Unveiling-the-Subnuclear-World:-Exploring-Particle-Physics-Beyond-the-Standard-Model)
+3. [Unveiling the Subnuclear World: Exploring Particle Physics Beyond the Standard Model](#unveiling-the-subnuclear-world-exploring-particle-physics-beyond-the-standard-model)
    - 3.1 [Key Points](#key-points)
 4. [Research Objectives and Research Questions](#research-objectives-and-research-questions)
    - 4.1 [Research Objectives](#research-objectives)
    - 4.2 [Research Questions](#research-questions)
-5. [Houston, we have jets!](#houston-we-have-jets)
-6. [Quantum Chronicles of QCD](#quantum-chronicles-of-qcd)
-7. [Stars in the Jet Constellation](#stars-in-the-jet-constellation)
-8. [Pioneering Particle Performances](#pioneering-particle-performances)
+5. [🚀 **"Houston, we have jets!"** 🛰️](#houston-we-have-jets)
+6. [⚛️ Quantum Chronicles of QCD](#quantum-chronicles-of-qcd)
+7. [🌟 Stars in the Jet Constellation](#stars-in-the-jet-constellation)
+8. [🪐 Pioneering Particle Performances](#pioneering-particle-performances)
    - 8.1 [Strengths](#strengths)
    - 8.2 [Limitations](#limitations)
    - 8.3 [Applications](#applications)
-9. [Beam Me Up, Scotty!](#beam-me-up-scotty)
-10. [Beyond the Stars: Cosmic Fellowship](#beyond-the-stars-cosmic-fellowship)
+9. [🌌 Beam Me Up, Scotty!](#beam-me-up-scotty)
+10. [🪐 Beyond the Stars: Cosmic Fellowship](#beyond-the-stars-cosmic-fellowship)
 11. [Acknowledgments](#acknowledgments)
-12. [Cosmic Code](#cosmic-code)
-13. [Warp-Speed License](#warp-speed-license)
+12. [⚡ Cosmic Code](#cosmic-code)
+13. [⚡ Warp-Speed License](#warp-speed-license)
 
 
 ## Hypergraph Message Passing Neural Networks for Jet Analysis
