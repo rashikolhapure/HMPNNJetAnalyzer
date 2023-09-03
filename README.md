@@ -2,7 +2,7 @@
 
 # Table of Contents
 1. [Introduction](#introduction)
-2. [Hypergraph Message Passing Neural Networks](#hypergraph-message-passing-neural-networks)
+2. [Hypergraph Message Passing Neural Networks](#hypergraph-message-passing-neural-networks-for-jet-analysis)
 3. [Unveiling the Subnuclear World](#unveiling-the-subnuclear-world)
    - 3.1 [Key Points](#key-points)
 4. [Research Objectives and Research Questions](#research-objectives-and-research-questions)
