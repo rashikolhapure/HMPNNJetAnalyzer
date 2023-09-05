@@ -7,6 +7,19 @@ from .genutils import (
 
 
 class Method(object):
+    """
+    Base class for methods.
+
+    Args:
+        *args: Variable-length positional arguments.
+        **kwargs: Variable-length keyword arguments.
+
+    Attributes:
+        input_data: The input data for the method.
+        output_data: The output data for the method.
+        max_count: Maximum count (optional, default is None).
+        count: Current count (initialized to 0).
+    """
     def __init__(self, *args, **kwargs):
         compulsory_kwargs = (
             "input_data",
@@ -19,6 +32,13 @@ class Method(object):
 
 
 class PhysicsMethod(Method):
+    """
+    Base class for physics methods.
+
+    Args:
+        *args: Variable-length positional arguments.
+        **kwargs: Variable-length keyword arguments.
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(args, **kwargs)
 
@@ -31,11 +51,35 @@ class PhysicsMethod(Method):
 
 
 class NetworkMethod(Method):
+    """
+    Base class for network methods.
+
+    Args:
+        *args: Variable-length positional arguments.
+        **kwargs: Variable-length keyword arguments.
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
 
 class Data(object):
+    """
+    Base class for data handling.
+
+    Args:
+        *args: Variable-length positional arguments.
+        **kwargs: Variable-length keyword arguments.
+
+    Attributes:
+        dtypes: Data types.
+        prefix_path: Prefix path (optional).
+        reader_method: Reader method.
+        writer_method: Writer method.
+        data_ext: Data extension.
+        file_ext: File extension (initialized to None).
+        mg_event_path: MadGraph event path.
+        max_count: Maximum count (initialized to "NA").
+    """
     def __init__(self, *args, **kwargs):
         compulsory_keys = {
             "reader_method",

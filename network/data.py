@@ -32,6 +32,39 @@ from .numpy_utils import (
 
 
 class ModelData(object):
+    """
+    Base class for handling data related to machine learning models.
+
+    This class provides a foundation for managing data used in machine learning models. It includes attributes and methods to store, load, and preprocess data.
+
+    Attributes:
+        - _prefix_path (str): The prefix path where data is stored.
+        - mode (str): The mode of operation, "w" for write, "r" for read.
+        - save_as (str): The format in which data is saved (e.g., "numpy_array").
+        - total_length (int): The total length of the data.
+        - test_split (float): The split ratio for test data.
+        - model_type (str): The type of the model.
+        - preprocess_tag (str): A tag for data preprocessing.
+        - class_names (list): List of class names.
+        - input_states (list): List of input states.
+        - save (bool): Flag to control saving data.
+        - run_tag (str): A tag for the run.
+        - tag_path (str): The path for run tags.
+        - preprocessed_path (str): The path for preprocessed data.
+        - run_name (str): The name of the run.
+        - run_path (str): The path for the run.
+        - data_save_path (str): The path for saved data.
+        - model_checkpoints_path (str): The path for model checkpoints.
+        - train_length (int): The length of the training data.
+        - validation_length (int): The length of the validation data.
+        - validation_tag (str): A tag for validation data.
+        - train_data (dict): Training data dictionary.
+        - val_data (dict): Validation data dictionary.
+        - data (None): Placeholder for data.
+        - index_dict (dict): Dictionary to store indices.
+        - shuffled_index_dict (dict): Dictionary to store shuffled indices.
+        - check (bool): Flag for data checking.
+    """
     def __init__(self, *args, **kwargs):
         self._prefix_path = check_dir("./network_runs")
         self.mode = kwargs.get("mode", "w")
@@ -136,6 +169,14 @@ class ModelData(object):
         self.check = False
 
     def _load_all_data(self):
+        """
+        Load all the data for each class and split it into training and validation sets.
+
+        This method loads data for each class, splits it into training and validation sets, and prepares the data for training a machine learning model.
+
+        Returns:
+            Tuple: A tuple containing training and validation data, each represented as a dictionary with 'X' and 'Y' keys.
+        """
         return_dict = {run_name: {} for run_name in self.class_names}
         train_dict = {}
         val_dict = {}
@@ -358,6 +399,14 @@ class ModelData(object):
         return
 
     def _load_data(self):
+        """
+        Load data for each class and split it into training and validation sets.
+
+        This method loads data for each class, splits it into training and validation sets, and prepares the data for training a machine learning model.
+
+        Returns:
+            None
+        """
         return_dict = {run_name: {} for run_name in self.class_names}
         train_dict = {}
         val_dict = {}
@@ -503,6 +552,18 @@ class ModelData(object):
         final_state_dict,
         class_index,
     ):
+        """
+        Prepare the network input data for a single data point.
+
+        This method takes the final_state_dict, which contains the preprocessed data for a single data point, and class_index, which is the index of the class for this data point, and prepares the network input data in the required format for training or inference.
+
+        Parameters:
+            final_state_dict (dict): A dictionary containing the preprocessed data for a single data point.
+            class_index (int): The index of the class for this data point.
+
+        Returns:
+            dict: A dictionary containing the network input data, including 'X' for input features and 'Y' for class labels.
+        """
         return_dict = {}
         if len(self.input_states) == 1:
             if type(self.input_states[0].index) == int:
@@ -541,6 +602,13 @@ class ModelData(object):
         return return_dict
 
     def write_to_disk(self):
+        """
+        Write data and dictionaries to disk.
+
+        This method is used to save various data and dictionaries to disk, including training data, validation data, shuffled index dictionaries, and index dictionaries. It checks the mode of the class instance to ensure that it is in "write" mode before proceeding with saving the data.
+
+        Returns:
+        """
         assert self.mode == "w", "Trying to write in read instance of class"
         print(
             "Saving to: ",
@@ -600,6 +668,14 @@ class ModelData(object):
         self,
         final_states_dict,
     ):
+        """
+        Write data and dictionaries to disk.
+
+        This method is used to save various data and dictionaries to disk, including training data, validation data, shuffled index dictionaries, and index dictionaries. It checks the mode of the class instance to ensure that it is in "write" mode before proceeding with saving the data.
+
+        Returns:
+            None
+        """
         print("First load! Checking consistency...")
         for input_state in self.input_states:
             assert input_state in final_states_dict
@@ -636,6 +712,17 @@ class ModelData(object):
     def multiple_input_check(
         self,
     ):
+        """
+        Check and shuffle multiple input data.
+
+        This method is used to check and shuffle the multiple input data, including both the training and validation datasets. It ensures that the data is properly shuffled for training. If the data is in the form of a list, it shuffles each element separately and reassembles them.
+
+        Returns:
+            tuple: A tuple containing the shuffled training and validation data.
+
+        Note:
+            This method assumes that the data is organized as a dictionary with "X" and "Y" keys, where "X" may contain multiple input arrays to be shuffled separately.
+        """
         print(self.train_data.keys())  # ,self.train_data["Y"][-10:])
         if type(self.train_data["X"]) != list:
             self.train_data = nu_shuffle(**self.train_data)
@@ -677,6 +764,20 @@ class ModelData(object):
         )
 
     def pre_inputs(self, total_length):
+        """
+        Initialize input arrays for preprocessing.
+
+        This method initializes input arrays for preprocessing based on the specified `total_length`. It creates empty arrays for each input state and prepares a corresponding empty array for the target labels (`Y`) with the appropriate shape.
+
+        Parameters:
+            total_length (int): The total length of the input arrays.
+
+        Note:
+            The method assumes that `self.input_states` contains the descriptions of input states, and `self.class_names` contains the names of the target classes.
+
+        Example:
+            To initialize input arrays for a total length of 100 samples, you can call `pre_inputs(100)`.
+        """
         X = [[] for i in range(len(self.input_states))]
         print(X)
         for input_state in self.input_states:
@@ -693,6 +794,20 @@ class ModelData(object):
 
     def load_from_index_dict(self, path):
         """currently writing for binary class, change later for n-class classification"""
+        """
+        Load data from the index dictionary.
+
+        This method loads data based on the provided index dictionary from the specified `path`. It handles the loading of training and validation data, as well as their corresponding class indices.
+
+        Parameters:
+        path (str): The path to the directory containing the index dictionary and preprocessed data.
+
+        Note:
+        This method assumes that the index dictionary contains information about data splits and class indices.
+
+        Example:
+        To load data from the specified `path`, you can call `load_from_index_dict(path)`.
+        """
         pwd = os.getcwd()
         print(path, pwd)
         index_dict = Unpickle(
@@ -930,6 +1045,17 @@ class ModelData(object):
         )
 
     def get_data(self):
+        """
+        Get the training and validation data.
+
+        This method retrieves the training and validation data from stored files or loads them from index dictionaries. It also performs a consistency check on the loaded data and returns the data in the appropriate format.
+
+        Returns:
+        tuple or dict: A tuple containing training and validation data, or dictionaries containing data if in write mode.
+
+        Example:
+        To get the training and validation data, you can call `get_data()`.
+        """
         try:
             self.train_data = Unpickle(
                 "train.h",
@@ -990,10 +1116,62 @@ class ModelData(object):
 
 
 class AutoencoderData(ModelData):
+    """
+    Data handler class for training autoencoder models.
+
+    This class extends the base `ModelData` class and provides methods for loading or generating training and validation data specific to autoencoder models.
+    
+    Attributes:
+        - _prefix_path (str): The prefix path where data is stored.
+        - mode (str): The mode of operation, "w" for write, "r" for read.
+        - save_as (str): The format in which data is saved (e.g., "numpy_array").
+        - total_length (int): The total length of the data.
+        - test_split (float): The split ratio for test data.
+        - model_type (str): The type of the model.
+        - preprocess_tag (str): A tag for data preprocessing.
+        - class_names (list): List of class names.
+        - input_states (list): List of input states.
+        - save (bool): Flag to control saving data.
+        - run_tag (str): A tag for the run.
+        - tag_path (str): The path for run tags.
+        - preprocessed_path (str): The path for preprocessed data.
+        - run_name (str): The name of the run.
+        - run_path (str): The path for the run.
+        - data_save_path (str): The path for saved data.
+        - model_checkpoints_path (str): The path for model checkpoints.
+        - train_length (int): The length of the training data.
+        - validation_length (int): The length of the validation data.
+        - validation_tag (str): A tag for validation data.
+        - train_data (dict): Training data dictionary.
+        - val_data (dict): Validation data dictionary.
+        - data (None): Placeholder for data.
+        - index_dict (dict): Dictionary to store indices.
+        - shuffled_index_dict (dict): Dictionary to store shuffled indices.
+        - check (bool): Flag for data checking.
+        - data_handler (obj): Data handler object.
+        - handler_kwargs (dict): Additional keyword arguments for the data handler.
+        - load_path (None): Placeholder for load path.
+        - train_indices (None): Placeholder for training indices.
+        - val_indices (None): Placeholder for validation indices.
+    """
     def __init__(*args, **kwargs):
         super().__init__(*args, **kwargs)
 
     def get_data(self):
+        """
+        Get training and validation data for an autoencoder model.
+
+        This method loads or generates training and validation data for an autoencoder model. If the data files "train.h" and "val.h" exist
+        in the specified data save path, they are loaded. Otherwise, the data is generated and saved if the mode is "write" (w). The method
+        also performs data shuffling and preprocessing.
+
+        Returns:
+        Tuple containing training and validation data:
+            - train_X: Training input data
+            - train_X: Training target data (same as input for autoencoder)
+            - val_X: Validation input data
+            - val_X: Validation target data (same as input for autoencoder)
+        """
         if {
             "train.h",
             "val.h",
@@ -1085,6 +1263,16 @@ class AutoencoderData(ModelData):
 
 
 class DataHandler(object):
+    """
+    Initialize a DataHandler object.
+
+    Parameters:
+        - run_name (str): Name of the run.
+        - dir_name (str): Name of the directory to store data in.
+        - re_initialize (bool): If True, overwrite existing directory.
+        - mode (str): "w" for write mode, "r" for read mode.
+
+    """
     def __init__(self, *args, **kwargs):
         self._prefix_path = check_dir("./network_runs")
         self.mode = kwargs.get("mode", "w")
@@ -1189,6 +1377,12 @@ class DataHandler(object):
         ) = (None, None)
 
     def handler_load(self):
+        """
+        Load a DataHandler object from disk.
+
+        Returns:
+            data_handler: Loaded DataHandler object.
+        """
         dictionary = Unpickle(
             "dictionary",
             load_path=self.data_save_path,
@@ -1220,6 +1414,12 @@ class DataHandler(object):
         )
 
     def get_data(self):
+        """
+        Get train and validation data.
+
+        Returns:
+            Tuple containing train and validation data.
+        """
         if "dictionary" in os.listdir(self.data_save_path):
             data = self.handler_load()
             save = False
@@ -1249,6 +1449,9 @@ class DataHandler(object):
         )
 
     def write_to_disk(self):
+        """
+        Write DataHandler object and indices to disk.
+        """
         dictionary = {
             "classes": self.class_names,
             "handler_kwargs": self.handler_kwargs,

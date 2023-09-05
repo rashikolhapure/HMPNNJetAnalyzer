@@ -41,7 +41,27 @@ pwd = os.getcwd()
 
 
 class Arrow3D(FancyArrowPatch):
-    """3d arrow patch"""
+    """
+    3D arrow patch.
+
+    This class extends the FancyArrowPatch to create 3D arrow patches.
+
+    Args:
+        xs (tuple): Tuple of starting x-coordinates for the arrow tail.
+        ys (tuple): Tuple of starting y-coordinates for the arrow tail.
+        zs (tuple): Tuple of starting z-coordinates for the arrow tail.
+        *args: Additional positional arguments.
+        **kwargs: Additional keyword arguments.
+
+    Attributes:
+        _verts3d (tuple): Tuple of (xs, ys, zs) representing the 3D coordinates of the arrow.
+
+    Methods:
+        draw(renderer): Draws the 3D arrow patch on the given renderer.
+
+    Usage:
+        arrow = Arrow3D((x_start, x_end), (y_start, y_end), (z_start, z_end), color='red')
+    """
 
     def __init__(self, xs, ys, zs, *args, **kwargs):
         FancyArrowPatch.__init__(self, (0, 0), (0, 0), *args, **kwargs)
@@ -75,8 +95,35 @@ class Arrow3D(FancyArrowPatch):
 
 
 class Plotter:
-    """class to illustrate different steps of preprocessing whole event or fatjet"""
+    """
+    A class for creating custom plots.
 
+    This class provides a convenient way to create custom plots with various options for labels,
+    ranges, figure size, projection, and more.
+
+    Args:
+        x_name (str, optional): Label for the x-axis. Defaults to None.
+        y_name (str, optional): Label for the y-axis. Defaults to None.
+        range (dict, optional): Range for x and y axes. Defaults to None.
+        size (tuple, optional): Figure size (width, height). Defaults to (10, 10).
+        projection (str, optional): Plot projection ('3d', 'image', 'subplots'). Defaults to None.
+        title (str, optional): Figure title. Defaults to None.
+        set_range (bool, optional): Set axis range based on input range. Defaults to False.
+
+    Attributes:
+        image_range (dict): Default range for x and y axes in image projection.
+        fig (Figure): Matplotlib figure object.
+        axes (Axes): Matplotlib axes object.
+        marker (str): Marker style for scatter plots.
+        cmap (str): Colormap for scatter plots.
+        markersize (int): Marker size for scatter plots.
+
+    Methods:
+        No public methods.
+
+    Usage:
+        p = Plotter(x_name="X-axis", y_name="Y-axis", size=(8, 6))
+    """
     def __init__(
         self,
         x_name=None,
@@ -161,16 +208,41 @@ class Plotter:
         )
 
     def SetRange(self, range=None):
+        """
+        Set the axis range based on the given range dictionary.
+
+        Args:
+            range (dict, optional): Range for x and y axes. Defaults to None.
+
+        Returns:
+            None
+        """
         if range is None:
             range = self.image_range
         self.axes.set_xlim(range["x"]), self.axes.set_ylim(range["y"])
         return
 
     def Show(self):
+        """
+        Display the plot.
+
+        Returns:
+            None
+        """
         plt.show()
         return
 
     def track_scatter(self, track, **kwargs):
+        """
+        Create a scatter plot for track data.
+
+        Args:
+            track (array-like): Track data to be plotted.
+            **kwargs: Additional keyword arguments for scatter plot customization.
+
+        Returns:
+            None
+        """
         if "s" not in kwargs:
             kwargs["s"] = 8
         eta = track[
@@ -225,6 +297,22 @@ class Plotter:
         **kwargs
     ):
         """numpy.ndarray of TlorentzVectors lepton,fatjet[0],fatjet[1] are plotted in the (eta,phi) plane, colormapped logarithmically with pt"""
+        """
+        Plot lepton, fatjet[0], and fatjet[1] in the (eta, phi) plane, colormapped logarithmically with pt.
+
+        Args:
+            lepton (numpy.ndarray or TLorentzVector): Lepton data for plotting.
+            fatjet (tuple of numpy.ndarray or TLorentzVector): Tuple containing fatjet[0] and fatjet[1] data for plotting.
+            run_name (str, optional): Name of the run. Defaults to None.
+            show (bool, optional): Display the plot. Defaults to False.
+            r_fat (float, optional): Radius for fatjets. Defaults to 1.2.
+            r_lep (float, optional): Radius for the lepton. Defaults to 1.0.
+            circle (bool, optional): If True, plot markers as circles. Defaults to False.
+            **kwargs: Additional keyword arguments.
+
+        Returns:
+            None
+        """
         if isinstance(lepton[0], TLorentzVector):
             (
                 lep,
@@ -380,6 +468,18 @@ class Plotter:
         run_name=None,
         show=False,
     ):
+        """
+        Plot a 3D representation of lepton, fatjet[0], and fatjet[1].
+
+        Args:
+            lepton (numpy.ndarray): Lepton data for plotting.
+            fatjet (tuple of numpy.ndarray): Tuple containing fatjet[0] and fatjet[1] data for plotting.
+            run_name (str, optional): Name of the run. Defaults to None.
+            show (bool, optional): Display the plot. Defaults to False.
+
+        Returns:
+            None
+        """
         (
             lepton,
             fatjet[0],
@@ -598,6 +698,19 @@ class Plotter:
             plotting_arrays,
             subjets,
         ):
+            """
+            Plot subjets of a fatjet.
+
+            Args:
+                fatjet (numpy.ndarray): Fatjet data.
+                label (str, optional): Label for the plot. Defaults to None.
+                show (bool, optional): Display the plot. Defaults to False.
+                r (float, optional): Radius for subjets. Defaults to 0.4.
+                no_subjets (int, optional): Number of subjets to plot. Defaults to 3.
+
+            Returns:
+                None
+            """
             # self.axes.scatter(array[0],array[1],c=array[2],cmap=cmap[count-1],s=self.markersize,marker=self.marker)
             self.axes.add_patch(
                 Circle(
@@ -625,6 +738,19 @@ class Plotter:
         cmap="Blues",
         s=50,
     ):
+        """
+        Plot a fat jet.
+
+        Args:
+            fatjet (numpy.ndarray): Fatjet data.
+            label (str, optional): Label for the plot. Defaults to None.
+            show (bool, optional): Display the plot. Defaults to False.
+            cmap (str, optional): Colormap for the jet. Defaults to "Blues".
+            s (int, optional): Marker size. Defaults to 50.
+
+        Returns:
+            None
+        """
         # ru.Print(np.sum(fatjet))
         center = [
             np.sum(fatjet).Eta(),
@@ -685,6 +811,20 @@ class Plotter:
         axis="on",
         summed=None,
     ):
+        """
+        Plot a 3D representation of a fat jet.
+
+        Args:
+            fatjet (numpy.ndarray): Fatjet data.
+            label (str, optional): Label for the plot. Defaults to None.
+            show (bool, optional): Display the plot. Defaults to False.
+            arrow_color (str, optional): Color of the arrows representing the fat jet constituents. Defaults to "b".
+            axis (str, optional): Display the axis. Defaults to "on".
+            summed (TLorentzVector, optional): Sum of the fat jet constituents. Defaults to None.
+
+        Returns:
+            None
+        """
         Z = np.array(
             [item.P() for item in fatjet],
             dtype="float64",
@@ -841,6 +981,15 @@ class Plotter:
         return
 
     def plot_axes(self, axes):
+        """
+        Plot axes on the given axes.
+
+        Args:
+            axes (matplotlib.axes.Axes): The axes to plot the axes on.
+
+        Returns:
+            None
+        """
         x_bound = axes.get_xbound()
         axes.plot(
             np.linspace(
@@ -874,6 +1023,21 @@ class Plotter:
         set_legends=False,
         **kwargs
     ):
+        """
+        Save the current figure to a file.
+
+        Args:
+            title (str): The title of the saved figure.
+            extension (str, optional): The file extension for the saved figure. Defaults to "png".
+            dpi (int, optional): The resolution (dots per inch) for the saved figure. Defaults to 100.
+            legend_axes (list, optional): Indices of axes to include legends for. Defaults to [0].
+            save_path (str, optional): The directory path where the figure will be saved. Defaults to "plots".
+            set_legends (bool, optional): Whether to set legends on the plot. Defaults to False.
+            **kwargs: Additional keyword arguments for customization.
+
+        Returns:
+            None
+        """
         pwd = os.getcwd()
         plot_axes = kwargs.get(
             "plot_axes",
@@ -980,6 +1144,22 @@ class Plotter:
         log_scale=False,
         **kwargs
     ):
+        """
+        Display an image representation of a 2D array.
+
+        Args:
+            array (numpy.ndarray): The 2D array to display as an image.
+            title (str, optional): The title of the image plot. Defaults to None.
+            cmap (str, optional): The colormap for the image. Defaults to "viridis_r".
+            show (bool, optional): Whether to display the image plot. Defaults to False.
+            extension (str, optional): The file extension for saving the image. Defaults to "eps".
+            set_colorbar (bool, optional): Whether to add a colorbar to the plot. Defaults to True.
+            log_scale (bool, optional): Whether to use a logarithmic scale for color mapping. Defaults to False.
+            **kwargs: Additional keyword arguments for customization.
+
+        Returns:
+            matplotlib.image.AxesImage: The image object.
+        """
         # plt.title(title)
         if array.shape[-1] == 1:
             array = np.squeeze(array)
@@ -1028,6 +1208,21 @@ class Plotter:
         clim=None,
         **kwargs
     ):
+        """
+        Add a colorbar to the current plot.
+
+        Args:
+            im (matplotlib.image.AxesImage): The image object for which to add the colorbar.
+            cax (matplotlib.axes.Axes, optional): The axes to use for the colorbar. Defaults to None.
+            axes (matplotlib.axes.Axes, optional): The axes associated with the colorbar. Defaults to None.
+            ylabel (str, optional): The label for the colorbar. Defaults to None.
+            ylabelsize (int, optional): The font size for the colorbar label. Defaults to 30.
+            clim (tuple, optional): The data value limits for the colorbar. Defaults to None.
+            **kwargs: Additional keyword arguments for customization.
+
+        Returns:
+            matplotlib.colorbar.Colorbar: The colorbar object.
+        """
         if cax is None:
             if axes is None:
                 divider = make_axes_locatable(self.axes)
@@ -1096,6 +1291,25 @@ class Plotter:
         set_colorbar=False,
         **kwargs
     ):  # plot jet image with cmap
+        """
+        Create a scatter plot of data points.
+
+        Args:
+            array (numpy.ndarray): The data array containing X, Y, and Z coordinates.
+            title (str, optional): The title of the scatter plot. Defaults to None.
+            cmap (str, optional): The colormap to use for coloring points. Defaults to "viridis_r".
+            label (str, optional): The label for the data points. Defaults to None.
+            marker (str, optional): The marker style for data points. Defaults to "s".
+            show (bool, optional): Whether to display the plot. Defaults to False.
+            s (int, optional): The size of markers for data points. Defaults to 30.
+            c (array-like, optional): The array for color mapping data points. Defaults to None.
+            log_scale (bool, optional): Whether to apply a logarithmic scale to the color mapping. Defaults to False.
+            set_colorbar (bool, optional): Whether to add a colorbar to the plot. Defaults to False.
+            **kwargs: Additional keyword arguments for customization.
+
+        Returns:
+            matplotlib.collections.PathCollection: The scatter plot object.
+        """
         if "axes" in kwargs:
             axes = kwargs.pop("axes")
         else:

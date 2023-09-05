@@ -22,6 +22,28 @@ colors = {
 
 
 def bar_plot(data=None, labels=None, per_label=True, label_rotate=0, **kwargs):
+    """
+    Create a horizontal bar plot with optional customization.
+
+    Args:
+        data (list): List of data values to be plotted.
+        labels (list): List of labels for the data values.
+        per_label (bool, optional): If True, display labels for each data point. If False, only display labels for data points with non-zero values. Default is True.
+        label_rotate (int, optional): Rotation angle for y-axis labels. Default is 0.
+        **kwargs: Additional keyword arguments for customizing the plot.
+        
+    Keyword Args:
+        name (str, optional): Name for saving the plot. Default is "unamed".
+        save_path (str, optional): Directory path for saving the plot. Default is "./plots".
+        add_text (list, optional): List of additional text to be added next to the data values.
+        title (str, optional): Title for the plot.
+        color (list, optional): List of colors for the bars.
+        color_to_label (dict, optional): Dictionary mapping colors to labels for legend.
+        xlim (tuple, optional): Tuple specifying the x-axis limits. Default is (0.5, 1.0).
+
+    Returns:
+        None
+    """
     # plt.style.use('seaborn')
     save_name = kwargs.pop("name", "unamed")
     save_path = kwargs.pop(
@@ -197,6 +219,22 @@ def plot_tower_jets(
     plotter=None,
     scatter_kwargs={},
 ):
+    """
+    Plot tower jets and optionally MET on a polar plot.
+
+    Args:
+        array (numpy.ndarray): Tower data to be plotted.
+        lorentz_jet (list): List of Lorentz vectors representing jets.
+        name (str, optional): Name for saving the plot. Default is None.
+        lorentz_met (LorentzVector, optional): Lorentz vector representing MET (missing transverse energy). Default is None.
+        path (str, optional): Directory path for saving the plot. Default is "./plots".
+        dpi (int, optional): Dots per inch for the saved plot. Default is 100.
+        plotter (Plotter, optional): An instance of Plotter to use for plotting. If None, a new Plotter instance will be created. Default is None.
+        scatter_kwargs (dict, optional): Additional keyword arguments for customizing the tower scatter plot.
+
+    Returns:
+        None or Plotter: If plotter is None, returns None. If plotter is provided, returns the Plotter instance.
+    """
     if plotter is None:
         p = Plotter()
     else:
@@ -258,6 +296,21 @@ def subplot_compare_pileup(
     path="./plots",
     index="",
 ):
+    """
+    Create a comparison subplot of tower data with and without pileup.
+
+    Args:
+        tower_no_pileup (numpy.ndarray): Tower data without pileup.
+        tower_pileup (numpy.ndarray): Tower data with pileup.
+        no_pileup_jets (list): List of jets without pileup.
+        pileup_jets (list): List of jets with pileup.
+        name (str): Name for saving the plot.
+        path (str, optional): Directory path for saving the plot. Default is "./plots".
+        index (str, optional): Index or identifier for the plot. Default is an empty string.
+
+    Returns:
+        None
+    """
     p = Plotter(projection="subplots")
     for i in range(len(pileup_jets)):
         colors[i + 4] = "yellow"
@@ -332,6 +385,20 @@ def compare_pileup_image(
     path="./plots",
     index="",
 ):
+    """
+    Create a comparison subplot of pileup images with and without pileup.
+
+    Args:
+        no_pileup (numpy.ndarray): Pileup image without pileup.
+        pileup (numpy.ndarray): Pileup image with pileup.
+        name (str): Name for saving the plot.
+        names (dict, optional): Dictionary mapping indices to names for labeling. Default is {0: "no_pileup", 1: "pileup"}.
+        path (str, optional): Directory path for saving the plot. Default is "./plots".
+        index (str, optional): Index or identifier for the plot. Default is an empty string.
+
+    Returns:
+        None
+    """
     p = Plotter(projection="subplots")
     fig, axes = plt.subplots(
         ncols=2,
@@ -360,6 +427,22 @@ def compare_pileup_image(
 def seperate_image_plot(
     left_bin, center_bin, right_bin, save_path=None, **kwargs
 ):
+    """
+    Create a subplot of three images.
+
+    Args:
+        left_bin (numpy.ndarray): Left image.
+        center_bin (numpy.ndarray): Center image.
+        right_bin (numpy.ndarray): Right image.
+        save_path (str, optional): Directory path for saving the plot. Default is None.
+        **kwargs: Additional keyword arguments.
+
+    Keyword Args:
+        name (str, optional): Name for saving the plot. Default is "separated_image".
+
+    Returns:
+        None
+    """
     P = Plotter(
         projection="subplots",
     )

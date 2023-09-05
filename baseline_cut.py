@@ -43,6 +43,18 @@ from hep_ml.exe_utils import (
 
 
 def dijet_cut(events, logging=False):
+    """
+    Apply dijet event selection criteria to the given events.
+
+    Parameters:
+        events (dict): A dictionary containing event data including "Jet", "Track", and "Tower" information.
+        logging (bool): Whether to print log messages during processing (default is False).
+
+    Returns:
+        dict: A dictionary containing selected events that meet the dijet criteria.
+
+    The dijet criteria include requiring at least two jets with specific transverse momenta and pseudorapidities.
+    """
     (
         passed_met,
         passed_tower,

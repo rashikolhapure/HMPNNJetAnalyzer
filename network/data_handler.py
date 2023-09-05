@@ -25,18 +25,24 @@ def pad_values(
     value=0,
 ):
     """
-    This code defines a function called pad_values which takes in three arguments: events, target_shapes, and value.
+    Pad numpy arrays in a dictionary to match specified target shapes.
 
-    events is a dictionary containing numpy arrays of different shapes, and target_shapes is also a dictionary containing
-    the desired shapes for each corresponding array in events.
+    This function takes in three arguments: 'events', 'target_shapes', and 'value'. 'events' is a dictionary
+    containing numpy arrays of different shapes, and 'target_shapes' is also a dictionary containing the desired shapes
+    for each corresponding array in 'events'. The function pads each array in 'events' with zeros to match the desired
+    shape in 'target_shapes'. The padding is done along the second and third dimensions of the arrays, and the value of
+    the padding is set to 'value', which defaults to zero.
 
-    The function pads each array in events with zeros to match the desired shape in target_shapes.
-    The padding is done along the second and third dimensions of the arrays, and the value of the
-    padding is set to value, which defaults to zero.
+    If the command line argument "plot" is present, the function also creates a plot of the original and padded arrays
+    for the 10th element of each array in 'events'. The plots are saved as an EPS file named "zero_pad".
 
-    If the command line argument "plot" is present, the function also creates a
-    plot of the original and padded arrays for the 10th element of each array in events.
-    The plots are saved as an eps file named "zero_pad".
+    Parameters:
+    - events (dict): A dictionary containing numpy arrays to be padded.
+    - target_shapes (dict): A dictionary specifying the desired shapes for each array in 'events'.
+    - value (float, optional): The padding value (default is 0).
+
+    Returns:
+    - events (dict): A modified dictionary containing the padded numpy arrays.
     """
 
     for (
@@ -405,11 +411,11 @@ def shape_print(X, Y):
     This function takes input X and Y and prints their shapes along with the first 5 and last 5 elements of Y.
 
     Args:
-    X: Input data of type numpy array or a list of numpy arrays.
-    Y: Output data of type numpy array.
+        X: Input data of type numpy array or a list of numpy arrays.
+        Y: Output data of type numpy array.
 
     Returns:
-    None
+        None
     """
     if type(X) == np.ndarray:
         print("X:", X.shape)

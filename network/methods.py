@@ -40,8 +40,51 @@ class KerasModel(NetworkMethod):
         }
         #         optional_kwargs = {"model"}
         """
-        The __init__ method initializes some attributes and checks that all the compulsory arguments are provided.
-        It also sets some default values for some attributes if they are not provided in the arguments.
+        Initialize a KerasModel instance with the provided arguments.
+
+        Args:
+            **kwargs: Keyword arguments to configure the KerasModel.
+                Compulsory arguments:
+                    - "class_names": List of class names for classification.
+                    - "input_states": List of input states for the model.
+                    - "preprocess_tag": Tag for preprocessed data.
+                    - "run_name": Name of the model run.
+
+                Optional arguments:
+                    - "network_type": Type of network (default: "jet_image").
+                    - "lr": Learning rate (default: 0.0001).
+                    - "loss": Loss function (default: "categorical_crossentropy").
+                    - "opt": Optimizer name (default: "Nadam").
+                    - "model_type": Type of the model (e.g., "autoencoder").
+                    - "save": Flag to save model (default: False).
+                    - "data_handler": DataHandler instance for data loading.
+        
+        Raises:
+            AssertionError: If any of the compulsory arguments are missing.
+
+        Attributes:
+            - input_states (list): List of input states for the model.
+            - class_names (list): List of class names for classification.
+            - num_classes (int): Number of classes.
+            - preprocess_tag (str): Tag for preprocessed data.
+            - model (keras.models.Model): Keras model.
+            - network_type (str): Type of network (default: "jet_image").
+            - compiled (bool): Flag indicating if the model is compiled.
+            - history (keras.callbacks.History): Training history.
+            - data_handler (DataHandler or ModelData): Data handling instance.
+            - lr (float): Learning rate (default: 0.0001).
+            - loss (str): Loss function (default: "categorical_crossentropy").
+            - opt_name (str): Optimizer name (default: "Nadam").
+            - model_type (str): Type of the model (e.g., "autoencoder").
+            - save (bool): Flag to save model (default: False).
+            - run_name (str): Name of the model run.
+            - in_data (DataHandler or ModelData): Data handling instance.
+            - network_file: Path to the saved network file.
+            - save_run (bool): Flag indicating if the run should be saved.
+            - save_dir: Directory path for saving the run.
+            - train_data: Training data.
+            - val_data: Validation data.
+            - history_save_path: Path for saving training history.
         """
         assert compulsory_kwargs.issubset(set(kwargs.keys()))
         self.input_states = kwargs.get("input_states")
@@ -89,9 +132,17 @@ class KerasModel(NetworkMethod):
 
     def check_consistency(self, model):
         """
-        The check_consistency method checks that the input and output shapes of the model match the expected shapes.
+    Check the consistency of the provided Keras model with the expected input and output shapes.
 
-        """
+    Args:
+        model (keras.models.Model): The Keras model to check.
+
+    Raises:
+        AssertionError: If the model's input and output shapes do not match the expected shapes.
+
+    Returns:
+        None
+    """
         print("Checking consistency...")
         if not isinstance(model.input, list):
             if len(model.input.shape) > 1:
@@ -127,7 +178,25 @@ class KerasModel(NetworkMethod):
 
     def compile(self, model, check=True, **kwargs):
         """
-        The compile method compiles the model, setting the optimizer, loss function, and metrics.
+        Compile the provided Keras model with specified optimizer, loss function, and metrics.
+
+        Args:
+            model (keras.models.Model): The Keras model to compile.
+            check (bool, optional): Whether to check model consistency with input states. Defaults to True.
+            **kwargs: Additional keyword arguments.
+                - loss (str, optional): The loss function to use. Defaults to 'categorical_crossentropy' for classification
+                tasks and 'mean_squared_error' for autoencoders.
+                - metrics (list of str, optional): List of metrics to monitor during training. Defaults to ['acc'] for
+                classification tasks and ['mean_squared_error'] for autoencoders.
+                - lr (float, optional): Learning rate for the optimizer. Defaults to 0.0001.
+                - optimizer (str, optional): The optimizer name. Defaults to 'Nadam'.
+                - opt_kwargs (dict, optional): Additional keyword arguments to pass to the optimizer.
+
+        Returns:
+            keras.models.Model: The compiled Keras model.
+
+        Raises:
+            AssertionError: If model consistency check fails.
         """
         if self.model_type != "autoencoder" and check:
             self.check_consistency(model)
@@ -162,8 +231,30 @@ class KerasModel(NetworkMethod):
     def set_checkpoints(
         self, include_tensorboard=False, early_stopping=False, **kwargs
     ):
-        """The set_checkpoints method sets up the checkpointing strategy for the model,
-        which includes saving the model weights and optionally saving TensorBoard logs.
+        """
+        Set up checkpointing strategy for the model, which includes saving model weights and optionally saving TensorBoard logs.
+
+        Args:
+            include_tensorboard (bool, optional): Whether to include TensorBoard logs. Defaults to False.
+            early_stopping (bool, optional): Whether to enable early stopping. Defaults to False.
+            **kwargs: Additional keyword arguments.
+                - period (int, optional): Number of epochs between checkpoints. Defaults to 1.
+                - hyper_opt (bool, optional): Whether this is a hyperparameter optimization run. Defaults to False.
+                - batch_size (int, optional): Batch size. Defaults to None.
+                - monitor (str, optional): Metric to monitor for early stopping. Defaults to 'val_acc'.
+                - min_delta (int, optional): Minimum change in the monitored metric to qualify as an improvement. Defaults to 3.
+                - patience (int, optional): Number of epochs with no improvement after which training will be stopped. Defaults to 5.
+                - mode (str, optional): One of {'auto', 'min', 'max'}. In 'min' mode, training will stop when the monitored quantity stops decreasing. In 'max' mode, it will stop when the monitored quantity stops increasing. Defaults to 'max'.
+
+        Returns:
+            list: A list of Keras callbacks for checkpointing, early stopping, and TensorBoard, if enabled.
+
+        Note:
+            - When `hyper_opt` is True, `checkpoint` will be an empty list.
+            - The checkpointed models are saved in the model checkpoints directory specified during initialization.
+
+        Raises:
+            AssertionError: If an invalid mode is provided.
         """
         count = len(os.listdir(self.in_data.model_checkpoints_path)) + 1
         checkpoints_path = check_dir(
@@ -276,10 +367,31 @@ class KerasModel(NetworkMethod):
         **kwargs
     ):
         """
-        The fit method fits the compiled model to the training data. It checks if the training data has been set,
-        and if not, it gets the data using get_data from the DataHandler or ModelData class, depending on how
-        the object was initialized. The method also accepts some optional arguments, such as the number of epochs,
-        batch size, and whether to shuffle the data. If encoder=True, the method trains the model as an autoencoder.
+        Fit the compiled model to the training data.
+
+        Args:
+            verbose (int, optional): Verbosity mode (0, 1, or 2). Defaults to 1.
+            batch_size (int, optional): Number of samples per gradient update. Defaults to 300.
+            shuffle (bool, optional): Whether to shuffle the training data before each epoch. Defaults to True.
+            epochs (int, optional): Number of epochs to train the model. Defaults to 5.
+            encoder (bool, optional): Whether to train the model as an autoencoder. Defaults to False.
+            **kwargs: Additional keyword arguments.
+                - Additional arguments to be passed to the set_checkpoints method.
+
+        Returns:
+            dict: A dictionary containing training and validation metrics.
+
+        Note:
+            - If `self.train_data` and `self.val_data` have not been set, this method uses `get_data` from the DataHandler or ModelData class to fetch the data.
+            - If `self.save` is True, the method sets up checkpointing based on the specified keyword arguments.
+            - If `encoder` is True, the trained encoder is saved.
+            - The training history, model weights, and encoder (if applicable) are saved in the history save path specified during initialization.
+
+        Example:
+            To fit the model with custom settings:
+            ```
+            model.fit(verbose=2, batch_size=128, shuffle=True, epochs=10, encoder=True, monitor='val_loss', patience=3)
+            ```
         """
         if self.train_data is None:
             (

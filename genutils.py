@@ -16,7 +16,16 @@ import numpy as np
 
 
 def print_vectors(vectors, format="lorentz"):
-    """prints the array of vectors either in (pt,eta,phi,mass) or (px,py,pz,E)"""
+    """
+    Print arrays of vectors, either in (pt, eta, phi, mass) or (px, py, pz, E) format.
+
+    Args:
+        vectors (array or iterable): The array or iterable containing the vectors to print.
+        format (str, optional): The format in which to print the vectors. Default is 'lorentz'.
+
+    Returns:
+        None
+    """
 
     def print_single(vector):
         if format == "lorentz":
@@ -41,6 +50,15 @@ def print_vectors(vectors, format="lorentz"):
 
 
 def rescale(array):
+    """
+    Rescale an input array to have zero mean and unit variance along each feature dimension.
+
+    Args:
+        array (numpy.ndarray): The input array to be rescaled.
+
+    Returns:
+        numpy.ndarray: The rescaled array.
+    """
     print(array.shape)
     print(
         "Rescaling:\n mean values:",
@@ -64,6 +82,18 @@ def print_particle(
     ind=None,
     mass=True,
 ):
+    """
+    Print information about a particle.
+
+    Args:
+        particle (numpy.ndarray): The particle information array.
+        four_vec (bool, optional): Whether to print the 4-vector components. Default is False.
+        ind (int, optional): The index of the particle (if applicable). Default is None.
+        mass (bool, optional): Whether to print the mass of the particle. Default is True.
+
+    Returns:
+        int: Always returns 0.
+    """
     order = FinalStates.attributes["Particle"]
     start, stop = 4, -1
     # print (order,particle)
@@ -120,6 +150,19 @@ def choose_bin(
     var_key="Jet",
     **kwargs,
 ):
+    """
+    Select events within a specified range for a given variable.
+
+    Args:
+        events (dict): Dictionary containing event data.
+        bin_var (str): Variable for which to choose events within the specified range.
+        Range (tuple): Range of values to select events from (e.g., (min_value, max_value)).
+        var_key (str, optional): Key specifying the variable to use from the event data dictionary. Default is "Jet".
+        **kwargs: Additional keyword arguments.
+
+    Returns:
+        dict: Dictionary containing selected events within the specified range.
+    """
     print(
         "Chossing events in range: ",
         Range,
@@ -204,6 +247,16 @@ def cut_counter(
     prev_cut_flow,
     current_cut_flow,
 ):
+    """
+    Counts the number of events passing each cut by accumulating the current cut flow into the previous one.
+
+    Args:
+        prev_cut_flow (dict): The previous cut flow dictionary.
+        current_cut_flow (dict): The current cut flow dictionary to be accumulated.
+
+    Returns:
+        dict: The updated cut flow dictionary.
+    """
     if len(prev_cut_flow.keys()) == 0:
         return current_cut_flow
     else:
@@ -224,6 +277,16 @@ def cut_counter(
 
 
 def cut_efficiency(cut_flow, verbose=False):
+    """
+    Calculates the efficiency of each cut in the cut flow.
+
+    Args:
+        cut_flow (dict): The cut flow dictionary containing the number of events for each cut.
+        verbose (bool, optional): Whether to print detailed efficiency information. Default is False.
+
+    Returns:
+        dict: A dictionary containing the efficiency of each cut, including the total efficiency.
+    """
     order = cut_flow["order"]
     tot = cut_flow["total"]
     efficiencies = {"total_efficiency": cut_flow["passed"] / tot}
@@ -258,6 +321,18 @@ def dir_ext_count(
     prefix="",
     suffix="",
 ):
+    """
+    Count files with a specific extension in a directory that match a given prefix and suffix.
+
+    Args:
+        ext (str): The file extension to count.
+        dir_path (str): The directory path to search for files.
+        prefix (str, optional): A prefix that files must start with. Default is an empty string.
+        suffix (str, optional): A suffix that files must end with. Default is an empty string.
+
+    Returns:
+        list: A list of file paths that match the specified criteria.
+    """
     path = []
     for item in os.listdir(dir_path):
         if item.startswith(prefix) and item.endswith(ext):
@@ -277,6 +352,17 @@ def workaround_concatenate(
     to_append,
     return_type="array",
 ):
+    """
+    Concatenate two lists or arrays and return the result.
+
+    Args:
+        to_return (list or numpy.ndarray): The initial list or array.
+        to_append (list or numpy.ndarray): The list or array to append to the initial one.
+        return_type (str, optional): The return type, either 'array' or 'list'. Default is 'array'.
+
+    Returns:
+        list or numpy.ndarray: The concatenated list or array.
+    """
     return_array = []
     for item in to_return:
         return_array.append(item)
@@ -296,6 +382,19 @@ def merge_flat_dict(
     exclude=[],
 ):
     """combine two dictionaries of same set of <keys> with <numpy.array> as values"""
+    """
+    Merge two dictionaries with numpy arrays as values, combining values with matching keys.
+
+    Args:
+        append (dict): The initial dictionary to which values will be appended.
+        temp (dict): The dictionary containing values to append to the initial one.
+        append_length (int, optional): The length of values to append. Default is None.
+        keys (list or str, optional): The keys to consider for merging. Default is "all".
+        exclude (list, optional): The keys to exclude from merging. Default is an empty list.
+
+    Returns:
+        dict: The merged dictionary.
+    """
     if len(list(append.keys())) == 0:
         if keys == "all":
             return temp
@@ -372,6 +471,13 @@ def merge_flat_dict(
 
 def print_events(events, name=None):
     """Function for printing nested dictionary with atmost 3 levels, with final value being a numpy.ndarry, prints the shape of the array"""
+    """
+    Print nested dictionaries with up to 3 levels, with the final value being a numpy.ndarray.
+    
+    Args:
+        events (dict): The nested dictionary to be printed.
+        name (str, optional): A name or label for the printed dictionary. Default is None.
+    """
     if name:
         print(name)
     for channel in events:
@@ -429,6 +535,24 @@ def check_file(
 ):
     """at any <event_folder>(madgraph event_folder) go to each <run_dir> to get relative
     path from event_folder to any file with any <extension> . Choose different madgraph tags with <tag>
+    """
+    """
+    Check for files in a specified directory and its subdirectories.
+
+    This function navigates through a directory and its subdirectories and searches for files
+    with specific criteria such as name, tag, and suffix.
+
+    Args:
+        name (str): The name of the file to search for.
+        event_folder (str): The main directory where the search will start.
+        tag (str, optional): A tag to match with the beginning of the file name. Default is an empty string.
+        full_name (bool, optional): If True, matches the full file name. If False, only matches the suffix. Default is False.
+        suffix (bool, optional): If True, matches the suffix of the file name. If False, matches the entire file name. Default is False.
+        run_tag (str, optional): A tag to match with the beginning of subdirectory names. Default is "None".
+        target_file (str, optional): If provided, the function will skip directories containing this specific file. Default is None.
+
+    Returns:
+        list: A list of file paths that match the specified criteria.
     """
     path = []
     pwd = os.getcwd()
@@ -497,6 +621,15 @@ def check_file(
 
 def check_dir(path):
     """check if <path> to dir exists or not. If it doesn't, create the <dir> returns the absolute path to the created dir"""
+    """
+    Check if a directory at the specified path exists. If it doesn't, create the directory.
+
+    Args:
+        path (str): The path to the directory to check/create.
+
+    Returns:
+        str: The absolute path to the created directory.
+    """
     pwd = os.getcwd()
     try:
         os.chdir(path)
@@ -515,6 +648,18 @@ def arg_split(
     verbose=False,
 ):
     """to fix: not splitting args with len(array)==num_cores correctly into iterables of single length"""
+    """
+    Split the arguments for parallel processing.
+
+    Args:
+        args (dict, list, or ndarray): The input arguments to be split.
+        num_cores (int): The number of CPU cores to split the arguments for.
+        ignore_keys (list, optional): List of keys to ignore during splitting. Defaults to ["cut_flow"].
+        verbose (bool, optional): If True, print information about the splitting process. Defaults to False.
+
+    Returns:
+        list: A list of argument dictionaries or arrays, one for each core.
+    """
     print(
         "Arge type: ",
         type(args),
@@ -613,6 +758,22 @@ def pool_splitter(
     verbose=False,
 ):
     """utility function for multiprocessing any function with single argument of either numpy.ndarray or flat dict with numpy.ndarray values"""
+    """
+    Utility function for multiprocessing any function with a single argument of either numpy.ndarray or a flat dictionary with numpy.ndarray values.
+
+    Args:
+        function (callable): The function to be parallelized.
+        args (dict, list, or ndarray): The input arguments to be split.
+        num_cores (int, optional): The number of CPU cores to use for parallel processing. Defaults to the number of CPU cores available.
+        exclude (list, optional): List of keys to exclude from the result dictionary. Defaults to an empty list.
+        ignore_keys (list, optional): List of keys to ignore during argument splitting. Defaults to ["cut_flow"].
+        add_keys (list, optional): List of keys to add to each argument dictionary. Defaults to an empty list.
+        with_lock (bool, optional): If True, use a lock for multiprocessing. Defaults to False.
+        verbose (bool, optional): If True, print information about the splitting process. Defaults to False.
+
+    Returns:
+        dict or ndarray: The result of the parallelized function.
+    """
     add_dict = {}
     for item in ignore_keys + add_keys:
         if item in args:
@@ -684,6 +845,16 @@ def pool_splitter(
 
 
 def seperate_classes(data, class_names):
+    """
+    Separate data into different classes based on class labels.
+
+    Args:
+        data (dict): The input data dictionary containing features and labels.
+        class_names (list): List of class names to assign to the separated classes.
+
+    Returns:
+        dict: A dictionary containing separate classes with their respective features and labels.
+    """
     print("Seperating classes...")
     X, Y = (
         data["X"],
@@ -728,6 +899,17 @@ def concatenate_list(
     verbose=False,
     **kwargs,
 ):
+    """
+    Concatenate a list of dictionaries into a single dictionary.
+
+    Args:
+        data (list): A list of dictionaries to be concatenated.
+        verbose (bool, optional): If True, print information about the concatenated data. Default is False.
+        **kwargs: Additional keyword arguments to be included in the concatenated dictionary.
+
+    Returns:
+        dict: A dictionary containing concatenated data from the input list of dictionaries.
+    """
     count = 0
     if verbose:
         for item in data:
@@ -758,6 +940,16 @@ def concatenate_list(
 
 
 def combine_dict(data, exclude=[]):
+    """
+    Combine a list of dictionaries into a single dictionary.
+
+    Args:
+        data (list): A list of dictionaries to be combined.
+        exclude (list, optional): A list of keys to be excluded from the combination. Default is an empty list.
+
+    Returns:
+        dict: A dictionary containing the combined data from the input list of dictionaries.
+    """
     print("Combining dictionaries...")
     # sys.exit()
     return_dict = dict()

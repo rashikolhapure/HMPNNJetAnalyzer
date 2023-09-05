@@ -19,14 +19,16 @@ def dict_hdf(
     key="data",
 ):
     """
-    Converts a Python dictionary to a pandas DataFrame and saves it to an HDF file
-    Arguments:
-    python_dict: a dictionary containing the data to be saved
-    filename: the name of the file to be saved (without extension)
-    save_path: the directory where the file should be saved (default is the current directory)
-    key: the name of the HDF key where the data should be stored (default is 'data')
-    Returns: None
+    Converts a Python dictionary to a pandas DataFrame and saves it to an HDF file.
 
+    Args:
+        python_dict (dict): A dictionary containing the data to be saved.
+        filename (str): The name of the file to be saved (without extension).
+        save_path (str, optional): The directory where the file should be saved (default is the current directory).
+        key (str, optional): The name of the HDF key where the data should be stored (default is 'data').
+
+    Returns:
+        None
     """
     dataframe = pd.DataFrame.from_dict(python_dict)
     pwd = os.getcwd()
@@ -60,14 +62,16 @@ def Unpickle(
     Load a Python object from a file using pickle or numpy.load
 
     Arguments:
-    filename: the name of the file to be loaded (with or without extension)
-    load_path: the directory where the file is located (default is the current directory)
-    verbose: if True, print information about the loading process (default is True)
-    keys: a list of keys to extract from the loaded dictionary (only used if the file is a folder)
-    extension: the file extension (default is '.pickle')
-    path: an optional argument that overrides the value of load_path (for backwards compatibility)
-    **kwargs: additional keyword arguments to pass to the pickle.load function (e.g., encoding)
-    Returns: the loaded Python object
+        filename: the name of the file to be loaded (with or without extension)
+        load_path: the directory where the file is located (default is the current directory)
+        verbose: if True, print information about the loading process (default is True)
+        keys: a list of keys to extract from the loaded dictionary (only used if the file is a folder)
+        extension: the file extension (default is '.pickle')
+        path: an optional argument that overrides the value of load_path (for backwards compatibility)
+        **kwargs: additional keyword arguments to pass to the pickle.load function (e.g., encoding)
+
+    Returns: 
+        the loaded Python object
 
     """
     if path is not None:
@@ -140,17 +144,19 @@ def Pickle(
     """save <python_object> to <filename> at location <save_path>"""
     """
     Save a Python object to a file using pickle or numpy.save
-    Arguments:
-    python_object: the object to be saved
-    filename: the name of the file to be saved (with or without extension)
-    save_path: the directory where the file should be saved (default is the current directory)
-    verbose: if True, print information about the saving process (default is True)
-    overwrite: if False, raise an IOError if the file already exists (default is True)
-    path: an optional argument that overrides the value of save_path (for backwards compatibility)
-    append: if True and the file is a dictionary, merge the saved dictionary with the previous one (default is False)
-    extension: the file extension (default is '.pickle')
-    Returns: None
 
+    Arguments:
+        python_object: the object to be saved
+        filename: the name of the file to be saved (with or without extension)
+        save_path: the directory where the file should be saved (default is the current directory)
+        verbose: if True, print information about the saving process (default is True)
+        overwrite: if False, raise an IOError if the file already exists (default is True)
+        path: an optional argument that overrides the value of save_path (for backwards compatibility)
+        append: if True and the file is a dictionary, merge the saved dictionary with the previous one (default is False)
+        extension: the file extension (default is '.pickle')
+
+    Returns: None
+        
     """
     if "." not in filename and not isinstance(python_object, np.ndarray):
         filename = filename + extension
@@ -231,17 +237,18 @@ def folder_save(
     """
     Save a dictionary of numpy arrays to a folder.
 
-    Arguments:
-    - events: a dictionary with string keys and numpy array values to be saved to the folder.
-    - folder_name: a string specifying the name of the folder to be created.
-    - save_path: a string specifying the path where the folder should be created.
-    - append: a boolean indicating whether to append to existing numpy arrays in the folder if they exist (default: False).
+    Args:
+        events (dict): A dictionary with string keys and numpy array values to be saved to the folder.
+        folder_name (str): A string specifying the name of the folder to be created.
+        save_path (str): A string specifying the path where the folder should be created.
+        append (bool, optional): A boolean indicating whether to append to existing numpy arrays in the folder if they exist (default: False).
 
     Side effects:
     - Creates a folder with the specified name at the specified path.
     - Saves the numpy arrays in the dictionary to the folder using their respective keys as filenames.
 
-    Returns: None.
+    Returns:
+        None
     """
     pwd = os.getcwd()
     os.chdir(save_path)
@@ -307,12 +314,12 @@ def folder_load(keys=None, length=None):
     Load all the .npy files in the current directory as numpy arrays and return a dictionary containing
     the arrays with keys equal to the filenames without the .npy extension.
 
-    Parameters:
-    - keys (list): If provided, only load the arrays corresponding to the filenames specified in this list.
-    - length (int): If provided, only load the first `length` elements of each array.
+    Args:
+        keys (list, optional): If provided, only load the arrays corresponding to the filenames specified in this list.
+        length (int, optional): If provided, only load the first `length` elements of each array.
 
     Returns:
-    - events (dict): A dictionary containing the numpy arrays loaded from the .npy files.
+        events (dict): A dictionary containing the numpy arrays loaded from the .npy files.
     """
     events = dict()
     pwd = os.getcwd()
@@ -357,12 +364,11 @@ class RunIO:
     ):
         """Initialize RunIO object.
 
-        Parameters:
-        run_name (str): Name of the run.
-        dir_name (str): Name of the directory to store data in.
-        re_initialize (bool): If True, overwrite existing directory.
-        mode (str): "w" for write mode, "r" for read mode.
-
+        Args:
+            run_name (str): Name of the run.
+            dir_name (str): Name of the directory to store data in.
+            re_initialize (bool): If True, overwrite existing directory.
+            mode (str): "w" for write mode, "r" for read mode.
         """
         _MASTER_DIR = "./python_pickles"
         self._mode = mode
@@ -400,15 +406,15 @@ class RunIO:
         filename,
         re_initialize=False,
     ):
-        """Create or append to a text file in the directory.
+        """
+        Create or append to a text file in the directory.
 
         Parameters:
-        filename (str): Name of the text file.
-        re_initialize (bool): If True, overwrite existing file.
+            filename (str): Name of the text file.
+            re_initialize (bool): If True, overwrite existing file.
 
         Returns:
-        file object: The file object corresponding to the opened file.
-
+            file object: The file object corresponding to the opened file.
         """
         pwd = os.getcwd()
         os.chdir(self.__path)
@@ -424,12 +430,12 @@ class RunIO:
         events,
         append=False,
     ):
-        """Save events as numpy arrays in the directory.
+        """
+        Save events as numpy arrays in the directory.
 
         Parameters:
-        events (dict): Dictionary containing events to save.
-        append (bool): If True, append to existing array.
-
+            events (dict): Dictionary containing events to save.
+            append (bool): If True, append to existing array.
         """
         if self._mode == "r":
             raise IOError(
@@ -464,14 +470,14 @@ class RunIO:
         return
 
     def load_events(self, length=None):
-        """Load events as numpy arrays from the directory.
+        """
+        Load events as numpy arrays from the directory.
 
         Parameters:
-        length (int): Maximum number of items to load.
+            length (int): Maximum number of items to load.
 
         Returns:
-        dict: Dictionary containing loaded events.
-
+            dict: Dictionary containing loaded events.
         """
         pwd = os.getcwd()
         os.chdir(self.__path)

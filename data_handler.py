@@ -26,6 +26,23 @@ def load_data(
     run_io=False,
     **kwargs
 ):
+    """
+    Load data from files or I/O, preprocess it, and split it into training and validation sets.
+
+    Args:
+        classes (list): List of class names.
+        length (int): Maximum length of the data (optional).
+        suffix (str): Suffix for file paths (optional).
+        test_train_split (float): Fraction of data to use for validation (default is 0.25).
+        input_keys (list): List of input data keys (default is ["high_level"]).
+        return_array (bool): If True, return data as arrays; if False, return as dictionaries (default is False).
+        function (function): A function to apply to the data (optional).
+        run_io (bool): If True, use I/O for loading data; if False, load from files (default is False).
+        **kwargs: Additional keyword arguments.
+
+    Returns:
+        dict or tuple: A dictionary containing training and validation data, or a tuple of arrays if return_array is True.
+    """
     count = 0
     X = [[] for _ in input_keys]
     for item in classes:
@@ -185,6 +202,16 @@ def load_data(
 
 
 def shape_print(X, Y):
+    """
+    Print the shapes and some sample values of input and output data arrays.
+
+    Args:
+        X (numpy.ndarray or list of numpy.ndarray): Input data arrays or a list of input data arrays.
+        Y (numpy.ndarray): Output data array.
+
+    Returns:
+        None
+    """
     if type(X) == np.ndarray:
         print("X:", X.shape)
     else:
