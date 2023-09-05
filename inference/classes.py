@@ -35,6 +35,19 @@ class ExecutionError(Error):
 
 class Inference(NetworkMethod):
     def __init__(self, model_name, tag="val", **kwargs):
+        """
+        Initialize an Inference instance.
+
+        Parameters:
+        -----------
+        model_name : str
+            The name of the model for inference.
+        tag : str, optional
+            An optional tag for the inference, by default "val".
+        **kwargs : keyword arguments
+            Keyword arguments to configure the Inference instance.
+
+        """
         self.tag = tag
         self.extra_handler_kwargs = kwargs.get(
             "extra_handler_kwargs",
@@ -169,6 +182,20 @@ class Inference(NetworkMethod):
         return data
 
     def handler_load(self, **opt):
+        """
+        Load the data handler and related configurations for inference.
+
+        Parameters:
+        -----------
+        **opt : keyword arguments
+            Additional options for loading the data handler.
+
+        Returns:
+        --------
+        data : dict
+            A dictionary containing the loaded data handler and related configurations.
+
+        """
         # print (self.data_path,os.listdir(self.data_path))
         # sys.exit()
         dictionary = Unpickle(
@@ -239,6 +266,25 @@ class Inference(NetworkMethod):
         return data
 
     def seperate_classes(self, data):
+        """
+        Separates data into two classes based on class labels.
+
+        Args:
+            data (dict): A dictionary containing data for both classes.
+
+        Returns:
+            dict: A dictionary containing two classes with keys 'class_0' and 'class_1', each
+                containing their respective data.
+
+        Example:
+            data = {
+                'X': features,
+                'Y': labels
+            }
+            separated_data = self.separate_classes(data)
+            class_0_data = separated_data['class_0']
+            class_1_data = separated_data['class_1']
+        """
         print("Seperating classes...")
         X, Y = (
             data["X"],
@@ -314,6 +360,19 @@ class Inference(NetworkMethod):
         return model_path
 
     def get_best_model(self):
+        """
+        Chooses the best model from a list of model files based on validation accuracy.
+
+        Args:
+            model_files (list): List of model file paths.
+
+        Returns:
+            str: The file path of the best model based on validation accuracy.
+
+        Example:
+            model_files = ['model_0.85.hdf5', 'model_0.90.hdf5', 'model_0.88.hdf5']
+            best_model_path = self.choose_model(model_files)
+        """
         model_files = check_file(
             ".hdf5",
             self.model_checkpoints,
@@ -331,6 +390,16 @@ class Inference(NetworkMethod):
     def get_best_from_seperate_runs(
         self,
     ):
+        """
+        Load the best models from separate runs.
+
+        This method identifies the best model for each run and loads them for inference.
+
+        Returns:
+        --------
+        per_run_models : list
+            A list of loaded best models from separate runs.
+        """
         model_files = check_file(
             ".hdf5",
             self.model_checkpoints,
@@ -356,6 +425,18 @@ class Inference(NetworkMethod):
         return self.per_run_models
 
     def per_run_predict(self, **kwargs):
+        """
+        Perform predictions for each model trained on separate runs.
+
+        Args:
+            kwargs (dict): Additional keyword arguments for prediction.
+
+        Returns:
+            list: A list of dictionaries containing predictions from each model.
+
+        Example:
+            predictions = self.per_run_predict()
+        """
         if self.per_run_models is None:
             self.get_best_from_seperate_runs()
         global_model = self.model
@@ -392,6 +473,23 @@ class Inference(NetworkMethod):
         save=False,
         batch_size=300,
     ):
+        """
+        Perform predictions using the trained model.
+
+        Args:
+            operation (str): The operation to perform on data before prediction (default: "None").
+            split (bool): Whether to split the operation across multiple processes (default: False).
+            roc_plot (bool): Whether to create ROC plots (default: False).
+            replace (str): Class name to replace the last class with (default: None).
+            save (bool): Whether to save predictions (default: False).
+            batch_size (int): Batch size for prediction (default: 300).
+
+        Returns:
+            dict: A dictionary containing predictions and evaluation results.
+
+        Example:
+            predictions = self.predict()
+        """
         assert (
             self.unoperated_data is not None
         ), "Initialized for extracting model, set get_model to False during\
