@@ -16,18 +16,19 @@ def predict_enc(
     save_path="./plots",
     **kwargs
 ):
-    """Predicts the encoded values for each data item in data_dict using the encoder enc, and generates scatter or binned plots for the pairwise combinations of these encoded values.
+    """
+    Predicts the encoded values for each data item in data_dict using the encoder enc, and generates scatter or binned plots for the pairwise combinations of these encoded values.
 
-    Parameters:
-    enc (keras.Model): The encoder model used to encode the data items.
-    data_dict (dict): A dictionary containing the data items to be encoded and plotted. The keys are the names of the items and the values are numpy arrays.
-    subplots (bool, optional): If True, the plots will be generated in subplots. Defaults to False.
-    type (str, optional): The type of plot to generate. "scatter" for scatter plots, "binned" for binned plots. Defaults to "scatter".
-    save_path (str, optional): The path to save the generated plots. Defaults to "./plots".
-    **kwargs: Additional arguments to be passed to the scatter or binned plot functions.
+    Args:
+        enc (keras.Model): The encoder model used to encode the data items.
+        data_dict (dict): A dictionary containing the data items to be encoded and plotted. The keys are the names of the items, and the values are numpy arrays.
+        subplots (bool, optional): If True, the plots will be generated in subplots. Defaults to False.
+        type (str, optional): The type of plot to generate. "scatter" for scatter plots, "binned" for binned plots. Defaults to "scatter".
+        save_path (str, optional): The path to save the generated plots. Defaults to "./plots".
+        **kwargs: Additional arguments to be passed to the scatter or binned plot functions.
 
     Returns:
-    None
+        None
     """
     return_array = []
     class_count = 0
@@ -106,18 +107,18 @@ def scatter(
     suffix="",
 ):
     """
-    The function scatter generates scatter plots of latent space coordinates for each pair of inputs in new_dict. It takes the following parameters:
+    Generates scatter plots of latent space coordinates for each pair of inputs in new_dict.
 
-    parameters:
+    Args:
+        new_dict (dict): A dictionary containing the latent space coordinates for each input pair.
+        num_plots (int): The number of plots to generate.
+        subplots (bool): If True, generate subplots; otherwise, generate individual plots.
+        save_path (str): The directory where the plots will be saved.
+        order (list, optional): A list containing the order in which to plot the inputs. Defaults to None.
+        suffix (str, optional): A string to add to the end of the filename. Defaults to "".
 
-    new_dict: a dictionary containing the latent space coordinates for each input pair
-    num_plots: an integer representing the number of plots to generate
-    subplots: a boolean indicating whether to generate subplots
-    save_path: a string representing the directory where the plots will be saved
-    order: a list containing the order in which to plot the inputs
-    suffix: a string to add to the end of the filename
-
-    The function generates scatter plots of latent space coordinates, either in individual plots or in subplots depending on the subplots parameter. If subplots are used, a single plot is generated with all subplots, otherwise, individual plots are generated for each scatter plot. The plots are saved in the directory specified by save_path. If order is specified, the inputs are plotted in the specified order, otherwise, the inputs are plotted in the order they appear in the new_dict dictionary. The suffix parameter can be used to add a string to the end of the filename.
+    Returns:
+        None
     """
     rows = int(np.sqrt(num_plots)) + 1
     for i in range(num_plots):
@@ -176,16 +177,15 @@ def binner(
     The function binner generates binned plots of latent space coordinates for each input in data. It takes the following parameters:
 
     parameters:
-
-    data: a dictionary containing the latent space coordinates for each input
-    num_plots: an integer representing the number of plots to generate
-    subplots: a boolean indicating whether to generate subplots
-    save_path: a string representing the directory where the plots will be saved
-    bins: an integer representing the number of bins to use in the binned plots
-    suffix: a string to add to the end of the filename
+        data: a dictionary containing the latent space coordinates for each input
+        num_plots: an integer representing the number of plots to generate
+        subplots: a boolean indicating whether to generate subplots
+        save_path: a string representing the directory where the plots will be saved
+        bins: an integer representing the number of bins to use in the binned plots
+        suffix: a string to add to the end of the filename
 
     Returns:
-    None
+        None
 
     The function generates binned plots of latent space coordinates, either in individual plots or in subplots depending on the subplots parameter. If subplots are used, a single plot is generated with all subplots, otherwise, individual plots are generated for each binned plot. The plots are saved in the directory specified by save_path. The suffix parameter can be used to add a string to the end of the filename.
     """
@@ -239,14 +239,12 @@ def transfer_weights(
     The function transfer_weights takes in two Keras models, trained and model, and transfers the weights of the layers from the trained model to the corresponding layers in the model based on their order.
 
     Parameters:
-
-    trained (keras.models.Model): the pre-trained model from which weights will be transferred.
-    model (keras.models.Model): the model to which weights will be transferred.
-    verbose (bool): if True, prints the weights before and after they are set. Default is False.
+        trained (keras.models.Model): the pre-trained model from which weights will be transferred.
+        model (keras.models.Model): the model to which weights will be transferred.
+        verbose (bool): if True, prints the weights before and after they are set. Default is False.
 
     Returns:
-
-    model (keras.models.Model): the model with updated weights.
+        model (keras.models.Model): the model with updated weights.
 
     """
     enc_layers = model.layers

@@ -37,10 +37,10 @@ class Operator(object):
     def iterator(self, original_data):
         """
         Args:
-        original_data: A dictionary representing the original dataset.
+            original_data: A dictionary representing the original dataset.
 
         Returns:
-        A dictionary representing the updated dataset.
+            A dictionary representing the updated dataset.
         """
         assert self.operation, " Set an operation first!"
         operated_array = np.zeros(
@@ -93,6 +93,16 @@ class Deform(Operator):
         self.ht_local = False
 
     def unconstrained_deform(self, array, indices):
+        """
+        Apply unconstrained deformation to an array at specified indices.
+
+        Args:
+            array (numpy.ndarray): The input array to be deformed.
+            indices (list or numpy.ndarray): The indices where deformation will be applied.
+
+        Returns:
+            numpy.ndarray: The deformed array.
+        """
         deformed = np.zeros(
             array.shape,
             dtype="float64",
@@ -174,6 +184,15 @@ class Deform(Operator):
         pass
 
     def local(self, array):
+        """
+        Apply local deformation to an array around the maximum value.
+
+        Args:
+            array (numpy.ndarray): The input array to be deformed.
+
+        Returns:
+            numpy.ndarray: The deformed array.
+        """
         x, y, _ = np.where(array)
         center_ind = np.where(array == np.max(array))
         inds = []
@@ -196,6 +215,15 @@ class Deform(Operator):
         return deformed
 
     def local_soft(self, array):
+        """
+        Apply local soft deformation to an array around the maximum value.
+
+        Args:
+            array (numpy.ndarray): The input array to be deformed.
+
+        Returns:
+            numpy.ndarray: The deformed array.
+        """
         x, y, _ = np.where(array)
         center_ind = np.where(array == np.argmax(array))
         inds = []
@@ -231,6 +259,15 @@ class Deform(Operator):
         deformed = self.unconstrained_deform(array, inds)
 
     def soft_deform(self, array):
+        """
+        Apply soft deformation to an array.
+
+        Args:
+            array (numpy.ndarray): The input array to be deformed.
+
+        Returns:
+            numpy.ndarray: The deformed array.
+        """
         if self.num_pixels == 0:
             return array
         ht_sum = np.sum(array)
@@ -314,6 +351,15 @@ class Deform(Operator):
         return deformed
 
     def hard_deform(self, array):
+        """
+        Apply hard deformation to an array.
+
+        Args:
+            array (numpy.ndarray): The input array to be deformed.
+
+        Returns:
+            numpy.ndarray: The deformed array.
+        """
         if self.num_pixels == 0:
             return array
         ht_sum = np.sum(array)
@@ -333,6 +379,15 @@ class Deform(Operator):
         return deformed
 
     def hard(self, array):
+        """
+        Apply hard deformation to an array by selecting specific pixels based on a threshold.
+
+        Args:
+            array (numpy.ndarray): The input array to be deformed.
+
+        Returns:
+            numpy.ndarray: The deformed array.
+        """
         ht_sum = np.sum(array)
         # if "debug" in sys.argv: print (array[np.where(array)])
         x, y, _ = np.where(array)
@@ -363,6 +418,18 @@ def debug_logger(
     x_def,
     y_def,
 ):
+    """
+    Log debugging information related to deformation.
+
+    Args:
+        array (numpy.ndarray): The original array.
+        deformed (numpy.ndarray): The deformed array.
+        x_def (numpy.ndarray): The x-coordinates of deformed pixels.
+        y_def (numpy.ndarray): The y-coordinates of deformed pixels.
+
+    Returns:
+        None
+    """
     print(
         "deform values: \n",
         array[x_def, y_def, 0],
@@ -516,6 +583,16 @@ def debug_logger(
 
 
 def check_plot(array, deformed):
+    """
+    Generate temporary debugging plots for the original and deformed arrays.
+
+    Args:
+        array (numpy.ndarray): The original array.
+        deformed (numpy.ndarray): The deformed array.
+
+    Returns:
+        None
+    """
     print("Generating temp debugging plots...")
     p = Plotter(projection="image")
     p.Image(array)
@@ -536,6 +613,21 @@ def operator(
 ):
     """dir_name where the data and model_checkpoints are stored. operation_name is a class method belonging to an initiated operation_class,
     the class method must depend on the parameter_name, iterates the Inference.predict function over all parameter_values
+    """
+    """
+    Perform an operation with specified parameters on a given run.
+
+    Args:
+        run_name (str): The name of the run.
+        operation_name (str): The name of the operation to perform.
+        operation_class (class): The class containing the operation method.
+        parameter_name (str): The name of the parameter to vary in the operation.
+        parameter_values (list): List of parameter values to iterate over.
+        roc_plot (bool): Whether to generate ROC plots.
+        **kwargs: Additional keyword arguments for configuring the operation.
+
+    Returns:
+        None
     """
     assert parameter_name in dir(operation_class) and operation_name in dir(
         operation_class
