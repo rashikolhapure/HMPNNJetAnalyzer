@@ -107,6 +107,40 @@ def read_lhe(
     add_attribute=False,
     run_name=None,
 ):
+    """
+    Read data from an LHE (Les Houches Event) file.
+
+    Parameters:
+    ----------
+    path : str, optional
+        The path to the directory containing the LHE file. Default is the current directory.
+    filename : str, optional
+        The name of the LHE file to read. Default is "unweighted_events.lhe".
+    final_state_only : bool, optional
+        Whether to include only final state particles. Default is True.
+    exclude_initial : bool, optional
+        Whether to exclude initial state particles. Default is True.
+    return_structured : bool, optional
+        Whether to return the data in structured format (NumPy arrays). Default is False.
+    length : int, optional
+        The maximum number of events to read. Default is None, meaning read all events.
+    add_attribute : bool, optional
+        Whether to add an attribute to each event specifying the run_name. Default is False.
+    run_name : str, optional
+        The name of the run to be added as an attribute. Required if add_attribute is True.
+
+    Returns:
+    -------
+    events : list or numpy.ndarray
+        A list of events, where each event is a list of particles.
+    event_attributes : list of EventAttribute (optional)
+        A list of event attributes specifying run_name, tag, path, and index for each event.
+        Returned only if add_attribute is True and return_structured is True.
+
+    Raises:
+    ------
+    AssertionError
+    """
     print(
         "Reading from file:",
         os.path.join(path, filename),
@@ -255,6 +289,22 @@ def read_lhe(
 def get_cross_section(
     path_to_file,
 ):
+    """
+    Get the cross-section and error from an LHE (Les Houches Event) file.
+
+    Parameters:
+    ----------
+    path_to_file : str
+        The path to the LHE file containing cross-section information.
+
+    Returns:
+    -------
+    cross_section : float
+        The cross-section value extracted from the LHE file.
+    error : float
+        The error value associated with the cross-section, extracted from the LHE file.
+    """
+
     f = open(path_to_file, "r")
     imp = []
     append = False
@@ -302,6 +352,28 @@ def convert_to_dict(
     name=True,
     sort=True,
 ):
+    """
+    Convert events represented as a list of LHE particles into a dictionary of final state particles.
+
+    Parameters:
+    ----------
+    events : list of LHEParticle objects
+        The list of LHE particles representing the events.
+    final_states : list of str
+        A list of final state particle names to extract from the events.
+    return_vector : bool, optional
+        Whether to return TLorentzVectors for each particle, defaults to True.
+    name : bool, optional
+        Whether to include particle names in the output dictionary, defaults to True.
+    sort : bool, optional
+        Whether to sort particles in each final state by PT, defaults to True.
+
+    Returns:
+    -------
+    return_dict : dict
+        A dictionary containing final state particles as numpy arrays. If return_vector is True,
+        the values are TLorentzVectors. If name is True, particle names are included.
+    """
     assert final_states is not None
     print(
         "Converting to final_states: ",

@@ -32,6 +32,43 @@ from ..classes import (
 
 class RootEvents(PhysicsData):
     def __init__(self, run_name, *args, **kwargs):
+        """
+        Initialize a RootEvents object.
+
+        Parameters:
+        ----------
+        run_name : str
+            The name of the run.
+        *args : tuple
+            Additional positional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Attributes:
+        ----------
+        both_dirs : bool
+            Flag indicating whether both directories should be considered.
+        select_runs : list
+            List of runs to select.
+        ignore_runs : list
+            List of runs to ignore.
+        runs : list
+            List of root file paths.
+        mg_event_path : str
+            MadGraph event path.
+        count : int
+            Count of processed runs.
+        max_count : int
+            Maximum count of runs.
+        Events : None
+            Placeholder for event data.
+        return_vals : str
+            Return values type.
+
+        Notes:
+        -----
+        This class initializes a RootEvents object, which is used to manage and process data from root files.
+        """
         print(
             self.__class__.__name__,
             run_name,
@@ -118,6 +155,24 @@ class RootEvents(PhysicsData):
         """class method to directly select <final_state> with list of <attributes> at <indices> from <root_file>.
         returns a numpy array of either len(indices) with variable shape depending on the <final_state>
         """
+        """
+        Class method to directly select <final_state> with list of <attributes> at <indices> from <root_file>.
+        
+        Parameters:
+        ----------
+        root_file : str
+            The path to the root file to read.
+
+        Returns:
+        -------
+        numpy.ndarray
+            A numpy array with the selected data.
+
+        Notes:
+        -----
+        This method reads data from a root file and selects a specific final state with a list of attributes at given indices.
+        The resulting data is returned as a numpy array with variable shape depending on the final state.
+        """
         print(
             "root_file_path:",
             root_file,
@@ -126,6 +181,19 @@ class RootEvents(PhysicsData):
         return self.Events
 
     def __next__(self):
+        """
+        Retrieve the next item from the iterator.
+
+        Returns:
+        -------
+        numpy.ndarray or dict
+            Depending on the configuration, it returns either a numpy array or a dictionary containing selected data.
+            
+        Raises:
+        ------
+        StopIteration
+            When there are no more items to iterate over.
+        """
         if self.count < self.max_count:
             self.count += 1
             splitted = os.path.split(self.runs[self.count - 1])
@@ -146,6 +214,33 @@ class RootEvents(PhysicsData):
 
 class NumpyEvents(PhysicsData):
     def __init__(self, run_name, *args, **kwargs):
+        """
+        Initialize a NumpyEvents instance.
+
+        Parameters:
+        -----------
+        run_name : str
+            The name of the run.
+        kwargs : dict
+            Additional keyword arguments.
+        
+        Keyword Args:
+        -------------
+        mode : str
+            The mode of operation, either 'r' for reading or 'w' for writing.
+        prefix : str, optional
+            A prefix to be added to the filename, default is 'no_tag'.
+        select_runs : list, optional
+            List of run names to include (default is empty).
+        ignore_runs : list, optional
+            List of run names to ignore (default is empty).
+        both_dirs : bool, optional
+            Whether to search in both madgraph directories (default is False).
+
+        Returns:
+        --------
+        None
+        """
         assert "mode" in kwargs and kwargs.get("mode") in {"r", "w"}
         print(
             self.__class__.__name__,
@@ -261,6 +356,51 @@ class NumpyEvents(PhysicsData):
 
 
 class PassedEvents(PhysicsData):
+    """
+    A class for handling passed events data.
+
+    This class provides methods for reading and writing passed events data.
+
+    Parameters:
+    ----------
+    run_name : str
+        The name of the run.
+    kwargs : dict
+        Additional keyword arguments.
+
+    Attributes:
+    ----------
+    mode : str
+        The mode of operation, either 'r' for reading or 'w' for writing.
+    select_runs : list
+        A list of selected runs to include.
+    tag : str
+        A tag used for filenames.
+    save : bool
+        A flag indicating whether to save the data.
+    exception : bool
+        A flag indicating whether an exception occurred.
+    current_events : dict
+        The current events data.
+    current_run : str
+        The path of the current run.
+    count : int
+        A counter for the current iteration.
+    both_dirs : bool
+        A flag indicating whether to search in both directories.
+    remove_keys : list
+        A list of keys to remove from the data.
+
+    Methods:
+    -------
+    __next__():
+        Retrieve the next item from the iterator.
+
+    Raises:
+    ------
+    StopIteration
+        When there are no more items to iterate over.
+    """
     def __init__(self, run_name, *args, **kwargs):
         super().__init__(
             run_name=run_name,
@@ -367,6 +507,47 @@ class PassedEvents(PhysicsData):
 
 class PreProcessedEvents(PhysicsData):
     def __init__(self, run_name, *args, **kwargs):
+        """
+        A class for handling preprocessed events data.
+
+        This class provides methods for reading and writing preprocessed events data.
+
+        Parameters:
+        ----------
+        run_name : str
+            The name of the run.
+        kwargs : dict
+            Additional keyword arguments.
+
+        Attributes:
+        ----------
+        mode : str
+            The mode of operation, either 'r' for reading or 'w' for writing.
+        select_runs : list
+            A list of selected runs to include.
+        tag : str
+            A tag used for filenames.
+        exception : bool
+            A flag indicating whether an exception occurred.
+        current_events : dict
+            The current events data.
+        current_run : str
+            The path of the current run.
+        count : int
+            A counter for the current iteration.
+        both_dirs : bool
+            A flag indicating whether to search in both directories.
+
+        Methods:
+        -------
+        __next__():
+            Retrieve the next item from the iterator.
+
+        Raises:
+        ------
+        StopIteration
+            When there are no more items to iterate over.
+        """
         super().__init__(
             run_name=run_name,
             reader_method="Network",

@@ -296,6 +296,44 @@ def read_lhe(
 def get_cross_section(
     path_to_file,
 ):
+    """
+    Read LHE (Les Houches Event) file and parse its contents into structured data.
+
+    Parameters:
+    ----------
+    path : str, optional
+        The path to the directory containing the LHE file, defaults to the current directory.
+    filename : str, optional
+        The name of the LHE file to read, defaults to "unweighted_events.lhe".
+    final_state_only : bool, optional
+        Whether to include only final-state particles in the parsed data, defaults to True.
+    return_weights : bool, optional
+        Whether to return event weights, defaults to False.
+    exclude_initial : bool, optional
+        Whether to exclude initial-state particles in the parsed data, defaults to True.
+    return_structured : bool, optional
+        Whether to return the parsed data as structured numpy arrays, defaults to False.
+    length : int, optional
+        The maximum number of events to read, defaults to None (read all events).
+    add_attribute : bool, optional
+        Whether to add event attributes like run_name, tag, path, and index, defaults to False.
+    run_name : str, optional
+        The name of the run for adding event attributes, required if add_attribute is True.
+
+    Returns:
+    -------
+    events : list or numpy.ndarray of LHEParticle objects
+        A list or structured numpy array containing parsed LHEParticle objects representing events.
+    event_weights : numpy.ndarray, optional
+        An array containing event weights if return_weights is True.
+    event_attributes : list or numpy.ndarray of EventAttribute objects, optional
+        A list or structured numpy array containing event attributes if add_attribute is True.
+
+    Notes:
+    ------
+    - LHEParticle objects must be defined elsewhere in the code for this function to work.
+    - The function returns parsed LHE events, optional weights, and event attributes.
+    """
     f = open(path_to_file, "r")
     imp = []
     append = False
@@ -322,6 +360,25 @@ def reverse_dict(dictionary):
     dictionary with iterable values, with empty intersection between different values, builds
     return dictionary with all items in value and returns the key of the particular iter_val key
     """
+    """
+    Reverse a dictionary with iterable values, ensuring no overlap between different values.
+
+    Parameters:
+    -----------
+    dictionary : dict
+        A dictionary with iterable values and no overlapping elements.
+
+    Returns:
+    --------
+    dict
+        A new dictionary where the elements from the original values become keys, and the keys from the original dictionary become values.
+
+    Raises:
+    -------
+    AssertionError
+        If there is an overlap between the elements in the original dictionary values.
+
+    """
     return_dict = {}
     for (
         key,
@@ -345,6 +402,38 @@ def convert_to_dict(
     add_charge=None,
     attributes=None,
 ):
+    """
+    Convert a list of LHE events into a dictionary of final states with optional attributes.
+
+    Parameters:
+    -----------
+    events : list
+        A list of LHE events to be converted.
+    final_states : list
+        A list of final states to include in the dictionary.
+    return_vector : bool, optional
+        Whether to return vectors (e.g., TLorentzVectors) for particles, defaults to False.
+    name : bool, optional
+        Whether to include the particle name in the dictionary keys, defaults to True.
+    sort : bool, optional
+        Whether to sort particles in each final state (only for return_vector=True), defaults to False.
+    add_charge : list, optional
+        A list of particle names for which charge should be added to the dictionary, defaults to None.
+    attributes : list, optional
+        A list of additional particle attributes to include in the dictionary when return_vector is False, defaults to None.
+
+    Returns:
+    --------
+    dict
+        A dictionary containing final states and optional attributes.
+
+    Notes:
+    ------
+    - If return_vector is True, final states will contain TLorentzVector objects for each particle.
+    - If return_vector is False, attributes must be provided, and final states will contain lists of particle attributes.
+    - Particle charge can be added to the dictionary for specific particles specified in add_charge.
+
+    """
     assert final_states is not None
     if return_vector is False:
         assert (

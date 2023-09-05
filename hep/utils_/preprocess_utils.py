@@ -24,7 +24,27 @@ np.set_printoptions(precision=16)
 
 ##################################### IMAGE PREPROCESSING#################
 def translate(*args, **kwargs):
-    """array of elements numpy array or float with coordinate in (X,Y), return X-x and Y-y"""
+    """
+    Translate the coordinates of an array of elements.
+
+    Parameters:
+    ----------
+    *args : numpy.ndarray or float
+        An array of elements with coordinates in (X, Y) or a float.
+    **kwargs : dict
+        Keyword arguments specifying the translation amounts, 'x' and 'y'.
+
+    Returns:
+    -------
+    numpy.ndarray or tuple
+        If a single array is provided, it returns the translated array.
+        If multiple arrays are provided, it returns a tuple of translated arrays.
+
+    Notes:
+    -----
+    This function translates the coordinates of an array or multiple arrays by subtracting the specified
+    'x' and 'y' translation amounts. The translation is applied element-wise to each array in *args.
+    """
     for item in args:
         # print (item.shape)
         item[0] = item[0] - kwargs["x"]
@@ -75,6 +95,31 @@ def reflect(*args):
 def process_fatjets(fatjets, operation="all", subparts="subjets", **kwargs):
     """Regularize tower/fatjet in (eta,phi) plane wih translation to subpart[0], rotate such the subpart[1] is at eta=0, and reflect such that subpart[2]
     is at the positive phi"""
+    """
+    Regularize and process a list of fatjets.
+
+    Parameters:
+    ----------
+    fatjets : list
+        A list of fatjets to be processed.
+    operation : str, optional
+        The type of operation to perform (default is "all").
+    subparts : str, optional
+        The subparts to consider (default is "subjets").
+    **kwargs : dict
+        Additional keyword arguments for customization.
+
+    Returns:
+    -------
+    numpy.ndarray
+        An array containing the processed fatjets.
+
+    Notes:
+    -----
+    This function regularizes and processes a list of fatjets. It translates each fatjet's subparts to a
+    specified (x, y) point, rotates the fatjet, and reflects it if necessary. The processed fatjets are
+    binned into a grid defined by 'shape' and 'x_interval'/'y_interval' parameters.
+    """
     # print_events(events)
     x_interval = kwargs.get(
         "x_interval",
@@ -146,6 +191,28 @@ def regularize_fatjet(fatjet, r=1.2):
     regulates phi such that all components lie inside fatjet radius R in the Euclidean (eta,phi) plane,
     reclusters the fatjet with CA algorithm with r=0.4 and returns them in the same (eta,phi,pt) format
     """
+    """
+    Regularize a fatjet in the (eta, phi, pt) plane.
+
+    Parameters:
+    ----------
+    fatjet : TLorentzVector
+        The fatjet with constituents as TLorentzVectors.
+    r : float, optional
+        The regularization radius (default is 1.2).
+
+    Returns:
+    -------
+    numpy.ndarray, numpy.ndarray
+        Two arrays of (eta, phi, pt) components representing the regularized fatjet and its subjets.
+
+    Notes:
+    -----
+    This function regularizes a fatjet in the (eta, phi, pt) plane by ensuring that all components
+    lie inside the fatjet radius R in the Euclidean (eta, phi) plane. It also reclusters the fatjet
+    with the CA algorithm using a specified radius (r=0.4) and returns both the fatjet and its subjets
+    in the same (eta, phi, pt) format.
+    """
     phi, eta = (
         np.sum(fatjet).Phi(),
         np.sum(fatjet).Eta(),
@@ -208,6 +275,33 @@ def regularize_fatjet(fatjet, r=1.2):
 
 
 def remove_jets(lorentz_tower, lorentz_jets, r=0.5, **kwargs):
+    """
+    Remove jet constituents from a Lorentz tower.
+
+    Parameters:
+    ----------
+    lorentz_tower : list
+        A list of Lorentz vectors representing the Lorentz tower.
+    lorentz_jets : list
+        A list of Lorentz vectors representing the Lorentz jets.
+    r : float, optional
+        The maximum distance (DeltaR) to consider for constituent removal (default is 0.5).
+    **kwargs : dict
+        Additional keyword arguments for customization.
+
+    Returns:
+    -------
+    numpy.ndarray or tuple
+        Depending on the keyword arguments, it returns the removed constituents, or it returns a tuple
+        containing the removed constituents and other constituents not removed.
+
+    Notes:
+    -----
+    This function removes constituents from a Lorentz tower that are within a specified distance 'r' of
+    any of the Lorentz jets. The removed constituents are returned as a numpy array. Additional keyword
+    arguments can control the behavior of the function, such as sorting by PT or separating central and
+    other constituents.
+    """
     if kwargs.get("verbose", False):
         print("Removing jet constituents...")
         print(lorentz_tower.shape)
@@ -282,6 +376,33 @@ def image_to_var(
         np.pi,
     ),
 ):
+    """
+    Convert images to (eta, phi, pt) variables.
+
+    Parameters:
+    ----------
+    images : numpy.ndarray
+        A multi-dimensional array containing the input images.
+    eta_axis : int, optional
+        The axis representing eta in the input images (default is 2).
+    phi_axis : int, optional
+        The axis representing phi in the input images (default is 1).
+    eta_range : tuple, optional
+        The range of eta values (default is (-5, 5)).
+    phi_range : tuple, optional
+        The range of phi values (default is (-pi, pi)).
+
+    Returns:
+    -------
+    numpy.ndarray
+        An array of (eta, phi, pt) variables corresponding to the input images.
+
+    Notes:
+    -----
+    This function converts input images to variables in the (eta, phi, pt) format. The input images are
+    expected to have axes representing (batch, eta, phi, channel), and this function swaps the axes
+    to obtain the variables (eta, phi, pt) for each image in the batch.
+    """
     if images.shape[-1] == 1:
         images = np.squeeze(images)
     eta_interval = abs((eta_range[1] - eta_range[0])) / images.shape[eta_axis]
@@ -327,6 +448,28 @@ def tower_padding(
     pad_axis=0,
     pad_size=4,
 ):
+    """
+    Apply padding to a tower along a specified axis.
+
+    Parameters:
+    ----------
+    tower : numpy.ndarray
+        The input tower to which padding is applied.
+    pad_axis : int, optional
+        The axis along which padding is applied (0 for rows, 1 for columns, default is 0).
+    pad_size : int, optional
+        The size of padding to apply (default is 4).
+
+    Returns:
+    -------
+    numpy.ndarray
+        The tower with padding applied along the specified axis.
+
+    Notes:
+    -----
+    This function applies padding to a tower along a specified axis. Padding is added symmetrically to
+    both sides of the specified axis, and the resulting tower is returned.
+    """
     if pad_axis == 0:
         new_shape = (
             tower.shape[0] + 2 * pad_size,
@@ -364,6 +507,29 @@ def tower_padding(
 
 
 def tower_bin(tower, format="tower", **kwargs):
+    """
+    Bin tower data into a grid.
+
+    Parameters:
+    ----------
+    tower : numpy.ndarray
+        The input tower data.
+    format : str, optional
+        The format of the input tower data (default is "tower").
+    **kwargs : dict
+        Additional keyword arguments for customization.
+
+    Returns:
+    -------
+    numpy.ndarray or tuple
+        Depending on the keyword arguments, it returns the binned tower data or a tuple containing
+        separate binned data for different regions.
+
+    Notes:
+    -----
+    This function bins tower data into a grid format. It supports customizations such as bin size,
+    format conversion, and returning separate binned data for different regions.
+    """
     bin_size = kwargs.get(
         "bin_size",
         (0.17, 0.17),
@@ -492,6 +658,35 @@ def binner(
     swap=False,
     **kwargs
 ):
+    """
+    Bin an array of data into a grid.
+
+    Parameters:
+    ----------
+    array : numpy.ndarray
+        The input array of data.
+    x_interval : tuple, optional
+        The x-axis interval for binning (default is (-1.6, 1.6)).
+    y_interval : tuple, optional
+        The y-axis interval for binning (default is (-1.6, 1.6)).
+    expand : bool, optional
+        Whether to expand the result with an extra dimension (default is False).
+    swap : bool, optional
+        Whether to swap the axes of the input array (default is False).
+    **kwargs : dict
+        Additional keyword arguments for customization.
+    
+    Returns:
+    -------
+    numpy.ndarray
+        The binned data in a grid format.
+
+    Notes:
+    -----
+    This function takes an array of data and bins it into a grid format based on the specified
+    intervals or bin sizes. It supports options for expanding the result with an extra dimension
+    and swapping the axes of the input array.
+    """
     if array.shape[-1] != 3 or swap:
         array = np.swapaxes(array, 0, 1)
     if "shape" in kwargs:

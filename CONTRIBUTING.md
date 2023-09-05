@@ -1,4 +1,4 @@
-# Contributing to [Your Project Name]
+# Contributing to High-Energy-Phenomenology_Machine-Learning(HEP_ML)!
 
 Thank you for considering contributing to Hep_ml! We welcome contributions from the community to help improve and grow this project. Whether you're reporting a bug, suggesting new features, or submitting code changes, your help is greatly appreciated.
 
