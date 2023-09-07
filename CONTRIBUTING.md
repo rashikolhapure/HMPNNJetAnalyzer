@@ -67,13 +67,9 @@ Make your changes or enhancements on a separate branch:
 git checkout -b my-feature-branch
 ```
 
-### Run Tests
+### Submit PR
 
-Before submitting a pull request, ensure that the tests pass:
-
-```bash
-python tests.py
-```
+ submitting a pull request
 
 ### Commit Changes
 Commit and push all of your changes back up to github with descriptive commit messages:
@@ -92,7 +88,3 @@ git push origin my-feature-branch
 Visit the original repository on GitHub and click the "New Pull Request" button to submit your changes for review.
 
 ## License
-By contributing to HEP ML, you agree that your contributions will be licensed under its [MIT license](LICENSE).
-
-#add lincesie!
-
