@@ -26,9 +26,9 @@
 
 <p align="justify">The field of high-energy particle collision analysis has witnessed a surge in the utilization of machine learning techniques, particularly neural networks. These algorithms offer the potential to glean valuable insights from the intricate data resulting from these collisions. However, traditional neural network architectures like CNNs and RNNs fall short when dealing with the intricate and structured nature of such data.</p>
 
-<p align="justify"> Your Text </p>In recent times, the spotlight has turned to Graph Neural Networks (GNNs) for analyzing graph-structured data. Their triumphs span across computer vision, natural language processing, and other domains. Yet, the customary GNN framework operates under the assumption of binary, unordered edges—a limitation when applied to jet analysis.
+<p align="justify">In recent times, the spotlight has turned to Graph Neural Networks (GNNs) for analyzing graph-structured data. Their triumphs span across computer vision, natural language processing, and other domains. Yet, the customary GNN framework operates under the assumption of binary, unordered edges—a limitation when applied to jet analysis.</p>
 
-Enter Hypergraphs—a dynamic, expressive alternative to represent jet data. Unlike graphs, hypergraphs embrace hyperedges capable of linking multiple nodes and sporting multiple labels. Hypergraph Neural Networks (HGNNs) have emerged as a solution to extend GNNs to hypergraphs. However, their potential in jet analysis remains relatively untapped.
+<p align="justify">Enter Hypergraphs—a dynamic, expressive alternative to represent jet data. Unlike graphs, hypergraphs embrace hyperedges capable of linking multiple nodes and sporting multiple labels. Hypergraph Neural Networks (HGNNs) have emerged as a solution to extend GNNs to hypergraphs. However, their potential in jet analysis remains relatively untapped.</p>
 
 In this context, Hypergraph Message Passing Neural Networks (HMPNNs) come into play. A novel spin on HGNNs, HMPNNs leverage message passing algorithms to enhance node and hyperedge features within a hypergraph. This approach, successful in domains like image segmentation and social network analysis, is ripe for exploration in jet analysis.
 
