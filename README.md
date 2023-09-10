@@ -30,7 +30,7 @@
 
 <p align="justify">Enter Hypergraphs—a dynamic, expressive alternative to represent jet data. Unlike graphs, hypergraphs embrace hyperedges capable of linking multiple nodes and sporting multiple labels. Hypergraph Neural Networks (HGNNs) have emerged as a solution to extend GNNs to hypergraphs. However, their potential in jet analysis remains relatively untapped.</p>
 
-In this context, Hypergraph Message Passing Neural Networks (HMPNNs) come into play. A novel spin on HGNNs, HMPNNs leverage message passing algorithms to enhance node and hyperedge features within a hypergraph. This approach, successful in domains like image segmentation and social network analysis, is ripe for exploration in jet analysis.
+<p align="justify">In this context, Hypergraph Message Passing Neural Networks (HMPNNs) come into play. A novel spin on HGNNs, HMPNNs leverage message passing algorithms to enhance node and hyperedge features within a hypergraph. This approach, successful in domains like image segmentation and social network analysis, is ripe for exploration in jet analysis.</p>
 
 HMPNNs bring a multitude of motivations to the table. Firstly, the adaptability of hypergraphs offers a nuanced portrayal of intricate high-energy collision data. Moreover, the sophisticated message passing algorithms of HMPNNs unravel the intricate relationships between nodes and hyperedges, resulting in richer and more precise data representations.
 
