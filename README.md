@@ -51,13 +51,13 @@ These particle jets play a pivotal role in understanding complex interactions. B
 </div>
 
 ### Key Points
-<div align="justify">
+
 - LHC investigates matter's subnuclear structure through proton collisions.
 - While the Standard Model explains fundamental forces, it's incomplete.
 - BSM Particle Physics explores jet data using novel techniques.
 - Particle jets provide insights into fundamental particle properties.
 - HMPNNs promise to unveil new insights by deciphering jet data relationships.
-</div>
+
 
 [Watch Video](https://www.youtube.com/watch?v=VIDEO_ID)
 
@@ -101,9 +101,14 @@ https://github.com/rajveer43/hep_ml/assets/64583161/c6034ad6-aa9b-4c5b-a00b-fe30
 
 ## 🌟 Stars in the Jet Constellation
 
-🌟 **"Our Celestial Ensemble"** - The dataset twinkles with MC simulated events, unraveling top quark tagging mysteries. 1.2M training events, 400k validation events, and 400k test events make up our cosmic ensemble. 🎭
+🌟 **"Our Celestial Ensemble"** - 
+<p align="justify">
+The dataset twinkles with MC simulated events, unraveling top quark tagging mysteries. 1.2M training events, 400k validation events, and 400k test events make up our cosmic ensemble. 🎭
+   </p>
 
+<p align="jusitfy">
 The data has been produced using Monte Carlo simulations. The first 21 features (columns 2-22) are kinematic properties measured by the particle detectors in the accelerator. The last seven features are functions of the first 21 features; these are high-level features derived by physicists to help discriminate between the two classes. There is an interest in using deep learning methods to obviate the need for physicists to manually develop such features. Benchmark results using Bayesian Decision Trees from a standard physics package and 5-layer neural networks are presented in the original paper. The last 500,000 examples are used as a test set.
+</p>
 
 #### Quark and Gluon Jet Datasets - Pythia 8 Generated
 
