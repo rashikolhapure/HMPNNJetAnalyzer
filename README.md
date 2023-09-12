@@ -172,7 +172,7 @@ Use the following labels to distinguish different purposes:
 If you use this dataset for your research, please cite the creators:
 - Kasieczka, Gregor; Plehn, Tilman; Thompson, Jennifer; Russel, Michael
 
-🔍 **"Particle Puzzle Pieces"** - The dataset embodies hadronic tops for the signal, QCD diets background, Pythia8's ATLAS detector card, and the Pythia 8-generated quark and gluon jet datasets. Each piece holds a cosmic puzzle. 🧩
+<p align="justify">🔍 **"Particle Puzzle Pieces"** - The dataset embodies hadronic tops for the signal, QCD diets background, Pythia8's ATLAS detector card, and the Pythia 8-generated quark and gluon jet datasets. Each piece holds a cosmic puzzle. 🧩</p>
 
 ## 🚀 Particle Jet Portals
 
