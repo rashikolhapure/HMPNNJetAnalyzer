@@ -38,7 +38,6 @@ class OverwriteError(Exception):
             self,
         ).__init__(message)
 
-
     class DelphesNumpy(PhysicsMethod):
         """
         Initialize a DelphesNumpy instance.
@@ -53,6 +52,7 @@ class OverwriteError(Exception):
             Keyword arguments to configure the DelphesNumpy instance.
 
         """
+
         def __init__(
             self,
             run_name,
@@ -176,7 +176,9 @@ class OverwriteError(Exception):
                     self.out_data.exception = False
                 except Exception as e:
                     if "Particle" in self.final_state_attributes:
-                        print("Excluding Particle for writing to pickle file...")
+                        print(
+                            "Excluding Particle for writing to pickle file..."
+                        )
                         particle_atttributes = self.final_state_attributes.pop(
                             "Particle"
                         )

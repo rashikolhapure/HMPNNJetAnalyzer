@@ -321,7 +321,7 @@ def Sort(
     To sort by energy (E) in ascending order:
 
     >>> sorted_vectors = Sort(vectors, attribute="E", order="asc")
-    """      
+    """
     if attribute == "pt":
         indices = np.argsort([item.Pt() for item in array])
     elif attribute == "px":

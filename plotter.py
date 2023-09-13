@@ -124,6 +124,7 @@ class Plotter:
     Usage:
         p = Plotter(x_name="X-axis", y_name="Y-axis", size=(8, 6))
     """
+
     def __init__(
         self,
         x_name=None,

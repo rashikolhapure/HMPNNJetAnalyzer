@@ -31,7 +31,7 @@ def bar_plot(data=None, labels=None, per_label=True, label_rotate=0, **kwargs):
         per_label (bool, optional): If True, display labels for each data point. If False, only display labels for data points with non-zero values. Default is True.
         label_rotate (int, optional): Rotation angle for y-axis labels. Default is 0.
         **kwargs: Additional keyword arguments for customizing the plot.
-        
+
     Keyword Args:
         name (str, optional): Name for saving the plot. Default is "unamed".
         save_path (str, optional): Directory path for saving the plot. Default is "./plots".

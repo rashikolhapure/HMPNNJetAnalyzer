@@ -20,6 +20,7 @@ class Method(object):
         max_count: Maximum count (optional, default is None).
         count: Current count (initialized to 0).
     """
+
     def __init__(self, *args, **kwargs):
         compulsory_kwargs = (
             "input_data",
@@ -39,6 +40,7 @@ class PhysicsMethod(Method):
         *args: Variable-length positional arguments.
         **kwargs: Variable-length keyword arguments.
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(args, **kwargs)
 
@@ -58,6 +60,7 @@ class NetworkMethod(Method):
         *args: Variable-length positional arguments.
         **kwargs: Variable-length keyword arguments.
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -80,6 +83,7 @@ class Data(object):
         mg_event_path: MadGraph event path.
         max_count: Maximum count (initialized to "NA").
     """
+
     def __init__(self, *args, **kwargs):
         compulsory_keys = {
             "reader_method",

@@ -675,7 +675,7 @@ def binner(
         Whether to swap the axes of the input array (default is False).
     **kwargs : dict
         Additional keyword arguments for customization.
-    
+
     Returns:
     -------
     numpy.ndarray

@@ -65,6 +65,7 @@ class ModelData(object):
         - shuffled_index_dict (dict): Dictionary to store shuffled indices.
         - check (bool): Flag for data checking.
     """
+
     def __init__(self, *args, **kwargs):
         self._prefix_path = check_dir("./network_runs")
         self.mode = kwargs.get("mode", "w")
@@ -1120,7 +1121,7 @@ class AutoencoderData(ModelData):
     Data handler class for training autoencoder models.
 
     This class extends the base `ModelData` class and provides methods for loading or generating training and validation data specific to autoencoder models.
-    
+
     Attributes:
         - _prefix_path (str): The prefix path where data is stored.
         - mode (str): The mode of operation, "w" for write, "r" for read.
@@ -1154,6 +1155,7 @@ class AutoencoderData(ModelData):
         - train_indices (None): Placeholder for training indices.
         - val_indices (None): Placeholder for validation indices.
     """
+
     def __init__(*args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -1273,6 +1275,7 @@ class DataHandler(object):
         - mode (str): "w" for write mode, "r" for read mode.
 
     """
+
     def __init__(self, *args, **kwargs):
         self._prefix_path = check_dir("./network_runs")
         self.mode = kwargs.get("mode", "w")

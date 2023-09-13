@@ -132,17 +132,17 @@ class KerasModel(NetworkMethod):
 
     def check_consistency(self, model):
         """
-    Check the consistency of the provided Keras model with the expected input and output shapes.
+        Check the consistency of the provided Keras model with the expected input and output shapes.
 
-    Args:
-        model (keras.models.Model): The Keras model to check.
+        Args:
+            model (keras.models.Model): The Keras model to check.
 
-    Raises:
-        AssertionError: If the model's input and output shapes do not match the expected shapes.
+        Raises:
+            AssertionError: If the model's input and output shapes do not match the expected shapes.
 
-    Returns:
-        None
-    """
+        Returns:
+            None
+        """
         print("Checking consistency...")
         if not isinstance(model.input, list):
             if len(model.input.shape) > 1:

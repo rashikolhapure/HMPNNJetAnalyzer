@@ -40,6 +40,7 @@ class FatJet(object):
     representing the subjets. Overall, this code provides a set of tools for jet
     clustering and subjet analysis, which are useful in particle physics analyses.
     """
+
     def __init__(
         self,
         tower=None,
@@ -308,10 +309,10 @@ class FatJet(object):
 
 
 def Print(
-        fatjet,
-        name=None,
-        format="lhc",
-        constituents=False,
+    fatjet,
+    name=None,
+    format="lhc",
+    constituents=False,
 ):
     """
     Print information about a fatjet or its constituents.

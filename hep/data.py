@@ -188,7 +188,7 @@ class RootEvents(PhysicsData):
         -------
         numpy.ndarray or dict
             Depending on the configuration, it returns either a numpy array or a dictionary containing selected data.
-            
+
         Raises:
         ------
         StopIteration
@@ -223,7 +223,7 @@ class NumpyEvents(PhysicsData):
             The name of the run.
         kwargs : dict
             Additional keyword arguments.
-        
+
         Keyword Args:
         -------------
         mode : str
@@ -401,6 +401,7 @@ class PassedEvents(PhysicsData):
     StopIteration
         When there are no more items to iterate over.
     """
+
     def __init__(self, run_name, *args, **kwargs):
         super().__init__(
             run_name=run_name,

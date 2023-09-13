@@ -121,13 +121,13 @@ def array_shuffle(
 
     Example:
         Suppose you have two NumPy arrays X and Y with the same number of rows, and you want to shuffle them in the same random order:
-        
+
         ```python
         X = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
         Y = np.array([0, 1, 0])
-        
+
         shuffled_X, shuffled_Y, index_map = array_shuffle(X, Y)
-        
+
         # The arrays X and Y have been shuffled in the same random order, and the index mapping is provided.
         ```
     """
@@ -159,16 +159,16 @@ def get_hyper_opt_kwargs(
 
     Example:
         Suppose you have a set of hyperparameters and their possible values in dictionaries:
-        
+
         ```python
         hyperparameters = {
             'learning_rate': [0.001, 0.01],
             'batch_size': [32, 64],
             'hidden_units': [64, 128, 256],
         }
-        
+
         hyperparameter_combinations = get_hyper_opt_kwargs(**hyperparameters)
-        
+
         # The function will generate a list of dictionaries, each containing a unique combination of hyperparameters:
         # [{'learning_rate': 0.001, 'batch_size': 32, 'hidden_units': 64},
         #  {'learning_rate': 0.001, 'batch_size': 32, 'hidden_units': 128},
