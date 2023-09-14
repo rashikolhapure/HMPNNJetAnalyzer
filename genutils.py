@@ -442,7 +442,8 @@ def merge_flat_dict(
             continue
         if item not in keys or item in exclude:
             continue
-        if type(append[item]) == np.ndarray and type(temp[item]) == np.ndarray:
+        if isinstance(append[item], np.ndarray) and \
+           isinstance(temp[item], np.ndarray):
             try:
                 append[item] = np.concatenate(
                     (
