@@ -413,7 +413,8 @@ def merge_flat_dict(
         append_length (int, optional): The length of values to append.
             Default is None.
         keys (list or str, optional): The keys to consider for merging. Default "all".
-        exclude (list, optional): The keys to exclude from merging. Default is an empty list.
+        exclude (list, optional): The keys to exclude from merging.
+            Default is an empty list.
 
     Returns:
         dict: The merged dictionary.
@@ -493,13 +494,13 @@ def merge_flat_dict(
 
 
 def print_events(events, name=None):
-    """Function for printing nested dictionary with atmost 3 levels, with final value being a numpy.ndarry, prints the shape of the array"""
-    """
-    Print nested dictionaries with up to 3 levels, with the final value being a numpy.ndarray.
+    """Print nested dictionaries with up to 3 levels, with the final
+    value being a numpy.ndarray.
     
     Args:
         events (dict): The nested dictionary to be printed.
-        name (str, optional): A name or label for the printed dictionary. Default is None.
+        name (str, optional): A name or label for the printed dictionary.
+            Default is None.
     """
     if name:
         print(name)
@@ -529,7 +530,9 @@ def print_events(events, name=None):
                     " dtype: EventAttribute",
                 )
             else:
-                # try: print ("    Final State:", channel,[item.shape for item in events[channel]],f' dtype: {type(events[channel])}')
+                # try: print ("    Final State:", channel,
+                # [item.shape for item in events[channel]],
+                # f' dtype: {type(events[channel])}')
                 # except AttributeError:
                 print(
                     "    Final State:",
@@ -556,23 +559,24 @@ def check_file(
     run_tag="None",
     target_file=None,
 ):
-    """at any <event_folder>(madgraph event_folder) go to each <run_dir> to get relative
-    path from event_folder to any file with any <extension> . Choose different madgraph tags with <tag>
-    """
-    """
-    Check for files in a specified directory and its subdirectories.
+    """Check for files in a specified directory and its subdirectories.
 
-    This function navigates through a directory and its subdirectories and searches for files
-    with specific criteria such as name, tag, and suffix.
+    This function navigates through a directory and its subdirectories and
+    searches for files with specific criteria such as name, tag, and suffix.
 
     Args:
         name (str): The name of the file to search for.
         event_folder (str): The main directory where the search will start.
-        tag (str, optional): A tag to match with the beginning of the file name. Default is an empty string.
-        full_name (bool, optional): If True, matches the full file name. If False, only matches the suffix. Default is False.
-        suffix (bool, optional): If True, matches the suffix of the file name. If False, matches the entire file name. Default is False.
-        run_tag (str, optional): A tag to match with the beginning of subdirectory names. Default is "None".
-        target_file (str, optional): If provided, the function will skip directories containing this specific file. Default is None.
+        tag (str, optional): A tag to match with the beginning of the file
+            name.Default is an empty string.
+        full_name (bool, optional): If True, matches the full file name. If
+            False, only matches the suffix. Default is False.
+        suffix (bool, optional): If True, matches the suffix of the file name.
+            If False, matches the entire file name. Default is False.
+        run_tag (str, optional): A tag to match with the beginning of
+            subdirectory names. Default is "None".
+        target_file (str, optional): If provided, the function will skip
+            directories containing this specific file. Default is None.
 
     Returns:
         list: A list of file paths that match the specified criteria.
@@ -643,9 +647,8 @@ def check_file(
 
 
 def check_dir(path):
-    """check if <path> to dir exists or not. If it doesn't, create the <dir> returns the absolute path to the created dir"""
-    """
-    Check if a directory at the specified path exists. If it doesn't, create the directory.
+    """Check if a directory at the specified path exists. If it doesn't,
+    create the directory.
 
     Args:
         path (str): The path to the directory to check/create.
@@ -670,15 +673,18 @@ def arg_split(
     ignore_keys=["cut_flow"],
     verbose=False,
 ):
-    """to fix: not splitting args with len(array)==num_cores correctly into iterables of single length"""
-    """
+    """to fix: not splitting args with len(array)==num_cores \
+        correctly into iterables of single length
+
     Split the arguments for parallel processing.
 
     Args:
         args (dict, list, or ndarray): The input arguments to be split.
         num_cores (int): The number of CPU cores to split the arguments for.
-        ignore_keys (list, optional): List of keys to ignore during splitting. Defaults to ["cut_flow"].
-        verbose (bool, optional): If True, print information about the splitting process. Defaults to False.
+        ignore_keys (list, optional): List of keys to ignore during splitting.
+            Defaults to ["cut_flow"].
+        verbose (bool, optional): If True, print information about the
+            splitting process. Defaults to False.
 
     Returns:
         list: A list of argument dictionaries or arrays, one for each core.
@@ -780,19 +786,26 @@ def pool_splitter(
     with_lock=False,
     verbose=False,
 ):
-    """utility function for multiprocessing any function with single argument of either numpy.ndarray or flat dict with numpy.ndarray values"""
-    """
-    Utility function for multiprocessing any function with a single argument of either numpy.ndarray or a flat dictionary with numpy.ndarray values.
+    """Utility function for multiprocessing any function with a single
+    argument of either numpy.ndarray or a flat dictionary with
+    numpy.ndarray values.
 
     Args:
         function (callable): The function to be parallelized.
         args (dict, list, or ndarray): The input arguments to be split.
-        num_cores (int, optional): The number of CPU cores to use for parallel processing. Defaults to the number of CPU cores available.
-        exclude (list, optional): List of keys to exclude from the result dictionary. Defaults to an empty list.
-        ignore_keys (list, optional): List of keys to ignore during argument splitting. Defaults to ["cut_flow"].
-        add_keys (list, optional): List of keys to add to each argument dictionary. Defaults to an empty list.
-        with_lock (bool, optional): If True, use a lock for multiprocessing. Defaults to False.
-        verbose (bool, optional): If True, print information about the splitting process. Defaults to False.
+        num_cores (int, optional): The number of CPU cores to use for
+            parallel processing. Defaults to the number of CPU cores
+            available.
+        exclude (list, optional): List of keys to exclude from the result
+            dictionary. Defaults to an empty list.
+        ignore_keys (list, optional): List of keys to ignore during argument
+            splitting. Defaults to ["cut_flow"].
+        add_keys (list, optional): List of keys to add to each argument
+            dictionary. Defaults to an empty list.
+        with_lock (bool, optional): If True, use a lock for multiprocessing.
+            Defaults to False.
+        verbose (bool, optional): If True, print information about the
+            splitting process. Defaults to False.
 
     Returns:
         dict or ndarray: The result of the parallelized function.
@@ -872,11 +885,14 @@ def seperate_classes(data, class_names):
     Separate data into different classes based on class labels.
 
     Args:
-        data (dict): The input data dictionary containing features and labels.
-        class_names (list): List of class names to assign to the separated classes.
+        data (dict): The input data dictionary containing features
+            and labels.
+        class_names (list): List of class names to assign to the separated
+            classes.
 
     Returns:
-        dict: A dictionary containing separate classes with their respective features and labels.
+        dict: A dictionary containing separate classes with their respective
+            features and labels.
     """
     print("Seperating classes...")
     X, Y = (
@@ -927,11 +943,14 @@ def concatenate_list(
 
     Args:
         data (list): A list of dictionaries to be concatenated.
-        verbose (bool, optional): If True, print information about the concatenated data. Default is False.
-        **kwargs: Additional keyword arguments to be included in the concatenated dictionary.
+        verbose (bool, optional): If True, print information about the
+            concatenated data. Default is False.
+        **kwargs: Additional keyword arguments to be included in the
+            concatenated dictionary.
 
     Returns:
-        dict: A dictionary containing concatenated data from the input list of dictionaries.
+        dict: A dictionary containing concatenated data from the input list
+            of dictionaries.
     """
     count = 0
     if verbose:
