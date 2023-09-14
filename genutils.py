@@ -337,7 +337,7 @@ def dir_ext_count(
     for item in os.listdir(dir_path):
         if item.startswith(prefix) and item.endswith(ext):
             print(item, prefix)
-            if item[-len(ext) - len(suffix) :] == suffix:
+            if item[-len(ext) - len(suffix):] == suffix:
                 path.append(
                     os.path.join(
                         dir_path,
@@ -591,7 +591,7 @@ def check_file(
                     continue
                 if not suffix:
                     if (
-                        filename[-len(name) :] == name
+                        filename[-len(name):] == name
                         and filename[: len(tag)] == tag
                     ):
                         path.append(
@@ -603,8 +603,8 @@ def check_file(
                         )
                     continue
                 if (
-                    filename[-len(name) :] == name
-                    and filename[len(tag) :] == tag
+                    filename[-len(name):] == name
+                    and filename[len(tag):] == tag
                 ):
                     path.append(
                         os.path.join(
@@ -673,7 +673,7 @@ def arg_split(
             step,
         ):
             try:
-                arg.append(args[i : i + step])
+                arg.append(args[i: i + step])
             except IndexError:
                 arg.append(args[i:])
     elif type(args) == dict:
@@ -717,7 +717,7 @@ def arg_split(
                 ):
                     if i not in start_inds:
                         start_inds.append(i)
-                    arg[count][key] = args[key][i : i + step]
+                    arg[count][key] = args[key][i: i + step]
                     count += 1
 
         if verbose:
