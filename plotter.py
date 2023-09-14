@@ -1181,9 +1181,9 @@ class Plotter:
 
         Args:
             array (numpy.ndarray): The 2D array to display as an image.
-            title (str, optional): The title of the image plot. Defaults to 
+            title (str, optional): The title of the image plot. Defaults to
                 None.
-            cmap (str, optional): The colormap for the image. Defaults to 
+            cmap (str, optional): The colormap for the image. Defaults to
                 "viridis_r".
             show (bool, optional): Whether to display the image plot. Defaults
                 False.
@@ -1191,7 +1191,7 @@ class Plotter:
                 Defaults to "eps".
             set_colorbar (bool, optional): Whether to add a colorbar to plot.
                 Defaults to True.
-            log_scale (bool, optional): Whether to use a logarithmic scale 
+            log_scale (bool, optional): Whether to use a logarithmic scale
                 for color mapping. Defaults to False.
             **kwargs: Additional keyword arguments for customization.
 
@@ -1209,7 +1209,7 @@ class Plotter:
             )
             # if self.projection=="subplots":
             # im=self.axes.matshow(array,cmap=cmap,origin="lower",
-            # norm=colors.LogNorm(vmin=kwargs.get("vmin",1), 
+            # norm=colors.LogNorm(vmin=kwargs.get("vmin",1),
             # vmax=kwargs.get("vmax",200)) )
             im = self.axes.matshow(
                 array,
@@ -1340,16 +1340,26 @@ class Plotter:
         Create a scatter plot of data points.
 
         Args:
-            array (numpy.ndarray): The data array containing X, Y, and Z coordinates.
-            title (str, optional): The title of the scatter plot. Defaults to None.
-            cmap (str, optional): The colormap to use for coloring points. Defaults to "viridis_r".
-            label (str, optional): The label for the data points. Defaults to None.
-            marker (str, optional): The marker style for data points. Defaults to "s".
-            show (bool, optional): Whether to display the plot. Defaults to False.
-            s (int, optional): The size of markers for data points. Defaults to 30.
-            c (array-like, optional): The array for color mapping data points. Defaults to None.
-            log_scale (bool, optional): Whether to apply a logarithmic scale to the color mapping. Defaults to False.
-            set_colorbar (bool, optional): Whether to add a colorbar to the plot. Defaults to False.
+            array (numpy.ndarray): The data array containing X, Y, and Z
+                coordinates.
+            title (str, optional): The title of the scatter plot. Defaults
+                None.
+            cmap (str, optional): The colormap to use for coloring points.
+                Defaults to "viridis_r".
+            label (str, optional): The label for the data points. Defaults
+                None.
+            marker (str, optional): The marker style for data points.
+                Defaults to "s".
+            show (bool, optional): Whether to display the plot.
+                Defaults to False.
+            s (int, optional): The size of markers for data points. Defaults to
+                30.
+            c (array-like, optional): The array for color mapping data points.
+                Defaults to None.
+            log_scale (bool, optional): Whether to apply a logarithmic scale
+                to the color mapping. Defaults to False.
+            set_colorbar (bool, optional): Whether to add a colorbar to the
+                plot. Defaults to False.
             **kwargs: Additional keyword arguments for customization.
 
         Returns:
@@ -1359,13 +1369,13 @@ class Plotter:
             axes = kwargs.pop("axes")
         else:
             axes = None
-        """
-        if type(array[0])==TLorentzVector:
-            array=np.array([[item.Eta(),item.Phi(),item.Pt()] for item in array])
-            array=np.swapaxes(array,0,1)
-        elif type(array[0]) ==TVector3:
-            array=np.array([[item.X(),item.Y(),item.Z()] for item in array])
-        """
+
+        if type(array[0]) == TLorentzVector:
+            array = np.array([[item.Eta(),item.Phi(),item.Pt()] for item in array])
+            array = np.swapaxes(array,0,1)
+        elif type(array[0]) == TVector3:
+            array = np.array([[item.X(),item.Y(),item.Z()] for item in array])
+
         # if array.shape[0]!=3 or: array=np.swapaxes(array,0,1)
         X, Y, Z = (
             array[0],
