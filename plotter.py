@@ -54,13 +54,15 @@ class Arrow3D(FancyArrowPatch):
         **kwargs: Additional keyword arguments.
 
     Attributes:
-        _verts3d (tuple): Tuple of (xs, ys, zs) representing the 3D coordinates of the arrow.
+        _verts3d (tuple):Tuple of (xs, ys, zs) representing the 3D coordinates
+        of the arrow.
 
     Methods:
         draw(renderer): Draws the 3D arrow patch on the given renderer.
 
     Usage:
-        arrow = Arrow3D((x_start, x_end), (y_start, y_end), (z_start, z_end), color='red')
+        arrow = Arrow3D((x_start, x_end), (y_start, y_end), (z_start, z_end),
+                color='red')
     """
 
     def __init__(self, xs, ys, zs, *args, **kwargs):
@@ -98,20 +100,25 @@ class Plotter:
     """
     A class for creating custom plots.
 
-    This class provides a convenient way to create custom plots with various options for labels,
-    ranges, figure size, projection, and more.
+    This class provides a convenient way to create custom plots with various
+    options for labels, ranges, figure size, projection, and more.
 
     Args:
         x_name (str, optional): Label for the x-axis. Defaults to None.
-        y_name (str, optional): Label for the y-axis. Defaults to None.
-        range (dict, optional): Range for x and y axes. Defaults to None.
-        size (tuple, optional): Figure size (width, height). Defaults to (10, 10).
-        projection (str, optional): Plot projection ('3d', 'image', 'subplots'). Defaults to None.
+        y_name (str, optional): Label for the y-axis. 
+            Defaults to None.
+        range (dict, optional): Range for x and y axes.
+            Defaults to None.
+        size (tuple, optional): Figure size (width, height). 
+            Defaults to (10, 10).
+        projection (str, optional): Plot projection 
+            ('3d', 'image', 'subplots'). Defaults to None.
         title (str, optional): Figure title. Defaults to None.
-        set_range (bool, optional): Set axis range based on input range. Defaults to False.
+        set_range (bool, optional): Set axis range based on input range.
+            Defaults to False.
 
     Attributes:
-        image_range (dict): Default range for x and y axes in image projection.
+        image_range (dict): Default range x and y axes in image projection.
         fig (Figure): Matplotlib figure object.
         axes (Axes): Matplotlib axes object.
         marker (str): Marker style for scatter plots.
@@ -139,13 +146,19 @@ class Plotter:
         Initialize a custom plotting object.
 
         Args:
-            x_name (str, optional): Label for the x-axis. Defaults to None.
-            y_name (str, optional): Label for the y-axis. Defaults to None.
-            range (dict, optional): Range for x and y axes. Defaults to None.
-            size (tuple, optional): Figure size (width, height). Defaults to (10, 10).
-            projection (str, optional): Plot projection (None, '3d', 'image', 'subplots'). Defaults to None.
+            x_name (str, optional): Label for the x-axis.
+                Defaults to None.
+            y_name (str, optional): Label for the y-axis.
+                Defaults to None.
+            range (dict, optional): Range for x and y axes.
+                Defaults to None.
+            size (tuple, optional): Figure size (width, height).
+                Defaults to (10, 10).
+            projection (str, optional): Plot projection 
+            (None, '3d', 'image', 'subplots'). Defaults to None.
             title (str, optional): Figure title. Defaults to None.
-            set_range (bool, optional): Set axis range based on input range. Defaults to False.
+            set_range (bool, optional): Set axis range based on input range.
+                Defaults to False.
         """
         self.image_range = {
             "x": (-5, 5),
