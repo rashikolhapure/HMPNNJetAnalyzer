@@ -314,18 +314,21 @@ class Plotter:
         circle=False,
         **kwargs
     ):
-        """numpy.ndarray of TlorentzVectors lepton,fatjet[0],fatjet[1] are plotted in the (eta,phi) plane, colormapped logarithmically with pt"""
-        """
-        Plot lepton, fatjet[0], and fatjet[1] in the (eta, phi) plane, colormapped logarithmically with pt.
+        """Plot lepton, fatjet[0], and fatjet[1] in the (eta, phi) plane,
+        colormapped logarithmically with pt.
+        numpy.ndarray of TlorentzVectors lepton,fatjet[0],fatjet[1] are
+        plotted in the (eta,phi) plane, colormapped logarithmically with pt
 
         Args:
             lepton (numpy.ndarray or TLorentzVector): Lepton data for plotting.
-            fatjet (tuple of numpy.ndarray or TLorentzVector): Tuple containing fatjet[0] and fatjet[1] data for plotting.
+            fatjet (tuple of numpy.ndarray or TLorentzVector): Tuple
+                containing fatjet[0] and fatjet[1] data for plotting.
             run_name (str, optional): Name of the run. Defaults to None.
             show (bool, optional): Display the plot. Defaults to False.
             r_fat (float, optional): Radius for fatjets. Defaults to 1.2.
             r_lep (float, optional): Radius for the lepton. Defaults to 1.0.
-            circle (bool, optional): If True, plot markers as circles. Defaults to False.
+            circle (bool, optional): If True, plot markers as circles.
+                Defaults to False.
             **kwargs: Additional keyword arguments.
 
         Returns:
@@ -474,7 +477,8 @@ class Plotter:
         )
         self.axes.legend(loc="best")
         # sys.exit()
-        if show == True:
+        # if show == True:
+        if show:
             # plt.colorbar()
             plt.show()
         return
@@ -491,7 +495,8 @@ class Plotter:
 
         Args:
             lepton (numpy.ndarray): Lepton data for plotting.
-            fatjet (tuple of numpy.ndarray): Tuple containing fatjet[0] and fatjet[1] data for plotting.
+            fatjet (tuple of numpy.ndarray): Tuple containing fatjet[0] and
+                fatjet[1] data for plotting.
             run_name (str, optional): Name of the run. Defaults to None.
             show (bool, optional): Display the plot. Defaults to False.
 
