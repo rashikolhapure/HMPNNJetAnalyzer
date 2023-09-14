@@ -278,7 +278,7 @@ def cut_counter(
             key,
             val,
         ) in current_cut_flow.items():
-            if type(val) != int:
+            if not isinstance(val, int):
                 print(
                     key,
                     " has value ",
@@ -327,7 +327,8 @@ def cut_efficiency(cut_flow, verbose=False):
                 efficiencies[key],
             )
         # tot=tot-cut_flow[key]
-    # if verbose: print ("Total rejected: ","\nRemaining: ",tot,"\nSum: ",count+tot)
+    # if verbose: print ("Total rejected: ","\nRemaining: ",
+    # tot,"\nSum: ",count+tot)
     # assert count+tot==cut_flow["total"]
     return efficiencies
 
@@ -409,10 +410,12 @@ def merge_flat_dict(
     Args:
         append (dict): The initial dictionary to which values will be
             appended.
-        temp (dict): The dictionary containing values to append to the initial one.
+        temp (dict): The dictionary containing values to append to the initial
+            one.
         append_length (int, optional): The length of values to append.
             Default is None.
-        keys (list or str, optional): The keys to consider for merging. Default "all".
+        keys (list or str, optional): The keys to consider for merging.
+            Default "all".
         exclude (list, optional): The keys to exclude from merging.
             Default is an empty list.
 
