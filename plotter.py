@@ -277,9 +277,12 @@ class Plotter:
         Create a scatter plot for tower data.
 
         Args:
-            tower (numpy.ndarray): Tower data containing information such as Eta, Phi, and value.
-            val (str, optional): Value to be plotted (e.g., "ET"). Defaults to "ET".
-            **kwargs: Additional keyword arguments for scatter plot customization.
+            tower (numpy.ndarray): Tower data containing information such as
+                Eta, Phi, and value.
+            val (str, optional): Value to be plotted (e.g., "ET"). Defaults to
+                "ET".
+            **kwargs: Additional keyword arguments for scatter plot
+            customization.
 
         Returns:
             None
