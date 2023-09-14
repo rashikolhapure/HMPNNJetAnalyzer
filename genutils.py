@@ -697,7 +697,7 @@ def arg_split(
         "Arge type: ",
         type(args),
     )
-    if type(args) == np.ndarray or type(args) == list:
+    if isinstance(args, (np.ndarray, list)):
         step = int(len(args) / num_cores)
         arg = []
         for i in range(
@@ -709,7 +709,7 @@ def arg_split(
                 arg.append(args[i: i + step])
             except IndexError:
                 arg.append(args[i:])
-    elif type(args) == dict:
+    elif isinstance(args, dict):
         arg = [dict() for i in range(num_cores)]
         if verbose:
             print(
@@ -728,7 +728,7 @@ def arg_split(
                     key,
                 )
                 continue
-            if type(args[key]) == np.ndarray:
+            if isinstance(args[key], np.ndarray):
                 step = int(len(args[key]) / num_cores) + 1
             else:
                 step = int(len(args[key]) / num_cores)
@@ -865,9 +865,9 @@ def pool_splitter(
     finally:
         p.close()
     print("Done!")
-    if type(data[0]) == np.ndarray:
+    if isinstance(data[0], np.ndarray):
         return np.concatenate(data, axis=0)
-    elif type(data[0]) == dict:
+    elif isinstance(data[0], dict):
         # if len(data)>16:
         #    print ("Splitting concatenation on 8 cores...")
         #    p=multiprocessing.Pool(processes=8)
@@ -991,10 +991,12 @@ def combine_dict(data, exclude=[]):
 
     Args:
         data (list): A list of dictionaries to be combined.
-        exclude (list, optional): A list of keys to be excluded from the combination. Default is an empty list.
+        exclude (list, optional): A list of keys to be excluded from the
+            combination. Default is an empty list.
 
     Returns:
-        dict: A dictionary containing the combined data from the input list of dictionaries.
+        dict: A dictionary containing the combined data from the input list of
+            dictionaries.
     """
     print("Combining dictionaries...")
     # sys.exit()
@@ -1020,7 +1022,7 @@ def combine_dict(data, exclude=[]):
             if count == 0:
                 return_dict[key] = data[i][key]
             else:
-                if type(data[i][key]) == list:
+                if isinstance(data[i][key], list):
                     return_dict[key] = return_dict[key] + data[i][key]
                 else:
                     try:
