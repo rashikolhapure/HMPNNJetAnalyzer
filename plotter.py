@@ -105,13 +105,13 @@ class Plotter:
 
     Args:
         x_name (str, optional): Label for the x-axis. Defaults to None.
-        y_name (str, optional): Label for the y-axis. 
+        y_name (str, optional): Label for the y-axis.
             Defaults to None.
         range (dict, optional): Range for x and y axes.
             Defaults to None.
-        size (tuple, optional): Figure size (width, height). 
+        size (tuple, optional): Figure size (width, height).
             Defaults to (10, 10).
-        projection (str, optional): Plot projection 
+        projection (str, optional): Plot projection
             ('3d', 'image', 'subplots'). Defaults to None.
         title (str, optional): Figure title. Defaults to None.
         set_range (bool, optional): Set axis range based on input range.
@@ -154,7 +154,7 @@ class Plotter:
                 Defaults to None.
             size (tuple, optional): Figure size (width, height).
                 Defaults to (10, 10).
-            projection (str, optional): Plot projection 
+            projection (str, optional): Plot projection
             (None, '3d', 'image', 'subplots'). Defaults to None.
             title (str, optional): Figure title. Defaults to None.
             set_range (bool, optional): Set axis range based on input range.
@@ -252,7 +252,8 @@ class Plotter:
 
         Args:
             track (array-like): Track data to be plotted.
-            **kwargs: Additional keyword arguments for scatter plot customization.
+            **kwargs: Additional keyword arguments for scatter plot
+                customization.
 
         Returns:
             None
