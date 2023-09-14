@@ -28,18 +28,25 @@ def bar_plot(data=None, labels=None, per_label=True, label_rotate=0, **kwargs):
     Args:
         data (list): List of data values to be plotted.
         labels (list): List of labels for the data values.
-        per_label (bool, optional): If True, display labels for each data point. If False, only display labels for data points with non-zero values. Default is True.
-        label_rotate (int, optional): Rotation angle for y-axis labels. Default is 0.
+        per_label (bool, optional): If True, display labels for each data
+            point. If False, only display labels for data points with non-zero
+            values. Default is True.
+        label_rotate (int, optional): Rotation angle for y-axis labels.
+            Default is 0.
         **kwargs: Additional keyword arguments for customizing the plot.
 
     Keyword Args:
         name (str, optional): Name for saving the plot. Default is "unamed".
-        save_path (str, optional): Directory path for saving the plot. Default is "./plots".
-        add_text (list, optional): List of additional text to be added next to the data values.
+        save_path (str, optional): Directory path for saving the plot.
+            Default is "./plots".
+        add_text (list, optional): List of additional text to be added next
+            to the data values.
         title (str, optional): Title for the plot.
         color (list, optional): List of colors for the bars.
-        color_to_label (dict, optional): Dictionary mapping colors to labels for legend.
-        xlim (tuple, optional): Tuple specifying the x-axis limits. Default is (0.5, 1.0).
+        color_to_label (dict, optional): Dictionary mapping colors to
+            labels for legend.
+        xlim (tuple, optional): Tuple specifying the x-axis limits.
+            Default is (0.5, 1.0).
 
     Returns:
         None
@@ -226,14 +233,20 @@ def plot_tower_jets(
         array (numpy.ndarray): Tower data to be plotted.
         lorentz_jet (list): List of Lorentz vectors representing jets.
         name (str, optional): Name for saving the plot. Default is None.
-        lorentz_met (LorentzVector, optional): Lorentz vector representing MET (missing transverse energy). Default is None.
-        path (str, optional): Directory path for saving the plot. Default is "./plots".
-        dpi (int, optional): Dots per inch for the saved plot. Default is 100.
-        plotter (Plotter, optional): An instance of Plotter to use for plotting. If None, a new Plotter instance will be created. Default is None.
-        scatter_kwargs (dict, optional): Additional keyword arguments for customizing the tower scatter plot.
+        lorentz_met (LorentzVector, optional): Lorentz vector representing MET
+            (missing transverse energy). Default is None.
+        path (str, optional): Directory path for saving the plot. Default is
+            "./plots".
+        dpi (int, optional): Dots per inch for the saved plot. Default 100.
+        plotter (Plotter, optional): An instance of Plotter to use for
+            plotting.If None, a new Plotter instance will be created.
+            Default is None.
+        scatter_kwargs (dict, optional): Additional keyword arguments for
+            customizing the tower scatter plot.
 
     Returns:
-        None or Plotter: If plotter is None, returns None. If plotter is provided, returns the Plotter instance.
+        None or Plotter: If plotter is None, returns None. If plotter is
+        provided, returns the Plotter instance.
     """
     if plotter is None:
         p = Plotter()
@@ -273,7 +286,8 @@ def plot_tower_jets(
             )
         )
     # p.axes.add_patch(Circle((lorentz_jet[1].Eta(),lorentz_jet[1].Phi()),
-    # radius=0.5,fill=False,color="Blue",label="$j_2\;p_T=$"+str(round(lorentz_jet[1].Pt(),1))+"
+    # radius=0.5,fill=False,color="Blue",
+    # label="$j_2\;p_T=$"+str(round(lorentz_jet[1].Pt(),1))+"
     # GeV"))
     p.tower_scatter(array, **scatter_kwargs)
     if plotter is None:
@@ -305,8 +319,10 @@ def subplot_compare_pileup(
         no_pileup_jets (list): List of jets without pileup.
         pileup_jets (list): List of jets with pileup.
         name (str): Name for saving the plot.
-        path (str, optional): Directory path for saving the plot. Default is "./plots".
-        index (str, optional): Index or identifier for the plot. Default is an empty string.
+        path (str, optional): Directory path for saving the plot.
+            Default is "./plots".
+        index (str, optional): Index or identifier for the plot. Default is an
+            empty string.
 
     Returns:
         None
@@ -392,9 +408,12 @@ def compare_pileup_image(
         no_pileup (numpy.ndarray): Pileup image without pileup.
         pileup (numpy.ndarray): Pileup image with pileup.
         name (str): Name for saving the plot.
-        names (dict, optional): Dictionary mapping indices to names for labeling. Default is {0: "no_pileup", 1: "pileup"}.
-        path (str, optional): Directory path for saving the plot. Default is "./plots".
-        index (str, optional): Index or identifier for the plot. Default is an empty string.
+        names (dict, optional): Dictionary mapping indices to names for
+            labeling. Default is {0: "no_pileup", 1: "pileup"}.
+        path (str, optional): Directory path for saving the plot.
+            Default is "./plots".
+        index (str, optional): Index or identifier for the plot. Default is
+            an empty string.
 
     Returns:
         None
@@ -434,11 +453,13 @@ def seperate_image_plot(
         left_bin (numpy.ndarray): Left image.
         center_bin (numpy.ndarray): Center image.
         right_bin (numpy.ndarray): Right image.
-        save_path (str, optional): Directory path for saving the plot. Default is None.
+        save_path (str, optional): Directory path for saving the plot.
+            Default is None.
         **kwargs: Additional keyword arguments.
 
     Keyword Args:
-        name (str, optional): Name for saving the plot. Default is "separated_image".
+        name (str, optional): Name for saving the plot. Default is
+            "separated_image".
 
     Returns:
         None
