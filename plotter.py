@@ -729,7 +729,8 @@ class Plotter:
                 label (str, optional): Label for the plot. Defaults to None.
                 show (bool, optional): Display the plot. Defaults to False.
                 r (float, optional): Radius for subjets. Defaults to 0.4.
-                no_subjets (int, optional): Number of subjets to plot. Defaults to 3.
+                no_subjets (int, optional): Number of subjets to plot.
+                    Defaults to 3.
 
             Returns:
                 None
@@ -841,9 +842,11 @@ class Plotter:
             fatjet (numpy.ndarray): Fatjet data.
             label (str, optional): Label for the plot. Defaults to None.
             show (bool, optional): Display the plot. Defaults to False.
-            arrow_color (str, optional): Color of the arrows representing the fat jet constituents. Defaults to "b".
+            arrow_color (str, optional): Color of the arrows representing the
+                fat jet constituents. Defaults to "b".
             axis (str, optional): Display the axis. Defaults to "on".
-            summed (TLorentzVector, optional): Sum of the fat jet constituents. Defaults to None.
+            summed (TLorentzVector, optional): Sum of the fatjet constituents.
+                Defaults to None.
 
         Returns:
             None
@@ -930,7 +933,8 @@ class Plotter:
         ), self.axes.set_zlim(extremum[2])
         if axis == "off":
             self.axes.axis("off")
-        # self.axes.scatter(fatjet[0],fatjet[1],fatjet[2],c=Z,cmap="Blues",norm=colors.LogNorm(vmin=np.min(Z), vmax=np.max(Z)))
+        # self.axes.scatter(fatjet[0],fatjet[1],fatjet[2],c=Z,cmap="Blues",
+        # norm=colors.LogNorm(vmin=np.min(Z), vmax=np.max(Z)))
         count = 0
         for item in np.swapaxes(fatjet, 0, 1):
             if count == 0:
@@ -1051,11 +1055,16 @@ class Plotter:
 
         Args:
             title (str): The title of the saved figure.
-            extension (str, optional): The file extension for the saved figure. Defaults to "png".
-            dpi (int, optional): The resolution (dots per inch) for the saved figure. Defaults to 100.
-            legend_axes (list, optional): Indices of axes to include legends for. Defaults to [0].
-            save_path (str, optional): The directory path where the figure will be saved. Defaults to "plots".
-            set_legends (bool, optional): Whether to set legends on the plot. Defaults to False.
+            extension (str, optional): The file extension for the saved fig.
+                Defaults to "png".
+            dpi (int, optional): The resolution (dots per inch) for the saved
+                figure. Defaults to 100.
+            legend_axes (list, optional): Indices of axes to include legends
+                for. Defaults to [0].
+            save_path (str, optional): The directory path where the fig will
+                be saved. Defaults to "plots".
+            set_legends (bool, optional): Whether to set legends on the plot
+                Defaults to False.
             **kwargs: Additional keyword arguments for customization.
 
         Returns:
@@ -1172,12 +1181,18 @@ class Plotter:
 
         Args:
             array (numpy.ndarray): The 2D array to display as an image.
-            title (str, optional): The title of the image plot. Defaults to None.
-            cmap (str, optional): The colormap for the image. Defaults to "viridis_r".
-            show (bool, optional): Whether to display the image plot. Defaults to False.
-            extension (str, optional): The file extension for saving the image. Defaults to "eps".
-            set_colorbar (bool, optional): Whether to add a colorbar to the plot. Defaults to True.
-            log_scale (bool, optional): Whether to use a logarithmic scale for color mapping. Defaults to False.
+            title (str, optional): The title of the image plot. Defaults to 
+                None.
+            cmap (str, optional): The colormap for the image. Defaults to 
+                "viridis_r".
+            show (bool, optional): Whether to display the image plot. Defaults
+                False.
+            extension (str, optional): The file extension for saving the img.
+                Defaults to "eps".
+            set_colorbar (bool, optional): Whether to add a colorbar to plot.
+                Defaults to True.
+            log_scale (bool, optional): Whether to use a logarithmic scale 
+                for color mapping. Defaults to False.
             **kwargs: Additional keyword arguments for customization.
 
         Returns:
@@ -1193,7 +1208,9 @@ class Plotter:
                 np.max(array),
             )
             # if self.projection=="subplots":
-            # im=self.axes.matshow(array,cmap=cmap,origin="lower",norm=colors.LogNorm(vmin=kwargs.get("vmin",1), vmax=kwargs.get("vmax",200)) )
+            # im=self.axes.matshow(array,cmap=cmap,origin="lower",
+            # norm=colors.LogNorm(vmin=kwargs.get("vmin",1), 
+            # vmax=kwargs.get("vmax",200)) )
             im = self.axes.matshow(
                 array,
                 cmap=cmap,
@@ -1235,12 +1252,17 @@ class Plotter:
         Add a colorbar to the current plot.
 
         Args:
-            im (matplotlib.image.AxesImage): The image object for which to add the colorbar.
-            cax (matplotlib.axes.Axes, optional): The axes to use for the colorbar. Defaults to None.
-            axes (matplotlib.axes.Axes, optional): The axes associated with the colorbar. Defaults to None.
-            ylabel (str, optional): The label for the colorbar. Defaults to None.
-            ylabelsize (int, optional): The font size for the colorbar label. Defaults to 30.
-            clim (tuple, optional): The data value limits for the colorbar. Defaults to None.
+            im (matplotlib.image.AxesImage): The image object for which to add
+                the colorbar.
+            cax (matplotlib.axes.Axes, optional): The axes to use for the
+                colorbar. Defaults to None.
+            axes (matplotlib.axes.Axes, optional): The axes associated with
+                colorbar. Defaults to None.
+            ylabel (str, optional): The label for the colorbar. Defaults None.
+            ylabelsize (int, optional): The font size for the colorbar label.
+                Defaults to 30.
+            clim (tuple, optional): The data value limits for the colorbar.
+                Defaults to None.
             **kwargs: Additional keyword arguments for customization.
 
         Returns:
