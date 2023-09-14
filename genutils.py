@@ -461,7 +461,7 @@ def merge_flat_dict(
                     append[item],
                     temp[item][:append_length],
                 )
-        elif type(append[item]) == list and type(temp[item]) == list:
+        elif isinstance(append[item], list) and isinstance(temp[item], list):
             if "debug" in sys.argv:
                 print(
                     "list",
@@ -500,7 +500,7 @@ def merge_flat_dict(
 def print_events(events, name=None):
     """Print nested dictionaries with up to 3 levels, with the final
     value being a numpy.ndarray.
-    
+
     Args:
         events (dict): The nested dictionary to be printed.
         name (str, optional): A name or label for the printed dictionary.
