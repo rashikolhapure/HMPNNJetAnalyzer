@@ -854,17 +854,17 @@ class ModelData(object):
                     loaded_shape = temp_dict[input_state.name].shape
                     if input_state.index is not None:
                         X[input_state.network_input_index][
-                            key.start : key.end
+                            key.start: key.end
                         ] = temp_dict[input_state.name][
                             :,
                             input_state.index,
                         ]
                     else:
                         X[input_state.network_input_index][
-                            key.start : key.end
+                            key.start: key.end
                         ] = temp_dict[input_state.name]
                     Y[
-                        key.start : key.end,
+                        key.start: key.end,
                         class_indices[key.class_name],
                     ] = 1.0
                     print(
@@ -874,7 +874,7 @@ class ModelData(object):
                     )
                 if "debug" in sys.argv:
                     print(
-                        Y[key.start : key.start + 10],
+                        Y[key.start: key.start + 10],
                         key,
                     )
             for run_name in run_names:
@@ -988,7 +988,7 @@ class ModelData(object):
                         if input_state.index is not None:
                             data_dict[tag]["X"][
                                 input_state.network_input_index
-                            ][key.start : key.end] = temp_dict[
+                            ][key.start: key.end] = temp_dict[
                                 input_state.name
                             ][
                                 : key.end - key.start,
@@ -997,18 +997,18 @@ class ModelData(object):
                         else:
                             data_dict[tag]["X"][
                                 input_state.network_input_index
-                            ][key.start : key.end] = temp_dict[
+                            ][key.start: key.end] = temp_dict[
                                 input_state.name
                             ][
                                 : key.end - key.start
                             ]
                         data_dict[tag]["Y"][
-                            key.start : key.end,
+                            key.start: key.end,
                             class_indices[key.class_name],
                         ] = 1.0
                     if "debug" in sys.argv:
                         print(
-                            data_dict[tag]["Y"][key.start : key.start + 10],
+                            data_dict[tag]["Y"][key.start: key.start + 10],
                             key,
                         )
             if "debug" in sys.argv:
