@@ -17,11 +17,14 @@ import numpy as np
 
 def print_vectors(vectors, format="lorentz"):
     """
-    Print arrays of vectors, either in (pt, eta, phi, mass) or (px, py, pz, E) format.
+    Print arrays of vectors, either in (pt, eta, phi, mass) or
+    (px, py, pz, E) format.
 
     Args:
-        vectors (array or iterable): The array or iterable containing the vectors to print.
-        format (str, optional): The format in which to print the vectors. Default is 'lorentz'.
+        vectors (array or iterable): The array or iterable containing the
+            vectors to print.
+        format (str, optional): The format in which to print the vectors.
+            Default is 'lorentz'.
 
     Returns:
         None
@@ -30,11 +33,13 @@ def print_vectors(vectors, format="lorentz"):
     def print_single(vector):
         if format == "lorentz":
             print(
-                f"Px: {vector.px:10.8f}  Py: {vector.py:10.8f}  Pz: {vector.pz:10.8f}  E: {vector.e:10.8f}"
+                f"Px: {vector.px:10.8f}  Py: {vector.py:10.8f}  \
+                Pz: {vector.pz:10.8f}  E: {vector.e:10.8f}"
             )
         else:
             print(
-                f"Pt: {vector.pt:.8f} Eta: {vector.eta:.8f} Phi: {vector.phi:.8f} Mass: {vector.mass:.8f}"
+                f"Pt: {vector.pt:.8f} Eta: {vector.eta:.8f}  \
+                Phi: {vector.phi:.8f} Mass: {vector.mass:.8f}"
             )
 
     if hasattr(vectors, "__iter__"):
@@ -51,7 +56,8 @@ def print_vectors(vectors, format="lorentz"):
 
 def rescale(array):
     """
-    Rescale an input array to have zero mean and unit variance along each feature dimension.
+    Rescale an input array to have zero mean and unit variance along each
+    feature dimension.
 
     Args:
         array (numpy.ndarray): The input array to be rescaled.
@@ -87,9 +93,12 @@ def print_particle(
 
     Args:
         particle (numpy.ndarray): The particle information array.
-        four_vec (bool, optional): Whether to print the 4-vector components. Default is False.
-        ind (int, optional): The index of the particle (if applicable). Default is None.
-        mass (bool, optional): Whether to print the mass of the particle. Default is True.
+        four_vec (bool, optional): Whether to print the 4-vector components.
+            Default is False.
+        ind (int, optional): The index of the particle (if applicable).
+            Default is None.
+        mass (bool, optional): Whether to print the mass of the particle.
+            Default is True.
 
     Returns:
         int: Always returns 0.
@@ -155,9 +164,12 @@ def choose_bin(
 
     Args:
         events (dict): Dictionary containing event data.
-        bin_var (str): Variable for which to choose events within the specified range.
-        Range (tuple): Range of values to select events from (e.g., (min_value, max_value)).
-        var_key (str, optional): Key specifying the variable to use from the event data dictionary. Default is "Jet".
+        bin_var (str): Variable for which to choose events within the
+            specified range.
+        Range (tuple): Range of values to select events from (e.g.,
+            (min_value, max_value)).
+        var_key (str, optional): Key specifying the variable to use
+            from the event data dictionary. Default is "Jet".
         **kwargs: Additional keyword arguments.
 
     Returns:
@@ -248,11 +260,13 @@ def cut_counter(
     current_cut_flow,
 ):
     """
-    Counts the number of events passing each cut by accumulating the current cut flow into the previous one.
+    Counts the number of events passing each cut by accumulating the
+    current cut flow into the previous one.
 
     Args:
         prev_cut_flow (dict): The previous cut flow dictionary.
-        current_cut_flow (dict): The current cut flow dictionary to be accumulated.
+        current_cut_flow (dict): The current cut flow dictionary to be
+            accumulated.
 
     Returns:
         dict: The updated cut flow dictionary.
@@ -281,11 +295,14 @@ def cut_efficiency(cut_flow, verbose=False):
     Calculates the efficiency of each cut in the cut flow.
 
     Args:
-        cut_flow (dict): The cut flow dictionary containing the number of events for each cut.
-        verbose (bool, optional): Whether to print detailed efficiency information. Default is False.
+        cut_flow (dict): The cut flow dictionary containing the number
+            of events for each cut.
+        verbose (bool, optional): Whether to print detailed efficiency
+            information. Default is False.
 
     Returns:
-        dict: A dictionary containing the efficiency of each cut, including the total efficiency.
+        dict: A dictionary containing the efficiency of each cut, including the
+            total efficiency.
     """
     order = cut_flow["order"]
     tot = cut_flow["total"]
@@ -322,13 +339,16 @@ def dir_ext_count(
     suffix="",
 ):
     """
-    Count files with a specific extension in a directory that match a given prefix and suffix.
+    Count files with a specific extension in a directory that match a given
+    prefix and suffix.
 
     Args:
         ext (str): The file extension to count.
         dir_path (str): The directory path to search for files.
-        prefix (str, optional): A prefix that files must start with. Default is an empty string.
-        suffix (str, optional): A suffix that files must end with. Default is an empty string.
+        prefix (str, optional): A prefix that files must start with.
+            Default is an empty string.
+        suffix (str, optional): A suffix that files must end with.
+            Default is an empty string.
 
     Returns:
         list: A list of file paths that match the specified criteria.
@@ -357,8 +377,10 @@ def workaround_concatenate(
 
     Args:
         to_return (list or numpy.ndarray): The initial list or array.
-        to_append (list or numpy.ndarray): The list or array to append to the initial one.
-        return_type (str, optional): The return type, either 'array' or 'list'. Default is 'array'.
+        to_append (list or numpy.ndarray): The list or array to append
+            to the initial one.
+        return_type (str, optional): The return type, either 'array'
+            or 'list'. Default is 'array'.
 
     Returns:
         list or numpy.ndarray: The concatenated list or array.
@@ -381,15 +403,16 @@ def merge_flat_dict(
     keys="all",
     exclude=[],
 ):
-    """combine two dictionaries of same set of <keys> with <numpy.array> as values"""
-    """
-    Merge two dictionaries with numpy arrays as values, combining values with matching keys.
+    """Merge two dictionaries with numpy arrays as values, combining values
+    with matching keys.
 
     Args:
-        append (dict): The initial dictionary to which values will be appended.
+        append (dict): The initial dictionary to which values will be
+            appended.
         temp (dict): The dictionary containing values to append to the initial one.
-        append_length (int, optional): The length of values to append. Default is None.
-        keys (list or str, optional): The keys to consider for merging. Default is "all".
+        append_length (int, optional): The length of values to append.
+            Default is None.
+        keys (list or str, optional): The keys to consider for merging. Default "all".
         exclude (list, optional): The keys to exclude from merging. Default is an empty list.
 
     Returns:
