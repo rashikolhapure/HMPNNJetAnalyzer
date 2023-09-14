@@ -1370,11 +1370,13 @@ class Plotter:
         else:
             axes = None
 
-        if type(array[0]) == TLorentzVector:
-            array = np.array([[item.Eta(),item.Phi(),item.Pt()] for item in array])
-            array = np.swapaxes(array,0,1)
-        elif type(array[0]) == TVector3:
-            array = np.array([[item.X(),item.Y(),item.Z()] for item in array])
+        if isinstance(array[0], TLorentzVector):
+            array = np.array([[item.Eta(), item.Phi(), item.Pt()]
+                              for item in array])
+            array = np.swapaxes(array, 0, 1)
+        elif isinstance(array[0], TVector3):
+            array = np.array([[item.X(), item.Y(), item.Z()]
+                              for item in array])
 
         # if array.shape[0]!=3 or: array=np.swapaxes(array,0,1)
         X, Y, Z = (
