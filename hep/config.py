@@ -283,7 +283,8 @@ class FinalStates:
 
 
 class Paths:
-    # if "ab" in sys.argv: madgraph_dir=os.path.abspath("/home/akanksha/MG5_aMC_v2_5_5/")
+    # if "ab" in sys.argv:
+    # madgraph_dir=os.path.abspath("/home/akanksha/MG5_aMC_v2_5_5/")
     # else: madgraph_dir=os.path.abspath("/home/vishalng/MG5_aMC_v2_6_5/")
     if "ab" in sys.argv:
         madgraph_dir = os.environ["mdgraph_dir_AB"]
