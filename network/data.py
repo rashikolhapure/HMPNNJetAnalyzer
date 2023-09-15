@@ -278,7 +278,7 @@ class ModelData(object):
                 return_dict[run_name]["Y"].shape,
                 return_dict[run_name]["Y"][:-10],
             )
-            if type(return_dict[run_name]["X"]) == list:
+            if isinstance(return_dict[run_name]["X"], list):
                 temp_train = [
                     np_array[:split_point]
                     for np_array in return_dict[run_name]["X"]
@@ -585,7 +585,7 @@ class ModelData(object):
         """
         return_dict = {}
         if len(self.input_states) == 1:
-            if type(self.input_states[0].index) == int:
+            if isinstance(self.input_states[0].index, int):
                 return_dict["X"] = final_state_dict[self.input_states[0]][
                     :,
                     self.input_states[0].index,
@@ -596,7 +596,7 @@ class ModelData(object):
         else:
             listed = [0] * len(self.input_states)
             for f_state in self.input_states:
-                if type(f_state.index) == int:
+                if isinstance(f_state.index, int):
                     listed[f_state.network_input_index] = final_state_dict[
                         f_state
                     ][
@@ -624,7 +624,11 @@ class ModelData(object):
         """
         Write data and dictionaries to disk.
 
-        This method is used to save various data and dictionaries to disk, including training data, validation data, shuffled index dictionaries, and index dictionaries. It checks the mode of the class instance to ensure that it is in "write" mode before proceeding with saving the data.
+        This method is used to save various data and dictionaries to disk,
+        including training data, validation data, shuffled index dictionaries,
+        and index dictionaries. It checks the mode of the class instance to
+        ensure that it is in "write" mode before proceeding with saving the
+        data.
 
         Returns:
         """
@@ -690,7 +694,11 @@ class ModelData(object):
         """
         Write data and dictionaries to disk.
 
-        This method is used to save various data and dictionaries to disk, including training data, validation data, shuffled index dictionaries, and index dictionaries. It checks the mode of the class instance to ensure that it is in "write" mode before proceeding with saving the data.
+        This method is used to save various data and dictionaries to disk,
+        including training data, validation data, shuffled index dictionaries,
+        and index dictionaries. It checks the mode of the class instance to
+        ensure that it is in "write" mode before proceeding with saving the
+        data.
 
         Returns:
             None
@@ -734,16 +742,22 @@ class ModelData(object):
         """
         Check and shuffle multiple input data.
 
-        This method is used to check and shuffle the multiple input data, including both the training and validation datasets. It ensures that the data is properly shuffled for training. If the data is in the form of a list, it shuffles each element separately and reassembles them.
+        This method is used to check and shuffle the multiple input data,
+        including both the training and validation datasets. It ensures that
+        the data is properly shuffled for training. If the data is in the form
+        of a list, it shuffles each element separately and reassembles them.
 
         Returns:
-            tuple: A tuple containing the shuffled training and validation data.
+            tuple: A tuple containing the shuffled training and validation
+            data.
 
         Note:
-            This method assumes that the data is organized as a dictionary with "X" and "Y" keys, where "X" may contain multiple input arrays to be shuffled separately.
+            This method assumes that the data is organized as a dictionary
+            with "X" and "Y" keys, where "X" may contain multiple input
+            arrays to be shuffled separately.
         """
         print(self.train_data.keys())  # ,self.train_data["Y"][-10:])
-        if type(self.train_data["X"]) != list:
+        if isinstance(self.train_data["X"], list):
             self.train_data = nu_shuffle(**self.train_data)
             self.val_data = nu_shuffle(**self.val_data)
         else:
@@ -786,16 +800,22 @@ class ModelData(object):
         """
         Initialize input arrays for preprocessing.
 
-        This method initializes input arrays for preprocessing based on the specified `total_length`. It creates empty arrays for each input state and prepares a corresponding empty array for the target labels (`Y`) with the appropriate shape.
+        This method initializes input arrays for preprocessing based on the
+        specified `total_length`. It creates empty arrays for each input state
+        and prepares a corresponding empty array for the target labels (`Y`)
+        with the appropriate shape.
 
         Parameters:
             total_length (int): The total length of the input arrays.
 
         Note:
-            The method assumes that `self.input_states` contains the descriptions of input states, and `self.class_names` contains the names of the target classes.
+            The method assumes that `self.input_states` contains the
+            descriptions of input states, and `self.class_names` contains
+            the names of the target classes.
 
         Example:
-            To initialize input arrays for a total length of 100 samples, you can call `pre_inputs(100)`.
+            To initialize input arrays for a total length of 100 samples,
+            you can call `pre_inputs(100)`.
         """
         X = [[] for i in range(len(self.input_states))]
         print(X)
@@ -812,20 +832,25 @@ class ModelData(object):
         return X, Y
 
     def load_from_index_dict(self, path):
-        """currently writing for binary class, change later for n-class classification"""
-        """
-        Load data from the index dictionary.
+        """Load data from the index dictionary.
 
-        This method loads data based on the provided index dictionary from the specified `path`. It handles the loading of training and validation data, as well as their corresponding class indices.
+        currently writing for binary class, change later for n-class
+        classification. This method loads data based on the provided index
+        dictionary from the specified `path`. It handles the loading of
+        training and validation data, as well as their corresponding class
+        indices.
 
         Parameters:
-        path (str): The path to the directory containing the index dictionary and preprocessed data.
+        path (str): The path to the directory containing the index dictionary
+        and preprocessed data.
 
         Note:
-        This method assumes that the index dictionary contains information about data splits and class indices.
+        This method assumes that the index dictionary contains information
+        about data splits and class indices.
 
         Example:
-        To load data from the specified `path`, you can call `load_from_index_dict(path)`.
+        To load data from the specified `path`, you can call
+        `load_from_index_dict(path)`.
         """
         pwd = os.getcwd()
         print(path, pwd)
@@ -980,7 +1005,8 @@ class ModelData(object):
             except KeyError as e:
                 print(
                     e,
-                    "\n creating new class one-hot encoding, check correctness in case of inference or comparing pretrained models...",
+                    "\ncreating new class one-hot encoding, check correctness\
+                    in case of inference or comparing pretrained models...",
                 )
                 class_indices = {
                     item: i
@@ -1067,10 +1093,14 @@ class ModelData(object):
         """
         Get the training and validation data.
 
-        This method retrieves the training and validation data from stored files or loads them from index dictionaries. It also performs a consistency check on the loaded data and returns the data in the appropriate format.
+        This method retrieves the training and validation data from stored
+        files or loads them from index dictionaries. It also performs a
+        consistency check on the loaded data and returns the data in
+        the appropriate format.
 
         Returns:
-        tuple or dict: A tuple containing training and validation data, or dictionaries containing data if in write mode.
+        tuple or dict: A tuple containing training and validation data,
+        or dictionaries containing data if in write mode.
 
         Example:
         To get the training and validation data, you can call `get_data()`.
@@ -1138,12 +1168,15 @@ class AutoencoderData(ModelData):
     """
     Data handler class for training autoencoder models.
 
-    This class extends the base `ModelData` class and provides methods for loading or generating training and validation data specific to autoencoder models.
+    This class extends the base `ModelData` class and provides methods for
+    loading or generating training and validation data specific to
+    training an autoencoder model on a dataset of particles.
 
     Attributes:
         - _prefix_path (str): The prefix path where data is stored.
         - mode (str): The mode of operation, "w" for write, "r" for read.
-        - save_as (str): The format in which data is saved (e.g., "numpy_array").
+        - save_as (str): The format in which data is saved
+            (e.g., "numpy_array").
         - total_length (int): The total length of the data.
         - test_split (float): The split ratio for test data.
         - model_type (str): The type of the model.
@@ -1168,7 +1201,8 @@ class AutoencoderData(ModelData):
         - shuffled_index_dict (dict): Dictionary to store shuffled indices.
         - check (bool): Flag for data checking.
         - data_handler (obj): Data handler object.
-        - handler_kwargs (dict): Additional keyword arguments for the data handler.
+        - handler_kwargs (dict): Additional keyword arguments for the data
+            handler.
         - load_path (None): Placeholder for load path.
         - train_indices (None): Placeholder for training indices.
         - val_indices (None): Placeholder for validation indices.
@@ -1181,9 +1215,11 @@ class AutoencoderData(ModelData):
         """
         Get training and validation data for an autoencoder model.
 
-        This method loads or generates training and validation data for an autoencoder model. If the data files "train.h" and "val.h" exist
-        in the specified data save path, they are loaded. Otherwise, the data is generated and saved if the mode is "write" (w). The method
-        also performs data shuffling and preprocessing.
+        This method loads or generates training and validation data
+        for an autoencoder model. If the data files "train.h" and "val.h"
+        exist in the specified data save path, they are loaded. Otherwise,
+        the data is generated and saved if the mode is "write" (w).
+        The method also performs data shuffling and preprocessing.
 
         Returns:
         Tuple containing training and validation data:
@@ -1220,7 +1256,7 @@ class AutoencoderData(ModelData):
                 self.train_data["X"],
                 self.val_data["X"],
             )
-            if type(train_X) != list:
+            if isinstance(train_X, list):
                 train_data = array_shuffle(
                     X=np.expand_dims(
                         train_X,
