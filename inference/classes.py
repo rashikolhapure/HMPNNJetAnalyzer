@@ -488,10 +488,13 @@ class Inference(NetworkMethod):
         Perform predictions using the trained model.
 
         Args:
-            operation (str): The operation to perform on data before prediction (default: "None").
-            split (bool): Whether to split the operation across multiple processes (default: False).
+            operation (str): The operation to perform on data before
+                prediction (default: "None").
+            split (bool): Whether to split the operation across multiple
+                processes (default: False).
             roc_plot (bool): Whether to create ROC plots (default: False).
-            replace (str): Class name to replace the last class with (default: None).
+            replace (str): Class name to replace the last class with
+                (default: None).
             save (bool): Whether to save predictions (default: False).
             batch_size (int): Batch size for prediction (default: 300).
 
@@ -504,7 +507,7 @@ class Inference(NetworkMethod):
         assert (
             self.unoperated_data is not None
         ), "Initialized for extracting model, set get_model to False during\
-                                                 init or der self.unoperated_data for predicting data"
+            init or der self.unoperated_data for predicting data"
         if not self.model:
             self.get_best_model()
             # self.model.summary()
