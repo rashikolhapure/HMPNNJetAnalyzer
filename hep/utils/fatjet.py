@@ -22,7 +22,8 @@ class FatJet(object):
         pt_min=200.0,
         verbose=False,
     ):
-        """<tower> should be numpy array with shape (constituents,3/4) with the second dimension being [pt,eta,phi,(mass)]"""
+        """<tower> should be numpy array with shape (constituents,3/4) with
+        the second dimension being [pt,eta,phi,(mass)]"""
         self.Tower = tower
         self.Verbose = verbose
         self.Algorithm = algorithm
@@ -96,7 +97,8 @@ class FatJet(object):
         return np.array(vectors)
 
     def RemoveElectron(self, lepton):
-        """If event contains electrons, remove fatjets formed with energy deposit of electrons"""
+        """If event contains electrons, remove fatjets formed with
+        energy deposit of electrons"""
         if self.Verbose:
             print(
                 lepton,
@@ -196,7 +198,8 @@ class FatJet(object):
         fatjets,
         format="root",
     ):
-        """get a numpy array of len(fatjets) containing TLorentzVector of the constituents of each fatjet"""
+        """get a numpy array of len(fatjets) containing TLorentzVector of
+        the constituents of each fatjet"""
         return_array = []
         if format == "image":
             for item in fatjets:
