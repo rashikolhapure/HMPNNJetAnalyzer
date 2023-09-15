@@ -382,7 +382,8 @@ class Deform(Operator):
 
     def hard(self, array):
         """
-        Apply hard deformation to an array by selecting specific pixels based on a threshold.
+        Apply hard deformation to an array by selecting specific pixels based
+        on a threshold.
 
         Args:
             array (numpy.ndarray): The input array to be deformed.
@@ -613,17 +614,19 @@ def operator(
     roc_plot=False,
     **kwargs
 ):
-    """dir_name where the data and model_checkpoints are stored. operation_name is a class method belonging to an initiated operation_class,
-    the class method must depend on the parameter_name, iterates the Inference.predict function over all parameter_values
-    """
-    """
-    Perform an operation with specified parameters on a given run.
+    """Perform an operation with specified parameters on a given run.
+
+    dir_name where the data and model_checkpoints are stored. operation_name
+    is a class method belonging to an initiated operation_class, the class
+    method must depend on the parameter_name, iterates the Inference.predict
+    function over all parameter_values.
 
     Args:
         run_name (str): The name of the run.
         operation_name (str): The name of the operation to perform.
         operation_class (class): The class containing the operation method.
-        parameter_name (str): The name of the parameter to vary in the operation.
+        parameter_name (str): The name of the parameter to vary in the
+            operation.
         parameter_values (list): List of parameter values to iterate over.
         roc_plot (bool): Whether to generate ROC plots.
         **kwargs: Additional keyword arguments for configuring the operation.
