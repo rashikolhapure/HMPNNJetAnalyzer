@@ -24,7 +24,8 @@ np.set_printoptions(precision=16)
 
 ##################################### IMAGE PREPROCESSING#################
 def translate(*args, **kwargs):
-    """array of elements numpy array or float with coordinate in (X,Y), return X-x and Y-y"""
+    """array of elements numpy array or float with coordinate in (X,Y),
+    return X-x and Y-y"""
     for item in args:
         # print (item.shape)
         item[0] = item[0] - kwargs["x"]
@@ -73,7 +74,9 @@ def reflect(*args):
 
 ################################################# FAT JET ################
 def process_fatjets(fatjets, operation="all", subparts="subjets", **kwargs):
-    """Regularize tower/fatjet in (eta,phi) plane wih translation to subpart[0], rotate such the subpart[1] is at eta=0, and reflect such that subpart[2]
+    """Regularize tower/fatjet in (eta,phi) plane wih translation to
+    subpart[0], rotate such the subpart[1] is at eta=0, and reflect
+    such that subpart[2]
     is at the positive phi"""
     # print_events(events)
     x_interval = kwargs.get(
@@ -176,9 +179,12 @@ def shift_phi(
 
 
 def regularize_fatjet(fatjet, r=1.2):
-    """<fatjet> has constituents as TLorentzVector return array f TVector3 with (eta,phi,pt) axes,
-    regulates phi such that all components lie inside fatjet radius R in the Euclidean (eta,phi) plane,
-    reclusters the fatjet with CA algorithm with r=0.4 and returns them in the same (eta,phi,pt) format
+    """<fatjet> has constituents as TLorentzVector return array f TVector3 with
+    (eta,phi,pt) axes,
+    regulates phi such that all components lie inside fatjet radius R in
+    the Euclidean (eta,phi) plane,
+    reclusters the fatjet with CA algorithm with r=0.4 and returns
+    them in the same (eta,phi,pt) format
     """
     phi, eta = (
         np.sum(fatjet).Phi(),
@@ -499,7 +505,8 @@ def tower_padding_(
             :,
         ] = tower
         for i in range(pad_size):
-            # print (return_array.shape[0]-i-1,i,return_array.shape,tower.shape)
+            # print (return_array.shape[0]-i-1,i,
+            # return_array.shape,tower.shape)
             return_array[i] = tower[tower.shape[0] - i - 1]
             return_array[return_array.shape[0] - i - 1] = tower[i]
         # sys.exit()
