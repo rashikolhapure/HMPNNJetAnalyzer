@@ -113,7 +113,8 @@ def read_lhe(
     Parameters:
     ----------
     path : str, optional
-        The path to the directory containing the LHE file. Default is the current directory.
+        The path to the directory containing the LHE file. Default is the
+        current directory.
     filename : str, optional
         The name of the LHE file to read. Default is "unweighted_events.lhe".
     final_state_only : bool, optional
@@ -121,21 +122,26 @@ def read_lhe(
     exclude_initial : bool, optional
         Whether to exclude initial state particles. Default is True.
     return_structured : bool, optional
-        Whether to return the data in structured format (NumPy arrays). Default is False.
+        Whether to return the data in structured format (NumPy arrays).
+        Default is False.
     length : int, optional
-        The maximum number of events to read. Default is None, meaning read all events.
+        The maximum number of events to read. Default is None,
+        meaning read all events.
     add_attribute : bool, optional
-        Whether to add an attribute to each event specifying the run_name. Default is False.
+        Whether to add an attribute to each event specifying the run_name.
+        Default is False.
     run_name : str, optional
-        The name of the run to be added as an attribute. Required if add_attribute is True.
+        The name of the run to be added as an attribute. Required if
+        add_attribute is True.
 
     Returns:
     -------
     events : list or numpy.ndarray
         A list of events, where each event is a list of particles.
     event_attributes : list of EventAttribute (optional)
-        A list of event attributes specifying run_name, tag, path, and index for each event.
-        Returned only if add_attribute is True and return_structured is True.
+        A list of event attributes specifying run_name, tag, path, and
+        index for each event. Returned only if add_attribute is
+        True and return_structured is True.
 
     Raises:
     ------
@@ -302,7 +308,8 @@ def get_cross_section(
     cross_section : float
         The cross-section value extracted from the LHE file.
     error : float
-        The error value associated with the cross-section, extracted from the LHE file.
+        The error value associated with the cross-section, extracted
+        from the LHE file.
     """
 
     f = open(path_to_file, "r")
@@ -328,8 +335,9 @@ def get_cross_section(
 
 def reverse_dict(dictionary):
     """
-    dictionary with iterable values, with empty intersection between different values, builds
-    return dictionary with all items in value and returns the key of the particular iter_val key
+    dictionary with iterable values, with empty intersection between
+    different values, builds return dictionary with all items in value
+    and returns the key of the particular iter_val key
     """
     return_dict = {}
     for (
@@ -353,7 +361,8 @@ def convert_to_dict(
     sort=True,
 ):
     """
-    Convert events represented as a list of LHE particles into a dictionary of final state particles.
+    Convert events represented as a list of LHE particles into a dictionary
+    of final state particles.
 
     Parameters:
     ----------
@@ -362,17 +371,20 @@ def convert_to_dict(
     final_states : list of str
         A list of final state particle names to extract from the events.
     return_vector : bool, optional
-        Whether to return TLorentzVectors for each particle, defaults to True.
+        Whether to return TLorentzVectors for each particle, defaults
+        to True.
     name : bool, optional
-        Whether to include particle names in the output dictionary, defaults to True.
+        Whether to include particle names in the output dictionary,
+        defaults to True.
     sort : bool, optional
         Whether to sort particles in each final state by PT, defaults to True.
 
     Returns:
     -------
     return_dict : dict
-        A dictionary containing final state particles as numpy arrays. If return_vector is True,
-        the values are TLorentzVectors. If name is True, particle names are included.
+        A dictionary containing final state particles as numpy arrays.
+        If return_vector is True, the values are TLorentzVectors.
+        If name is True, particle names are included.
     """
     assert final_states is not None
     print(
