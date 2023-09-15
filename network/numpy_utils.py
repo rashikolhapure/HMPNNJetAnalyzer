@@ -37,7 +37,7 @@ def array_shuffle(**kwargs):
     variant 2a.
 
     Parameters:
-    **kwargs (dict): Keyword arguments where the keys are names of arrays or 
+    **kwargs (dict): Keyword arguments where the keys are names of arrays or
                      sequences and the values are the arrays or sequences to
                      be shuffled.
 
