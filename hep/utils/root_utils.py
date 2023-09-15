@@ -30,14 +30,16 @@ def GetTLorentzVector(
     format="lhc",
     particle="visible",
 ):
-    """Get numpy.ndarray of elements TLorentzVector from <array> of elements either a PseudoJet or
-    numpy.ndarray in format: lhc with [pt,eta,phi] or [pt,eta,phi,mass] and lorentz with [px,py,pz,E]
+    """Get numpy.ndarray of elements TLorentzVector from <array> of elements
+    either a PseudoJet or numpy.ndarray in format: lhc with [pt,eta,phi] or
+    [pt,eta,phi,mass] and lorentz with [px,py,pz,E]
     """
 
     if format != "fatjet" and len(array.shape) > 2:
         assert array.shape[-1] == 4, "No Lorentz Axis!"
         print(
-            "Multidimensional array detected, taking the last axis as the 4-vector axis!"
+            "Multidimensional array detected, taking the last axis as the\
+            4-vector axis!"
         )
         shape = array.shape[:-1]
         # print (array[:4])
@@ -59,7 +61,8 @@ def GetTLorentzVector(
             )
             count += 1
         return vec
-    # assert format in ("lhc","lorentz") and (array.shape[-2]==3 or array.shape[-1]==4) and len(array.shape)==2
+    # assert format in ("lhc","lorentz") and (array.shape[-2]==3 or
+    # array.shape[-1]==4) and len(array.shape)==2
     if len(array.shape) == 1:
         vec = TLorentzVector()
         if particle == "MET":
@@ -136,8 +139,10 @@ def GetNumpy(
     diff=None,
     include_del_r=False,
 ):
-    """convert TLorentzVector(s) to numpy.ndarray with format in {"image":[eta,phi,pt],"lhc":[pt,eta,phi,mass],"lorentz":[px,py,pz,E]
-    default observable_first=True gives shape of (len(format),constituents) otherwise the axes are swaped
+    """convert TLorentzVector(s) to numpy.ndarray with format in
+    {"image":[eta,phi,pt],"lhc":[pt,eta,phi,mass],"lorentz":[px,py,pz,E]
+    default observable_first=True gives shape of
+    (len(format),constituents) otherwise the axes are swaped
     """
     if format == "image":
         if isinstance(vectors, TLorentzVector):
@@ -306,7 +311,8 @@ def Sort(
     order="desc",
     return_indices=False,
 ):
-    """sort a numpy.ndarray of TLorentzVectors with attribute in ("p","pt","px","py","pz","eta","phi","mass","E").
+    """sort a numpy.ndarray of TLorentzVectors with attribute in
+    ("p","pt","px","py","pz","eta","phi","mass","E").
     descending if <order> is "desc" ortherwise ascending
     """
     if attribute == "pt":
@@ -385,7 +391,8 @@ def Broadcast(fatjets, check=False):
     return_array = np.array(return_array)
     if check:
         for i in range(len(fatjets)):
-            # print (fatjets[i].shape,return_array[i].shape,type(fatjets[i]),type(return_array[i]))
+            # print (fatjets[i].shape,return_array[i].shape,type(fatjets[i]),
+            # type(return_array[i]))
             s1, s2 = np.sum(fatjets[i]), np.sum(return_array[i])
             assert (
                 s1.M() == s2.M()
