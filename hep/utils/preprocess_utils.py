@@ -28,7 +28,8 @@ np.set_printoptions(precision=16)
 
 ##################################### IMAGE PREPROCESSING#################
 def translate(*args, **kwargs):
-    """array of elements numpy array or float with coordinate in (X,Y), return X-x and Y-y"""
+    """array of elements numpy array or float with coordinate in (X,Y),
+    return X-x and Y-y"""
     for item in args:
         # print (item.shape)
         item[0] = item[0] - kwargs["x"]
@@ -77,8 +78,9 @@ def reflect(*args):
 
 ################################################# FAT JET ################
 def process_fatjets(fatjets, operation="all", subparts="subjets", **kwargs):
-    """Regularize tower/fatjet in (eta,phi) plane wih translation to subpart[0], rotate such the subpart[1] is at eta=0, and reflect such that subpart[2]
-    is at the positive phi"""
+    """Regularize tower/fatjet in (eta,phi) plane wih translation to
+    subpart[0],rotate such the subpart[1] is at eta=0, and reflect such
+    that subpart[2] is at the positive phi"""
     # print_events(events)
     x_interval = kwargs.get(
         "x_interval",
@@ -188,9 +190,11 @@ def regularize_fatjet(
     check=False,
     **kwargs
 ):
-    """<fatjet> has constituents as TLorentzVector return array f TVector3 with (eta,phi,pt) axes,
-    regulates phi such that all components lie inside fatjet radius R in the Euclidean (eta,phi) plane,
-    reclusters the fatjet with CA algorithm with r=0.4 and returns them in the same (eta,phi,pt) format
+    """<fatjet> has constituents as TLorentzVector return array f TVector3
+    with (eta,phi,pt) axes, regulates phi such that all components lie inside
+    fatjet radius R in the Euclidean (eta,phi) plane, reclusters the fatjet
+    with CA algorithm with r=0.4 and returns them in the same (eta,phi,pt)
+    format
     """
     phi, eta = (
         np.sum(fatjet).Phi(),
