@@ -90,7 +90,10 @@ def pad_values(
                         : int(diff / 2),
                     ],
                     old_val,
-                    x_new[:, int(diff / 2):, ],
+                    x_new[
+                        :,
+                        int(diff / 2) :,
+                    ],
                 ),
                 axis=1,
             )
@@ -114,7 +117,11 @@ def pad_values(
                         : int(diff / 2),
                     ],
                     old_val,
-                    x_new[:, :, int(diff / 2):, ],
+                    x_new[
+                        :,
+                        :,
+                        int(diff / 2) :,
+                    ],
                 ),
                 axis=2,
             )

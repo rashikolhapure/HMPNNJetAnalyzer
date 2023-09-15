@@ -92,7 +92,7 @@ def reflect(*args):
     return args
 
 
-#FAT JET
+# FAT JET
 def process_fatjets(fatjets, operation="all", subparts="subjets", **kwargs):
     """Regularize tower/fatjet in (eta,phi) plane wih translation to
     subpart[0], rotate such the subpart[1] is at eta=0, and reflect
