@@ -27,18 +27,23 @@ def pad_values(
     """
     Pad numpy arrays in a dictionary to match specified target shapes.
 
-    This function takes in three arguments: 'events', 'target_shapes', and 'value'. 'events' is a dictionary
-    containing numpy arrays of different shapes, and 'target_shapes' is also a dictionary containing the desired shapes
-    for each corresponding array in 'events'. The function pads each array in 'events' with zeros to match the desired
-    shape in 'target_shapes'. The padding is done along the second and third dimensions of the arrays, and the value of
-    the padding is set to 'value', which defaults to zero.
+    This function takes in three arguments: 'events', 'target_shapes', and
+    'value'. 'events' is a dictionary containing numpy arrays of different
+    shapes, and 'target_shapes' is also a dictionary containing the desired
+    shapes for each corresponding array in 'events'. The function pads each
+    array in 'events' with zeros to match the desired shape in
+    'target_shapes'. The padding is done along the second and third dimensions
+    of the arrays, and the value of the padding is set to 'value', which
+    defaults to zero.
 
-    If the command line argument "plot" is present, the function also creates a plot of the original and padded arrays
-    for the 10th element of each array in 'events'. The plots are saved as an EPS file named "zero_pad".
+    If the command line argument "plot" is present, the function also creates
+    a plot of the original and padded arrays for the 10th element of each
+    array in 'events'. The plots are saved as an EPS file named "zero_pad".
 
     Parameters:
     - events (dict): A dictionary containing numpy arrays to be padded.
-    - target_shapes (dict): A dictionary specifying the desired shapes for each array in 'events'.
+    - target_shapes (dict): A dictionary specifying the desired shapes for
+        each array in 'events'.
     - value (float, optional): The padding value (default is 0).
 
     Returns:
@@ -85,10 +90,7 @@ def pad_values(
                         : int(diff / 2),
                     ],
                     old_val,
-                    x_new[
-                        :,
-                        int(diff / 2) :,
-                    ],
+                    x_new[:, int(diff / 2):, ],
                 ),
                 axis=1,
             )
@@ -112,11 +114,7 @@ def pad_values(
                         : int(diff / 2),
                     ],
                     old_val,
-                    x_new[
-                        :,
-                        :,
-                        int(diff / 2) :,
-                    ],
+                    x_new[:, :, int(diff / 2):, ],
                 ),
                 axis=2,
             )
@@ -148,17 +146,26 @@ def load_data(
 
     Args:
         classes (list): List of classes or data sources.
-        length (int, optional): Number of data samples to load. Defaults to 30000.
-        preprocess_tag (str, optional): Tag for preprocessed data. Defaults to None.
-        test_train_split (float, optional): Proportion of data for validation. Defaults to 0.25.
-        input_keys (list, optional): List of input keys for data. Defaults to ["high_level"].
-        return_array (bool, optional): Return data as arrays if True. Defaults to False.
-        function (function, optional): Custom function for data preprocessing. Defaults to None.
-        run_io (bool, optional): If True, use RunIO for loading events. Defaults to False.
-        **kwargs: Additional keyword arguments for data loading and preprocessing.
+        length (int, optional): Number of data samples to load.
+            Defaults to 30000.
+        preprocess_tag (str, optional): Tag for preprocessed data.
+            Defaults to None.
+        test_train_split (float, optional): Proportion of data for validation.
+            Defaults to 0.25.
+        input_keys (list, optional): List of input keys for data. Defaults to
+            ["high_level"].
+        return_array (bool, optional): Return data as arrays if True.
+            Defaults to False.
+        function (function, optional): Custom function for data preprocessing.
+            Defaults to None.
+        run_io (bool, optional): If True, use RunIO for loading events.
+            Defaults to False.
+        **kwargs: Additional keyword arguments for data loading and
+            preprocessing.
 
     Returns:
-        dict: Dictionary containing training and validation data, classes, and path information.
+        dict: Dictionary containing training and validation data, classes,
+        and path information.
     """
 
     count = 0
@@ -269,7 +276,9 @@ def load_data(
                         ind,
                         0,
                     ] = len(np.where(events["tower_image"][ind])[0])
-                    # print ("bin_in shape: ",X[i].shape,X[i][:10],np.where(events["tower_image"][ind]),len(np.where(events["tower_image"][ind])[0]))
+                    # print ("bin_in shape: ",X[i].shape,X[i][:10],
+                    # np.where(events["tower_image"][ind]),
+                    # len(np.where(events["tower_image"][ind])[0]))
             else:
                 X[i] = events[input_key][:length]
             if normalize:
@@ -408,7 +417,8 @@ def load_data(
 
 def shape_print(X, Y):
     """
-    This function takes input X and Y and prints their shapes along with the first 5 and last 5 elements of Y.
+    This function takes input X and Y and prints their shapes along with the
+    first 5 and last 5 elements of Y.
 
     Args:
         X: Input data of type numpy array or a list of numpy arrays.
@@ -417,7 +427,7 @@ def shape_print(X, Y):
     Returns:
         None
     """
-    if type(X) == np.ndarray:
+    if isinstance(X, np.ndarray):
         print("X:", X.shape)
     else:
         [
