@@ -26,21 +26,25 @@ IndexKey = namedtuple(
 
 
 def array_shuffle(**kwargs):
-     """
+    """
     Shuffle multiple NumPy arrays or sequences in the same order.
 
-    This function takes multiple NumPy arrays or sequences as keyword arguments
-    and shuffles them in the same order. It returns a dictionary with the same
-    keys as the input keyword arguments, where each value is a shuffled version
-    of the corresponding input array or sequence.
+    This function takes multiple NumPy arrays or sequences as keyword
+    arguments and returns a dictionary with shuffled values of those arguments:
+    It returns a dictionary with the same keys as the input keyword arguments,
+    where each value is a shuffled version of the corresponding input array or
+    sequence. The shuffle algorithm used here is Fisher-Yates / Knuth's
+    variant 2a.
 
     Parameters:
-    **kwargs (dict): Keyword arguments where the keys are names of arrays or sequences
-                    and the values are the arrays or sequences to be shuffled.
+    **kwargs (dict): Keyword arguments where the keys are names of arrays or 
+                     sequences and the values are the arrays or sequences to
+                     be shuffled.
 
     Returns:
-    dict: A dictionary where the keys are the same as the input keyword arguments,
-          and the values are shuffled versions of the corresponding input arrays.
+    dict: A dictionary where the keys are the same as the input keyword
+          arguments, and the values are shuffled versions of the corresponding
+          input arrays.
     """
     if "all" in kwargs:
         kwargs = kwargs.get("all")  # X.shape[0]==Y.shape[0]
