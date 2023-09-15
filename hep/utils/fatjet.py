@@ -133,7 +133,7 @@ class FatJet(object):
 
     def Get(self):
         """get list of fatjet in PseudoJet class"""
-        if type(self.Tower[0]) == np.ndarray:
+        if isinstance(self.Tower[0], np.ndarray):
             temp = np.concatenate(
                 (
                     self.Tower,
