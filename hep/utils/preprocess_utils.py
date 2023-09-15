@@ -332,9 +332,11 @@ def regularize_fatjet(
 
 
 def __regularize_fatjet(fatjet, r=1.2, inclusive=False, **kwargs):
-    """<fatjet> has constituents as TLorentzVector return array f TVector3 with (eta,phi,pt) axes,
-    regulates phi such that all components lie inside fatjet radius R in the Euclidean (eta,phi) plane,
-    reclusters the fatjet with CA algorithm with r=0.4 and returns them in the same (eta,phi,pt) format
+    """<fatjet> has constituents as TLorentzVector return array f TVector3
+    with (eta,phi,pt) axes, regulates phi such that all components lie
+    inside fatjet radius R in the Euclidean (eta,phi) plane, reclusters
+    the fatjet with CA algorithm with r=0.4 and returns them in the same
+    (eta,phi,pt) format
     """
     phi, eta = (
         np.sum(fatjet).Phi(),
@@ -441,9 +443,12 @@ def __regularize_fatjet(fatjet, r=1.2, inclusive=False, **kwargs):
 
 
 def _regularize_fatjet(fatjet, r=1.2):
-    """<fatjet> has constituents as TLorentzVector return array f TVector3 with (eta,phi,pt) axes,
-    regulates phi such that all components lie inside fatjet radius R in the Euclidean (eta,phi) plane,
-    reclusters the fatjet with CA algorithm with r=0.4 and returns them in the same (eta,phi,pt) format
+    """<fatjet> has constituents as TLorentzVector return array f TVector3
+    with
+    (eta,phi,pt) axes, regulates phi such that all components lie inside
+    fatjet radius R in the Euclidean (eta,phi) plane, reclusters the fatjet
+    with CA algorithm with r=0.4 and returns them in the same (eta,phi,pt)
+    format
     """
     phi, eta = (
         np.sum(fatjet).Phi(),
