@@ -53,12 +53,13 @@ class KerasModel(NetworkMethod):
                 Optional arguments:
                     - "network_type": Type of network (default: "jet_image").
                     - "lr": Learning rate (default: 0.0001).
-                    - "loss": Loss function (default: "categorical_crossentropy").
+                    - "loss": Loss function
+                        (default: "categorical_crossentropy").
                     - "opt": Optimizer name (default: "Nadam").
                     - "model_type": Type of the model (e.g., "autoencoder").
                     - "save": Flag to save model (default: False).
                     - "data_handler": DataHandler instance for data loading.
-        
+
         Raises:
             AssertionError: If any of the compulsory arguments are missing.
 
@@ -132,13 +133,15 @@ class KerasModel(NetworkMethod):
 
     def check_consistency(self, model):
         """
-        Check the consistency of the provided Keras model with the expected input and output shapes.
+        Check the consistency of the provided Keras model with the
+        expected input and output shapes.
 
         Args:
             model (keras.models.Model): The Keras model to check.
 
         Raises:
-            AssertionError: If the model's input and output shapes do not match the expected shapes.
+            AssertionError: If the model's input and output shapes do not
+                match the expected shapes.
 
         Returns:
             None
@@ -178,19 +181,27 @@ class KerasModel(NetworkMethod):
 
     def compile(self, model, check=True, **kwargs):
         """
-        Compile the provided Keras model with specified optimizer, loss function, and metrics.
+        Compile the provided Keras model with specified optimizer,
+        loss function, and metrics.
 
         Args:
             model (keras.models.Model): The Keras model to compile.
-            check (bool, optional): Whether to check model consistency with input states. Defaults to True.
+            check (bool, optional): Whether to check model consistency
+                with input states. Defaults to True.
             **kwargs: Additional keyword arguments.
-                - loss (str, optional): The loss function to use. Defaults to 'categorical_crossentropy' for classification
+                - loss (str, optional): The loss function to use.
+                    Defaults to 'categorical_crossentropy' for classification
                 tasks and 'mean_squared_error' for autoencoders.
-                - metrics (list of str, optional): List of metrics to monitor during training. Defaults to ['acc'] for
-                classification tasks and ['mean_squared_error'] for autoencoders.
-                - lr (float, optional): Learning rate for the optimizer. Defaults to 0.0001.
-                - optimizer (str, optional): The optimizer name. Defaults to 'Nadam'.
-                - opt_kwargs (dict, optional): Additional keyword arguments to pass to the optimizer.
+                - metrics (list of str, optional): List of metrics to
+                    monitor during training. Defaults to ['acc'] for
+                    classification tasks and ['mean_squared_error'] for
+                    autoencoders.
+                - lr (float, optional): Learning rate for the optimizer.
+                    Defaults to 0.0001.
+                - optimizer (str, optional): The optimizer name.
+                    Defaults to 'Nadam'.
+                - opt_kwargs (dict, optional): Additional keyword arguments
+                    to pass to the optimizer.
 
         Returns:
             keras.models.Model: The compiled Keras model.
@@ -232,26 +243,41 @@ class KerasModel(NetworkMethod):
         self, include_tensorboard=False, early_stopping=False, **kwargs
     ):
         """
-        Set up checkpointing strategy for the model, which includes saving model weights and optionally saving TensorBoard logs.
+        Set up checkpointing strategy for the model, which includes saving
+        model weights and optionally saving TensorBoard logs.
 
         Args:
-            include_tensorboard (bool, optional): Whether to include TensorBoard logs. Defaults to False.
-            early_stopping (bool, optional): Whether to enable early stopping. Defaults to False.
+            include_tensorboard (bool, optional): Whether to include
+                TensorBoard logs. Defaults to False.
+            early_stopping (bool, optional): Whether to enable early
+                stopping. Defaults to False.
             **kwargs: Additional keyword arguments.
-                - period (int, optional): Number of epochs between checkpoints. Defaults to 1.
-                - hyper_opt (bool, optional): Whether this is a hyperparameter optimization run. Defaults to False.
+                - period (int, optional): Number of epochs between
+                    checkpoints. Defaults to 1.
+                - hyper_opt (bool, optional): Whether this is a hyperparameter
+                    optimization run. Defaults to False.
                 - batch_size (int, optional): Batch size. Defaults to None.
-                - monitor (str, optional): Metric to monitor for early stopping. Defaults to 'val_acc'.
-                - min_delta (int, optional): Minimum change in the monitored metric to qualify as an improvement. Defaults to 3.
-                - patience (int, optional): Number of epochs with no improvement after which training will be stopped. Defaults to 5.
-                - mode (str, optional): One of {'auto', 'min', 'max'}. In 'min' mode, training will stop when the monitored quantity stops decreasing. In 'max' mode, it will stop when the monitored quantity stops increasing. Defaults to 'max'.
+                - monitor (str, optional): Metric to monitor for early
+                    stopping. Defaults to 'val_acc'.
+                - min_delta (int, optional): Minimum change in the monitored
+                    metric to qualify as an improvement. Defaults to 3.
+                - patience (int, optional): Number of epochs with no
+                    improvement after which training will be stopped.
+                    Defaults to 5.
+                - mode (str, optional): One of {'auto', 'min', 'max'}.
+                    In 'min' mode, training will stop when the monitored
+                    quantity stops decreasing. In 'max' mode, it will stop
+                    when the monitored quantity stops increasing. Defaults to
+                    'max'.
 
         Returns:
-            list: A list of Keras callbacks for checkpointing, early stopping, and TensorBoard, if enabled.
+            list: A list of Keras callbacks for checkpointing, early stopping,
+                and TensorBoard, if enabled.
 
         Note:
             - When `hyper_opt` is True, `checkpoint` will be an empty list.
-            - The checkpointed models are saved in the model checkpoints directory specified during initialization.
+            - The checkpointed models are saved in the model checkpoints
+                directory specified during initialization.
 
         Raises:
             AssertionError: If an invalid mode is provided.
@@ -323,7 +349,7 @@ class KerasModel(NetworkMethod):
                 self.in_data.run_path,
                 "tensorboard",
             )
-            checkpoin.append(
+            checkpoint.append(
                 TensorBoard(
                     log_dir=tensorboard_path,
                     write_grads=True,
@@ -370,27 +396,38 @@ class KerasModel(NetworkMethod):
         Fit the compiled model to the training data.
 
         Args:
-            verbose (int, optional): Verbosity mode (0, 1, or 2). Defaults to 1.
-            batch_size (int, optional): Number of samples per gradient update. Defaults to 300.
-            shuffle (bool, optional): Whether to shuffle the training data before each epoch. Defaults to True.
-            epochs (int, optional): Number of epochs to train the model. Defaults to 5.
-            encoder (bool, optional): Whether to train the model as an autoencoder. Defaults to False.
+            verbose (int, optional): Verbosity mode (0, 1, or 2). Defaults 1.
+            batch_size (int, optional): Number of samples per gradient update.
+                Defaults to 300.
+            shuffle (bool, optional): Whether to shuffle the training data
+                before each epoch. Defaults to True.
+            epochs (int, optional): Number of epochs to train the model.
+                Defaults to 5.
+            encoder (bool, optional): Whether to train the model as an
+                autoencoder. Defaults to False.
             **kwargs: Additional keyword arguments.
-                - Additional arguments to be passed to the set_checkpoints method.
+                - Additional arguments to be passed to the set_checkpoints
+                    method.
 
         Returns:
             dict: A dictionary containing training and validation metrics.
 
         Note:
-            - If `self.train_data` and `self.val_data` have not been set, this method uses `get_data` from the DataHandler or ModelData class to fetch the data.
-            - If `self.save` is True, the method sets up checkpointing based on the specified keyword arguments.
+            - If `self.train_data` and `self.val_data` have not been set, this
+                method uses `get_data` from the DataHandler or ModelData class
+                to fetch the data.
+            - If `self.save` is True, the method sets up checkpointing based
+                on the specified keyword arguments.
             - If `encoder` is True, the trained encoder is saved.
-            - The training history, model weights, and encoder (if applicable) are saved in the history save path specified during initialization.
+            - The training history, model weights, and encoder (if applicable)
+                are saved in the history save path specified during
+                initialization.
 
         Example:
             To fit the model with custom settings:
             ```
-            model.fit(verbose=2, batch_size=128, shuffle=True, epochs=10, encoder=True, monitor='val_loss', patience=3)
+            model.fit(verbose=2, batch_size=128, shuffle=True, epochs=10,
+            encoder=True, monitor='val_loss', patience=3)
             ```
         """
         if self.train_data is None:
