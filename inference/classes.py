@@ -131,7 +131,8 @@ class Inference(NetworkMethod):
                 self.unoperated_data = self.model_data_load()
 
     def replace_data(self, data, **kwargs):
-        """replace a particular class <out_key> with a new class <in_key> with <data_tag> loaded from ./processed_events/<data_tag>/all"""
+        """replace a particular class <out_key> with a new class <in_key>
+        with <data_tag> loaded from ./processed_events/<data_tag>/all"""
         assert "new_class" in kwargs
         new_class = kwargs.get("new_class")
         out_key = kwargs.get(
@@ -193,7 +194,8 @@ class Inference(NetworkMethod):
         Returns:
         --------
         data : dict
-            A dictionary containing the loaded data handler and related configurations.
+            A dictionary containing the loaded data handler and related
+            configurations.
 
         """
         # print (self.data_path,os.listdir(self.data_path))
@@ -222,7 +224,8 @@ class Inference(NetworkMethod):
         ):
             print("Return all option active")
             warn(
-                "Do not use return_all =True option while using function methods!"
+                "Do not use return_all =True option while using function\
+                methods!"
             )
             return self.all_data
         else:
@@ -273,8 +276,8 @@ class Inference(NetworkMethod):
             data (dict): A dictionary containing data for both classes.
 
         Returns:
-            dict: A dictionary containing two classes with keys 'class_0' and 'class_1', each
-                containing their respective data.
+            dict: A dictionary containing two classes with keys 'class_0' and
+            'class_1', each containing their respective data.
 
         Example:
             data = {
@@ -361,16 +364,20 @@ class Inference(NetworkMethod):
 
     def get_best_model(self):
         """
-        Chooses the best model from a list of model files based on validation accuracy.
+        Chooses the best model from a list of model files based on validation
+        accuracy.
 
         Args:
             model_files (list): List of model file paths.
 
         Returns:
-            str: The file path of the best model based on validation accuracy.
+            str: The file path of the best model based on validation
+            accuracy.
 
         Example:
-            model_files = ['model_0.85.hdf5', 'model_0.90.hdf5', 'model_0.88.hdf5']
+            model_files = ['model_0.85.hdf5',
+                           'model_0.90.hdf5',
+                           'model_0.88.hdf5']
             best_model_path = self.choose_model(model_files)
         """
         model_files = check_file(
@@ -393,7 +400,8 @@ class Inference(NetworkMethod):
         """
         Load the best models from separate runs.
 
-        This method identifies the best model for each run and loads them for inference.
+        This method identifies the best model for each run and loads
+        them for inference.
 
         Returns:
         --------
@@ -432,7 +440,10 @@ class Inference(NetworkMethod):
             kwargs (dict): Additional keyword arguments for prediction.
 
         Returns:
-            list: A list of dictionaries containing predictions from each model.
+            list: A list of dictionaries containing predictions from each
+            model. Each dictionary contains a key 'predictions' which is
+            an array with shape (n_samples,) where n_samples are the number
+            samples.
 
         Example:
             predictions = self.per_run_predict()
