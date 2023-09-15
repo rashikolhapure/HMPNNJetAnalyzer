@@ -67,7 +67,8 @@ class RootEvents(PhysicsData):
 
         Notes:
         -----
-        This class initializes a RootEvents object, which is used to manage and process data from root files.
+        This class initializes a RootEvents object, which is used to manage
+        and process data from root files.
         """
         print(
             self.__class__.__name__,
@@ -152,12 +153,14 @@ class RootEvents(PhysicsData):
         )
 
     def read(self, root_file):
-        """class method to directly select <final_state> with list of <attributes> at <indices> from <root_file>.
-        returns a numpy array of either len(indices) with variable shape depending on the <final_state>
-        """
-        """
-        Class method to directly select <final_state> with list of <attributes> at <indices> from <root_file>.
-        
+        """class method to directly select <final_state> with list of
+        <attributes> at <indices> from <root_file>. returns a numpy
+        array of either len(indices) with variable shape depending
+        on the <final_state>
+
+        Class method to directly select <final_state> with list of
+        <attributes> at <indices> from <root_file>.
+
         Parameters:
         ----------
         root_file : str
@@ -170,8 +173,10 @@ class RootEvents(PhysicsData):
 
         Notes:
         -----
-        This method reads data from a root file and selects a specific final state with a list of attributes at given indices.
-        The resulting data is returned as a numpy array with variable shape depending on the final state.
+        This method reads data from a root file and selects a specific
+        final state with a list of attributes at given indices. The resulting
+        data is returned as a numpy array with variable shape depending on
+        the final state.
         """
         print(
             "root_file_path:",
@@ -187,7 +192,8 @@ class RootEvents(PhysicsData):
         Returns:
         -------
         numpy.ndarray or dict
-            Depending on the configuration, it returns either a numpy array or a dictionary containing selected data.
+            Depending on the configuration, it returns either a numpy array or
+            a dictionary containing selected data.
 
         Raises:
         ------
@@ -511,7 +517,8 @@ class PreProcessedEvents(PhysicsData):
         """
         A class for handling preprocessed events data.
 
-        This class provides methods for reading and writing preprocessed events data.
+        This class provides methods for reading and writing preprocessed
+        events data.
 
         Parameters:
         ----------
