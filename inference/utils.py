@@ -7,7 +7,8 @@ def calculate_roc(
     background="background",
 ):
     """
-    Calculate ROC (Receiver Operating Characteristic) values based on signal and background data.
+    Calculate ROC (Receiver Operating Characteristic) values based on
+    signal and background data.
 
     Args:
         data (dict): A dictionary containing signal and background data.
@@ -15,7 +16,8 @@ def calculate_roc(
         background (str): Key for the background data in the data dictionary.
 
     Returns:
-        tuple: A tuple containing two lists - signal efficiency and background rejection.
+        tuple: A tuple containing two lists - signal efficiency and
+            background rejection.
     """
     print("calculating roc values...")
     sg = data[signal][:, 0]
@@ -31,14 +33,16 @@ def calculate_roc(
 
 def root_mean_squared_error(true, pred):
     """
-    Calculate the root mean squared error (RMSE) between true and predicted values.
+    Calculate the root mean squared error (RMSE) between true and
+    predicted values.
 
     Args:
         true (numpy.ndarray): The true values.
         pred (numpy.ndarray): The predicted values.
 
     Returns:
-        numpy.ndarray: An array of RMSE values for each pair of true and predicted values.
+        numpy.ndarray: An array of RMSE values for each pair of true
+            and predicted values.
     """
     print(
         true.shape,
