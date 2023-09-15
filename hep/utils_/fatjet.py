@@ -13,32 +13,38 @@ from ROOT import (
 
 class FatJet(object):
     """
-    This code defines a class called FatJet that uses the pyjet package to cluster
-    jets from a set of input particles (towers), and to perform subjet clustering.
-    The resulting jets are stored as a list of PseudoJet objects.
+    This code defines a class called FatJet that uses the pyjet package to
+    cluster jets from a set of input particles (towers), and to perform
+    subjet clustering. The resulting jets are stored as a list of
+    PseudoJet objects.
 
     The FatJet class has the following methods:
 
     __init__: Initializes the class with the input parameters, including the
     clustering algorithm (antikt, CA, or kt), the distance parameter R, the
-    minimum transverse momentum pt_min for jet constituents, and a verbose flag to
-    print output.
+    minimum transverse momentum pt_min for jet constituents, and a verbose
+    flag to print output.
 
     ConstructVector: A helper function that converts a list of particles
     (each with pt, eta, phi, and mass) to an array of four-vectors.
     ClusterJets: Uses PyJet's ClusterSequence object to find clusters in the
     vectorized.
-    RemoveElectron: A function that removes fatjets formed with energy deposits
-    from electrons.
+
+    RemoveElectron: A function that removes fatjets formed with energy
+    deposits from electrons.
+
     Get: Clusters jets from the input Tower particles using the specified
-    algorithm and R parameter. Returns a list of PseudoJet objects representing
-    the fatjets.
+    algorithm and R parameter. Returns a list of PseudoJet objects
+    representing the fatjets.
+
     GetConstituents: Given a list of fatjets, returns an array of particles
     (in TLorentzVector format) that make up each jet.
-    Recluster: Performs subjet clustering on a given fatjet using the specified
-    algorithm, R parameter, and dcut parameter. Returns a list of PseudoJet objects
-    representing the subjets. Overall, this code provides a set of tools for jet
-    clustering and subjet analysis, which are useful in particle physics analyses.
+
+    Recluster: Performs subjet clustering on a given fatjet using the
+    specified algorithm, R parameter, and dcut parameter. Returns a list
+    of PseudoJet objects representing the subjets. Overall, this code
+    provides a set of tools for jet clustering and subjet analysis,
+    which are useful in particle physics analyses.
     """
 
     def __init__(
@@ -265,20 +271,24 @@ class FatJet(object):
         subjets=3,
     ):
         """
-        Recluster a fatjet into subjets using a specified jet clustering algorithm.
+        Recluster a fatjet into subjets using a specified jet clustering
+        algorithm.
 
         Parameters:
         ----------
         fatjet : object
             The input fatjet to be reclustered.
         r : float, optional
-            The jet radius parameter for the clustering algorithm (default is 0.4).
+            The jet radius parameter for the clustering algorithm
+            (default is 0.4).
         dcut : float, optional
-            The distance parameter for the clustering algorithm (default is 0.5).
+            The distance parameter for the clustering algorithm
+            (default is 0.5).
         algorithm : str, optional
             The clustering algorithm to be used (default is "CA").
         subjets : int, optional
-            The maximum number of subjets to be returned (default is 3).
+            The maximum number of subjets to be returned
+            (default is 3).
 
         Returns:
         -------
@@ -287,8 +297,9 @@ class FatJet(object):
 
         Notes:
         -----
-        This method uses a clustering algorithm to break down a fatjet into smaller subjets.
-        The `pt_min` is determined based on the fatjet's transverse momentum.
+        This method uses a clustering algorithm to break down a fatjet into
+        smaller subjets. The `pt_min` is determined based on the fatjet's
+        transverse momentum.
         """
         pt_min = 0.03 * np.sum(fatjet).Pt()
         vectors = self.ConstructVector(fatjet)
@@ -324,9 +335,11 @@ def Print(
     name : str, optional
         A name or label for the fatjet (default is None).
     format : str, optional
-        The format to use for printing ("lhc" or "other") (default is "lhc").
+        The format to use for printing ("lhc" or "other")
+        (default is "lhc").
     constituents : bool, optional
-        Whether to print information about the constituents of the fatjet (default is False).
+        Whether to print information about the constituents of the fatjet
+        (default is False).
 
     Returns:
     -------
@@ -334,9 +347,10 @@ def Print(
 
     Notes:
     -----
-    This function prints information about the given fatjet or its constituents in the specified format.
-    If 'name' is provided, it will be printed as a label for the fatjet.
-    If 'constituents' is set to True, the function will print information about each constituent of the fatjet.
+    This function prints information about the given fatjet or its
+    constituents in the specified format. If 'name' is provided, it will
+    be printed as a label for the fatjet. If 'constituents' is set to True,
+    the function will print information about each constituent of the fatjet.
     """
     if name is not None:
         print(name)
