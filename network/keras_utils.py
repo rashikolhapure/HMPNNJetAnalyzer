@@ -16,10 +16,12 @@ def opt(
     Args:
         learning_rate (float): The learning rate for the optimizer.
         optimizer_name (str): The name of the optimizer to be initialized.
-        **kwargs: Additional keyword arguments that can be passed to the optimizer constructor.
+        **kwargs: Additional keyword arguments that can be passed to the
+            optimizer constructor.
 
     Returns:
-        keras.optimizers.Optimizer: A Keras optimizer object with the specified learning rate.
+        keras.optimizers.Optimizer: A Keras optimizer object with the
+            specified learning rate.
 
     Raises:
         ValueError: If an invalid optimizer name is provided.
@@ -30,7 +32,8 @@ def opt(
         optimizer = opt(0.001, 'Adam')
         ```
 
-        2. Initialize a Nadam optimizer with a learning rate of 0.0001 and a custom parameter `beta_1` set to 0.9:
+        2. Initialize a Nadam optimizer with a learning rate of 0.0001 and
+        a custom parameter `beta_1` set to 0.9:
         ```python
         optimizer = opt(0.0001, 'Nadam', beta_1=0.9)
         ```
@@ -40,13 +43,15 @@ def opt(
         optimizer = opt(1.0, 'Adadelta')
         ```
 
-        4. Initialize an SGD optimizer with a learning rate of 0.01 and momentum of 0.9:
+        4. Initialize an SGD optimizer with a learning rate of 0.01 and
+        momentum of 0.9:
         ```python
         optimizer = opt(0.01, 'SGD', momentum=0.9)
         ```
 
     Note:
-        Supported optimizer names include 'Adam', 'Adamax', 'Nadam', 'Adadelta', 'Adagrad', 'RMSprop', 'SGD', and 'Adadelta'.
+        Supported optimizer names include 'Adam', 'Adamax', 'Nadam',
+        'Adadelta', 'Adagrad', 'RMSprop', 'SGD', and 'Adadelta'.
     """
     opt_dict = {
         "Adam": 0,
@@ -114,13 +119,16 @@ def array_shuffle(
     Shuffle multiple NumPy arrays in the same random order.
 
     Args:
-        *args: Multiple NumPy arrays to be shuffled. Each array should have the same number of rows.
+        *args: Multiple NumPy arrays to be shuffled. Each array should
+            have the same number of rows.
 
     Returns:
-        tuple: A tuple containing the shuffled arrays in the same order as the input, and an index mapping showing the shuffle order.
+        tuple: A tuple containing the shuffled arrays in the same order
+            as the input, and an index mapping showing the shuffle order.
 
     Example:
-        Suppose you have two NumPy arrays X and Y with the same number of rows, and you want to shuffle them in the same random order:
+        Suppose you have two NumPy arrays X and Y with the same number of rows,
+        and you want to shuffle them in the same random order:
 
         ```python
         X = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
@@ -128,7 +136,8 @@ def array_shuffle(
 
         shuffled_X, shuffled_Y, index_map = array_shuffle(X, Y)
 
-        # The arrays X and Y have been shuffled in the same random order, and the index mapping is provided.
+        # The arrays X and Y have been shuffled in the same random order,
+        and the index mapping is provided.
         ```
     """
     # X.shape[0]==Y.shape[0]
@@ -148,17 +157,20 @@ def array_shuffle(
 def get_hyper_opt_kwargs(
     **kwargs,
 ):
-    """
-    Generate a list of dictionaries with hyperparameter combinations for hyperparameter optimization.
+    """Generate a list of dictionaries with hyperparameter combinations
+    for hyperparameter optimization.
 
     Args:
-        **kwargs: Keyword arguments where keys are hyperparameter names, and values are lists of hyperparameter values.
+        **kwargs: Keyword arguments where keys are hyperparameter names,
+            and values are lists of hyperparameter values.
 
     Returns:
-        list: A list of dictionaries, each representing a unique combination of hyperparameters.
+        list: A list of dictionaries, each representing a unique combination
+        of hyperparameters.
 
     Example:
-        Suppose you have a set of hyperparameters and their possible values in dictionaries:
+        Suppose you have a set of hyperparameters and their possible values
+        in dictionaries:
 
         ```python
         hyperparameters = {
@@ -169,7 +181,8 @@ def get_hyper_opt_kwargs(
 
         hyperparameter_combinations = get_hyper_opt_kwargs(**hyperparameters)
 
-        # The function will generate a list of dictionaries, each containing a unique combination of hyperparameters:
+        # The function will generate a list of dictionaries, each containing
+        # a unique combination of hyperparameters:
         # [{'learning_rate': 0.001, 'batch_size': 32, 'hidden_units': 64},
         #  {'learning_rate': 0.001, 'batch_size': 32, 'hidden_units': 128},
         #  ...
