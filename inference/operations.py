@@ -25,7 +25,8 @@ from ..plotter import Plotter
 class Operator(object):
     """
     Attributes:
-    operation: A callable object representing the operation to be performed on the dataset.
+    operation: A callable object representing the operation to be
+    performed on the dataset.
 
     Methods:
     iterator(original_data): Iterate over the dataset and apply the operation.
@@ -98,7 +99,8 @@ class Deform(Operator):
 
         Args:
             array (numpy.ndarray): The input array to be deformed.
-            indices (list or numpy.ndarray): The indices where deformation will be applied.
+            indices (list or numpy.ndarray): The indices where deformation
+                will be applied.
 
         Returns:
             numpy.ndarray: The deformed array.
