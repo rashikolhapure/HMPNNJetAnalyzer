@@ -48,7 +48,8 @@ parser.add_option(
 ) = parser.parse_args()
 if options.run_name is None:
     print(
-        "Provide compulsory option run_name with -r <run_name> or --run <run_name> \n"
+        "Provide compulsory option run_name with -r <run_name> or --run \
+        <run_name> \n"
     )
     print("End Execution!")
     sys.exit()
