@@ -34,13 +34,16 @@ def MinkowskiDot(a, b):
     Raises:
     ------
     AssertionError
-        If the shapes of 'a' and 'b' do not match or if the shape[-1] is not 4 (no Lorentz axis).
+        If the shapes of 'a' and 'b' do not match or if the shape[-1] is
+        not 4 (no Lorentz axis).
 
     Notes:
     -----
-    This function computes the Minkowski dot product between two 4-vectors, which are typically used in
-    special relativity calculations. The dot product is calculated as the difference of the first
-    components multiplied by each other minus the sum of the products of the remaining components.
+    This function computes the Minkowski dot product between two 4-vectors,
+    which are typically used in special relativity calculations.
+    The dot product is calculated as the difference of the first
+    components multiplied by each other minus the sum of the
+    products of the remaining components.
     """
     assert a.shape == b.shape and a.shape[-1] == 4, "No Lorentz Axis"
     InitShape = a.shape
@@ -82,9 +85,10 @@ def ConvertToLhc(Array):
 
     Notes:
     -----
-    This function converts an array of 4-vectors to the Lorentz-Heaviside coordinate system,
-    which is commonly used in high-energy physics. The Lorentz-Heaviside coordinates are defined
-    in terms of rapidity (eta), azimuthal angle (phi), transverse momentum (pt), and energy (E).
+    This function converts an array of 4-vectors to the Lorentz-Heaviside
+    coordinate system, which is commonly used in high-energy physics.
+    The Lorentz-Heaviside coordinates are defined in terms of rapidity
+    (eta), azimuthal angle (phi), transverse momentum (pt), and energy (E).
     """
     assert Array.shape[-1] == 4, "No Lorentz Axis"
     InitShape = Array.shape
@@ -143,7 +147,8 @@ def Boost(particle, direction, eta):
     particle : numpy.ndarray
         The 4-momentum of the particle, typically in the form [E, px, py, pz].
     direction : numpy.ndarray
-        The direction vector along which the boost is applied, typically a 3D vector.
+        The direction vector along which the boost is applied, typically
+        a 3D vector.
     eta : float
         The rapidity parameter for the boost.
 
@@ -156,13 +161,14 @@ def Boost(particle, direction, eta):
     ------
     AssertionError
         If the magnitude of the 'direction' vector is not approximately 1.
-        If the lengths of 'particle' and 'direction' vectors are not valid (4 and 3, respectively).
+        If the lengths of 'particle' and 'direction' vectors are not valid
+        (4 and 3, respectively).
 
     Notes:
     -----
-    This function applies a Lorentz boost to the given particle's 4-momentum in the specified direction
-    and rapidity. The 'direction' vector should be normalized (magnitude approximately 1) before calling
-    this function.
+    This function applies a Lorentz boost to the given particle's 4-momentum
+    in the specified direction and rapidity. The 'direction' vector should be
+    normalized (magnitude approximately 1) before calling this function.
     """
     assert abs(np.sum(direction**2) - 1.0) < 1e-12
     (
@@ -197,24 +203,31 @@ def SumCombinations(
     Map : iterable, optional
         A custom mapping of combinations (default is None).
     comb : int, optional
-        The number of four-vectors to combine in each combination (default is 2).
+        The number of four-vectors to combine in each combination
+        (default is 2).
 
     Returns:
     -------
     numpy.ndarray or tuple
-        If 'Map' is not provided, returns an array containing the sums of combinations of four-vectors.
-        If 'Map' is provided, returns a tuple containing the array and the original combination mapping.
+        If 'Map' is not provided, returns an array containing the sums of
+        combination of all possible pairs of four-vectors. Otherwise it will
+        return an array containing the sums of combinations of four-vectors
+        If 'Map' is provided, returns a tuple containing the array and the
+        original combination mapping.
 
     Raises:
     ------
     AssertionError
-        If 'FourVectors' is not a 2D array with shape[1] equal to 4 (invalid four-vectors).
+        If 'FourVectors' is not a 2D array with shape[1] equal to 4
+        (invalid four-vectors).
 
     Notes:
     -----
-    This function calculates the sum of combinations of four-vectors from 'FourVectors'.
-    'comb' specifies the number of four-vectors to combine in each combination.
-    'Map' can be provided to specify a custom mapping of combinations, or it will be generated if not provided.
+    This function calculates the sum of combinations of four-vectors
+    from 'FourVectors'. 'comb' specifies the number of four-vectors
+    to combine in each combination. 'Map' can be provided to specify
+    a custom mapping of combinations, or it will be generated if not
+    provided.
     """
     assert (
         len(FourVectors.shape) == 2 and FourVectors.shape[1] == 4
@@ -285,8 +298,9 @@ def MapDict(Map):
 
     Notes:
     -----
-    This function creates a dictionary containing unique combinations from the input 'Map'.
-    Each unique combination is stored as a list in the dictionary.
+    This function creates a dictionary containing unique combinations from
+    the input 'Map'. Each unique combination is stored as a list in
+    the dictionary.
     """
     ReturnDict, count = (
         dict(),
@@ -327,9 +341,10 @@ def GetMass(particle):
 
     Notes:
     -----
-    This function calculates the invariant mass of a single particle or an array of particles.
-    The input 'particle' is expected to be a 4-momentum, where the first element is energy (E) and
-    the remaining elements are the spatial components (px, py, pz). The invariant mass is computed
+    This function calculates the invariant mass of a single particle or an
+    array of particles. The input 'particle' is expected to be a 4-momentum,
+    where the first element is energy (E) and the remaining elements are the
+    spatial components (px, py, pz). The invariant mass is computed
     using the relativistic formula.
     """
     assert particle.shape[-1] == 4
@@ -372,13 +387,16 @@ def Get3Direction(
     ------
     AssertionError
         If the length of 'FourVector' is not 4.
-        If the calculated 3-direction vector's magnitude is not approximately 1.
+        If the calculated 3-direction vector's magnitude is not approximately
+        1.
 
     Notes:
     -----
-    This function calculates the 3-direction vector from a 4-vector. The input 'FourVector' is expected
-    to be a 4-momentum, where the first element is energy (E) and the remaining elements are the spatial
-    components (px, py, pz). The 3-direction vector is obtained by normalizing the spatial components.
+    This function calculates the 3-direction vector from a 4-vector.
+    The input 'FourVector' is expected to be a 4-momentum, where the
+    first element is energy (E) and the remaining elements are the spatial
+    components (px, py, pz). The 3-direction vector is obtained by normalizing
+    the spatial components.
     """
     assert len(FourVector) == 4
     Dir = FourVector[1:] / Euclid3Norm(FourVector)
@@ -407,9 +425,11 @@ def GetEta(FourVector):
 
     Notes:
     -----
-    This function calculates the pseudorapidity (eta) of a 4-vector. The input 'FourVector' is expected
-    to be a 4-momentum, where the first element is energy (E) and the remaining elements are the spatial
-    components (px, py, pz). The pseudorapidity is computed using the arctanh function.
+    This function calculates the pseudorapidity (eta) of a 4-vector.
+    The input 'FourVector' is expected to be a 4-momentum, where the
+    first element is energy (E) and the remaining elements are the spatial
+    components (px, py, pz). The pseudorapidity is computed using the
+    arctanh function.
     """
     assert len(FourVector) == 4
     return np.arctanh(Euclid3Norm(FourVector) / FourVector[0])
@@ -431,10 +451,11 @@ def Euclid3Norm(FourVector):
 
     Notes:
     -----
-    This function calculates the Euclidean 3-norm of a 4-vector. If 'FourVector' is a 3-component vector,
-    it is treated as a spatial vector, and the time component is added as 0.0 before computing the 3-norm.
-    If 'FourVector' is a multi-component array of 4-vectors, the 3-norm is computed for each 4-vector
-    along the last axis.
+    This function calculates the Euclidean 3-norm ofa 4-vector. If'FourVector'
+    is a 3-component vector, it is treated as a spatial vector, and the time
+    component is added as 0.0 before computing the 3-norm. If 'FourVector' is a
+    multi-component array of 4-vectors, the 3-norm is computed for each
+    4-vector along the last axis.
     """
     if len(FourVector.shape) == 1 and len(FourVector) == 3:
         FourVector = np.concatenate(
