@@ -253,24 +253,27 @@ class OverwriteError(Exception):
         """
         Retrieve data from a specific final state with specified attributes.
 
+        class method to directly select <final_state> with list of
+        <attributes> at <indices> from <root_file>. returns a numpy array
+        of either len(indices) with variable shape depending on the
+        <final_state>.
+
         Parameters:
         -----------
         final_state : str
             The final state to retrieve data from.
         attributes : list of str
-            A list of attribute names to retrieve for each event in the final state.
+            A list of attribute names to retrieve for each event in the
+            final state.
         indices : numpy.ndarray or None, optional
-            An array of indices to select specific events. If None, all events are selected.
+            An array of indices to select specific events. If None,
+            all events are selected.
 
         Returns:
         --------
         numpy.ndarray
-            An array containing the selected data with variable shape depending on the specified attributes.
-
-        """
-        """class method to directly select <final_state> with list of <attributes> at <indices> from <root_file>.
-        returns a numpy array of either len(indices) with variable shape depending on the <final_state>
-        """
+            An array containing the selected data with variable shape
+            depending on the specified attributes."""
         (
             return_dict,
             temp_dict,
