@@ -35,12 +35,15 @@ class ModelData(object):
     """
     Base class for handling data related to machine learning models.
 
-    This class provides a foundation for managing data used in machine learning models. It includes attributes and methods to store, load, and preprocess data.
+    This class provides a foundation for managing data used in machine
+    learning models. It includes attributes and methods to store, load, and
+    preprocess data.
 
     Attributes:
         - _prefix_path (str): The prefix path where data is stored.
         - mode (str): The mode of operation, "w" for write, "r" for read.
-        - save_as (str): The format in which data is saved (e.g., "numpy_array").
+        - save_as (str): The format in which data is saved
+            (e.g., "numpy_array").
         - total_length (int): The total length of the data.
         - test_split (float): The split ratio for test data.
         - model_type (str): The type of the model.
@@ -171,12 +174,18 @@ class ModelData(object):
 
     def _load_all_data(self):
         """
-        Load all the data for each class and split it into training and validation sets.
+        Load all the data for each class and split it into training and
+        validation sets.
 
-        This method loads data for each class, splits it into training and validation sets, and prepares the data for training a machine learning model.
+        This method loads data for each class, splits it into training and
+        validation sets, and prepares the data for training a machine learning
+        model using Keras/TensorFlow or PyTorch. The output of this function
+        a dictionary containing training and validation data, each represented
+        as a dictionary with 'X' and 'Y' keys.
 
         Returns:
-            Tuple: A tuple containing training and validation data, each represented as a dictionary with 'X' and 'Y' keys.
+            Tuple: A tuple containing training and validation data, each
+            represented as a dictionary with 'X' and 'Y' keys.
         """
         return_dict = {run_name: {} for run_name in self.class_names}
         train_dict = {}
@@ -401,9 +410,12 @@ class ModelData(object):
 
     def _load_data(self):
         """
-        Load data for each class and split it into training and validation sets.
+        Load data for each class and split it into training and validation
+        sets.
 
-        This method loads data for each class, splits it into training and validation sets, and prepares the data for training a machine learning model.
+        This method loads data for each class, splits it into training and
+        validation sets, and prepares the data for training a machine learning
+        model.
 
         Returns:
             None
@@ -556,14 +568,20 @@ class ModelData(object):
         """
         Prepare the network input data for a single data point.
 
-        This method takes the final_state_dict, which contains the preprocessed data for a single data point, and class_index, which is the index of the class for this data point, and prepares the network input data in the required format for training or inference.
+        This method takes the final_state_dict, which contains the
+        preprocessed data for a single data point, and class_index,
+        which is the index of the class for this data point, and prepares
+        the network input data in the required format for training or
+        inference.
 
         Parameters:
-            final_state_dict (dict): A dictionary containing the preprocessed data for a single data point.
+            final_state_dict (dict): A dictionary containing the preprocessed
+                data for a single data point.
             class_index (int): The index of the class for this data point.
 
         Returns:
-            dict: A dictionary containing the network input data, including 'X' for input features and 'Y' for class labels.
+            dict: A dictionary containing the network input data, including
+            'X' for input features and 'Y' for class labels.
         """
         return_dict = {}
         if len(self.input_states) == 1:
