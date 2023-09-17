@@ -15,7 +15,6 @@ Please take a moment to review this document to understand how to contribute eff
     - [Fork the Repository](#fork-the-repository)
     - [Set Up Your Development Environment](#set-up-your-development-environment)
     - [Make Changes](#make-changes)
-    - [Run Tests](#run-tests)
     - [Commit Changes](#commit-changes)
     - [Create a Pull Request](#create-a-pull-request)
 4. [License](#license)
