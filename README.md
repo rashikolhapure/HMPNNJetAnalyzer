@@ -462,10 +462,3 @@ This project is enchanted under the [MIT License](LICENSE), allowing you to wiel
 
 
 <!-- # 🚀 HyperGraph Alchemy: Deciphering Particle Jets with HMPNNs
-
-🌌 **"Where Particles Meet Magic!"** 🪄
-
-🎉 Greetings, cosmic wanderer! Venture into the cosmic depths with us as we wield the power of **HyperGraph Message Passing Neural Networks (HMPNNs)** to illuminate the enigmatic realm of high-energy particle collisions. 🌠 -->
----
-
-⚛️ Venture forth with us into the cosmic frontier where particles dance and codes merge, reshaping the cosmos of understanding! 🌌
