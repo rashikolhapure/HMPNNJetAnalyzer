@@ -24,30 +24,24 @@
 
 ## Hypergraph Message Passing Neural Networks for Jet Analysis
 
-<p align="justify">The field of high-energy particle collision analysis has witnessed a surge in the utilization of machine learning techniques, particularly neural networks. These algorithms offer the potential to glean valuable insights from the intricate data resulting from these collisions. However, traditional neural network architectures like CNNs and RNNs fall short when dealing with the intricate and structured nature of such data.</p>
+<p align="justify">High-energy particle collision analysis has seen a rise in machine learning applications, especially neural networks, to decipher complex data from collisions. However, traditional neural networks like CNNs and RNNs are not ideally suited for this structured data</p>
 
-<p align="justify">In recent times, the spotlight has turned to Graph Neural Networks (GNNs) for analyzing graph-structured data. Their triumphs span across computer vision, natural language processing, and other domains. Yet, the customary GNN framework operates under the assumption of binary, unordered edges—a limitation when applied to jet analysis.</p>
+<p align="justify">Graph Neural Networks (GNNs) have shown promise in handling graph-structured data in various fields. But standard GNNs assume binary, unordered edges, which limits their use in jet analysis.</p>
 
-<p align="justify">Enter Hypergraphs—a dynamic, expressive alternative to represent jet data. Unlike graphs, hypergraphs embrace hyperedges capable of linking multiple nodes and sporting multiple labels. Hypergraph Neural Networks (HGNNs) have emerged as a solution to extend GNNs to hypergraphs. However, their potential in jet analysis remains relatively untapped.</p>
+<p align="justify">Hypergraphs offer a solution. They utilize hyperedges that can connect multiple nodes and have multiple labels. While Hypergraph Neural Networks (HGNNs) extend GNNs to accommodate hypergraphs, their potential in jet analysis is still unexplored</p>
 
-<p align="justify">In this context, Hypergraph Message Passing Neural Networks (HMPNNs) come into play. A novel spin on HGNNs, HMPNNs leverage message passing algorithms to enhance node and hyperedge features within a hypergraph. This approach, successful in domains like image segmentation and social network analysis, is ripe for exploration in jet analysis.</p>
+<p align="justify">Hypergraph Message Passing Neural Networks (HMPNNs) add a twist. They use message passing algorithms to amplify node and hyperedge features in a hypergraph. Proven effective in areas like image segmentation, HMPNNs' potential in jet analysis is yet to be fully realized. Their adaptability provides a detailed view of high-energy collision data, and their algorithms reveal complex relationships between nodes and hyperedges.</p>
 
-<div align="justify">HMPNNs bring a multitude of motivations to the table. Firstly, the adaptability of hypergraphs offers a nuanced portrayal of intricate high-energy collision data. Moreover, the sophisticated message passing algorithms of HMPNNs unravel the intricate relationships between nodes and hyperedges, resulting in richer and more precise data representations.
-<br>
-
-Through this innovative approach, HMPNNs hold the promise to unlock hidden insights within jet analysis data, ultimately contributing to a deeper understanding of the complex world of particle collisions.</div>
+<div align="justify">In sum, HMPNNs offer a promising avenue to uncover deeper insights in particle collision data.</div>
 
 ## Unveiling the Subnuclear World: Exploring Particle Physics Beyond the Standard Model
 
-<div align="justify">The Large Hadron Collider (LHC) unites multidisciplinary expertise to unravel matter's subnuclear structure. Operating under the Standard Model's (SM) umbrella, LHC's proton collisions adhere to three fundamental interactions—electromagnetic, weak nuclear, and strong nuclear forces. However, the SM remains incomplete, fueling inquiries into dark matter, matter-antimatter asymmetry, and more.
-<br>
-
-This project delves into Beyond Standard Model (BSM) Particle Physics. We analyze particle jets generated in high-energy LHC collisions. Jets, collimated particle sprays, emerge from quarks and gluons combining to form hadrons, shedding light on fundamental particle properties and interaction forces.</div>
+<div align="justify">The Large Hadron Collider (LHC) explores the subnuclear structure of matter within the Standard Model (SM), focusing on electromagnetic, weak, and strong nuclear forces. Despite its insights, the SM has gaps, leading to questions about dark matter and matter-antimatter asymmetry. Our project investigates Beyond Standard Model (BSM) Particle Physics by analyzing jets from LHC collisions. These jets, streams of particles, result from quarks and gluons forming hadrons, offering insights into essential particle behaviors and forces.</div>
 
 ![Particle Jet Production](images/particle_jet_production.png)
 
 <div align="justify">
-These particle jets play a pivotal role in understanding complex interactions. By adopting Hypergraph Message Passing Neural Networks (HMPNNs), we navigate the intricate relationships within jet data, aiming to unlock hidden insights. This innovative approach extends beyond traditional models, enhancing our comprehension of particle collisions.
+Particle jets are key to deciphering intricate interactions. With Hypergraph Message Passing Neural Networks (HMPNNs), we explore jet data's complex relationships to reveal concealed insights. This advanced method goes beyond standard models, deepening our grasp on particle collisions.
 </div>
 
 ### Key Points
@@ -103,16 +97,16 @@ https://github.com/rajveer43/hep_ml/assets/64583161/c6034ad6-aa9b-4c5b-a00b-fe30
 
 🌟 **"Our Celestial Ensemble"** - 
 <p align="justify">
-The dataset twinkles with MC simulated events, unraveling top quark tagging mysteries. 1.2M training events, 400k validation events, and 400k test events make up our cosmic ensemble. 🎭
+The dataset consists of MC simulated events, shedding light on top quark tagging. It's broken down into 1.2M training events, 400k validation events, and 400k test events, forming our cosmic collection. 🎭
    </p>
 
 <p align="jusitfy">
-The data has been produced using Monte Carlo simulations. The first 21 features (columns 2-22) are kinematic properties measured by the particle detectors in the accelerator. The last seven features are functions of the first 21 features; these are high-level features derived by physicists to help discriminate between the two classes. There is an interest in using deep learning methods to obviate the need for physicists to manually develop such features. Benchmark results using Bayesian Decision Trees from a standard physics package and 5-layer neural networks are presented in the original paper. The last 500,000 examples are used as a test set.
+This data is derived from Monte Carlo simulations. Features 2-22 represent kinematic properties measured in the accelerator, while the final seven features are high-level derivations of the first 21, crafted by physicists for classification. The aim is to leverage deep learning to eliminate manual feature development by physicists. The original paper benchmarks using Bayesian Decision Trees and 5-layer neural networks. The final 500,000 examples serve as the test set.
 </p>
 
 #### Quark and Gluon Jet Datasets - Pythia 8 Generated
 
-This dataset contains two sets of jet data generated using Pythia 8, representing quark and gluon jets. There are two versions of the dataset: one that includes all kinematically realizable quark jets and another that excludes charm and bottom quark jets at the level of the hard process. The generation parameters for these datasets are as follows:
+The dataset comprises two jet data sets created with Pythia 8, representing quark and gluon jets. It comes in two versions: one with all kinematically possible quark jets, and another excluding charm and bottom quark jets from the hard process. Generation parameters for these datasets are:
 
 - Pythia Version: 8.226 (without bc jets), 8.235 (with bc jets)
 - Center-of-Mass Energy: √s = 14 TeV
@@ -404,12 +398,12 @@ From deep within the heart of high-energy physics to the cosmos of machine learn
 Our analysis presents a multitude of potential use cases that extend beyond the realm of QCD and non-QCD jet classification. These applications underscore the significance of our findings and pave the way for broader advancements in particle physics research:
 </p>
 
-- **Empowering High-Energy Physics Experiments:** The precision of QCD and non-QCD jet classification holds immense value in high-energy physics experiments. Harnessing the capabilities of HMPNNs within jet analysis can elevate the accuracy and efficacy of machine learning-driven QCD investigations, yielding results that are not just insightful but also steadfastly dependable.
-
-- **Elevating Collider Event Simulations:** The categorization of jets stands as a pivotal aspect of collider event simulations. Through our HMPNN-based methodology, we augment the fidelity of jet classification, ushering in a new era of simulations that encapsulate particle collisions with unprecedented accuracy.
-
-- **Unearthing Anomalies in Collider Data:** By leveraging the prowess of HMPNNs, our approach reaches beyond mere jet classification to anomaly detection within collider data. Detecting these anomalous events offers the potential for breakthrough discoveries that transcend the bounds of the Standard Model.
-
+- **Empowering High-Energy Physics Experiments:** Accurate QCD and non-QCD jet classification is pivotal for high-energy physics experiments. Using HMPNNs for jet analysis can enhance the reliability and precision of machine learning-based QCD studies, producing both insightful and trustworthy results.
+- 
+- **Elevating Collider Event Simulations:** Jet categorization is crucial for collider event simulations. Using our HMPNN approach, we enhance jet classification accuracy, paving the way for more precise particle collision simulations.
+- 
+- **Unearthing Anomalies in Collider Data:** Using HMPNNs, we go beyond jet classification to detect anomalies in collider data. Identifying these anomalies could lead to discoveries beyond the Standard Model's limits.
+- 
 - **Enhancing Jet Calibration:** Jet calibration hinges on precise jet classification, a cornerstone for the meticulous determination of particle properties. HMPNNs contribute to refined jet calibration, where classifications transcend accuracy, leading to more profound insights.
 
 - **Pioneering Novel Machine Learning Techniques:** The introduction of HMPNNs into jet analysis fosters the emergence of innovative machine learning techniques. These techniques have the potential to reshape diverse arenas of particle physics research, expanding their horizon and impact.
