@@ -1,88 +1,90 @@
-# Contributing to High-Energy-Phenomenology_Machine-Learning(HEP_ML)!
+# Contributing Guide
 
-Thank you for considering contributing to Hep_ml! We welcome contributions from the community to help improve and grow this project. Whether you're reporting a bug, suggesting new features, or submitting code changes, your help is greatly appreciated.
+Welcome to the HMPNNJetAnalyzer project! We're excited to have you as a contributor. Before you get started, please take a moment to read through this guide to ensure a smooth and collaborative development experience.
 
-Please take a moment to review this document to understand how to contribute effectively.
+- [Getting Started](#getting-started)
+- [Code Style Guidelines](#code-style-guidelines)
+- [Branch and Commit Naming](#branch-and-commit-naming)
+- [Feature Development](#feature-development)
+- [Need Help?](#need-help)
+- [Code of Conduct](#code-of-conduct)
 
-## Table of Contents
+## Getting Started
 
-1. [Code of Conduct](#code-of-conduct)
-2. [How Can I Contribute?](#how-can-i-contribute)
-    - [Reporting Bugs](#reporting-bugs)
-    - [Suggesting Enhancements](#suggesting-enhancements)
-    - [Code Contributions](#code-contributions)
-3. [Getting Started](#getting-started)
-    - [Fork the Repository](#fork-the-repository)
-    - [Set Up Your Development Environment](#set-up-your-development-environment)
-    - [Make Changes](#make-changes)
-    - [Commit Changes](#commit-changes)
-    - [Create a Pull Request](#create-a-pull-request)
-4. [License](#license)
+To contribute to this project, follow these steps:
+
+1. **Fork the repository**: Click the "Fork" button on the top right-hand corner of the repository's page. This will create a copy of the project in your own GitHub account.
+
+2. **Clone your fork**: Use `git clone` to clone your forked repository to your local machine.
+
+    ```sh
+    git clone https://github.com/your-username/HMPNNJetAnalyzer.git
+    ```
+
+3. **Install Dependencies**: Ensure you have all the required dependencies installed by following the installation instructions in the project's README.
+
+4. **Create a New Branch**: Before making any changes, create a new branch for your work. Use a descriptive branch name that reflects the purpose of your changes.
+
+    ```sh
+    git checkout -b feature/your-feature-name
+    ```
+
+5. **Make Changes**: Make your desired changes and ensure they follow the project's coding guidelines (see below).
+
+6. **Commit Changes**: Commit your changes with a clear and concise message that describes the purpose of the commit.
+
+    ```sh
+    git commit -m "Add your commit message here"
+    ```
+
+7. **Push Changes**: Push your changes to your forked repository.
+
+    ```sh
+    git push origin feature/your-feature-name
+    ```
+
+8. **Create a Pull Request (PR)**: Go to the original repository on GitHub and click the "New Pull Request" button. Fill out the PR template with details about your changes.
+
+9. **Review and Collaborate**: Collaborate with maintainers and other contributors to review and refine your PR. Address any feedback or changes requested.
+
+10. **Merge**: Once your PR is approved, it will be merged into the main project. Congratulations on your contribution!
+
+## Code Style Guidelines
+
+Please adhere to the following code style guidelines when contributing to this project:
+
+- Follow the coding conventions specified in the project's codebase.
+- Maintain consistent indentation and formatting.
+- Use meaningful variable and function names.
+- Comment your code to explain complex logic or functionality.
+
+## Branch and Commit Naming
+
+When naming branches and commits, follow these conventions:
+
+- Branch names should be prefixed with either `feature/` for new features or `bugfix/` for bug fixes, followed by a descriptive name.
+- Commit messages should be clear, concise, and begin with a capitalized verb (e.g., "Add feature," "Fix bug," "Update documentation").
+
+## Feature Development
+
+If you're working on a new feature or enhancement, please do the following:
+
+- **Create an Issue**: Before starting work, create an issue on GitHub to discuss and gain consensus on the feature you plan to add.
+
+- **Feature Branch**: Create a new branch specifically for your feature development.
+
+## Need Help?
+
+If you have questions or need assistance with anything related to this project, feel free to reach out to our maintainers or the community. We're here to help!
 
 ## Code of Conduct
 
 This project follows a [Code of Conduct](CODE_OF_CONDUCT.md) to ensure a safe and welcoming environment for all contributors. Please review and abide by it.
 
-## How Can I Contribute?
+Thank you for contributing to HMPNNJetAnalyzer. Your contributions are greatly appreciated!
 
-### Reporting Bugs
+Happy coding! 🚀
 
-If you encounter a bug in the project, please create a [new issue](https://github.com/rajveer43/HMPNNJetAnalyzer/issues) on GitHub. Make sure to include detailed information about the issue, such as steps to reproduce it and the expected behavior.
-
-### Suggesting Enhancements
-
-If you have an idea for an enhancement or a new feature, feel free to create an [enhancement request](https://github.com/rajveer43/HMPNNJetAnalyzer/issues) on GitHub. Provide a clear description of your proposal and any relevant context.
-
-### Code Contributions
-
-We welcome code contributions! To contribute code to the project, follow these steps:
-
-## Getting Started
-
-### Fork the Repository
-
-Fork this repository on GitHub by clicking the "Fork" button.
-
-### Set Up Your Development Environment
-
-Clone your forked repository to your local machine:
-
-```bash
-git clone https://github.com/rajveer43/hep_ml.git
-cd hep_ml
-```
-Install dependencies using `pip`:
-Install any necessary dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-### Make Changes
-
-Make your changes or enhancements on a separate branch:
-
-```bash
-git checkout -b my-feature-branch
-```
-
-### Submit PR
-
- submitting a pull request
-
-### Commit Changes
-Commit and push all of your changes back up to github with descriptive commit messages:
-
-```bash
-git commit -m "Add new feature or fix bug"
-```
-
-### Create a Pull Request
-Push your changes to your GitHub repository and create a pull request:
-
-```bash
-git push origin my-feature-branch
-```
 
 Visit the original repository on GitHub and click the "New Pull Request" button to submit your changes for review.
 
