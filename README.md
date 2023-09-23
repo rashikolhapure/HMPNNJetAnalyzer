@@ -1,7 +1,7 @@
 # 🚀 HyperGraph Magic: Unraveling Jets with HMPNNs
 
 ## Table of Contents
-1. [🚀 HyperGraph Magic: Unraveling Jets with HMPNNs](#hypergraph-magic:-unraveling-jets-with-HMPNNs)
+1. [🚀 HyperGraph Magic: Unraveling Jets with HMPNNs](#hypergraph-magic)
 2. [Hypergraph Message Passing Neural Networks](#hypergraph-message-passing-neural-networks-for-jet-analysis)
 3. [Unveiling the Subnuclear World: Exploring Particle Physics Beyond the Standard Model](#unveiling-the-subnuclear-world-exploring-particle-physics-beyond-the-standard-model)
    - 3.1 [Key Points](#key-points)
