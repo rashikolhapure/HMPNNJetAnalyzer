@@ -399,20 +399,20 @@ Our analysis presents a multitude of potential use cases that extend beyond the 
 </p>
 
 - **Empowering High-Energy Physics Experiments:** Accurate QCD and non-QCD jet classification is pivotal for high-energy physics experiments. Using HMPNNs for jet analysis can enhance the reliability and precision of machine learning-based QCD studies, producing both insightful and trustworthy results.
-- 
+  
 - **Elevating Collider Event Simulations:** Jet categorization is crucial for collider event simulations. Using our HMPNN approach, we enhance jet classification accuracy, paving the way for more precise particle collision simulations.
-- 
+  
 - **Unearthing Anomalies in Collider Data:** Using HMPNNs, we go beyond jet classification to detect anomalies in collider data. Identifying these anomalies could lead to discoveries beyond the Standard Model's limits.
-- 
+  
 - **Enhancing Jet Calibration:** Jet calibration hinges on precise jet classification, a cornerstone for the meticulous determination of particle properties. HMPNNs contribute to refined jet calibration, where classifications transcend accuracy, leading to more profound insights.
 
 - **Pioneering Novel Machine Learning Techniques:** The introduction of HMPNNs into jet analysis fosters the emergence of innovative machine learning techniques. These techniques have the potential to reshape diverse arenas of particle physics research, expanding their horizon and impact.
 
-Our findings resonate across various domains in particle physics research, including:
+Our research has implications across multiple areas in particle physics:
 
-- The monumental Large Hadron Collider (LHC) experiments, exemplified by ATLAS and CMS, which grapple with vast datasets that demand meticulous analysis.
-- Particle physics research initiatives exploring the enigmatic properties of the Higgs boson, dark matter, and the intriguing realm of supersymmetry. Here, accurate jet classification stands as a cornerstone.
-- The frontiers of particle detector development, where the accuracy of particle collision simulations plays a pivotal role in scrutinizing the efficacy of newly devised detectors.
+- **LHC Experiments**: Especially in significant projects like ATLAS and CMS, where vast datasets require detailed analysis
+- **Particle Physics Research**: Investigations into the Higgs boson, dark matter, and supersymmetry rely on precise jet classification.
+- **Particle Detector Development**: Accuracy in particle collision simulations is crucial to evaluate the effectiveness of new detectors.
 
 ## 🌌 Beam Me Up, Scotty!
 
