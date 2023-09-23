@@ -27,11 +27,11 @@ This project follows a [Code of Conduct](CODE_OF_CONDUCT.md) to ensure a safe an
 
 ### Reporting Bugs
 
-If you encounter a bug in the project, please create a [new issue](https://github.com/rajveer43/help_ml/issues) on GitHub. Make sure to include detailed information about the issue, such as steps to reproduce it and the expected behavior.
+If you encounter a bug in the project, please create a [new issue](https://github.com/rajveer43/HMPNNJetAnalyzer/issues) on GitHub. Make sure to include detailed information about the issue, such as steps to reproduce it and the expected behavior.
 
 ### Suggesting Enhancements
 
-If you have an idea for an enhancement or a new feature, feel free to create an [enhancement request](https://github.com/rajveer43/hep_ml/issues) on GitHub. Provide a clear description of your proposal and any relevant context.
+If you have an idea for an enhancement or a new feature, feel free to create an [enhancement request](https://github.com/rajveer43/HMPNNJetAnalyzer/issues) on GitHub. Provide a clear description of your proposal and any relevant context.
 
 ### Code Contributions
 
