@@ -1,7 +1,7 @@
 # 🚀 HyperGraph Magic: Unraveling Jets with HMPNNs
 
 ## Table of Contents
-1. [🚀 HyperGraph Magic: Unraveling Jets with HMPNNs](#hypergraph-magic:-unraveling-jets-with-HMPNNs)
+1. [🚀 HyperGraph Magic: Unraveling Jets with HMPNNs](#hypergraph-magic)
 2. [Hypergraph Message Passing Neural Networks](#hypergraph-message-passing-neural-networks-for-jet-analysis)
 3. [Unveiling the Subnuclear World: Exploring Particle Physics Beyond the Standard Model](#unveiling-the-subnuclear-world-exploring-particle-physics-beyond-the-standard-model)
    - 3.1 [Key Points](#key-points)
@@ -20,9 +20,8 @@
 11. [Acknowledgments](#acknowledgments)
 12. [⚡ Cosmic Code](#cosmic-code)
 13. [⚡ Warp-Speed License](#warp-speed-license)
-
-
-## Hypergraph Message Passing Neural Networks for Jet Analysis
+    
+# Hypergraph Message Passing Neural Networks for Jet Analysis
 
 <p align="justify">High-energy particle collision analysis has seen a rise in machine learning applications, especially neural networks, to decipher complex data from collisions. However, traditional neural networks like CNNs and RNNs are not ideally suited for this structured data</p>
 
@@ -34,7 +33,7 @@
 
 <div align="justify">In sum, HMPNNs offer a promising avenue to uncover deeper insights in particle collision data.</div>
 
-## Unveiling the Subnuclear World: Exploring Particle Physics Beyond the Standard Model
+# Unveiling the Subnuclear World: Exploring Particle Physics Beyond the Standard Model
 
 <div align="justify">The Large Hadron Collider (LHC) explores the subnuclear structure of matter within the Standard Model (SM), focusing on electromagnetic, weak, and strong nuclear forces. Despite its insights, the SM has gaps, leading to questions about dark matter and matter-antimatter asymmetry. Our project investigates Beyond Standard Model (BSM) Particle Physics by analyzing jets from LHC collisions. These jets, streams of particles, result from quarks and gluons forming hadrons, offering insights into essential particle behaviors and forces.</div>
 
@@ -44,7 +43,7 @@
 Particle jets are key to deciphering intricate interactions. With Hypergraph Message Passing Neural Networks (HMPNNs), we explore jet data's complex relationships to reveal concealed insights. This advanced method goes beyond standard models, deepening our grasp on particle collisions.
 </div>
 
-### Key Points
+## Key Points
 
 - LHC investigates matter's subnuclear structure through proton collisions.
 - While the Standard Model explains fundamental forces, it's incomplete.
@@ -55,16 +54,16 @@ Particle jets are key to deciphering intricate interactions. With Hypergraph Mes
 
 [Watch Video](https://www.youtube.com/watch?v=VIDEO_ID)
 
-## Research Objectives and Research Questions
+# Research Objectives and Research Questions
 
-### Research Objectives:
+## Research Objectives
 
 - Develop a hypergraph message passing neural network architecture for analyzing jets in high-energy particle collisions.
 - Assess the performance of the proposed hypergraph model.
 - Interpret the results, highlighting their significance in jet analysis, and explore the model's strengths and limitations.
 - Suggest future enhancements and research paths for hypergraph message passing neural networks in jet analysis and related domains.
 
-### Research Questions:
+## Research Questions
 
 1. How can hypergraph message passing neural networks effectively analyze jets in high-energy particle collisions?
 2. How does the accuracy and computational efficiency of the proposed hypergraph model compare to other leading approaches?
@@ -75,13 +74,13 @@ Feel free to refer to the [complete research proposal](link_to_your_full_researc
 
 
 
-## 📡 **"Houston, we have jets!"** 🛰️
+# 🚀 **"Houston, we have jets!"** 🛰️
 
 🎉 Welcome to the journey of **HyperGraph Message Passing Neural Networks** (HMPNNs) exploring the mesmerizing realm of high-energy particle collisions! Strap in, because we're about to decode the symphony of particles through a fusion of physics and machine learning. 🤯
 
 ![Particle Orchestra](images/atlas.png)
 
-## ⚛️ Quantum Chronicles of QCD
+# ⚛️ Quantum Chronicles of QCD
 
 🔬 **Quantum Chromodynamics (QCD)**, the tale of strong quark-gluon interactions, sets the stage for our journey:
 
@@ -93,7 +92,7 @@ https://github.com/rajveer43/hep_ml/assets/64583161/c6034ad6-aa9b-4c5b-a00b-fe30
 
 🪐 **"Quantum Properties"** - Jet classification unveils their essence: the *jet mass, substructure, energy, and a plethora of features* shape their cosmic choreography. 🛰️
 
-## 🌟 Stars in the Jet Constellation
+# 🌟 Stars in the Jet Constellation
 
 🌟 **"Our Celestial Ensemble"** - 
 <p align="justify">
@@ -211,7 +210,7 @@ The Top Quark Tagging Dataset contains the following features:
 
 🧙‍♂️ **"Neural Cosmic Oracle"** - A cosmic climax ensues as our cosmic representation reaches the cosmic Neural Network Oracle. The oracle's verdict unveils the cosmic binary classification score, decoding QCD and non-QCD jets' cosmic essence. 🌌
 
-## 🪐 Pioneering Particle Performances
+# 🪐 Pioneering Particle Performances
 
 In the grand theater of high-energy collisions, the particle jets dance with complexity and mystery. These performances are captivating, yes, but often a conundrum. Fear not, for our cast of **Neural Networks** are here to decipher the enigmatic jets with precision! 🌌
 
@@ -369,7 +368,8 @@ From deep within the heart of high-energy physics to the cosmos of machine learn
 - 🎩 **Innovation Spells**: Our HMPNN saga inspires new machine learning techniques, reverberating beyond particle physics into diverse realms. 💬
 
 <!-- ![End of the Voyage](project-end-image.jpg) -->
-## Strengths 💪
+
+## Strengths
 
 - 🚀 **Astounding Discrimination**: The model soars with impressive accuracy and AUC in distinguishing top quarks from QCD jets. Its prowess lays a solid foundation for confident analysis.
 
@@ -381,7 +381,7 @@ From deep within the heart of high-energy physics to the cosmos of machine learn
 
 - 🔍 **Guiding Insights**: The model isn't just a black box; it's a window into the core features that underscore the art of discriminating top quarks from their QCD counterparts.
 
-## Limitations 🤷‍♂️
+## Limitations
 
 - 🌎 **Narrowed Horizons**: Grounded in simulated data, the model's brilliance may dim when faced with the wild terrain of real-world scenarios. Caution is advised in generalization.
 
@@ -394,6 +394,7 @@ From deep within the heart of high-energy physics to the cosmos of machine learn
 - ❓ **Cryptic Predictions**: Peering into the model's predictions might resemble deciphering an enigma. Interpretability can be elusive, demanding extra effort to decipher its inner workings.
 
 ## Applications
+
 <p align="justify">
 Our analysis presents a multitude of potential use cases that extend beyond the realm of QCD and non-QCD jet classification. These applications underscore the significance of our findings and pave the way for broader advancements in particle physics research:
 </p>
@@ -414,20 +415,19 @@ Our research has implications across multiple areas in particle physics:
 - **Particle Physics Research**: Investigations into the Higgs boson, dark matter, and supersymmetry rely on precise jet classification.
 - **Particle Detector Development**: Accuracy in particle collision simulations is crucial to evaluate the effectiveness of new detectors.
 
-## 🌌 Beam Me Up, Scotty!
+# 🌌 Beam Me Up, Scotty!
 
 1. 🛸 Clone the repository: `git clone https://github.com/rajveer43/hep_ml.git`
 2. 🌌 Navigate to the project realm: `cd hep_ml`
 3. 🪄 Set up your mystical environment: `pip install -r requirements.txt`
 4. 🌟 Explore the `images/` galaxy for captivating data explorations and spellbinding model training examples.
 
-## 🪐 Beyond the Stars: Cosmic Fellowship
+# 🪐 Beyond the Stars: Cosmic Fellowship
 
 - **Join the Cosmic Circle**: A cosmic contribution is a beacon in our galactic journey. Engage through a cosmic pull request and intertwine your cosmic magic!
 - **Astro-Potion (Issue)**: For grand cosmic spells, step into the cosmic realm of issues to conjure discussions on cosmic ideas.
 
-## Acknowledgments
-
+# Acknowledgments
 This dataset was created and hosted by the following organizations:
 
 - [CERN (European Organization for Nuclear Research)](https://home.cern/)
@@ -442,11 +442,11 @@ This dataset was created and hosted by the following organizations:
 
 We extend our sincere gratitude to these organizations for their invaluable contributions to the field of particle physics and their support in making this dataset available to the research community.
 
-## ⚡ Cosmic Code
+# ⚡ Cosmic Code
 
 This cosmic journey abides under the [Cosmic License](LICENSE), granting cosmic sovereignty in wielding its magic!
 
-## ⚡ Warp-Speed License
+# ⚡ Warp-Speed License
 
 This project is enchanted under the [MIT License](LICENSE), allowing you to wield its powers with freedom!
 
