@@ -76,7 +76,6 @@ class Arrow3D(FancyArrowPatch):
         super().draw(renderer)
 
 
-
 class Plotter:
     """
     A class for creating custom plots.
@@ -1220,14 +1219,7 @@ class Plotter:
         return im
 
     def set_colorbar(
-        self,
-        im,
-        cax=None,
-        axes=None,
-        ylabel=None,
-        ylabelsize=30,
-        clim=None,
-        **kwargs
+        self, im, cax=None, axes=None, ylabel=None, ylabelsize=30, clim=None, **kwargs
     ):
         """
         Add a colorbar to the current plot.
@@ -1352,14 +1344,10 @@ class Plotter:
             axes = None
 
         if isinstance(array[0], TLorentzVector):
-            array = np.array(
-                [[item.Eta(), item.Phi(), item.Pt()] for item in array]
-            )
+            array = np.array([[item.Eta(), item.Phi(), item.Pt()] for item in array])
             array = np.swapaxes(array, 0, 1)
         elif isinstance(array[0], TVector3):
-            array = np.array(
-                [[item.X(), item.Y(), item.Z()] for item in array]
-            )
+            array = np.array([[item.X(), item.Y(), item.Z()] for item in array])
 
         # if array.shape[0]!=3 or: array=np.swapaxes(array,0,1)
         X, Y, Z = (
@@ -1393,14 +1381,7 @@ class Plotter:
             )
         else:
             im = self.axes.scatter(
-                X,
-                Y,
-                marker=marker,
-                s=s,
-                c=color,
-                cmap=cmap,
-                label=label,
-                **kwargs
+                X, Y, marker=marker, s=s, c=color, cmap=cmap, label=label, **kwargs
             )
         if set_colorbar:
             self.set_colorbar(im, axes=axes)
