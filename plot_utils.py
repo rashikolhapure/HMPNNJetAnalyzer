@@ -1,4 +1,5 @@
 import sys
+from typing import Dict, List, Optional
 
 
 import numpy as np
@@ -21,7 +22,13 @@ colors = {
 }
 
 
-def bar_plot(data=None, labels=None, per_label=True, label_rotate=0, **kwargs):
+def bar_plot(
+    data: list = None,
+    labels: list = None,
+    per_label: bool = True,
+    label_rotate: int = 0,
+    **kwargs
+) -> None:
     """
     Create a horizontal bar plot with optional customization.
 
@@ -217,14 +224,14 @@ def bar_plot(data=None, labels=None, per_label=True, label_rotate=0, **kwargs):
 
 
 def plot_tower_jets(
-    array,
-    lorentz_jet,
-    name=None,
-    lorentz_met=None,
-    path="./plots",
-    dpi=100,
-    plotter=None,
-    scatter_kwargs={},
+    array: np.ndarray,
+    lorentz_jet: List,
+    name: Optional[str] = None,
+    lorentz_met: Optional[LorentzVector] = None,
+    path: str = "./plots",
+    dpi: int = 100,
+    plotter: Optional[Plotter] = None,
+    scatter_kwargs: Dict[str, Any] = {},
 ):
     """
     Plot tower jets and optionally MET on a polar plot.
@@ -302,13 +309,13 @@ def plot_tower_jets(
 
 
 def subplot_compare_pileup(
-    tower_no_pileup,
-    tower_pileup,
-    no_pileup_jets,
-    pileup_jets,
-    name,
-    path="./plots",
-    index="",
+    tower_no_pileup: np.ndarray,
+    tower_pileup: np.ndarray,
+    no_pileup_jets: list,
+    pileup_jets: list,
+    name: str,
+    path: str = "./plots",
+    index: str = "",
 ):
     """
     Create a comparison subplot of tower data with and without pileup.
@@ -391,15 +398,15 @@ def subplot_compare_pileup(
 
 
 def compare_pileup_image(
-    no_pileup,
-    pileup,
-    name,
-    names={
+    no_pileup: np.ndarray,
+    pileup: np.ndarray,
+    name: str,
+    names: dict = {
         0: "no_pileup",
         1: "pileup",
     },
-    path="./plots",
-    index="",
+    path: str = "./plots",
+    index: str = "",
 ):
     """
     Create a comparison subplot of pileup images with and without pileup.
@@ -444,7 +451,11 @@ def compare_pileup_image(
 
 
 def seperate_image_plot(
-    left_bin, center_bin, right_bin, save_path=None, **kwargs
+    left_bin: np.ndarray, 
+    center_bin: np.ndarray, 
+    right_bin: np.ndarray, 
+    save_path: str = None, 
+    **kwargs
 ):
     """
     Create a subplot of three images.
@@ -464,29 +475,29 @@ def seperate_image_plot(
     Returns:
         None
     """
-    P = Plotter(
+    plotter = Plotter(
         projection="subplots",
     )
     (
-        P.fig,
+        plotter.fig,
         axes,
     ) = plt.subplots(
         ncols=3,
         figsize=(15, 10),
     )
-    P.axes = axes[0]
-    P.Image(left_bin)
-    P.axes = axes[1]
-    P.Image(center_bin)
-    P.axes = axes[2]
-    P.Image(right_bin)
+    plotter.axes = axes[0]
+    plotter.Image(left_bin)
+    plotter.axes = axes[1]
+    plotter.Image(center_bin)
+    plotter.axes = axes[2]
+    plotter.Image(right_bin)
     if save_path is not None:
-        P.save_fig(
+        plotter.save_fig(
             kwargs.get(
                 "name",
-                "seperated_image",
+                "separated_image",
             )
         )
     else:
-        P.Show()
+        plotter.Show()
     return
