@@ -1,5 +1,12 @@
 import os
 import sys
+from typing import (
+    Any,
+    Dict,
+    List,
+    Tuple,
+    Union
+)
 
 import numpy as np
 
@@ -172,7 +179,7 @@ class ModelData(object):
         }
         self.check = False
 
-    def _load_all_data(self):
+    def _load_all_data(self) -> None:
         """
         Load all the data for each class and split it into training and
         validation sets.
@@ -408,7 +415,7 @@ class ModelData(object):
         self.data = return_dict
         return
 
-    def _load_data(self):
+    def _load_data(self) -> None:
         """
         Load data for each class and split it into training and validation
         sets.
@@ -562,9 +569,9 @@ class ModelData(object):
 
     def network_input(
         self,
-        final_state_dict,
-        class_index,
-    ):
+        final_state_dict: dict,
+        class_index: int,
+    ) -> dict:
         """
         Prepare the network input data for a single data point.
 
@@ -620,7 +627,7 @@ class ModelData(object):
         return_dict["Y"] = temp_y
         return return_dict
 
-    def write_to_disk(self):
+    def write_to_disk(self) -> None:
         """
         Write data and dictionaries to disk.
 
@@ -689,8 +696,8 @@ class ModelData(object):
 
     def check_consistency(
         self,
-        final_states_dict,
-    ):
+        final_states_dict: Dict[str, Any]
+    ) -> None:
         """
         Write data and dictionaries to disk.
 
@@ -736,9 +743,7 @@ class ModelData(object):
         self.check = True
         return
 
-    def multiple_input_check(
-        self,
-    ):
+    def multiple_input_check(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
         Check and shuffle multiple input data.
 
@@ -796,7 +801,11 @@ class ModelData(object):
             self.val_data,
         )
 
-    def pre_inputs(self, total_length):
+
+    def pre_inputs(
+        self,
+        total_length: int
+    ) -> Tuple[List[np.ndarray], np.ndarray]:
         """
         Initialize input arrays for preprocessing.
 
@@ -807,6 +816,10 @@ class ModelData(object):
 
         Parameters:
             total_length (int): The total length of the input arrays.
+
+        Returns:
+            Tuple: A tuple containing a list of input arrays (`X`) and the target
+            label array (`Y`).
 
         Note:
             The method assumes that `self.input_states` contains the
@@ -831,10 +844,14 @@ class ModelData(object):
         [print(item.shape) for item in X]
         return X, Y
 
-    def load_from_index_dict(self, path):
-        """Load data from the index dictionary.
+    def load_from_index_dict(
+        self,
+        path: str
+    ) -> Tuple[Dict[str, np.ndarray], Dict[str, np.ndarray]]:
+        """
+        Load data from the index dictionary.
 
-        currently writing for binary class, change later for n-class
+        Currently writing for binary class, change later for n-class
         classification. This method loads data based on the provided index
         dictionary from the specified `path`. It handles the loading of
         training and validation data, as well as their corresponding class
@@ -843,6 +860,9 @@ class ModelData(object):
         Parameters:
         path (str): The path to the directory containing the index dictionary
         and preprocessed data.
+
+        Returns:
+        Tuple: A tuple containing dictionaries for training and validation data.
 
         Note:
         This method assumes that the index dictionary contains information
@@ -1211,7 +1231,12 @@ class AutoencoderData(ModelData):
     def __init__(*args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def get_data(self):
+    def get_data(self) -> Tuple[
+        Union[np.ndarray, List[np.ndarray]],
+        Union[np.ndarray, List[np.ndarray]],
+        Union[np.ndarray, List[np.ndarray]],
+        Union[np.ndarray, List[np.ndarray]]
+    ]:
         """
         Get training and validation data for an autoencoder model.
 
@@ -1433,7 +1458,7 @@ class DataHandler(object):
             self.val_indices,
         ) = (None, None)
 
-    def handler_load(self):
+    def handler_load(self) -> Union[DataHandler, DataLoader]:
         """
         Load a DataHandler object from disk.
 
@@ -1470,7 +1495,12 @@ class DataHandler(object):
             self.class_names, input_keys=dictionary["input_keys"], **kwargs
         )
 
-    def get_data(self):
+    def get_data(self) -> Tuple[
+        Union[np.ndarray, List[np.ndarray]],
+        Union[np.ndarray, List[np.ndarray]],
+        Union[np.ndarray, List[np.ndarray]],
+        Union[np.ndarray, List[np.ndarray]]
+    ]:
         """
         Get train and validation data.
 
@@ -1505,7 +1535,7 @@ class DataHandler(object):
             val["Y"],
         )
 
-    def write_to_disk(self):
+    def write_to_disk(self) -> None:
         """
         Write DataHandler object and indices to disk.
         """
