@@ -4,6 +4,13 @@ from itertools import (
     combinations,
 )
 import re
+from typing import (
+    Any,
+    Dict,
+    List,
+    Optional,
+    Union
+)
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -25,17 +32,21 @@ from ..plotter import Plotter
 class Operator(object):
     """
     Attributes:
-    operation: A callable object representing the operation to be
-    performed on the dataset.
+        operation: A callable object representing the operation to be
+            performed on the dataset.
 
     Methods:
-    iterator(original_data): Iterate over the dataset and apply the operation.
+        iterator(original_data): Iterate over the dataset and apply
+            the operation.
     """
 
     def __init__(self):
         pass
 
-    def iterator(self, original_data):
+    def iterator(
+        self,
+        original_data: Dict[str, np.ndarray]
+    ) -> Dict[str, np.ndarray]:
         """
         Args:
             original_data: A dictionary representing the original dataset.
@@ -93,7 +104,11 @@ class Deform(Operator):
         }
         self.ht_local = False
 
-    def unconstrained_deform(self, array, indices):
+    def unconstrained_deform(
+        self,
+        array: np.ndarray,
+        indices: Union[List[int], np.ndarray]
+    ) -> np.ndarray:
         """
         Apply unconstrained deformation to an array at specified indices.
 
@@ -180,12 +195,27 @@ class Deform(Operator):
 
     def constrained_deform(
         self,
-        def_inds,
-        allowed_indices,
-    ):
+        def_inds: np.ndarray,
+        allowed_indices: np.ndarray
+    ) -> np.ndarray:
+        """
+        Apply constrained deformation to an array at specified indices.
+
+        Args:
+            def_inds (numpy.ndarray): The indices where deformation
+                will be applied.
+            allowed_indices (numpy.ndarray): The indices where deformation
+                is allowed.
+
+        Returns:
+            numpy.ndarray: The deformed array.
+        """
         pass
 
-    def local(self, array):
+    def local(
+        self,
+        array: np.ndarray
+    ) -> np.ndarray:
         """
         Apply local deformation to an array around the maximum value.
 
@@ -216,7 +246,7 @@ class Deform(Operator):
         deformed = self.unconstrained_deform(array, inds)
         return deformed
 
-    def local_soft(self, array):
+    def local_soft(self, array: np.ndarray) -> np.ndarray:
         """
         Apply local soft deformation to an array around the maximum value.
 
@@ -260,7 +290,10 @@ class Deform(Operator):
             def_inds = soft_inds
         deformed = self.unconstrained_deform(array, inds)
 
-    def soft_deform(self, array):
+    def soft_deform(
+        self,
+        array: np.ndarray
+    ) -> np.ndarray:
         """
         Apply soft deformation to an array.
 
@@ -352,7 +385,9 @@ class Deform(Operator):
         )
         return deformed
 
-    def hard_deform(self, array):
+    def hard_deform(
+        self,array: np.ndarray
+    ) -> np.ndarray:
         """
         Apply hard deformation to an array.
 
@@ -380,7 +415,10 @@ class Deform(Operator):
         )
         return deformed
 
-    def hard(self, array):
+    def hard(
+        self,
+        array: np.ndarray
+    ) -> np.ndarray:
         """
         Apply hard deformation to an array by selecting specific pixels based
         on a threshold.
@@ -416,11 +454,11 @@ class Deform(Operator):
 
 
 def debug_logger(
-    array,
-    deformed,
-    x_def,
-    y_def,
-):
+    array: np.ndarray,
+    deformed: np.ndarray,
+    x_def: np.ndarray,
+    y_def: np.ndarray,
+) -> None:
     """
     Log debugging information related to deformation.
 
@@ -585,7 +623,10 @@ def debug_logger(
     check_plot(array, deformed)
 
 
-def check_plot(array, deformed):
+def check_plot(
+    array: np.ndarray,
+    deformed: np.ndarray
+) -> None:
     """
     Generate temporary debugging plots for the original and deformed arrays.
 
@@ -606,14 +647,14 @@ def check_plot(array, deformed):
 
 
 def operator(
-    run_name,
-    operation_name=None,
-    operation_class=None,
-    parameter_name=None,
-    parameter_values=None,
-    roc_plot=False,
-    **kwargs
-):
+    run_name: str,
+    operation_name: Optional[str] = None,
+    operation_class: Optional[type] = None,
+    parameter_name: Optional[str] = None,
+    parameter_values: Optional[List[Any]] = None,
+    roc_plot: Optional[bool] = False,
+    **kwargs: Dict[str, Any]
+) -> str:
     """Perform an operation with specified parameters on a given run.
 
     dir_name where the data and model_checkpoints are stored. operation_name
