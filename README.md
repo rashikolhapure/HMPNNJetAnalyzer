@@ -417,8 +417,8 @@ Our research has implications across multiple areas in particle physics:
 
 # 🌌 Beam Me Up, Scotty!
 
-1. 🛸 Clone the repository: `git clone https://github.com/rajveer43/hep_ml.git`
-2. 🌌 Navigate to the project realm: `cd hep_ml`
+1. 🛸 Clone the repository: `https://github.com/rajveer43/HMPNNJetAnalyzer.git`
+2. 🌌 Navigate to the project realm: `cd HMPNNJetAnalyzer`
 3. 🪄 Set up your mystical environment: `pip install -r requirements.txt`
 4. 🌟 Explore the `images/` galaxy for captivating data explorations and spellbinding model training examples.
 
