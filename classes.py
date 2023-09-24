@@ -1,6 +1,6 @@
 import os
 
-from .hep.config import Paths
+from hep.config import Paths
 from .genutils import (
     check_dir,
 )
@@ -108,6 +108,13 @@ class Data(object):
     """
 
     def __init__(self, *args, **kwargs):
+        """
+        Initialize a Data instance.
+
+        Args:
+            *args: Variable-length positional arguments.
+            **kwargs: Variable-length keyword arguments.
+        """
         compulsory_keys = {
             "reader_method",
             "writer_method",
@@ -129,11 +136,36 @@ class Data(object):
 
 
 class PhysicsData(Data):
+    """
+    Base class for physics data handling.
+
+    Args:
+        *args: Variable-length positional arguments.
+        **kwargs: Variable-length keyword arguments.
+    """
+
     def __init__(self, *args, **kwargs):
+        """
+        Initialize a PhysicsData instance.
+
+        Args:
+            *args: Variable-length positional arguments.
+            **kwargs: Variable-length keyword arguments.
+        """
         super().__init__(*args, **kwargs)
 
     def __iter__(self):
+        """
+        Return an iterator for the PhysicsData instance.
+        """
         return self
 
     def __len__(self):
+        """
+        Get the length of the PhysicsData instance.
+
+        Returns:
+            str: The maximum count of the PhysicsData instance (initialized to "NA").
+        """
         return self.max_count
+    
