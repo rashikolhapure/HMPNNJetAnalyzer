@@ -2,6 +2,12 @@ import tensorflow.keras as keras
 import sys
 import matplotlib.pyplot as plt
 import numpy as np
+from typing import (
+    Dict,
+    Union,
+    List,
+    Optional,
+)
 import __main__
 from itertools import (
     combinations,
@@ -9,13 +15,13 @@ from itertools import (
 
 
 def predict_enc(
-    enc,
-    data_dict,
-    subplots=False,
-    type="scatter",
-    save_path="./plots",
-    **kwargs
-):
+    enc: keras.models.Model,
+    data_dict: Dict[str, np.ndarray],
+    subplots: bool = False,
+    type: str = "scatter",
+    save_path: str = "./plots",
+    **kwargs: Union[str, bool, int, float]
+) -> None:
     """
     Predicts the encoded values for each data item in data_dict using the
     encoder enc, and generates scatter or binned plots for the pairwise
@@ -107,13 +113,13 @@ def predict_enc(
 
 
 def scatter(
-    new_dict,
-    num_plots,
-    subplots,
-    save_path,
-    order=None,
-    suffix="",
-):
+    new_dict: Dict[str, List[List[float]]],
+    num_plots: int,
+    subplots: bool,
+    save_path: str,
+    order: Optional[List[str]] = None,
+    suffix: str = "",
+) -> None:
     """
     Generates scatter plots of latent space coordinates for each pair
     of inputs in new_dict.
@@ -179,13 +185,13 @@ def scatter(
 
 
 def binner(
-    data,
-    num_plots,
-    subplots,
-    save_path,
-    bins=50,
-    suffix="",
-):
+    data: Dict[str, list],
+    num_plots: int,
+    subplots: bool,
+    save_path: str,
+    bins: int = 50,
+    suffix: str = "",
+) -> None:
     """
     The function binner generates binned plots of latent space coordinates
     for each input in data. It takes the following parameters:
@@ -254,10 +260,10 @@ def binner(
 
 
 def transfer_weights(
-    trained,
-    model,
-    verbose=False,
-):
+    trained: keras.models.Model,
+    model: keras.models.Model,
+    verbose: bool = False,
+) -> keras.models.Model:
     """
     The function transfer_weights takes in two Keras models, trained and model,
     and transfers the weights of the layers from the trained model to the
