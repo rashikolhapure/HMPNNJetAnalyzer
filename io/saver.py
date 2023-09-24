@@ -2,6 +2,15 @@ import os
 import multiprocessing
 import __main__
 import sys
+from typing import (
+    Dict,
+    Any,
+    Optional,
+    List,
+    TextIO,
+    Union
+)
+
 import numpy as np
 import pickle
 import pandas as pd
@@ -13,11 +22,11 @@ from ..genutils import (
 
 
 def dict_hdf(
-    python_dict,
-    filename,
-    save_path=".",
-    key="data",
-):
+    python_dict: Dict[str, Any],
+    filename: str,
+    save_path: str = ".",
+    key: str = "data",
+) -> None:
     """
     Converts a Python dictionary to a pandas DataFrame and saves it to an HDF
     file.
@@ -51,14 +60,14 @@ def dict_hdf(
 
 
 def Unpickle(
-    filename,
-    load_path=".",
-    verbose=True,
-    keys=None,
-    extension=".pickle",
-    path=None,
-    **kwargs,
-):
+    filename: str,
+    load_path: str = ".",
+    verbose: bool = True,
+    keys: Optional[List[str]] = None,
+    extension: str = ".pickle",
+    path: Optional[str] = None,
+    **kwargs: Any,
+) -> Any:
     """load <python_object> from <filename> at location <load_path>"""
     # if len(filename.split('.')) != 1: filename=filename+extension
     """
@@ -141,15 +150,15 @@ def Unpickle(
 
 
 def Pickle(
-    python_object,
-    filename,
-    save_path=".",
-    verbose=True,
-    overwrite=True,
-    path=None,
-    append=False,
-    extension=".pickle",
-):
+    python_object: Any,
+    filename: str,
+    save_path: str = ".",
+    verbose: bool = True,
+    overwrite: bool = True,
+    path: Optional[str] = None,
+    append: bool = False,
+    extension: str = ".pickle",
+) -> None:
     """save <python_object> to <filename> at location <save_path>"""
     """
     Save a Python object to a file using pickle or numpy.save
@@ -243,11 +252,11 @@ def Pickle(
 
 
 def folder_save(
-    events,
-    folder_name,
-    save_path,
-    append=False,
-):
+    events: Dict[str, np.ndarray],
+    folder_name: str,
+    save_path: str,
+    append: bool = False,
+) -> None:
     """
     Save a dictionary of numpy arrays to a folder.
 
@@ -329,7 +338,10 @@ def folder_save(
     return
 
 
-def folder_load(keys=None, length=None):
+def folder_load(
+    keys: Optional[List[str]] = None,
+    length: Optional[int] = None
+) -> Dict[str, Union[np.ndarray, List[np.ndarray]]]:
     """
     Load all the .npy files in the current directory as numpy arrays
     and return a dictionary containing the arrays with keys equal to the
@@ -381,10 +393,10 @@ def folder_load(keys=None, length=None):
 class RunIO:
     def __init__(
         self,
-        run_name,
-        dir_name,
-        re_initialize=False,
-        mode="w",
+        run_name: str,
+        dir_name: str,
+        re_initialize: bool = False,
+        mode: str = "w",
     ):
         """Initialize RunIO object.
 
@@ -427,9 +439,9 @@ class RunIO:
 
     def append_to_text(
         self,
-        filename,
-        re_initialize=False,
-    ):
+        filename: str,
+        re_initialize: bool = False,
+    ) -> TextIO:
         """
         Create or append to a text file in the directory.
 
@@ -451,15 +463,23 @@ class RunIO:
 
     def save_events(
         self,
-        events,
-        append=False,
-    ):
+        events: Dict[str, Union[np.ndarray, List[np.ndarray]]],
+        append: bool = False,
+    ) -> None:
         """
         Save events as numpy arrays in the directory.
 
         Parameters:
-            events (dict): Dictionary containing events to save.
-            append (bool): If True, append to existing array.
+            events (dict): A dictionary containing events to save. The keys are
+                strings representing the names of the events, and the values are
+                numpy arrays containing the data.
+            append (bool): If True, append to existing arrays with the same name.
+                If an array with the same name exists, the new data will be
+                concatenated to the existing array along the first axis. If False,
+                existing arrays will be overwritten with the new data.
+
+        Returns:
+            None
         """
         if self._mode == "r":
             raise IOError(
@@ -493,7 +513,10 @@ class RunIO:
         os.chdir(pwd)
         return
 
-    def load_events(self, length=None):
+    def load_events(
+        self,
+        length: Optional[int] = None
+    ) -> Dict[str, np.ndarray]:
         """
         Load events as numpy arrays from the directory.
 
