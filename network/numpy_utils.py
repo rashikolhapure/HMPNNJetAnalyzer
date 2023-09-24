@@ -1,6 +1,7 @@
 from collections import (
     namedtuple,
 )
+from typing import Dict
 
 import numpy as np
 
@@ -25,7 +26,7 @@ IndexKey = namedtuple(
 )
 
 
-def array_shuffle(**kwargs):
+def array_shuffle(**kwargs:  Dict[str, np.ndarray]) -> Dict[str, np.ndarray]:
     """
     Shuffle multiple NumPy arrays or sequences in the same order.
 
