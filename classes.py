@@ -22,6 +22,13 @@ class Method(object):
     """
 
     def __init__(self, *args, **kwargs):
+        """
+        Initialize a Method instance.
+
+        Args:
+            *args: Variable-length positional arguments.
+            **kwargs: Variable-length keyword arguments.
+        """
         compulsory_kwargs = (
             "input_data",
             "output_data",
@@ -42,12 +49,28 @@ class PhysicsMethod(Method):
     """
 
     def __init__(self, *args, **kwargs):
+        """
+        Initialize a PhysicsMethod instance.
+
+        Args:
+            *args: Variable-length positional arguments.
+            **kwargs: Variable-length keyword arguments.
+        """
         super().__init__(args, **kwargs)
 
     def __iter__(self):
+        """
+        Return an iterator for the PhysicsMethod instance.
+        """
         return self
 
     def __len__(self):
+        """
+        Get the length of the PhysicsMethod instance.
+
+        Returns:
+            int: The length of the PhysicsMethod instance.
+        """
         assert self.max_count, "Calling uninitialized " + type(self).__name__
         return self.max_count
 

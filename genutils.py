@@ -6,7 +6,7 @@ from optparse import (
 )
 from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, Union
 
-from .hep.config import (
+from hep.config import (
     gen_particle_index,
     particle_to_PID,
     FinalStates,

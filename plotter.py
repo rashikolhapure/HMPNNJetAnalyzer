@@ -16,21 +16,21 @@ from mpl_toolkits.mplot3d import (
 )
 
 try:
-    from hep_ml.hep.utils.fatjet import (
+    from hep.utils.fatjet import (
         FatJet,
         Print,
     )
-    import hep_ml.hep.utils.root_utils as ru
+    import hep.utils.root_utils as ru
     from ROOT import (
         TVector3,
         TLorentzVector,
     )
 except ModuleNotFoundError:
     pass
-from hep_ml.hep.config import (
+from hep.config import (
     FinalStates,
 )
-from hep_ml.hep.config import (
+from hep.config import (
     track_index,
 )
 import numpy as np
