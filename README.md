@@ -27,7 +27,7 @@
 
 <p align="justify">Graph Neural Networks (GNNs) have shown promise in handling graph-structured data in various fields. But standard GNNs assume binary, unordered edges, which limits their use in jet analysis.</p>
 
-<p align="justify">Hypergraphs offer a solution. They utilize hyperedges that can connect multiple nodes and have multiple labels. While Hypergraph Neural Networks (HGNNs) extend GNNs to accommodate hypergraphs, their potential in jet analysis is still unexplored</p>
+<p align="justify">Hypergraphs offer a solution. They utilize hyperedges that can connect multiple nodes and have multiple labels. While Hypergraph Neural Networks (HGNNs) extend GNNs to accommodate hypergraphs, their potential in jet analysis is still unexplored.</p>
 
 <p align="justify">Hypergraph Message Passing Neural Networks (HMPNNs) add a twist. They use message passing algorithms to amplify node and hyperedge features in a hypergraph. Proven effective in areas like image segmentation, HMPNNs' potential in jet analysis is yet to be fully realized. Their adaptability provides a detailed view of high-energy collision data, and their algorithms reveal complex relationships between nodes and hyperedges.</p>
 
