@@ -1,6 +1,7 @@
 import os
 import sys
 import __main__
+from typing import Dict, List, Union
 
 import numpy as np
 
@@ -31,7 +32,12 @@ from ..classes import (
 
 
 class RootEvents(PhysicsData):
-    def __init__(self, run_name, *args, **kwargs):
+    def __init__(
+        self,
+        run_name: str,
+        *args: tuple,
+        **kwargs: dict
+    ) -> None:
         """
         Initialize a RootEvents object.
 
@@ -152,7 +158,7 @@ class RootEvents(PhysicsData):
             "Delphes",
         )
 
-    def read(self, root_file):
+    def read(self, root_file: str) -> uproot.tree.TTree:
         """class method to directly select <final_state> with list of
         <attributes> at <indices> from <root_file>. returns a numpy
         array of either len(indices) with variable shape depending
@@ -185,7 +191,7 @@ class RootEvents(PhysicsData):
         self.Events = uproot.open(root_file)["Delphes"]
         return self.Events
 
-    def __next__(self):
+    def __next__(self) -> Union[np.ndarray, Dict[str, Union[np.ndarray, int, str]]]:
         """
         Retrieve the next item from the iterator.
 
@@ -219,7 +225,12 @@ class RootEvents(PhysicsData):
 
 
 class NumpyEvents(PhysicsData):
-    def __init__(self, run_name, *args, **kwargs):
+    def __init__(
+        self,
+        run_name: str,
+        *args: tuple,
+        **kwargs: dict
+    ) -> None:
         """
         Initialize a NumpyEvents instance.
 
@@ -336,7 +347,7 @@ class NumpyEvents(PhysicsData):
                     "For write instance of NumpyEvents, provide max_count"
                 )
 
-    def __next__(self):
+    def __next__(self) -> None:
         if self.count < self.max_count:
             self.count += 1
             if self.mode == "r":
@@ -378,7 +389,7 @@ class PassedEvents(PhysicsData):
     ----------
     mode : str
         The mode of operation, either 'r' for reading or 'w' for writing.
-    select_runs : list
+    select_runs : List[str]
         A list of selected runs to include.
     tag : str
         A tag used for filenames.
@@ -386,7 +397,7 @@ class PassedEvents(PhysicsData):
         A flag indicating whether to save the data.
     exception : bool
         A flag indicating whether an exception occurred.
-    current_events : dict
+    current_events : Dict[str, Union[int, float, List[Union[int, float]]]]
         The current events data.
     current_run : str
         The path of the current run.
@@ -394,12 +405,12 @@ class PassedEvents(PhysicsData):
         A counter for the current iteration.
     both_dirs : bool
         A flag indicating whether to search in both directories.
-    remove_keys : list
+    remove_keys : List[str]
         A list of keys to remove from the data.
 
     Methods:
     -------
-    __next__():
+    __next__(): Dict[str, Union[int, float, List[Union[int, float]]]]
         Retrieve the next item from the iterator.
 
     Raises:
@@ -408,7 +419,8 @@ class PassedEvents(PhysicsData):
         When there are no more items to iterate over.
     """
 
-    def __init__(self, run_name, *args, **kwargs):
+
+    def __init__(self, run_name: str, *args: tuple, **kwargs: dict) -> None:
         super().__init__(
             run_name=run_name,
             reader_method="Preprocess",
@@ -474,7 +486,7 @@ class PassedEvents(PhysicsData):
                 self.files = new
             self.max_count = len(self.files)
 
-    def __next__(self):
+    def __next__(self) -> Dict[str, Union[int, float, List[Union[int, float]]]]:
         if self.count < self.max_count:
             self.count += 1
             if self.mode == "w":
@@ -513,49 +525,49 @@ class PassedEvents(PhysicsData):
 
 
 class PreProcessedEvents(PhysicsData):
-    def __init__(self, run_name, *args, **kwargs):
-        """
-        A class for handling preprocessed events data.
+    """
+    A class for handling preprocessed events data.
 
-        This class provides methods for reading and writing preprocessed
-        events data.
+    This class provides methods for reading and writing preprocessed
+    events data.
 
-        Parameters:
-        ----------
-        run_name : str
-            The name of the run.
-        kwargs : dict
-            Additional keyword arguments.
+    Parameters:
+    ----------
+    run_name : str
+        The name of the run.
+    kwargs : dict
+        Additional keyword arguments.
 
-        Attributes:
-        ----------
-        mode : str
-            The mode of operation, either 'r' for reading or 'w' for writing.
-        select_runs : list
-            A list of selected runs to include.
-        tag : str
-            A tag used for filenames.
-        exception : bool
-            A flag indicating whether an exception occurred.
-        current_events : dict
-            The current events data.
-        current_run : str
-            The path of the current run.
-        count : int
-            A counter for the current iteration.
-        both_dirs : bool
-            A flag indicating whether to search in both directories.
+    Attributes:
+    ----------
+    mode : str
+        The mode of operation, either 'r' for reading or 'w' for writing.
+    select_runs : List[str]
+        A list of selected runs to include.
+    tag : str
+        A tag used for filenames.
+    exception : bool
+        A flag indicating whether an exception occurred.
+    current_events : Dict[str, Union[int, float, List[Union[int, float]]]]
+        The current events data.
+    current_run : str
+        The path of the current run.
+    count : int
+        A counter for the current iteration.
+    both_dirs : bool
+        A flag indicating whether to search in both directories.
 
-        Methods:
-        -------
-        __next__():
-            Retrieve the next item from the iterator.
+    Methods:
+    -------
+    __next__(): Dict[str, Union[int, float, List[Union[int, float]]]]
+        Retrieve the next item from the iterator.
 
-        Raises:
-        ------
-        StopIteration
-            When there are no more items to iterate over.
-        """
+    Raises:
+    ------
+    StopIteration
+        When there are no more items to iterate over.
+    """
+    def __init__(self, run_name: str, *args: tuple, **kwargs: dict) -> None:
         super().__init__(
             run_name=run_name,
             reader_method="Network",
@@ -621,7 +633,7 @@ class PreProcessedEvents(PhysicsData):
                 self.files = new
             self.max_count = len(self.files)
 
-    def __next__(self):
+    def __next__(self) -> Dict[str, Union[int, float, List[Union[int, float]]]]:
         if self.count < self.max_count:
             self.count += 1
             if self.mode == "w":
