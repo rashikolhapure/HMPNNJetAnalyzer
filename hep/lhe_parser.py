@@ -1,5 +1,6 @@
 from typing import (
-    Dict, 
+    Dict,
+    List, 
     Optional, 
     Tuple, 
     Union,
@@ -420,14 +421,14 @@ def reverse_dict(dictionary: Dict[str, iter]) -> Dict[iter, str]:
 
 
 def convert_to_dict(
-    events,
-    final_states=None,
-    return_vector=False,
-    name=True,
-    sort=False,
-    add_charge=None,
-    attributes=None,
-):
+    events: List,
+    final_states: List[str],
+    return_vector: bool = False,
+    name: bool = True,
+    sort: bool = False,
+    add_charge: Union[List[str], None] = None,
+    attributes: Union[List[str], None] = None,
+) -> Dict[str, Union[List, np.ndarray]]:
     """
     Convert a list of LHE events into a dictionary of final states
     with optional attributes.
