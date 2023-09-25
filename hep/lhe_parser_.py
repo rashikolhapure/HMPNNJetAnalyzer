@@ -1,3 +1,10 @@
+from typing import ( 
+    Dict,
+    List,
+    Optional,
+    Tuple,
+    Union,
+)
 from .config import (
     EventAttribute,
 )
@@ -98,15 +105,15 @@ leptons = charged_leptons.union(neutrinos)
 
 
 def read_lhe(
-    path=".",
-    filename="unweighted_events.lhe",
-    final_state_only=True,
-    exclude_initial=True,
-    return_structured=False,
-    length=None,
-    add_attribute=False,
-    run_name=None,
-):
+    path: str = ".",
+    filename: str = "unweighted_events.lhe",
+    final_state_only: bool = True,
+    exclude_initial: bool = True,
+    return_structured: bool = False,
+    length: Optional[int] = None,
+    add_attribute: bool = False,
+    run_name: Optional[str] = None,
+) -> Union[np.ndarray, Tuple[List[List], List["EventAttribute"]]]:
     """
     Read data from an LHE (Les Houches Event) file.
 
@@ -293,8 +300,8 @@ def read_lhe(
 
 
 def get_cross_section(
-    path_to_file,
-):
+    path_to_file: str
+) -> Tuple[float, float]:
     """
     Get the cross-section and error from an LHE (Les Houches Event) file.
 
@@ -333,7 +340,7 @@ def get_cross_section(
     )
 
 
-def reverse_dict(dictionary):
+def reverse_dict(dictionary: Dict[str, Union[str, List[str]]]) -> Dict[str, str]:
     """
     dictionary with iterable values, with empty intersection between
     different values, builds return dictionary with all items in value
@@ -354,12 +361,12 @@ def reverse_dict(dictionary):
 
 
 def convert_to_dict(
-    events,
-    final_states=None,
-    return_vector=True,
-    name=True,
-    sort=True,
-):
+    events: List[List[LHEParticle]],
+    final_states: List[str],
+    return_vector: bool = True,
+    name: bool = True,
+    sort: bool = True,
+) -> Dict[str, Union[List[List[TLorentzVector]], List[str]]]:
     """
     Convert events represented as a list of LHE particles into a dictionary
     of final state particles.

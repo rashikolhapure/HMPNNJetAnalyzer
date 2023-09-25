@@ -1,3 +1,5 @@
+from typing import Dict, List, Optional, Union
+import numpy as np
 from .hep.methods import (
     DelphesNumpy,
 )
@@ -11,10 +13,10 @@ from .genutils import (
 
 
 def get_from_indices(
-    events,
-    indices,
-    keys=None,
-):
+    events: Dict[str, np.ndarray],
+    indices: Union[np.ndarray, List[int]],
+    keys: Optional[List[str]] = None,
+) -> Dict[str, np.ndarray]:
     """
     Extract selected keys and corresponding indices from a dictionary of
     events.
@@ -43,7 +45,10 @@ def get_from_indices(
     return return_array
 
 
-def get_delphes(run_names, **kwargs):
+def get_delphes(
+    run_names: Union[str, List[str]],
+    **kwargs: Dict[str, any],
+) -> None:
     """
     Load and print Delphes event data from one or more run names.
 
@@ -65,7 +70,11 @@ def get_delphes(run_names, **kwargs):
     return
 
 
-def get_numpy_events(run_name, runs="first", **kwargs):
+def get_numpy_events(
+    run_name: str,
+    runs: str = "first",
+    **kwargs: Dict[str, any],
+) -> Dict[str, np.ndarray]:
     """
     Load and return NumpyEvents data from a run name.
 

@@ -1,4 +1,5 @@
 #!/home/vishal/anaconda3/envs/scikit_hep/bin/python
+from typing import List, Union
 from pyjet import (
     cluster,
 )
@@ -49,11 +50,11 @@ class FatJet(object):
 
     def __init__(
         self,
-        tower=None,
-        algorithm="antikt",
-        r=1.2,
-        pt_min=200.0,
-        verbose=False,
+        tower: np.ndarray = None,
+        algorithm: str = "antikt",
+        r: float = 1.2,
+        pt_min: float = 200.0,
+        verbose: bool = False,
     ):
         """
         <tower> should be numpy array with shape (constituents,3/4) with
@@ -73,7 +74,9 @@ class FatJet(object):
         self.fatjets = None
         self.cluster_sequence = None
 
-    def ConstructVector(self, fatjet):
+    def ConstructVector(
+        self, fatjet: Union[List[TLorentzVector], np.ndarray]
+    ) -> np.ndarray:
         if isinstance(fatjet[0], TLorentzVector):
             fatjet = ru.GetNumpy(
                 fatjet,
@@ -112,10 +115,20 @@ class FatJet(object):
             )
         return np.array(vectors)
 
-    def RemoveElectron(self, lepton):
+    def RemoveElectron(self, lepton: np.ndarray):
         """
-        If event contains electrons, remove fatjets formed with energy
-        deposit of electrons
+        Remove fatjets formed with energy deposit of electrons in the event.
+
+        Parameters:
+        ----------
+        lepton : numpy.ndarray
+            A numpy array containing information about electrons, where each row
+            represents an electron and should have the format [pt, eta, phi].
+
+        Returns:
+        -------
+        list
+            A list of fatjets after removing those formed with electron energy deposits.
         """
         if self.Verbose:
             print(
@@ -149,8 +162,15 @@ class FatJet(object):
             print(self.fatjets)
         return self.fatjets
 
-    def Get(self):
-        """get list of fatjet in PseudoJet class"""
+    def Get(self) -> list:
+        """
+        Get a list of fatjets in PseudoJet class.
+
+        Returns:
+        -------
+        list
+            A list of fatjets represented as PseudoJet objects.
+        """
         if isinstance(self.Tower[0], np.ndarray):
             temp = np.concatenate(
                 (
@@ -213,12 +233,31 @@ class FatJet(object):
 
     def GetConstituents(
         self,
-        fatjets,
-        format="root",
-    ):
+        fatjets: list,
+        format: str = "root"
+    ) -> np.ndarray:
         """
-        get a numpy array of len(fatjets) containing TLorentzVector of
-        the constituents of each fatjet
+        Get a numpy array of len(fatjets) containing TLorentzVector of
+        the constituents of each fatjet.
+
+        Parameters:
+        ----------
+        fatjets : list
+            A list of fatjets represented as PseudoJet objects.
+        format : str, optional
+            The format for returning the constituents data
+            ("root" or "image", default is "root").
+
+        Returns:
+        -------
+        np.ndarray
+            A numpy array containing the constituents of each fatjet.
+
+        Notes:
+        -----
+        This function returns the constituents of each fatjet as a numpy
+        array of TLorentzVector or as a numpy array of eta, phi, and pt
+        values based on the chosen format.
         """
         return_array = []
         if format == "image":
@@ -264,12 +303,12 @@ class FatJet(object):
 
     def Recluster(
         self,
-        fatjet,
-        r=0.4,
-        dcut=0.5,
-        algorithm="CA",
-        subjets=3,
-    ):
+        fatjet: object,
+        r: float = 0.4,
+        dcut: float = 0.5,
+        algorithm: str = "CA",
+        subjets: int = 3,
+    ) -> list:
         """
         Recluster a fatjet into subjets using a specified jet clustering
         algorithm.
@@ -320,11 +359,11 @@ class FatJet(object):
 
 
 def Print(
-    fatjet,
-    name=None,
-    format="lhc",
-    constituents=False,
-):
+    fatjet: object,
+    name: str = None,
+    format: str = "lhc",
+    constituents: bool = False,
+) -> None:
     """
     Print information about a fatjet or its constituents.
 

@@ -4,6 +4,7 @@
 import os
 import time
 import sys
+from typing import Dict, List, Optional
 
 import numpy as np
 import tensorflow.keras as keras
@@ -131,7 +132,7 @@ class KerasModel(NetworkMethod):
         self.val_data = None
         self.history_save_path = None
 
-    def check_consistency(self, model):
+    def check_consistency(self, model: keras.models.Model) -> None:
         """
         Check the consistency of the provided Keras model with the
         expected input and output shapes.
@@ -179,7 +180,12 @@ class KerasModel(NetworkMethod):
             )
         return
 
-    def compile(self, model, check=True, **kwargs):
+    def compile(
+        self,
+        model: keras.models.Model,
+        check: bool = True,
+        **kwargs: Optional[Dict],
+    ) -> keras.models.Model:
         """
         Compile the provided Keras model with specified optimizer,
         loss function, and metrics.
@@ -240,8 +246,12 @@ class KerasModel(NetworkMethod):
         return self.model
 
     def set_checkpoints(
-        self, include_tensorboard=False, early_stopping=False, **kwargs
-    ):
+        self,
+        include_tensorboard:
+        bool = False,
+        early_stopping: bool = False,
+        **kwargs: Optional[Dict]
+    ) -> List[keras.callbacks.Callback]:
         """
         Set up checkpointing strategy for the model, which includes saving
         model weights and optionally saving TensorBoard logs.
@@ -385,13 +395,13 @@ class KerasModel(NetworkMethod):
 
     def fit(
         self,
-        verbose=1,
-        batch_size=300,
-        shuffle=True,
-        epochs=5,
-        encoder=False,
-        **kwargs
-    ):
+        verbose: int = 1,
+        batch_size: int = 300,
+        shuffle: bool = True,
+        epochs: int = 5,
+        encoder: bool = False,
+        **kwargs: Optional[Dict]
+    ) -> Dict:
         """
         Fit the compiled model to the training data.
 

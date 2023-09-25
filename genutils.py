@@ -4,8 +4,9 @@ import sys
 from optparse import (
     OptionParser,
 )
+from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, Union
 
-from .hep.config import (
+from hep.config import (
     gen_particle_index,
     particle_to_PID,
     FinalStates,
@@ -15,7 +16,10 @@ import pickle
 import numpy as np
 
 
-def print_vectors(vectors, format="lorentz"):
+def print_vectors(
+    vectors: Union[np.ndarray, Iterable],
+    format: str = "lorentz"
+):
     """
     Print arrays of vectors, either in (pt, eta, phi, mass) or
     (px, py, pz, E) format.
@@ -54,7 +58,7 @@ def print_vectors(vectors, format="lorentz"):
     return
 
 
-def rescale(array):
+def rescale(array: np.ndarray) -> np.ndarray:
     """
     Rescale an input array to have zero mean and unit variance along each
     feature dimension.
@@ -83,10 +87,10 @@ def rescale(array):
 
 
 def print_particle(
-    particle,
-    four_vec=False,
-    ind=None,
-    mass=True,
+    particle: np.ndarray,
+    four_vec: bool = False,
+    ind: int = None,
+    mass: bool = True,
 ):
     """
     Print information about a particle.
@@ -153,12 +157,12 @@ def print_particle(
 
 
 def choose_bin(
-    events,
-    bin_var,
-    Range,
-    var_key="Jet",
-    **kwargs,
-):
+    events: Dict[str, Union[np.ndarray, Dict]],
+    bin_var: str,
+    Range: Tuple[float, float],
+    var_key: str = "Jet",
+    **kwargs
+) -> Dict[str, np.ndarray]:
     """
     Select events within a specified range for a given variable.
 
@@ -256,9 +260,9 @@ def choose_bin(
 
 
 def cut_counter(
-    prev_cut_flow,
-    current_cut_flow,
-):
+    prev_cut_flow: Dict[str, int],
+    current_cut_flow: Dict[str, int]
+) -> Dict[str, int]:
     """
     Counts the number of events passing each cut by accumulating the
     current cut flow into the previous one.
@@ -290,7 +294,10 @@ def cut_counter(
         return prev_cut_flow
 
 
-def cut_efficiency(cut_flow, verbose=False):
+def cut_efficiency(
+    cut_flow: Dict[str, int],
+    verbose: Optional[bool] = False
+) -> Dict[str, float]:
     """
     Calculates the efficiency of each cut in the cut flow.
 
@@ -334,11 +341,11 @@ def cut_efficiency(cut_flow, verbose=False):
 
 
 def dir_ext_count(
-    ext,
-    dir_path,
-    prefix="",
-    suffix="",
-):
+    ext: str,
+    dir_path: str,
+    prefix: str = "",
+    suffix: str = ""
+) -> List[str]:
     """
     Count files with a specific extension in a directory that match a given
     prefix and suffix.
@@ -358,7 +365,7 @@ def dir_ext_count(
     for item in os.listdir(dir_path):
         if item.startswith(prefix) and item.endswith(ext):
             print(item, prefix)
-            if item[-len(ext) - len(suffix) :] == suffix:
+            if item[-len(ext) - len(suffix):] == suffix:
                 path.append(
                     os.path.join(
                         dir_path,
@@ -369,10 +376,10 @@ def dir_ext_count(
 
 
 def workaround_concatenate(
-    to_return,
-    to_append,
-    return_type="array",
-):
+    to_return: Union[List[Any], np.ndarray],
+    to_append: Union[List[Any], np.ndarray],
+    return_type: str = "array"
+) -> Union[List[Any], np.ndarray]:
     """
     Concatenate two lists or arrays and return the result.
 
@@ -398,12 +405,12 @@ def workaround_concatenate(
 
 
 def merge_flat_dict(
-    append,
-    temp,
-    append_length=None,
-    keys="all",
-    exclude=[],
-):
+    append: Dict[str, Union[np.ndarray, List[Any]]],
+    temp: Dict[str, Union[np.ndarray, List[Any]]],
+    append_length: int = None,
+    keys: Union[str, List[str]] = "all",
+    exclude: List[str] = []
+) -> Dict[str, Union[np.ndarray, List[Any]]]:
     """Merge two dictionaries with numpy arrays as values, combining values
     with matching keys.
 
@@ -498,7 +505,10 @@ def merge_flat_dict(
     return append
 
 
-def print_events(events, name=None):
+def print_events(
+    events: dict,
+    name: Optional[str] = None
+) -> None:
     """Print nested dictionaries with up to 3 levels, with the final
     value being a numpy.ndarray.
 
@@ -556,14 +566,14 @@ def print_events(events, name=None):
 
 
 def check_file(
-    name,
-    event_folder,
-    tag="",
-    full_name=False,
-    suffix=False,
-    run_tag="None",
-    target_file=None,
-):
+    name: str,
+    event_folder: str,
+    tag: Optional[str] = "",
+    full_name: bool = False,
+    suffix: bool = False,
+    run_tag: str = "None",
+    target_file: Optional[str] = None,
+) -> List[str]:
     """Check for files in a specified directory and its subdirectories.
 
     This function navigates through a directory and its subdirectories and
@@ -623,7 +633,7 @@ def check_file(
                     continue
                 if not suffix:
                     if (
-                        filename[-len(name) :] == name
+                        filename[-len(name):] == name
                         and filename[: len(tag)] == tag
                     ):
                         path.append(
@@ -635,8 +645,8 @@ def check_file(
                         )
                     continue
                 if (
-                    filename[-len(name) :] == name
-                    and filename[len(tag) :] == tag
+                    filename[-len(name):] == name
+                    and filename[len(tag):] == tag
                 ):
                     path.append(
                         os.path.join(
@@ -651,7 +661,7 @@ def check_file(
     return path
 
 
-def check_dir(path):
+def check_dir(path: str) -> str:
     """Check if a directory at the specified path exists. If it doesn't,
     create the directory.
 
@@ -673,11 +683,11 @@ def check_dir(path):
 
 
 def arg_split(
-    args,
-    num_cores,
-    ignore_keys=["cut_flow"],
-    verbose=False,
-):
+    args: Union[Dict, List, np.ndarray],
+    num_cores: int,
+    ignore_keys: List[str] = ["cut_flow"],
+    verbose: bool = False,
+) -> List[Union[Dict, List, np.ndarray]]:
     """to fix: not splitting args with len(array)==num_cores \
         correctly into iterables of single length
 
@@ -707,7 +717,7 @@ def arg_split(
             step,
         ):
             try:
-                arg.append(args[i : i + step])
+                arg.append(args[i: i + step])
             except IndexError:
                 arg.append(args[i:])
     elif isinstance(args, dict):
@@ -751,7 +761,7 @@ def arg_split(
                 ):
                     if i not in start_inds:
                         start_inds.append(i)
-                    arg[count][key] = args[key][i : i + step]
+                    arg[count][key] = args[key][i: i + step]
                     count += 1
 
         if verbose:
@@ -776,21 +786,21 @@ def arg_split(
     return arg
 
 
-def init_lock(l):
+def init_lock(l: multiprocessing.Lock) -> None:
     global lock
     lock = l
 
 
 def pool_splitter(
-    function,
-    args,
-    num_cores=multiprocessing.cpu_count(),
-    exclude=[],
-    ignore_keys=["cut_flow"],
-    add_keys=[],
-    with_lock=False,
-    verbose=False,
-):
+    function: Callable,
+    args: Union[Dict, List, np.ndarray],
+    num_cores: int = multiprocessing.cpu_count(),
+    exclude: List[str] = [],
+    ignore_keys: List[str] = ["cut_flow"],
+    add_keys: List[str] = [],
+    with_lock: bool = False,
+    verbose: bool = False,
+) -> Union[Dict, np.ndarray]:
     """Utility function for multiprocessing any function with a single
     argument of either numpy.ndarray or a flat dictionary with
     numpy.ndarray values.
@@ -885,7 +895,10 @@ def pool_splitter(
         return data
 
 
-def seperate_classes(data, class_names):
+def seperate_classes(
+    data: Dict[str, Union[np.ndarray, Dict[str, np.ndarray]]],
+    class_names: List[str],
+) -> Dict[str, Dict[str, Union[np.ndarray, Dict[str, np.ndarray]]]]:
     """
     Separate data into different classes based on class labels.
 
@@ -939,10 +952,10 @@ def seperate_classes(data, class_names):
 
 
 def concatenate_list(
-    data,
-    verbose=False,
-    **kwargs,
-):
+    data: List[Dict[str, Any]],
+    verbose: bool = False,
+    **kwargs: Any,
+) -> Dict[str, np.ndarray]:
     """
     Concatenate a list of dictionaries into a single dictionary.
 
@@ -986,7 +999,7 @@ def concatenate_list(
     return return_dict
 
 
-def combine_dict(data, exclude=[]):
+def combine_dict(data: List[Dict[str, Any]], exclude: List[str] = []) -> Dict[str, Any]:
     """
     Combine a list of dictionaries into a single dictionary.
 

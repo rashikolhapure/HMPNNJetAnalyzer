@@ -16,21 +16,21 @@ from mpl_toolkits.mplot3d import (
 )
 
 try:
-    from hep_ml.hep.utils.fatjet import (
+    from hep.utils.fatjet import (
         FatJet,
         Print,
     )
-    import hep_ml.hep.utils.root_utils as ru
+    import hep.utils.root_utils as ru
     from ROOT import (
         TVector3,
         TLorentzVector,
     )
 except ModuleNotFoundError:
     pass
-from hep_ml.hep.config import (
+from hep.config import (
     FinalStates,
 )
-from hep_ml.hep.config import (
+from hep.config import (
     track_index,
 )
 import numpy as np
@@ -54,7 +54,7 @@ class Arrow3D(FancyArrowPatch):
         **kwargs: Additional keyword arguments.
 
     Attributes:
-        _verts3d (tuple):Tuple of (xs, ys, zs) representing the 3D coordinates
+        _verts3d (tuple): Tuple of (xs, ys, zs) representing the 3D coordinates
         of the arrow.
 
     Methods:
@@ -66,34 +66,14 @@ class Arrow3D(FancyArrowPatch):
     """
 
     def __init__(self, xs, ys, zs, *args, **kwargs):
-        FancyArrowPatch.__init__(self, (0, 0), (0, 0), *args, **kwargs)
-        self._verts3d = (
-            xs,
-            ys,
-            zs,
-        )
+        super().__init__((0, 0), (0, 0), *args, **kwargs)
+        self._verts3d = (xs, ys, zs)
 
     def draw(self, renderer):
-        (
-            xs3d,
-            ys3d,
-            zs3d,
-        ) = self._verts3d
-        (
-            xs,
-            ys,
-            zs,
-        ) = proj3d.proj_transform(
-            xs3d,
-            ys3d,
-            zs3d,
-            renderer.M,
-        )
-        self.set_positions(
-            (xs[0], ys[0]),
-            (xs[1], ys[1]),
-        )
-        FancyArrowPatch.draw(self, renderer)
+        xs3d, ys3d, zs3d = self._verts3d
+        xs, ys, zs = proj3d.proj_transform(xs3d, ys3d, zs3d, renderer.M)
+        self.set_positions((xs[0], ys[0]), (xs[1], ys[1]))
+        super().draw(renderer)
 
 
 class Plotter:
@@ -1239,14 +1219,7 @@ class Plotter:
         return im
 
     def set_colorbar(
-        self,
-        im,
-        cax=None,
-        axes=None,
-        ylabel=None,
-        ylabelsize=30,
-        clim=None,
-        **kwargs
+        self, im, cax=None, axes=None, ylabel=None, ylabelsize=30, clim=None, **kwargs
     ):
         """
         Add a colorbar to the current plot.
@@ -1371,14 +1344,12 @@ class Plotter:
             axes = None
 
         if isinstance(array[0], TLorentzVector):
-            array = np.array(
-                [[item.Eta(), item.Phi(), item.Pt()] for item in array]
-            )
+            array = np.array([[item.Eta(), item.Phi(), item.Pt()]
+                             for item in array])
             array = np.swapaxes(array, 0, 1)
         elif isinstance(array[0], TVector3):
-            array = np.array(
-                [[item.X(), item.Y(), item.Z()] for item in array]
-            )
+            array = np.array([[item.X(), item.Y(), item.Z()]
+                             for item in array])
 
         # if array.shape[0]!=3 or: array=np.swapaxes(array,0,1)
         X, Y, Z = (
@@ -1412,14 +1383,7 @@ class Plotter:
             )
         else:
             im = self.axes.scatter(
-                X,
-                Y,
-                marker=marker,
-                s=s,
-                c=color,
-                cmap=cmap,
-                label=label,
-                **kwargs
+                X, Y, marker=marker, s=s, c=color, cmap=cmap, label=label, **kwargs
             )
         if set_colorbar:
             self.set_colorbar(im, axes=axes)

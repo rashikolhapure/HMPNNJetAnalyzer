@@ -1,11 +1,16 @@
 import numpy as np
+from typing import (
+    Dict,
+    List,
+    Tuple,
+)
 
 
 def calculate_roc(
-    data,
-    signal="signal",
-    background="background",
-):
+    data: Dict[str, np.ndarray],
+    signal: str = "signal",
+    background: str = "background",
+) -> Tuple[List[float], List[float]]:
     """
     Calculate ROC (Receiver Operating Characteristic) values based on
     signal and background data.
@@ -31,7 +36,10 @@ def calculate_roc(
     return sig_eff, bg_rej
 
 
-def root_mean_squared_error(true, pred):
+def root_mean_squared_error(
+    true: np.ndarray,
+    pred: np.ndarray
+) -> np.ndarray:
     """
     Calculate the root mean squared error (RMSE) between true and
     predicted values.

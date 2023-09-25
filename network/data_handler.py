@@ -1,5 +1,6 @@
 import os
 import sys
+from typing import List
 
 import numpy as np
 from sklearn.model_selection import (
@@ -7,23 +8,23 @@ from sklearn.model_selection import (
 )
 import matplotlib.pyplot as plt
 
-from hep_ml.io.saver import (
+from io.saver import (
     Unpickle,
     RunIO,
 )
-from hep_ml.genutils import (
+from genutils import (
     pool_splitter,
 )
-from hep_ml.plotter import (
+from plotter import (
     Plotter,
 )
 
 
 def pad_values(
-    events,
-    target_shapes,
-    value=0,
-):
+    events: dict,
+    target_shapes: dict,
+    value: float = 0,
+) -> dict:
     """
     Pad numpy arrays in a dictionary to match specified target shapes.
 
@@ -138,16 +139,16 @@ def pad_values(
 
 
 def load_data(
-    classes,
-    length=30000,
-    preprocess_tag=None,
-    test_train_split=0.25,
-    input_keys=["high_level"],
-    return_array=False,
-    function=None,
-    run_io=False,
+    classes: list,
+    length: int = 30000,
+    preprocess_tag: str = None,
+    test_train_split: float = 0.25,
+    input_keys: list = ["high_level"],
+    return_array: bool = False,
+    function: callable = None,
+    run_io: bool = False,
     **kwargs
-):
+) -> dict:
     """
     Load and preprocess data for training and validation.
 
@@ -422,7 +423,10 @@ def load_data(
         }
 
 
-def shape_print(X, Y):
+def shape_print(
+    X: np.ndarray or List[np.ndarray],
+    Y: np.ndarray
+) -> None:
     """
     This function takes input X and Y and prints their shapes along with the
     first 5 and last 5 elements of Y.

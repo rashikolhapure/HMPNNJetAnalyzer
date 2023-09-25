@@ -1,10 +1,10 @@
 from optparse import (
     OptionParser,
 )
-from hep_ml.genutils import (
+from genutils import (
     print_events,
 )
-from hep_ml.hep.methods import (
+from hep.methods import (
     DelphesNumpy,
 )
 import matplotlib.pyplot as plt

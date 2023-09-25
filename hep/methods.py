@@ -1,3 +1,4 @@
+from typing import Any, List, Optional, Union
 from ..classes import (
     PhysicsMethod,
 )
@@ -55,10 +56,10 @@ class OverwriteError(Exception):
 
         def __init__(
             self,
-            run_name,
-            *args,
-            **kwargs,
-        ):
+            run_name: str,
+            *args: Any,
+            **kwargs: Union[str, bool],
+        ) -> None:
             print(
                 self.__class__.__name__,
                 run_name,
@@ -246,10 +247,10 @@ class OverwriteError(Exception):
 
     def get(
         self,
-        final_state,
-        attributes,
-        indices=None,
-    ):
+        final_state: str,
+        attributes: List[str],
+        indices: Optional[np.ndarray] = None,
+    ) -> np.ndarray:
         """
         Retrieve data from a specific final state with specified attributes.
 

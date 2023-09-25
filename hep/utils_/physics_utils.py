@@ -1,3 +1,7 @@
+from typing import (
+    Iterable, 
+    Union
+)
 import numpy as np
 from itertools import (
     combinations,
@@ -15,7 +19,10 @@ class Legend:
     Metric = np.array([1, -1, -1, -1])
 
 
-def MinkowskiDot(a, b):
+def MinkowskiDot(
+    a: np.ndarray,
+    b: np.ndarray
+) -> np.ndarray:
     """
     Compute the Minkowski dot product between two 4-vectors.
 
@@ -64,7 +71,9 @@ def MinkowskiDot(a, b):
     return ReturnArray.reshape(ReturnShape)
 
 
-def ConvertToLhc(Array):
+def ConvertToLhc(
+    Array: np.ndarray
+) -> np.ndarray:
     """
     Convert an array of 4-vectors to the Lorentz-Heaviside coordinate system.
 
@@ -138,7 +147,11 @@ def ConvertToLhc(Array):
     return ReturnArray.reshape(InitShape)
 
 
-def Boost(particle, direction, eta):
+def Boost(
+    particle: np.ndarray,
+    direction: np.ndarray,
+    eta: float
+) -> np.ndarray:
     """
     Apply a Lorentz boost to a particle's 4-momentum.
 
@@ -189,10 +202,10 @@ def Boost(particle, direction, eta):
 
 
 def SumCombinations(
-    FourVectors,
-    Map=None,
-    comb=2,
-):
+    FourVectors: np.ndarray,
+    Map: list = None,
+    comb: int = 2,
+) -> np.ndarray:
     """
     Calculate the sum of combinations of four-vectors.
 
@@ -269,7 +282,7 @@ def SumCombinations(
         return ReturnArray
 
 
-def UnequalSet(*args):
+def UnequalSet(*args: Iterable[Union[list, set]]) -> bool:
     for i in range(len(args) - 1):
         assert len(list(args[i])) == len(list(args[i + 1])) and isinstance(
             args[i], type(args[i + 1])
@@ -282,7 +295,7 @@ def UnequalSet(*args):
         return True
 
 
-def MapDict(Map):
+def MapDict(Map: Iterable) -> dict:
     """
     Create a dictionary of unique combinations from a given mapping.
 
@@ -320,7 +333,9 @@ def MapDict(Map):
     return ReturnDict
 
 
-def GetMass(particle):
+def GetMass(
+    particle: Union[float, np.ndarray]
+) -> Union[float, np.ndarray]:
     """
     Calculate the invariant mass of a particle or an array of particles.
 
@@ -368,8 +383,8 @@ def GetMass(particle):
 
 
 def Get3Direction(
-    FourVector,
-):
+    FourVector: np.ndarray
+) -> np.ndarray:
     """
     Calculate the 3-direction vector from a 4-vector.
 
@@ -404,7 +419,7 @@ def Get3Direction(
     return Dir
 
 
-def GetEta(FourVector):
+def GetEta(FourVector: np.ndarray) -> float:
     """
     Calculate the pseudorapidity (eta) of a 4-vector.
 
@@ -435,7 +450,7 @@ def GetEta(FourVector):
     return np.arctanh(Euclid3Norm(FourVector) / FourVector[0])
 
 
-def Euclid3Norm(FourVector):
+def Euclid3Norm(FourVector: np.ndarray) -> np.ndarray:
     """
     Calculate the Euclidean 3-norm of a 4-vector.
 

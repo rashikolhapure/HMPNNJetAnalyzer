@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Tuple, Union
 import tensorflow.keras as keras
 import numpy as np
 
@@ -6,10 +7,19 @@ import sys
 
 
 def opt(
-    learning_rate,
-    optimizer_name,
-    **kwargs,
-):
+    learning_rate: float,
+    optimizer_name: str,
+    **kwargs: Any,
+) -> Union[
+    keras.optimizers.Adam,
+    keras.optimizers.Adamax,
+    keras.optimizers.Nadam,
+    keras.optimizers.Adadelta,
+    keras.optimizers.Adagrad,
+    keras.optimizers.RMSprop,
+    keras.optimizers.SGD,
+    keras.optimizers.Adadelta,
+]:
     """
     Initialize a Keras optimizer with a specified learning rate.
 
@@ -113,8 +123,8 @@ def opt(
 
 
 def array_shuffle(
-    *args,
-):
+    *args: np.ndarray
+) -> Tuple[Tuple[np.ndarray, ...], np.ndarray]:
     """
     Shuffle multiple NumPy arrays in the same random order.
 
@@ -155,8 +165,8 @@ def array_shuffle(
 
 
 def get_hyper_opt_kwargs(
-    **kwargs,
-):
+    **kwargs: List[Any]
+) -> List[Dict[str, Any]]:
     """Generate a list of dictionaries with hyperparameter combinations
     for hyperparameter optimization.
 

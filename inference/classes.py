@@ -7,6 +7,13 @@ import numpy as np
 if "operation_check" not in sys.argv:
     import tensorflow.keras as keras
 
+from typing import (
+    Dict,
+    Any,
+    List,
+    Optional,
+    Union,
+)
 from ..classes import (
     NetworkMethod,
 )
@@ -34,7 +41,11 @@ class ExecutionError(Error):
 
 
 class Inference(NetworkMethod):
-    def __init__(self, model_name, tag="val", **kwargs):
+    def __init__(
+            self,
+            model_name: str,
+            tag: str = "val",
+            **kwargs: Dict[str, Any]):
         """
         Initialize an Inference instance.
 
@@ -130,7 +141,11 @@ class Inference(NetworkMethod):
             else:
                 self.unoperated_data = self.model_data_load()
 
-    def replace_data(self, data, **kwargs):
+    def replace_data(
+        self,
+        data: Dict[str, Dict[str, Union[np.ndarray, int]]],
+        **kwargs: Union[str, int],
+    ) -> Dict[str, Dict[str, np.ndarray]]:
         """replace a particular class <out_key> with a new class <in_key>
         with <data_tag> loaded from ./processed_events/<data_tag>/all"""
         assert "new_class" in kwargs
@@ -182,7 +197,7 @@ class Inference(NetworkMethod):
         # print_events(data[in_key])
         return data
 
-    def handler_load(self, **opt):
+    def handler_load(self, **opt: Dict[str, Any]) -> Dict[str, Any]:
         """
         Load the data handler and related configurations for inference.
 
@@ -232,8 +247,8 @@ class Inference(NetworkMethod):
             return self.all_data[self.tag]
 
     def model_data_load(
-        self,
-    ):
+        self
+    ) -> Dict[str, Any]:
         try:
             data = Unpickle(
                 self.tag + ".pickle",
@@ -268,7 +283,10 @@ class Inference(NetworkMethod):
             print(self.class_names)
         return data
 
-    def seperate_classes(self, data):
+    def seperate_classes(
+        self,
+        data: Dict[str, Union[np.ndarray, List[np.ndarray]]]
+    ) -> Dict[str, Dict[str, np.ndarray]]:
         """
         Separates data into two classes based on class labels.
 
@@ -332,7 +350,7 @@ class Inference(NetworkMethod):
             },
         }
 
-    def choose_model(self, model_files):
+    def choose_model(self, model_files: List[str]) -> str:
         val_acc = []
         remove_inds = []
         for (
@@ -362,7 +380,7 @@ class Inference(NetworkMethod):
         model_path = model_files[val_acc.argsort()[ind]]
         return model_path
 
-    def get_best_model(self):
+    def get_best_model(self) -> str:
         """
         Chooses the best model from a list of model files based on validation
         accuracy.
@@ -432,7 +450,7 @@ class Inference(NetworkMethod):
         self.per_run_models = models
         return self.per_run_models
 
-    def per_run_predict(self, **kwargs):
+    def per_run_predict(self, **kwargs) -> List[Dict[str, List[float]]]:
         """
         Perform predictions for each model trained on separate runs.
 
@@ -477,13 +495,13 @@ class Inference(NetworkMethod):
 
     def predict(
         self,
-        operation="None",
-        split=False,
-        roc_plot=False,
-        replace=None,
-        save=False,
-        batch_size=300,
-    ):
+        operation: str = "None",
+        split: bool = False,
+        roc_plot: bool = False,
+        replace: Optional[str] = None,
+        save: bool = False,
+        batch_size: int = 300,
+    ) -> Dict[str, Union[List[float], Dict[str, List[float]]]]:
         """
         Perform predictions using the trained model.
 

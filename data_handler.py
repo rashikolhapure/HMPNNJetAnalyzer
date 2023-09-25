@@ -1,31 +1,32 @@
 import os
 import sys
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from sklearn.model_selection import (
     train_test_split,
 )
 
-from hep_ml.io.saver import (
+from io.saver import (
     Unpickle,
     RunIO,
 )
-from hep_ml.genutils import (
+from genutils import (
     pool_splitter,
 )
 
 
 def load_data(
-    classes,
-    length=None,
-    suffix=None,
-    test_train_split=0.25,
-    input_keys=["high_level"],
-    return_array=False,
-    function=None,
-    run_io=False,
-    **kwargs
-):
+    classes: List[str],
+    length: Optional[int] = None,
+    suffix: Optional[str] = None,
+    test_train_split: float = 0.25,
+    input_keys: List[str] = ["high_level"],
+    return_array: bool = False,
+    function: Optional[callable] = None,
+    run_io: bool = False,
+    **kwargs: Dict[str, any]
+) -> Union[Dict[str, Dict[str, Union[np.ndarray, List[np.ndarray]]]], Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]]:
     """
     Load data from files or I/O, preprocess it, and split it into training and
     validation sets.
@@ -207,7 +208,10 @@ def load_data(
         }
 
 
-def shape_print(X, Y):
+def shape_print(
+    X: np.ndarray or List[np.ndarray],
+    Y: np.ndarray
+) -> None:
     """
     Print the shapes and some sample values of input and output data arrays.
 

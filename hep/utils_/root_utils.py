@@ -1,3 +1,7 @@
+from typing import (
+    List,
+    Union
+)
 import numpy as np
 from ROOT import (
     TLorentzVector,
@@ -26,10 +30,10 @@ att_dict = {
 
 
 def GetTLorentzVector(
-    array,
-    format="lhc",
-    particle="visible",
-):
+    array: np.ndarray,
+    format: str = "lhc",
+    particle: str = "visible",
+) -> Union[TLorentzVector, np.ndarray[TLorentzVector]]:
     """Get numpy.ndarray of elements TLorentzVector from <array> of
     elements either a PseudoJet or numpy.ndarray in format: lhc with
     [pt,eta,phi] or [pt,eta,phi,mass] and lorentz with [px,py,pz,E]
@@ -156,10 +160,10 @@ def GetTLorentzVector(
 
 
 def GetNumpy(
-    vectors,
-    format="image",
-    observable_first=True,
-):
+    vectors: Union[TLorentzVector, List[TLorentzVector]],
+    format: str = "image",
+    observable_first: bool = True,
+) -> np.ndarray:
     """convert TLorentzVector(s) to numpy.ndarray with format in
     {"image":[eta,phi,pt],"lhc":[pt,eta,phi,mass],"lorentz":[px,py,pz,E]
     default observable_first=True gives shape of
@@ -300,10 +304,10 @@ def GetNumpy(
 
 
 def Sort(
-    array,
-    attribute="pt",
-    order="desc",
-):
+    array: np.ndarray,
+    attribute: str = "pt",
+    order: str = "desc",
+) -> np.ndarray:
     """sort a numpy.ndarray of TLorentzVectors with attribute in
     ("p","pt","px","py","pz","eta","phi","mass","E").
     descending if <order> is "desc" ortherwise ascending
@@ -366,10 +370,10 @@ def Sort(
 
 
 def Print(
-    vector,
-    format="lhc",
-    name=None,
-):
+    vector: Union[TLorentzVector, List[TLorentzVector]],
+    format: str = "lhc",
+    name: str = None,
+) -> None:
     """
     Utility function to print information about a TLorentzVector or a list
     of TLorentzVectors.
@@ -439,7 +443,10 @@ def Print(
     return
 
 
-def Broadcast(fatjets, check=False):
+def Broadcast(
+    fatjets: List[Union[TLorentzVector, List[float]]],
+    check: bool = False,
+) -> np.ndarray:
     """
     Broadcast a list of fatjets to include an empty TLorentzVector for each
     fatjet.

@@ -1,3 +1,10 @@
+from typing import (
+    Dict,
+    List, 
+    Optional, 
+    Tuple, 
+    Union,
+)
 from .config import (
     EventAttribute,
 )
@@ -101,16 +108,22 @@ Leptons = Electrons.union(Muons)
 
 # leptons=charged_leptons.union(neutrinos)
 def read_lhe(
-    path=".",
-    filename="unweighted_events.lhe",
-    final_state_only=True,
-    return_weights=False,
-    exclude_initial=True,
-    return_structured=False,
-    length=None,
-    add_attribute=False,
-    run_name=None,
-):
+    path: str = ".",
+    filename: str = "unweighted_events.lhe",
+    final_state_only: bool = True,
+    return_weights: bool = False,
+    exclude_initial: bool = True,
+    return_structured: bool = False,
+    length: Optional[int] = None,
+    add_attribute: bool = False,
+    run_name: Optional[str] = None,
+) -> Union[
+    np.ndarray,
+    Tuple[np.ndarray, np.ndarray],
+    Tuple[np.ndarray, np.ndarray, np.ndarray],
+    np.ndarray,
+    Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray],
+]:
     print(
         "Reading from file:",
         os.path.join(path, filename),
@@ -294,8 +307,8 @@ def read_lhe(
 
 
 def get_cross_section(
-    path_to_file,
-):
+    path_to_file: str,
+) -> Tuple[float, float]:
     """
     Read LHE (Les Houches Event) file and parse its contents into structured data.
 
@@ -366,7 +379,7 @@ def get_cross_section(
     )
 
 
-def reverse_dict(dictionary):
+def reverse_dict(dictionary: Dict[str, iter]) -> Dict[iter, str]:
     """dictionary with iterable values, with empty intersection between
     different values, builds return dictionary with all items in value
     and returns the key of the particular iter_val key.
@@ -408,14 +421,14 @@ def reverse_dict(dictionary):
 
 
 def convert_to_dict(
-    events,
-    final_states=None,
-    return_vector=False,
-    name=True,
-    sort=False,
-    add_charge=None,
-    attributes=None,
-):
+    events: List,
+    final_states: List[str],
+    return_vector: bool = False,
+    name: bool = True,
+    sort: bool = False,
+    add_charge: Union[List[str], None] = None,
+    attributes: Union[List[str], None] = None,
+) -> Dict[str, Union[List, np.ndarray]]:
     """
     Convert a list of LHE events into a dictionary of final states
     with optional attributes.

@@ -4,45 +4,48 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-from hep_ml.hep.data import (
+from hep.data import (
     NumpyEvents,
 )
-from hep_ml.hep.methods import (
+from hep.methods import (
     DelphesNumpy,
     BaselineCuts,
     PreProcess,
 )
-from hep_ml.hep.utils.preprocess_utils import (
+from hep.utils.preprocess_utils import (
     regularize_fatjet,
     translate,
     rotate,
     reflect,
     binner,
 )
-from hep_ml.genutils import (
+from genutils import (
     print_events,
     merge_flat_dict,
     check_dir,
 )
-from hep_ml.io.saver import (
+from io.saver import (
     Pickle,
     Unpickle,
 )
-from hep_ml.hep.config import (
+from hep.config import (
     FinalStates,
 )
-from hep_ml.hep.utils.fatjet import (
+from hep.utils.fatjet import (
     FatJet,
 )
-from hep_ml.hep.utils import (
+from hep.utils import (
     root_utils as ru,
 )
-from hep_ml.exe_utils import (
+from exe_utils import (
     get_from_indices,
 )
 
 
-def dijet_cut(events, logging=False):
+def dijet_cut(
+    events: dict,
+    logging: bool = False
+) -> dict:
     """Apply dijet event selection criteria to the given events.
 
     The dijet criteria include requiring at least two jets with specific
