@@ -1,4 +1,9 @@
-from typing import List, Tuple, Union
+from typing import (
+    Dict,
+    List,
+    Tuple,
+    Union,
+)
 from ..config import (
     tower_index,
 )
@@ -297,7 +302,12 @@ def regularize_fatjet(
     return num_fat, subjets
 
 
-def remove_jets(lorentz_tower, lorentz_jets, r=0.5, **kwargs):
+def remove_jets(
+    lorentz_tower: List[np.ndarray],
+    lorentz_jets: List[np.ndarray],
+    r: float = 0.5,
+    **kwargs: Dict[str, Union[bool, float]]
+) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]:
     """
     Remove jet constituents from a Lorentz tower.
 
@@ -393,15 +403,15 @@ def remove_jets(lorentz_tower, lorentz_jets, r=0.5, **kwargs):
 
 
 def image_to_var(
-    images,
-    eta_axis=2,
-    phi_axis=1,
-    eta_range=(-5, 5),
-    phi_range=(
+    images: np.ndarray,
+    eta_axis: int = 2,
+    phi_axis: int = 1,
+    eta_range: Tuple[float, float] = (-5, 5),
+    phi_range: Tuple[float, float] = (
         -np.pi,
-        np.pi,
-    ),
-):
+        np.pi
+    )
+) -> np.ndarray:
     """
     Convert images to (eta, phi, pt) variables.
 
@@ -471,10 +481,10 @@ def image_to_var(
 
 
 def tower_padding(
-    tower,
-    pad_axis=0,
-    pad_size=4,
-):
+    tower: np.ndarray,
+    pad_axis: int = 0,
+    pad_size: int = 4
+) -> np.ndarray:
     """
     Apply padding to a tower along a specified axis.
 
@@ -535,7 +545,11 @@ def tower_padding(
         return return_array
 
 
-def tower_bin(tower, format="tower", **kwargs):
+def tower_bin(
+    tower: np.ndarray,
+    format: str = "tower",
+    **kwargs
+) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray, np.ndarray]]:
     """
     Bin tower data into a grid.
 
@@ -681,13 +695,13 @@ def tower_bin(tower, format="tower", **kwargs):
 
 
 def binner(
-    array,
-    x_interval=(-1.6, 1.6),
-    y_interval=(-1.6, 1.6),
-    expand=False,
-    swap=False,
+    array: np.ndarray,
+    x_interval: Tuple[float, float] = (-1.6, 1.6),
+    y_interval: Tuple[float, float] = (-1.6, 1.6),
+    expand: bool = False,
+    swap: bool = False,
     **kwargs
-):
+) -> Union[np.ndarray, np.ndarray]:
     """
     Bin an array of data into a grid.
 
