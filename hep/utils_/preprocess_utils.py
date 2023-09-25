@@ -1,3 +1,4 @@
+from typing import List, Tuple, Union
 from ..config import (
     tower_index,
 )
@@ -25,7 +26,10 @@ np.set_printoptions(precision=16)
 """IMAGE PREPROCESSING"""
 
 
-def translate(*args, **kwargs):
+def translate(
+    *args: Union[np.ndarray, float],
+    **kwargs: float,
+) -> Union[np.ndarray, Tuple[np.ndarray, ...]]:
     """
     Translate the coordinates of an array of elements.
 
@@ -58,7 +62,10 @@ def translate(*args, **kwargs):
     return args
 
 
-def rotate(*args, **kwargs):
+def rotate(
+    *args: np.ndarray,
+    **kwargs: float
+) -> Union[np.ndarray, Tuple[np.ndarray, ...]]:
     """array of elements TVector3 and theta, imtem.RotateZ(-theta)"""
     x, y = (
         kwargs["x"],
@@ -82,7 +89,9 @@ def rotate(*args, **kwargs):
     return args
 
 
-def reflect(*args):
+def reflect(
+    *args: np.ndarray
+) -> Union[np.ndarray, Tuple[np.ndarray, ...]]:
     """Reflect along x axis"""
     for item in args:
         # print(item.shape)
@@ -93,7 +102,12 @@ def reflect(*args):
 
 
 # FAT JET
-def process_fatjets(fatjets, operation="all", subparts="subjets", **kwargs):
+def process_fatjets(
+    fatjets: List[np.ndarray],
+    operation: str = "all",
+    subparts: str = "subjets",
+    **kwargs: Union[float, Tuple[float, float]]
+) -> np.ndarray:
     """Regularize tower/fatjet in (eta,phi) plane wih translation to
     subpart[0], rotate such the subpart[1] is at eta=0, and reflect
     such that subpart[2] is at the positive phi
@@ -190,7 +204,10 @@ def process_fatjets(fatjets, operation="all", subparts="subjets", **kwargs):
     return return_array
 
 
-def regularize_fatjet(fatjet, r=1.2):
+def regularize_fatjet(
+    fatjet: np.ndarray,
+    r: float = 1.2
+) -> Tuple[np.ndarray, np.ndarray]:
     """<fatjet> has constituents as TLorentzVector return array f TVector3 with
     (eta,phi,pt) axes, regulates phi such that all components lie inside fatjet
     radius R in the Euclidean (eta,phi) plane, reclusters the fatjet with CA
